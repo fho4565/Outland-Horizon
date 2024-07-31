@@ -12,7 +12,7 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class AbstractMeleeWeapon extends AbstractWeapon{
+public abstract class AbstractMeleeWeapon extends AbstractWeapon{
     public AbstractMeleeWeapon(int maxDamage, int meleeAttackDamage, int enchantAbility, Item repairIngredient) {
         super(maxDamage, meleeAttackDamage, enchantAbility, repairIngredient);
     }

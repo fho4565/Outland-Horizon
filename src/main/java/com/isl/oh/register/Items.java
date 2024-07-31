@@ -7,7 +7,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
-
 public class Items {
     public static final DeferredRegister<Item> ITEM_DEFERRED_REGISTER = DeferredRegister.create(ForgeRegistries.ITEMS, Utils.MOD_ID);
     public static final RegistryObject<Item> aaaSword = ITEM_DEFERRED_REGISTER.register("aaa", AAASword::new);
