@@ -19,7 +19,7 @@ public class Utils {
     public static final String MOD_ID = "oh";
     public static final String MOD_NAME = "Outland Horizon";
     public static final Logger LOGGER = LogManager.getLogger();
-    private static final MinecraftServer currentServer = ServerLifecycleHooks.getCurrentServer();
+    public static final MinecraftServer currentServer = ServerLifecycleHooks.getCurrentServer();
 
     /**
      * @param playerName 玩家名字

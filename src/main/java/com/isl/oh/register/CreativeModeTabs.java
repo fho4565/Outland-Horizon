@@ -18,7 +18,7 @@ public class CreativeModeTabs {
     public static final RegistryObject<CreativeModeTab> TG = CREATIVE_MODE_TAB_DEFERRED_REGISTER.register(
             "melee",
             () -> CreativeModeTab.builder()
-                    .title(Component.translatable("item_group.commander.tg"))
+                    .title(Component.translatable("item_group.isl.melee"))
                     .icon(() -> new ItemStack(Blocks.SAND)).withSearchBar().build());
 
     @SubscribeEvent
