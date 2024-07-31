@@ -12,7 +12,5 @@ public class Configs {
         string = COMMON_BUILDER.define("string","");
         COMMON_BUILDER.pop();
         COMMON_CONFIG = COMMON_BUILDER.build();
-
-
     }
 }
