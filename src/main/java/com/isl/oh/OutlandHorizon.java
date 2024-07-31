@@ -2,7 +2,6 @@ package com.isl.oh;
 
 import com.isl.oh.register.CreativeModeTabs;
 import com.isl.oh.register.Items;
-import com.isl.oh.register.Register;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;

@@ -2,6 +2,7 @@ package com.isl.oh.items.weapons;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -19,10 +20,12 @@ import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractWeapon extends TieredItem {
-    private final Multimap<Attribute, AttributeModifier> defaultModifiers;
+    final Multimap<Attribute, AttributeModifier> defaultModifiers;
     private final float attackDamage;
 
     /**
@@ -124,7 +127,9 @@ public abstract class AbstractWeapon extends TieredItem {
      * @param slotId 背包栏位ID
      */
     public void whenInInventory(Entity entity,ItemStack itemStack,int slotId){}
-
+    public float getDamage() {
+        return this.attackDamage;
+    }
     @Override
     public void inventoryTick(@NotNull ItemStack p_41404_, @NotNull Level p_41405_, @NotNull Entity p_41406_, int p_41407_, boolean p_41408_) {
         if(p_41408_){
@@ -156,12 +161,8 @@ public abstract class AbstractWeapon extends TieredItem {
 
     @Override
     public boolean hurtEnemy(@NotNull ItemStack itemStack, @NotNull LivingEntity sourceEntity, @NotNull LivingEntity targetEntity) {
+        itemStack.hurtAndBreak(1, targetEntity, (entity) -> entity.broadcastBreakEvent(EquipmentSlot.MAINHAND));
         whenAttacked(itemStack,sourceEntity,targetEntity);
         return super.hurtEnemy(itemStack, sourceEntity, targetEntity);
-    }
-
-    @Override
-    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
-        return slot == EquipmentSlot.MAINHAND ? this.defaultModifiers : super.getAttributeModifiers(slot,stack);
     }
 }
