@@ -3,6 +3,9 @@ package com.isl.outland_horizon.event;
 import com.isl.outland_horizon.Utils;
 import com.isl.outland_horizon.level.capa.OhCapaHandler;
 import com.isl.outland_horizon.level.capa.data.OhAttribute;
+import com.isl.outland_horizon.network.PacketHandler;
+import com.isl.outland_horizon.network.c2s.CapaToServerPacker;
+import com.isl.outland_horizon.network.sc2.AttributesToClientPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -12,8 +15,10 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.network.PacketDistributor;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Mod.EventBusSubscriber(modid = Utils.MOD_ID)
@@ -57,29 +62,42 @@ public class CapabilitiesEvent {
     }
 
     @SubscribeEvent
-    public static void playerServerTick(TickEvent.PlayerTickEvent event) {//玩家服务端tick
+    public static void playerServerTick(TickEvent.PlayerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             Player player = event.player;
-            if (player.level().isClientSide()) { //客户端,根据某个条件获取是否应该进行同步
-                player.getCapability(OhCapaHandler.PLAYER_ATTRIBUTE).ifPresent(scapeAttributes -> {
-                   if (!scapeAttributes.getProfession().isEmpty()){
-                       ArrayList<OhAttribute.ScapeApi> needSyncList = scapeAttributes.getProfession().values().stream()
-                               .filter(OhAttribute.ScapeApi::getSync)
-                               .collect(Collectors.toCollection(ArrayList::new));
+            if (player.level().isClientSide()) {
+                //客户端检测是否向服务端发送同步
+                player.getCapability(OhCapaHandler.PLAYER_ATTRIBUTE).ifPresent((capability -> {
+                    if (capability.isNeedSync()) {
+                        //send to server
+                        List<OhAttribute.ScapeApi> needSyncList = capability.getProfession().values().stream()
+                                .filter(OhAttribute.ScapeApi::getSync)
+                                .peek(obj -> obj.setSync(false))
+                                .collect(Collectors.toCollection(ArrayList::new));
+                        PacketHandler.simpleChannel.sendToServer(new CapaToServerPacker(needSyncList));
+                        Utils.Info("同步开始："+capability.isNeedSync());
+                        capability.setNeedSync(false);
+                    }
+                }));
 
-                       //这里需要进行一个操作将数据传到服务端
-                      needSyncList.forEach(scapeApi -> {
-                               //需要同步的数据
-                      });
-                   }
+            } else {
+                //服务端检测是否要向其它玩家广播同步
+                player.getCapability(OhCapaHandler.PLAYER_ATTRIBUTE).ifPresent((capability -> {
+                    if (capability.isNeedSync()) {
+                        //收集需要广播的属性
+                        List<OhAttribute.ScapeApi> needSyncList = capability.getProfession().values().stream()
+                                .filter(attribute -> attribute.getSync() && !attribute.getC2S())
+                                .peek(obj -> obj.setSync(false))
+                                .collect(Collectors.toCollection(ArrayList::new));
+                        PacketHandler.simpleChannel.send(PacketDistributor.TRACKING_ENTITY.with(() -> event.player), new AttributesToClientPacket(needSyncList, player.getId()));
 
-                });
-            }else {//服务端,服务端向客户端下发数据逻辑,可以写在network 去实现并非一定得在这
 
 
+                        Utils.Info("游戏段更新完成");
+                        capability.setNeedSync(false);
 
-
-
+                    }
+                }));
             }
         }
     }

@@ -12,23 +12,36 @@ import java.util.Map;
 public class OhAttributes implements OhInterFace {//能力相关逻辑
 
    HashMap<String, OhAttribute.ScapeApi> attributeHashMap=new HashMap<>();
+    private boolean needSync = false;
 
    public OhAttributes() {
        //注册几个能力添加几个不限制类型,但是尽量避免列表类
-       add("mana",0.0d,Double.MAX_VALUE,0.0d,true);//这里的isSync需要你从网络包里去处理比如杀死实体的时候,将此值设为true,然后设置相关能力的计算后改为false
+       add("mana",0.0d,Double.MAX_VALUE,0.0d,false);//这里的isSync需要你从网络包里去处理比如杀死实体的时候,将此值设为true,然后设置相关能力的计算后改为false
 
    }
+
+    @Override
+    public boolean isNeedSync() {
+        return needSync;
+    }
+
+    @Override
+    public void setNeedSync(boolean needSync) {
+        this.needSync = needSync;
+    }
 
     @Override
     public CompoundTag saveNbtData(CompoundTag tag) {//将数据存储下来
         if (this.attributeHashMap != null) {
             ListTag tagList = new ListTag();
             this.attributeHashMap.values().forEach(attribute -> {
+                OhAttribute.TAPI API=new OhAttribute.TAPI();
                 CompoundTag dataTag = new CompoundTag();
                 dataTag.putString("id", attribute.getId());
-                dataTag.putString("min", Utils.ToJson(attribute.getMin()) );
-                dataTag.putString("max",Utils.ToJson(attribute.getMax()) );
-                dataTag.putString("value",Utils.ToJson(attribute.getValue()) );
+                API.min=attribute.getMin();
+                API.max=attribute.getMax();
+                API.value=attribute.getValue();
+                dataTag.putString("data", Utils.ToJson(API));
                 dataTag.putBoolean("isSync",attribute.getSync());
                 dataTag.putBoolean("isC2S",attribute.getC2S());
                 tagList.add(dataTag);
@@ -48,12 +61,10 @@ public class OhAttributes implements OhInterFace {//能力相关逻辑
                 dataList.forEach(dataTag -> {
                     if (dataTag instanceof CompoundTag compoundData) {
                         String id = compoundData.getString("id");
-                        Object min = Utils.ToObject(compoundData.getString("min"));
-                        Object max = Utils.ToObject(compoundData.getString("max"));
-                        Object value = Utils.ToObject(compoundData.getString("value"));
+                        OhAttribute.TAPI Json = Utils.ToObject(compoundData.getString("data"));
                         boolean isSync=compoundData.getBoolean("isSync");
                         boolean isC2S = compoundData.getBoolean("isC2S");
-                        this.attributeHashMap.put(id,create(id,min,max,value,isSync,isC2S));
+                        this.attributeHashMap.put(id,create(id,Json.min,Json.max,Json.value,isSync,isC2S));
                     }
                 });
         }
@@ -90,6 +101,24 @@ public class OhAttributes implements OhInterFace {//能力相关逻辑
     public OhAttribute.ScapeApi get(String ID){
       return attributeHashMap.get(ID);
     }//获取能力
+    public void setAttrValue(String ID, Object value) {
+        OhAttribute.ScapeApi meAttribute = get(ID);
+        if (meAttribute != null) {
+            if (meAttribute.value == value) {
+                return;
+            }
+            meAttribute.value = value;
+            meAttribute.isSync = true;
+            this.needSync = true;
+        }
+    }
 
+    public Object getAttrValue(String ID) {
+        OhAttribute.ScapeApi meAttribute = get(ID);
+        if (meAttribute != null) {
+            return meAttribute.getValue();
+        }
+        return -1;
+    }
 
 }

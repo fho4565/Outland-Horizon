@@ -1,5 +1,8 @@
 package com.isl.outland_horizon.level.capa.data;
 
+import com.isl.outland_horizon.Utils;
+import net.minecraft.network.FriendlyByteBuf;
+
 public class OhAttribute {
 
     public static class ScapeApi{//提供者
@@ -62,12 +65,50 @@ public class OhAttribute {
         String id;
         Object min,max,value;
         Boolean isSync,isC2S;
+
+
+
+        public static OhAttribute.ScapeApi deserialize(FriendlyByteBuf buffer) {//序列化
+            String ID = buffer.readUtf();
+            OhAttribute.TAPI Json = Utils.ToObject(buffer.readUtf());
+            return new ScapeApi(ID,Json.min,Json.max,Json.value,buffer.readBoolean(),buffer.readBoolean());
+        }
+        public void serialize(FriendlyByteBuf buf) {//反序列化
+            buf.writeUtf(this.id);
+            OhAttribute.TAPI API=new OhAttribute.TAPI();
+            API.min=this.min;
+            API.max=this.max;
+            API.value=this.value;
+            buf.writeUtf(Utils.ToJson(API));
+            buf.writeBoolean(this.isSync);
+            buf.writeBoolean(this.isC2S);
+        }
+
+
+        public void copyFrom(OhAttribute.ScapeApi attribute) {
+            if (this.id.equals(attribute.id)) {
+                this.min = attribute.min;
+                this.max = attribute.max;
+                this.value = attribute.value;
+                this.isSync = attribute.isSync;
+                this.isC2S = attribute.isC2S;
+            }
+        }
+
     }
 
 
 
 
 
+
+
+
+    public static class TAPI{
+        public Object min;
+        public Object max;
+        public Object value;
+    }
 
 
 

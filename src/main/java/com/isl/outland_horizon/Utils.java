@@ -1,9 +1,7 @@
 package com.isl.outland_horizon;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
+import com.isl.outland_horizon.level.capa.data.OhAttribute;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -22,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 public class Utils {
     public static final String MOD_ID = "outland_horizon";
     public static final String MOD_NAME = "Outland Horizon";
+    static Gson gson = new Gson();
     public static final Logger LOGGER = LogManager.getLogger();
     public static void Error(String format, Object... args) {
         LOGGER.error(String.format(format, args));
@@ -93,27 +92,16 @@ public class Utils {
 
 
     public static String ToJson(Object o){
-        Gson gson = new Gson();
         return gson.toJson(o);
     }
 
-    public static Object ToObject(String s) {
-        Gson gson = new Gson();
-        JsonElement jsonElement = JsonParser.parseString(s);
-        if (jsonElement.isJsonPrimitive()) {
-            JsonPrimitive primitive = jsonElement.getAsJsonPrimitive();
-            if (primitive.isNumber()) {
-                Number number = primitive.getAsNumber();
-                if (number.intValue() == number.doubleValue()) {
-                    return number.intValue();
-                } else {
-                    return number.doubleValue();
-                }
-            }
-        }
+    public static OhAttribute.TAPI ToObject(String s) {
 
-        return gson.fromJson(s, Object.class);
+        return gson.fromJson(s, OhAttribute.TAPI.class);
     }
+
+
+
 
     public static String SetKey(String key){
         return MOD_ID+"_" +key.toLowerCase().replace(" ","_");
