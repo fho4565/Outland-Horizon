@@ -22,7 +22,6 @@ public class OutlandHorizon {
         Items.init();
         Blocks.BLOCK_DEFERRED_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
         Items.ITEM_DEFERRED_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
-
         CreativeModeTabs.CREATIVE_MODE_TAB_DEFERRED_REGISTER.register(bus);
     }
 }

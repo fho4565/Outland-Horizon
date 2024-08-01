@@ -2,6 +2,9 @@ package com.isl.oh.quicktools;
 
 import com.isl.oh.register.Blocks;
 import com.isl.oh.register.Items;
+import net.minecraft.advancements.CriterionTriggerInstance;
+import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.*;
@@ -10,6 +13,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
 
 /**
  * 快速创建简单材料对应的工具，物品，方块和盔甲的工具类。<br>
@@ -34,8 +39,6 @@ public class MaterialPackage {
          */
         DUST
     }
-    private final String name;
-    private final MaterialType type;
     Tier tier;
     ArmorMaterial armorMaterial;
     /**
@@ -68,8 +71,6 @@ public class MaterialPackage {
         Items.simpleRegisterMap.put(name+"_boots",()->new ArmorItem(armorMaterial,ArmorItem.Type.BOOTS,new Item.Properties()));
     }
     private MaterialPackage(String name, MaterialType type, double level) {
-        this.name = name;
-        this.type = type;
         this.tier = new Tier() {
             @Override
             public int getUses() {
