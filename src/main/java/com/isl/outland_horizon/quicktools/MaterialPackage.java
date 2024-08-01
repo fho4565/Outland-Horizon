@@ -1,7 +1,7 @@
 package com.isl.outland_horizon.quicktools;
 
-import com.isl.outland_horizon.register.Blocks;
-import com.isl.outland_horizon.register.Items;
+import com.isl.outland_horizon.level.register.Blocks;
+import com.isl.outland_horizon.level.register.Items;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.*;

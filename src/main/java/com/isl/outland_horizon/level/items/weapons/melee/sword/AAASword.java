@@ -1,6 +1,6 @@
-package com.isl.outland_horizon.items.weapons.melee.sword;
+package com.isl.outland_horizon.level.items.weapons.melee.sword;
 
-import com.isl.outland_horizon.items.weapons.AbstractMeleeWeapon;
+import com.isl.outland_horizon.level.items.weapons.AbstractMeleeWeapon;
 import net.minecraft.world.item.Items;
 
 public class AAASword extends AbstractMeleeWeapon {

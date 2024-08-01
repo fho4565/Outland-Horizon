@@ -1,4 +1,4 @@
-package com.isl.outland_horizon.register;
+package com.isl.outland_horizon.level.register;
 
 import com.isl.outland_horizon.Utils;
 import net.minecraft.core.registries.Registries;

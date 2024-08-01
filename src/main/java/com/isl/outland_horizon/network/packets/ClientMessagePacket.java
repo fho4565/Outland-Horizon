@@ -1,4 +1,4 @@
-package com.isl.outland_horizon.packets;
+package com.isl.outland_horizon.network.packets;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;

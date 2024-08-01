@@ -1,6 +1,6 @@
-package com.isl.outland_horizon.generators;
+package com.isl.outland_horizon.client.generators;
 
-import com.isl.outland_horizon.register.Items;
+import com.isl.outland_horizon.level.register.Items;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;

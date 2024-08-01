@@ -1,4 +1,4 @@
-package com.isl.outland_horizon.items.weapons;
+package com.isl.outland_horizon.level.items.weapons;
 
 import com.google.common.collect.Multimap;
 import net.minecraft.core.BlockPos;

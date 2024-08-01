@@ -1,4 +1,4 @@
-package com.isl.outland_horizon;
+package com.isl.outland_horizon.client.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 

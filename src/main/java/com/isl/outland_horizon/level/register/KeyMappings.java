@@ -1,4 +1,4 @@
-package com.isl.outland_horizon.register;
+package com.isl.outland_horizon.level.register;
 
 import com.isl.outland_horizon.keymappings.KeyRage;
 import net.minecraftforge.api.distmarker.Dist;

@@ -1,4 +1,4 @@
-package com.isl.outland_horizon.generators;
+package com.isl.outland_horizon.client.generators;
 
 import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.data.recipes.RecipeCategory;

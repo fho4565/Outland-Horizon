@@ -1,10 +1,11 @@
 package com.isl.outland_horizon;
 
-import com.isl.outland_horizon.generators.RecipeGenerator;
+import com.isl.outland_horizon.client.config.Configs;
+import com.isl.outland_horizon.client.generators.RecipeGenerator;
 import com.isl.outland_horizon.quicktools.MaterialPackage;
-import com.isl.outland_horizon.register.Blocks;
-import com.isl.outland_horizon.register.CreativeModeTabs;
-import com.isl.outland_horizon.register.Items;
+import com.isl.outland_horizon.level.register.Blocks;
+import com.isl.outland_horizon.level.register.CreativeModeTabs;
+import com.isl.outland_horizon.level.register.Items;
 import net.minecraft.data.DataProvider;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.data.event.GatherDataEvent;

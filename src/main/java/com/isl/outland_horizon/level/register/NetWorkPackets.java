@@ -1,7 +1,7 @@
-package com.isl.outland_horizon.register;
+package com.isl.outland_horizon.level.register;
 
-import com.isl.outland_horizon.packets.ClientPacketHandler;
-import com.isl.outland_horizon.packets.ServerPacketHandler;
+import com.isl.outland_horizon.network.ClientPacketHandler;
+import com.isl.outland_horizon.network.ServerPacketHandler;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;

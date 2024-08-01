@@ -1,6 +1,7 @@
-package com.isl.outland_horizon.packets;
+package com.isl.outland_horizon.network;
 
 import com.isl.outland_horizon.Utils;
+import com.isl.outland_horizon.network.packets.ServerMessagePacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
