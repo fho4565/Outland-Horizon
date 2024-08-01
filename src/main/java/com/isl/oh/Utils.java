@@ -16,7 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Utils {
-    public static final String MOD_ID = "oh";
+    public static final String MOD_ID = "outland_horizon";
     public static final String MOD_NAME = "Outland Horizon";
     public static final Logger LOGGER = LogManager.getLogger();
     public static final MinecraftServer currentServer = ServerLifecycleHooks.getCurrentServer();

@@ -15,6 +15,7 @@ public class OutlandHorizon {
         MinecraftForge.EVENT_BUS.register(this);
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Configs.COMMON_CONFIG);
+        Items.init();
         Items.ITEM_DEFERRED_REGISTER.register(FMLJavaModLoadingContext.get().getModEventBus());
         CreativeModeTabs.CREATIVE_MODE_TAB_DEFERRED_REGISTER.register(bus);
     }

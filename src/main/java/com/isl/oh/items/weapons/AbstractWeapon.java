@@ -27,15 +27,15 @@ public abstract class AbstractWeapon extends TieredItem {
 
     /**
      * 武器基类
-     * @param maxDamage 武器的最大耐久度，也决定了武器的使用次数。
+     * @param maxDurability 武器的最大耐久度，也决定了武器的使用次数。
      * @param meleeAttackDamage 武器的近战攻击伤害加成，影响武器的基础伤害。
      * @param enchantAbility 武器的附魔能力值，决定了武器可以附魔的等级。
      * @param repairIngredient 用于修复武器的物品，决定了武器的修复材料。
      */
-    public AbstractWeapon(int maxDamage,int meleeAttackDamage,int enchantAbility,Item repairIngredient) {
+    public AbstractWeapon(int maxDurability,int meleeAttackDamage,int enchantAbility,Item repairIngredient) {
         super(new Tier() {
             public int getUses() {
-                return maxDamage;
+                return maxDurability;
             }
             public float getSpeed() {
                 return 4f;
