@@ -1,7 +1,7 @@
-package com.isl.oh.registry;
+package com.isl.oh.item.weapons;
 
 import com.google.common.collect.Sets;
-import com.isl.oh.items.weapons.melee.sword.AAASword;
+import com.isl.oh.item.weapons.weapon.melee.AAASword;
 import com.isl.oh.utils.Utils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;

@@ -1,4 +1,4 @@
-package com.isl.oh.items.weapons;
+package com.isl.oh.item.weapons.weapon;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
@@ -22,7 +22,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class AbstractWeapon extends TieredItem {
-    final Multimap<Attribute, AttributeModifier> defaultModifiers;
+    protected final Multimap<Attribute, AttributeModifier> defaultModifiers;
     private final float attackDamage;
 
     /**

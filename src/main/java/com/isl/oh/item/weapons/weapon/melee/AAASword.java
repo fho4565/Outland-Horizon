@@ -1,6 +1,5 @@
-package com.isl.oh.items.weapons.melee.sword;
+package com.isl.oh.item.weapons.weapon.melee;
 
-import com.isl.oh.items.weapons.AbstractMeleeWeapon;
 import net.minecraft.world.item.Items;
 
 public class AAASword extends AbstractMeleeWeapon {

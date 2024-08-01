@@ -1,6 +1,7 @@
-package com.isl.oh.items.weapons;
+package com.isl.oh.item.weapons.weapon.melee;
 
 import com.google.common.collect.Multimap;
+import com.isl.oh.item.weapons.weapon.AbstractWeapon;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
