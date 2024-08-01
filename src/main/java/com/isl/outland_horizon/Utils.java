@@ -1,5 +1,9 @@
 package com.isl.outland_horizon;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -19,6 +23,15 @@ public class Utils {
     public static final String MOD_ID = "outland_horizon";
     public static final String MOD_NAME = "Outland Horizon";
     public static final Logger LOGGER = LogManager.getLogger();
+    public static void Error(String format, Object... args) {
+        LOGGER.error(String.format(format, args));
+    }
+    public static void Warn(String format, Object... args) {
+        LOGGER.warn(String.format(format, args));
+    }
+    public static void Info(String format, Object... args) {
+        LOGGER.info(String.format(format, args));
+    }
     public static final MinecraftServer currentServer = ServerLifecycleHooks.getCurrentServer();
 
     /**
@@ -77,4 +90,33 @@ public class Utils {
         CommandSourceStack commandSourceStack = player.createCommandSourceStack();
         player.getServer().getCommands().performPrefixedCommand(mute?commandSourceStack.withSuppressedOutput():commandSourceStack, command);
     }
+
+
+    public static String ToJson(Object o){
+        Gson gson = new Gson();
+        return gson.toJson(o);
+    }
+
+    public static Object ToObject(String s) {
+        Gson gson = new Gson();
+        JsonElement jsonElement = JsonParser.parseString(s);
+        if (jsonElement.isJsonPrimitive()) {
+            JsonPrimitive primitive = jsonElement.getAsJsonPrimitive();
+            if (primitive.isNumber()) {
+                Number number = primitive.getAsNumber();
+                if (number.intValue() == number.doubleValue()) {
+                    return number.intValue();
+                } else {
+                    return number.doubleValue();
+                }
+            }
+        }
+
+        return gson.fromJson(s, Object.class);
+    }
+
+    public static String SetKey(String key){
+        return MOD_ID+"_" +key.toLowerCase().replace(" ","_");
+    }
+
 }
