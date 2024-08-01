@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.isl.outland_horizon.mixins",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "outland_horizon.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
