@@ -1,8 +1,10 @@
 package com.isl.outland_horizon.network;
 
+import com.isl.outland_horizon.Utils;
 import com.isl.outland_horizon.network.c2s.CapaToServerPacker;
+import com.isl.outland_horizon.network.c2s.ClientMessagePacket;
 import com.isl.outland_horizon.network.sc2.AttributesToClientPacket;
-import com.isl.outland_horizon.utils.Utils;
+import com.isl.outland_horizon.network.sc2.ServerMessagePacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkRegistry;
@@ -21,8 +23,8 @@ public class PacketHandler {
                 (s) ->true, (s) ->true);
         registerPacket(CapaToServerPacker.class, new CapaToServerPacker());
         registerPacket(AttributesToClientPacket.class, new AttributesToClientPacket());
-
-
+        registerPacket(ClientMessagePacket.class, new ClientMessagePacket());
+        registerPacket(ServerMessagePacket.class, new ServerMessagePacket());
     }
 
     private static <T> void registerPacket(Class<T> clazz, IPacket<T> message) {
