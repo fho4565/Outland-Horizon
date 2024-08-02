@@ -75,7 +75,7 @@ public class CapabilitiesEvent {
                                 .peek(obj -> obj.setSync(false))
                                 .collect(Collectors.toCollection(ArrayList::new));
                         PacketHandler.simpleChannel.sendToServer(new CapaToServerPacker(needSyncList));
-                        Utils.Info("同步开始："+capability.isNeedSync());
+
                         capability.setNeedSync(false);
                     }
                 }));
@@ -90,10 +90,6 @@ public class CapabilitiesEvent {
                                 .peek(obj -> obj.setSync(false))
                                 .collect(Collectors.toCollection(ArrayList::new));
                         PacketHandler.simpleChannel.send(PacketDistributor.TRACKING_ENTITY.with(() -> event.player), new AttributesToClientPacket(needSyncList, player.getId()));
-
-
-
-                        Utils.Info("游戏段更新完成");
                         capability.setNeedSync(false);
 
                     }
