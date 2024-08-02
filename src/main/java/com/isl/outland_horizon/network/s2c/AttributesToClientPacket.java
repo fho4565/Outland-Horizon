@@ -1,4 +1,4 @@
-package com.isl.outland_horizon.network.sc2;
+package com.isl.outland_horizon.network.s2c;
 
 import com.isl.outland_horizon.level.capa.data.OhAttribute;
 import com.isl.outland_horizon.network.IPacket;
