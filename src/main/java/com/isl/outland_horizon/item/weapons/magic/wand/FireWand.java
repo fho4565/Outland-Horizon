@@ -8,11 +8,13 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.SmallFireball;
+import net.minecraft.world.item.EnderpearlItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.minecraftforge.event.entity.EntityTeleportEvent;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
@@ -37,7 +39,6 @@ public class FireWand extends AbstractWeapon implements GeoItem {
     public void initializeClient(Consumer<IClientItemExtensions> consumer) {
         consumer.accept(new IClientItemExtensions() {
             private FireWandRenderer renderer;
-
             @Override
             public BlockEntityWithoutLevelRenderer getCustomRenderer() {
                 if (this.renderer == null) {
@@ -64,13 +65,14 @@ public class FireWand extends AbstractWeapon implements GeoItem {
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level p_41432_, @NotNull Player p_41433_, InteractionHand p_41434_) {
-        Vec3 lookVec = extendVector(p_41433_.getLookAngle(),10);
-        Vec3 posVec = p_41433_.position();
-        SmallFireball smallFireball = new SmallFireball(p_41432_, posVec.x, posVec.y + 1, posVec.z, lookVec.x, lookVec.y, lookVec.z);
-        smallFireball.setOwner(p_41433_);
-        p_41432_.addFreshEntity(smallFireball);
-        return super.use(p_41432_, p_41433_, p_41434_);
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, InteractionHand interactionHand) {
+        Vec3 lookVec = extendVector(player.getLookAngle(),10);
+        Vec3 posVec = player.position();
+        SmallFireball smallFireball = new SmallFireball(level, posVec.x, posVec.y + 1, posVec.z, lookVec.x, lookVec.y, lookVec.z);
+        smallFireball.setOwner(player);
+        level.addFreshEntity(smallFireball);
+        player.getCooldowns().addCooldown(this, 20);
+        return super.use(level, player, interactionHand);
     }
 
     public static Vec3 extendVector(Vec3 originalVector, double scaleFactor) {

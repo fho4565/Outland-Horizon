@@ -15,7 +15,7 @@ public class OhAttributes implements OhInterFace {//能力相关逻辑
 
    public OhAttributes() {
        //注册几个能力添加几个不限制类型,但是尽量避免列表类
-       add("mana",0.0d,Double.MAX_VALUE,0.0d,false);//这里的isSync需要你从网络包里去处理比如杀死实体的时候,将此值设为true,然后设置相关能力的计算后改为false
+       add("mana",0.0d,100.0d,100.0d,false);//这里的isSync需要你从网络包里去处理比如杀死实体的时候,将此值设为true,然后设置相关能力的计算后改为false
 
    }
 
