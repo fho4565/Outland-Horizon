@@ -1,6 +1,5 @@
 package com.isl.outland_horizon.network.c2s;
 
-import com.isl.outland_horizon.Utils;
 import com.isl.outland_horizon.level.capa.OhCapaHandler;
 import com.isl.outland_horizon.level.capa.data.OhAttribute;
 import com.isl.outland_horizon.network.IPacket;
