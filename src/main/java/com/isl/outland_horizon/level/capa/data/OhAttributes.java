@@ -11,7 +11,7 @@ import java.util.Map;
 public class OhAttributes implements OhInterFace {//能力相关逻辑
 
    HashMap<String, OhAttribute.ScapeApi> attributeHashMap=new HashMap<>();
-    private boolean needSync = false;
+    private boolean needSync;
 
    public OhAttributes() {
        //注册几个能力添加几个不限制类型,但是尽量避免列表类
@@ -21,7 +21,7 @@ public class OhAttributes implements OhInterFace {//能力相关逻辑
 
     @Override
     public boolean isNeedSync() {
-        return needSync;
+        return this.needSync;
     }
 
     @Override
