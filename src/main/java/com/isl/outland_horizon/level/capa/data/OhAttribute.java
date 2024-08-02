@@ -31,6 +31,7 @@ public class OhAttribute {
         }
 
         public Object getValue() {
+            this.isSync=true;
             return value;
         }
 
@@ -71,7 +72,10 @@ public class OhAttribute {
         public static ScapeApi deserialize(FriendlyByteBuf buffer) {//序列化
             String ID = buffer.readUtf();
             TAPI Json = Utils.ToObject(buffer.readUtf());
-            return new ScapeApi(ID,Json.min,Json.max,Json.value,buffer.readBoolean(),buffer.readBoolean());
+            boolean isSync = buffer.readBoolean();
+            boolean isC2S = buffer.readBoolean();
+           // Utils.Info("deser："+"id:"+ID+"|min:"+Json.min+"|max:"+Json.max+"|value"+Json.value+"|isSync:"+isSync+"|isC2S:"+isC2S);
+            return new ScapeApi(ID,Json.min,Json.max,Json.value,isSync,isC2S);
         }
         public void serialize(FriendlyByteBuf buf) {//反序列化
             buf.writeUtf(this.id);
@@ -82,6 +86,8 @@ public class OhAttribute {
             buf.writeUtf(Utils.ToJson(API));
             buf.writeBoolean(this.isSync);
             buf.writeBoolean(this.isC2S);
+            //Utils.Info("seri："+"id:"+this.id+"|Api:"+Utils.ToJson(API)+"|isSync："+this.isSync+"|isC2S"+isC2S);
+
         }
 
 

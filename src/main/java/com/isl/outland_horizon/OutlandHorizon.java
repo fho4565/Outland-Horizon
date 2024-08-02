@@ -21,21 +21,10 @@ public class OutlandHorizon {
     public static final Logger LOGGER = LogManager.getLogger();
 
     public OutlandHorizon() {
-
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        bus.addListener(this::commonSetup);
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Configs.COMMON_CONFIG);
 
         ItemRegistry.register(bus);
         BlockRegistry.register(bus);
-    }
-    private void commonSetup(final FMLCommonSetupEvent event) {
-        PacketHandler.register();
-        MixinBootstrap.init();//启用mixin
-        MixinEnvironment.getDefaultEnvironment().setObfuscationContext("notch");//启用mixin
-
-
-
-
     }
 }

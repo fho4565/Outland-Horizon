@@ -1,6 +1,7 @@
 package com.isl.outland_horizon.network.c2s;
 
 import com.isl.outland_horizon.network.IPacket;
+import com.isl.outland_horizon.utils.Utils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.DistExecutor;
@@ -22,11 +23,13 @@ public class ClientMessagePacket implements IPacket<ClientMessagePacket>{
 
     @Override
         public void encode(ClientMessagePacket message, FriendlyByteBuf buffer) {
-            buffer.writeUtf(message.message);
+
+          buffer.writeUtf(message.message);
         }
 
         @Override
         public ClientMessagePacket decode(FriendlyByteBuf buffer) {
+
             return new ClientMessagePacket(buffer.readUtf(32767));
         }
 

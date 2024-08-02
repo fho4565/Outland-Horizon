@@ -4,9 +4,12 @@ import com.isl.outland_horizon.level.capa.OhCapaHandler;
 import com.isl.outland_horizon.level.capa.data.OhAttribute;
 import com.isl.outland_horizon.network.PacketHandler;
 import com.isl.outland_horizon.network.c2s.CapaToServerPacker;
+import com.isl.outland_horizon.network.c2s.ClientMessagePacket;
 import com.isl.outland_horizon.network.s2c.AttributesToClientPacket;
+import com.isl.outland_horizon.network.s2c.ServerMessagePacket;
 import com.isl.outland_horizon.utils.Utils;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
@@ -74,22 +77,24 @@ public class CapabilitiesEvent {
                                 .filter(OhAttribute.ScapeApi::getSync)
                                 .peek(obj -> obj.setSync(false))
                                 .collect(Collectors.toCollection(ArrayList::new));
-                        PacketHandler.simpleChannel.sendToServer(new CapaToServerPacker(needSyncList));
-
-                        capability.setNeedSync(false);
+                        if (!needSyncList.isEmpty()) {
+                            PacketHandler.simpleChannel.sendToServer(new CapaToServerPacker(needSyncList));
+                            capability.setNeedSync(false);
+                        }
                     }
                 }));
 
-            } else {
+            } else if (!player.level().isClientSide()){
                 //服务端检测是否要向其它玩家广播同步
                 player.getCapability(OhCapaHandler.PLAYER_ATTRIBUTE).ifPresent((capability -> {
+
                     if (capability.isNeedSync()) {
                         //收集需要广播的属性
                         List<OhAttribute.ScapeApi> needSyncList = capability.getProfession().values().stream()
                                 .filter(attribute -> attribute.getSync() && !attribute.getC2S())
                                 .peek(obj -> obj.setSync(false))
                                 .collect(Collectors.toCollection(ArrayList::new));
-                        PacketHandler.simpleChannel.send(PacketDistributor.TRACKING_ENTITY.with(() -> event.player), new AttributesToClientPacket(needSyncList, player.getId()));
+                        PacketHandler.sendToPlayer(new AttributesToClientPacket(needSyncList, player.getId()), (ServerPlayer) player);
                         capability.setNeedSync(false);
 
                     }

@@ -3,6 +3,7 @@ package com.isl.outland_horizon.network.c2s;
 import com.isl.outland_horizon.level.capa.OhCapaHandler;
 import com.isl.outland_horizon.level.capa.data.OhAttribute;
 import com.isl.outland_horizon.network.IPacket;
+import com.isl.outland_horizon.utils.Utils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
@@ -13,19 +14,19 @@ import java.util.function.Supplier;
 
 public class CapaToServerPacker implements IPacket<CapaToServerPacker> {
 
-    List<OhAttribute.ScapeApi> ListMap;
+    private List<OhAttribute.ScapeApi> ListMap;
 
     public CapaToServerPacker() {
     }
-    public CapaToServerPacker(List< OhAttribute.ScapeApi> MapData) {
-    this.ListMap=MapData;
-    }
 
+    public CapaToServerPacker(List<OhAttribute.ScapeApi> MapData) {
+        this.ListMap=MapData;
+    }
 
 
     @Override
     public void encode(CapaToServerPacker message, FriendlyByteBuf buffer) {
-        buffer.writeInt(message.ListMap.size());
+        buffer.writeInt(message.ListMap.size());//1
         for (OhAttribute.ScapeApi attribute : message.ListMap) {
             attribute.serialize(buffer);
         }
@@ -33,7 +34,7 @@ public class CapaToServerPacker implements IPacket<CapaToServerPacker> {
 
     @Override
     public CapaToServerPacker decode(FriendlyByteBuf buffer) {
-        int size = buffer.readInt();
+       int size = buffer.readInt();
         List<OhAttribute.ScapeApi> attributes = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
             attributes.add(OhAttribute.ScapeApi.deserialize(buffer));
@@ -69,5 +70,8 @@ public class CapaToServerPacker implements IPacket<CapaToServerPacker> {
         });
         supplier.get().setPacketHandled(true);
     }
+
+
 }
+
 

@@ -21,7 +21,6 @@ public class ClientsData {
                         OhAttribute.ScapeApi target = capability.getProfession().get(attribute.getId());
                         if (target != null) {
                             target.copyFrom(attribute);
-                            Utils.Info("游戏端拷贝服务端数据成功.");
                             target.setSync(false);
                         }
                     }

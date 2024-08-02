@@ -36,6 +36,7 @@ public class PacketHandler {
     }
 
     public static <MSG> void sendToPlayer(MSG message, ServerPlayer player){
+
         simpleChannel.send(PacketDistributor.PLAYER.with(()->player),message);
     }
 

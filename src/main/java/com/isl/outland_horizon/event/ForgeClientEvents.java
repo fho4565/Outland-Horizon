@@ -1,4 +1,4 @@
-package com.isl.outland_horizon.setup;
+package com.isl.outland_horizon.event;
 
 import com.isl.outland_horizon.utils.Utils;
 import net.minecraftforge.api.distmarker.Dist;

@@ -1,8 +1,12 @@
 package com.isl.outland_horizon.event;
 
 import com.isl.outland_horizon.level.capa.OhCapaHandler;
+import com.isl.outland_horizon.level.capa.data.OhAttribute;
+import com.isl.outland_horizon.network.PacketHandler;
+import com.isl.outland_horizon.network.s2c.AttributesToClientPacket;
 import com.isl.outland_horizon.utils.Utils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
@@ -13,66 +17,41 @@ import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeEvents {
     @SubscribeEvent
     public static void onEntityJoinLevel(EntityJoinLevelEvent event) {
-        if ( event.getEntity() instanceof Player player ) {
-            if (!player.level().isClientSide) {
-                //需要注意客户端的能力值关闭游戏就会消失需要你传到服务端
-                player.getCapability(OhCapaHandler.PLAYER_ATTRIBUTE).ifPresent(
-                        Attributes -> Utils.sendSimpleMessageToPlayer(player, "[加载]你当前的魔力值:" + Attributes.get("mana").getValue())
-                );
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onTickPlayerTick(TickEvent.PlayerTickEvent event) {
-        Player player = event.player;
-        if (event.side.isServer()){
-            player.getCapability(OhCapaHandler.PLAYER_ATTRIBUTE).ifPresent(
-                    Attributes -> {
-                        Attributes.setAttrValue("mana", (Double) Attributes.getAttrValue("mana") + 0.1);
-                        Utils.sendSimpleMessageToPlayer(player, "[服务端]你当前的魔力值:" + Attributes.get("mana").getValue());
-                    }
-            );
-        }
-        if (Minecraft.getInstance().player != null) {//客户端 [记住客户端每次重启能力都会消失：如果正常这里会将服务端的数据同步成初始数值]
-            Minecraft.getInstance().player.getCapability(OhCapaHandler.PLAYER_ATTRIBUTE).ifPresent(ohAttributes -> {
-                ohAttributes.setAttrValue("mana", (Double) ohAttributes.getAttrValue("mana") + 0.1);
-                Utils.sendSimpleMessageToPlayer(player, "[客户端]你当前的魔力值:" + ohAttributes.get("mana").getValue());
+        if (event.getEntity() instanceof ServerPlayer player ){
+            player.getCapability(OhCapaHandler.PLAYER_ATTRIBUTE).ifPresent(ohAttributes -> {
+                ArrayList<OhAttribute.ScapeApi> needSyncList = new ArrayList<>(ohAttributes.getProfession().values());
+                PacketHandler.sendToPlayer(new AttributesToClientPacket(needSyncList, player.getId()),player);
             });
         }
     }
-
     @SubscribeEvent
-    public static void onLivingDeath(LivingDeathEvent event) {
-        Entity EntitySource = event.getSource().getEntity();
-        if (EntitySource instanceof Player player ) {
-            if (!player.level().isClientSide){//用于检查服务端数据
+    public static void onTickPlayerTick(TickEvent.PlayerTickEvent event) {
+        Player player = event.player;
+        if (player.level().random.nextDouble()>0.5f && event.phase== TickEvent.Phase.END) {
+            if (!player.level().isClientSide) {
                 player.getCapability(OhCapaHandler.PLAYER_ATTRIBUTE).ifPresent(
                         Attributes -> {
-                            Utils.sendSimpleMessageToPlayer(player, "[数据探测]你当前的魔力值:" + Attributes.get("mana").getValue());
-                        if (event.getEntity() instanceof Monster){//如果是怪物服务端数据更新
-                            Attributes.setAttrValue("mana", (Double) Attributes.getAttrValue("mana") + 0.5);
+                            Attributes.setAttrValue("mana", (Double) Attributes.getAttrValue("mana") + 0.1);
                             Utils.sendSimpleMessageToPlayer(player, "[服务端]你当前的魔力值:" + Attributes.get("mana").getValue());
-                        }
                         }
                 );
             }
             if (Minecraft.getInstance().player != null) {//客户端 [记住客户端每次重启能力都会消失：如果正常这里会将服务端的数据同步成初始数值]
                 Minecraft.getInstance().player.getCapability(OhCapaHandler.PLAYER_ATTRIBUTE).ifPresent(ohAttributes -> {
-                    ohAttributes.setAttrValue("mana", (Double) ohAttributes.getAttrValue("mana") + 0.5);
                     Utils.sendSimpleMessageToPlayer(player, "[客户端]你当前的魔力值:" + ohAttributes.get("mana").getValue());
                 });
             }
-
-
-
         }
-
     }
+
+
 
 
 
