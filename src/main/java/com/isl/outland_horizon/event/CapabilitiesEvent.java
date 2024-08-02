@@ -1,11 +1,11 @@
 package com.isl.outland_horizon.event;
 
-import com.isl.outland_horizon.Utils;
 import com.isl.outland_horizon.level.capa.OhCapaHandler;
 import com.isl.outland_horizon.level.capa.data.OhAttribute;
 import com.isl.outland_horizon.network.PacketHandler;
 import com.isl.outland_horizon.network.c2s.CapaToServerPacker;
 import com.isl.outland_horizon.network.sc2.AttributesToClientPacket;
+import com.isl.outland_horizon.utils.Utils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;

@@ -1,4 +1,4 @@
-package com.isl.outland_horizon;
+package com.isl.outland_horizon.utils;
 
 import com.google.gson.Gson;
 import com.isl.outland_horizon.level.capa.data.OhAttribute;

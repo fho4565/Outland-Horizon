@@ -1,7 +1,6 @@
 package com.isl.outland_horizon.level.capa.data;
 
-
-import com.isl.outland_horizon.Utils;
+import com.isl.outland_horizon.utils.Utils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 

@@ -1,9 +1,8 @@
 package com.isl.outland_horizon.event;
 
-import com.isl.outland_horizon.Utils;
 import com.isl.outland_horizon.level.capa.OhCapaHandler;
+import com.isl.outland_horizon.utils.Utils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;

@@ -1,7 +1,7 @@
 package com.isl.outland_horizon.network;
 
-import com.isl.outland_horizon.Utils;
 import com.isl.outland_horizon.network.packets.ClientMessagePacket;
+import com.isl.outland_horizon.utils.Utils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.NetworkRegistry;
 import net.minecraftforge.network.simple.SimpleChannel;

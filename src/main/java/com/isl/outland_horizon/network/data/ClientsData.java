@@ -1,8 +1,8 @@
 package com.isl.outland_horizon.network.data;
 
-import com.isl.outland_horizon.Utils;
 import com.isl.outland_horizon.level.capa.OhCapaHandler;
 import com.isl.outland_horizon.level.capa.data.OhAttribute;
+import com.isl.outland_horizon.utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.world.entity.Entity;

@@ -1,6 +1,6 @@
 package com.isl.outland_horizon.level.capa.data;
 
-import com.isl.outland_horizon.Utils;
+import com.isl.outland_horizon.utils.Utils;
 import net.minecraft.network.FriendlyByteBuf;
 
 public class OhAttribute {
@@ -68,14 +68,14 @@ public class OhAttribute {
 
 
 
-        public static OhAttribute.ScapeApi deserialize(FriendlyByteBuf buffer) {//序列化
+        public static ScapeApi deserialize(FriendlyByteBuf buffer) {//序列化
             String ID = buffer.readUtf();
-            OhAttribute.TAPI Json = Utils.ToObject(buffer.readUtf());
+            TAPI Json = Utils.ToObject(buffer.readUtf());
             return new ScapeApi(ID,Json.min,Json.max,Json.value,buffer.readBoolean(),buffer.readBoolean());
         }
         public void serialize(FriendlyByteBuf buf) {//反序列化
             buf.writeUtf(this.id);
-            OhAttribute.TAPI API=new OhAttribute.TAPI();
+            TAPI API=new TAPI();
             API.min=this.min;
             API.max=this.max;
             API.value=this.value;
@@ -85,7 +85,7 @@ public class OhAttribute {
         }
 
 
-        public void copyFrom(OhAttribute.ScapeApi attribute) {
+        public void copyFrom(ScapeApi attribute) {
             if (this.id.equals(attribute.id)) {
                 this.min = attribute.min;
                 this.max = attribute.max;

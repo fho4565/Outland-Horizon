@@ -1,6 +1,6 @@
 package com.isl.outland_horizon.level.register;
 
-import com.isl.outland_horizon.Utils;
+import com.isl.outland_horizon.utils.Utils;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

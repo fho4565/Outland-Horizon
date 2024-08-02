@@ -1,6 +1,7 @@
 package com.isl.outland_horizon.level.register;
 
-import com.isl.outland_horizon.Utils;
+
+import com.isl.outland_horizon.utils.Utils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
