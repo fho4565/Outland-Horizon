@@ -1,0 +1,22 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"fire_wand.loop": {
+			"loop": true,
+			"animation_length": 5,
+			"bones": {
+				"bone": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"5.0": {
+							"vector": [0, 360, 0],
+							"easing": "linear"
+						}
+					}
+				}
+			}
+		}
+	}
+}

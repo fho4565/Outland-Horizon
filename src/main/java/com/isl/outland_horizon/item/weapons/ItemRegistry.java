@@ -1,6 +1,7 @@
 package com.isl.outland_horizon.item.weapons;
 
 import com.google.common.collect.Sets;
+import com.isl.outland_horizon.item.weapons.magic.wand.FireWand;
 import com.isl.outland_horizon.item.weapons.weapon.melee.AAASword;
 import com.isl.outland_horizon.utils.Utils;
 import net.minecraft.core.registries.Registries;
@@ -24,6 +25,7 @@ public class ItemRegistry {
     public static final Set<RegistryObject<Item>> items = Sets.newHashSet();
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Utils.MOD_ID);
     public static final RegistryObject<Item> AAA_SWORD = register("debug_sword", AAASword::new);
+    public static final RegistryObject<Item> fw = register("fire_wand", FireWand::new);
 
     public static RegistryObject<Item> register(String id, Supplier<Item> item) {
         var object = ITEMS.register(id, item);

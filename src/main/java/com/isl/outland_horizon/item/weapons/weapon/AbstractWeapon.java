@@ -12,10 +12,7 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.TieredItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
@@ -132,8 +129,9 @@ public abstract class AbstractWeapon extends TieredItem {
      *
      * @param entity    手持物品的实体
      * @param itemStack 物品
+     * @param level
      */
-    public void whenHolding(Entity entity, ItemStack itemStack) {
+    public void whenHolding(Entity entity, ItemStack itemStack, Level level) {
     }
 
     /**
@@ -142,8 +140,9 @@ public abstract class AbstractWeapon extends TieredItem {
      * @param entity    拥有物品的实体
      * @param itemStack 物品
      * @param slotId    背包栏位ID
+     * @param level
      */
-    public void whenInInventory(Entity entity, ItemStack itemStack, int slotId) {
+    public void whenInInventory(Entity entity, ItemStack itemStack, int slotId, Level level) {
     }
 
     public float getDamage() {
@@ -153,9 +152,9 @@ public abstract class AbstractWeapon extends TieredItem {
     @Override
     public void inventoryTick(@NotNull ItemStack p_41404_, @NotNull Level p_41405_, @NotNull Entity p_41406_, int p_41407_, boolean p_41408_) {
         if (p_41408_) {
-            whenHolding(p_41406_, p_41404_);
+            whenHolding(p_41406_, p_41404_, p_41405_);
         } else {
-            whenInInventory(p_41406_, p_41404_, p_41407_);
+            whenInInventory(p_41406_, p_41404_, p_41407_, p_41405_);
         }
         super.inventoryTick(p_41404_, p_41405_, p_41406_, p_41407_, p_41408_);
     }

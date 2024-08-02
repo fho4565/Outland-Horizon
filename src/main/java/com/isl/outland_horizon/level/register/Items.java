@@ -1,6 +1,6 @@
 package com.isl.outland_horizon.level.register;
 
-import com.isl.outland_horizon.level.items.weapons.melee.sword.AAASword;
+import com.isl.outland_horizon.item.weapons.weapon.melee.AAASword;
 import com.isl.outland_horizon.utils.Utils;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;

@@ -1,5 +1,6 @@
 package com.isl.outland_horizon.network.s2c;
 
+
 import com.isl.outland_horizon.level.capa.data.OhAttribute;
 import com.isl.outland_horizon.network.IPacket;
 import com.isl.outland_horizon.network.data.ClientsData;
