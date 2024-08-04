@@ -1,6 +1,8 @@
-package com.isl.outland_horizon.item.weapons;
+package com.isl.outland_horizon.level.register;
 
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.isl.outland_horizon.item.consumables.AbstractConsumables;
 import com.isl.outland_horizon.item.weapons.magic.wand.FireWand;
 import com.isl.outland_horizon.item.weapons.weapon.melee.AAASword;
 import com.isl.outland_horizon.utils.Utils;
@@ -15,21 +17,25 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.HashMap;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class ItemRegistry {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Utils.MOD_ID);
-
-    public static final Set<RegistryObject<Item>> items = Sets.newHashSet();
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Utils.MOD_ID);
-    public static final RegistryObject<Item> AAA_SWORD = register("debug_sword", AAASword::new);
-    public static final RegistryObject<Item> fw = register("fire_wand", FireWand::new);
-
+    public static final RegistryObject<Item> debug_sword = register("debug_sword", AAASword::new);
+    public static final RegistryObject<Item> fire_wand = register("fire_wand", FireWand::new);
+    public static final RegistryObject<Item> mana_poison = register("mana_potion", AbstractConsumables::new);
+    public static final HashMap<String, Supplier<Item>> simpleRegisterMapItem = Maps.newHashMap();
+    public static HashMap<String,RegistryObject<Item>> ITEM_LIST = Maps.newHashMap();
     public static RegistryObject<Item> register(String id, Supplier<Item> item) {
         var object = ITEMS.register(id, item);
-        items.add(object);
+        if (ITEM_LIST != null) {
+            ITEM_LIST.put(id,object);
+        }
         return object;
     }
 
@@ -37,9 +43,12 @@ public class ItemRegistry {
         TABS.register("main", () -> CreativeModeTab.builder()
                 .title(Component.translatable("item_group." + Utils.MOD_ID + ".main"))
                 .icon(() -> new ItemStack(Items.APPLE))
-                .displayItems((p, o) -> o.acceptAll(items.stream().map(i -> new ItemStack(i.get())).collect(Collectors.toSet())))
+                .displayItems((p, o) -> o.acceptAll(ITEM_LIST.values().stream().map(itemRegistryObject -> new ItemStack(itemRegistryObject.get())).collect(Collectors.toList())))
                 .build());
         ITEMS.register(bus);
         TABS.register(bus);
+    }
+    public static void init(){
+        simpleRegisterMapItem.forEach((name, supplier) -> ITEM_LIST.put(name,register(name, supplier)));
     }
 }

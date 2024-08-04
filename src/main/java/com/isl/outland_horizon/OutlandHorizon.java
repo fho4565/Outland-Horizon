@@ -2,29 +2,28 @@ package com.isl.outland_horizon;
 
 import com.isl.outland_horizon.block.BlockRegistry;
 import com.isl.outland_horizon.client.config.Configs;
-import com.isl.outland_horizon.item.weapons.ItemRegistry;
-import com.isl.outland_horizon.network.PacketHandler;
+import com.isl.outland_horizon.level.register.ItemRegistry;
+import com.isl.outland_horizon.registry.Effects;
+import com.isl.outland_horizon.utils.MaterialPack;
 import com.isl.outland_horizon.utils.Utils;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.spongepowered.asm.launch.MixinBootstrap;
-import org.spongepowered.asm.mixin.MixinEnvironment;
 
 @Mod(Utils.MOD_ID)
 public class OutlandHorizon {
-    public static final Logger LOGGER = LogManager.getLogger();
 
     public OutlandHorizon() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Configs.COMMON_CONFIG);
-
+        MaterialPack.create(MaterialPack.MaterialType.GEM,"blue",1);
+        MaterialPack.create(MaterialPack.MaterialType.CUSTOM,"type_b",2);
+        BlockRegistry.init();
+        ItemRegistry.init();
         ItemRegistry.register(bus);
         BlockRegistry.register(bus);
+        Effects.REGISTRY.register(bus);
     }
 }

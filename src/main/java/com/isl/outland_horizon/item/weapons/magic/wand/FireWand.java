@@ -1,6 +1,8 @@
 package com.isl.outland_horizon.item.weapons.magic.wand;
 
 import com.isl.outland_horizon.item.weapons.weapon.AbstractWeapon;
+import com.isl.outland_horizon.utils.ManaUtils;
+import com.isl.outland_horizon.utils.Utils;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
@@ -8,13 +10,11 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.SmallFireball;
-import net.minecraft.world.item.EnderpearlItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.event.entity.EntityTeleportEvent;
 import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
@@ -55,7 +55,6 @@ public class FireWand extends AbstractWeapon implements GeoItem {
         controllers.add(new AnimationController<>(this, "Activation", 0, state -> PlayState.STOP)
                 .triggerableAnim("activate", ACTIVATE_ANIM));
     }
-
     @Override
     public void whenInInventory(Entity entity, ItemStack itemStack, int slotId, Level level) {
         if (level instanceof ServerLevel serverLevel) {
@@ -63,27 +62,27 @@ public class FireWand extends AbstractWeapon implements GeoItem {
         }
         super.whenInInventory(entity, itemStack, slotId, level);
     }
-
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level level, @NotNull Player player, InteractionHand interactionHand) {
-        Vec3 lookVec = extendVector(player.getLookAngle(),10);
-        Vec3 posVec = player.position();
-        SmallFireball smallFireball = new SmallFireball(level, posVec.x, posVec.y + 1, posVec.z, lookVec.x, lookVec.y, lookVec.z);
-        smallFireball.setOwner(player);
-        level.addFreshEntity(smallFireball);
-        player.getCooldowns().addCooldown(this, 20);
+        if(ManaUtils.removeMana(player, 10)){
+            Vec3 lookVec = extendVector(player.getLookAngle(),10);
+            Vec3 posVec = player.position();
+            SmallFireball smallFireball = new SmallFireball(level, posVec.x, posVec.y + 1, posVec.z, lookVec.x, lookVec.y, lookVec.z);
+            smallFireball.setOwner(player);
+            level.addFreshEntity(smallFireball);
+            player.getCooldowns().addCooldown(this, 20);
+            Utils.sendSimpleMessageToPlayer(player, String.valueOf(ManaUtils.getMana(player)));
+        }
         return super.use(level, player, interactionHand);
     }
-
     public static Vec3 extendVector(Vec3 originalVector, double scaleFactor) {
         double newX = originalVector.x * scaleFactor;
         double newY = originalVector.y * scaleFactor;
         double newZ = originalVector.z * scaleFactor;
         return new Vec3(newX, newY, newZ);
     }
-
     @Override
-    public void inventoryTick(ItemStack p_41404_, Level p_41405_, Entity p_41406_, int p_41407_, boolean p_41408_) {
+    public void inventoryTick(@NotNull ItemStack p_41404_, @NotNull Level p_41405_, @NotNull Entity p_41406_, int p_41407_, boolean p_41408_) {
         if (p_41405_ instanceof ServerLevel serverLevel) {
             triggerAnim(p_41406_, GeoItem.getOrAssignId(p_41404_, serverLevel), "Activation", "activate");
         }

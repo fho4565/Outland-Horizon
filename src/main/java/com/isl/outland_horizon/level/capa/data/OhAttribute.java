@@ -74,7 +74,7 @@ public class OhAttribute {
             TAPI Json = Utils.ToObject(buffer.readUtf());
             boolean isSync = buffer.readBoolean();
             boolean isC2S = buffer.readBoolean();
-           // Utils.Info("deser："+"id:"+ID+"|min:"+Json.min+"|max:"+Json.max+"|value"+Json.value+"|isSync:"+isSync+"|isC2S:"+isC2S);
+            //Utils.Info("deser："+"id:"+ID+"|min:"+Json.min+"|max:"+Json.max+"|value"+Json.value+"|isSync:"+isSync+"|isC2S:"+isC2S);
             return new ScapeApi(ID,Json.min,Json.max,Json.value,isSync,isC2S);
         }
         public void serialize(FriendlyByteBuf buf) {//反序列化

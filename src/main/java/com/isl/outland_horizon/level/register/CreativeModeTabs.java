@@ -25,7 +25,7 @@ public class CreativeModeTabs {
     @SubscribeEvent
     public static void buildTabContentsVanilla(BuildCreativeModeTabContentsEvent tabData) {
         if (tabData.getTabKey() == TG.getKey()) {
-            Items.ITEM_LIST.forEach((name, item) -> tabData.accept(item.get()));
+            ItemRegistry.ITEM_LIST.forEach((name, item) -> tabData.accept(item.get()));
         }
     }
 

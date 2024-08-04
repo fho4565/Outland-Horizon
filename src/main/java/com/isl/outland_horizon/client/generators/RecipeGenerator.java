@@ -1,6 +1,6 @@
 package com.isl.outland_horizon.client.generators;
 
-import com.isl.outland_horizon.level.register.Items;
+import com.isl.outland_horizon.level.register.ItemRegistry;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -29,9 +29,9 @@ public class RecipeGenerator extends RecipeProvider {
     protected void buildRecipes(@NotNull Consumer<FinishedRecipe> finishedRecipeConsumer) {
         String name = "type";
         RecipeGenerator.addRecipe(new SingleRecipe(RecipeCategory.MISC,new String[]{"XXX","XXX","XXX"},
-                new HashMap<>(){{put('X', Items.ITEM_LIST.get(name+"_ingot").get());}},
-                InventoryChangeTrigger.TriggerInstance.hasItems(Items.ITEM_LIST.get(name+"_ingot").get())
-                ,new ItemStack(Items.ITEM_LIST.get(name+"_block").get())));
+                new HashMap<>(){{put('X', ItemRegistry.ITEM_LIST.get(name+"_ingot").get());}},
+                InventoryChangeTrigger.TriggerInstance.hasItems(ItemRegistry.ITEM_LIST.get(name+"_ingot").get())
+                ,new ItemStack(ItemRegistry.ITEM_LIST.get(name+"_block").get())));
         recipes.forEach(recipe -> {
             ShapedRecipeBuilder builder = ShapedRecipeBuilder.shaped(recipe.category, recipe.result.getItem(), recipe.result.getCount())
                     .pattern(recipe.patterns[1]).pattern(recipe.patterns[2]).pattern(recipe.patterns[3])
