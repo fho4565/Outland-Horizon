@@ -32,7 +32,6 @@ public class ForgeCommonEvents {
         if (event.phase == TickEvent.Phase.END) {
             if (!player.level().isClientSide && player.getRandom().nextDouble() > 0.5D) {
                 ManaUtils.recoverMana(player);
-                ChatUtils.sendSimpleMessageToPlayer(player, "[Mana + 10]：" + ManaUtils.getMana(player));
             }
         }
     }

@@ -6,7 +6,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.util.INBTSerializable;
 
 public class OhAttribute implements INBTSerializable<CompoundTag> {
-
     public double mana;
     public double manaRecover;
     public double maxMana;
