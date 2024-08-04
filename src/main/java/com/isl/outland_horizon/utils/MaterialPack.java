@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static com.isl.outland_horizon.block.BlockRegistry.BLOCK_LIST;
 import static com.isl.outland_horizon.block.BlockRegistry.simpleRegisterMapBlock;
-import static com.isl.outland_horizon.level.register.ItemRegistry.simpleRegisterMapItem;
+import static com.isl.outland_horizon.registry.ItemRegistry.simpleRegisterMapItem;
 
 
 public class MaterialPack {

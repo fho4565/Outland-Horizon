@@ -1,4 +1,4 @@
-package com.isl.outland_horizon.level.register;
+package com.isl.outland_horizon.registry;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;

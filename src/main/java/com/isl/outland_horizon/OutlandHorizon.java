@@ -2,7 +2,7 @@ package com.isl.outland_horizon;
 
 import com.isl.outland_horizon.block.BlockRegistry;
 import com.isl.outland_horizon.client.config.Configs;
-import com.isl.outland_horizon.level.register.ItemRegistry;
+import com.isl.outland_horizon.registry.ItemRegistry;
 import com.isl.outland_horizon.registry.Effects;
 import com.isl.outland_horizon.utils.MaterialPack;
 import com.isl.outland_horizon.utils.Utils;

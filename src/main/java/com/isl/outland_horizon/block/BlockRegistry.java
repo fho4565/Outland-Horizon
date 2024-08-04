@@ -1,6 +1,6 @@
 package com.isl.outland_horizon.block;
 
-import com.isl.outland_horizon.level.register.ItemRegistry;
+import com.isl.outland_horizon.registry.ItemRegistry;
 import com.isl.outland_horizon.utils.Utils;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
