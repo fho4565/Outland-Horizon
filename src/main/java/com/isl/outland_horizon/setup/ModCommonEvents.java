@@ -1,8 +1,10 @@
 package com.isl.outland_horizon.setup;
 
+import com.isl.outland_horizon.client.gui.overlay.PlayerOverlay;
 import com.isl.outland_horizon.network.NetworkHandler;
 import com.isl.outland_horizon.utils.Utils;
 import com.isl.outland_horizon.world.capability.entity.OhAttribute;
+import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -18,6 +20,10 @@ public class ModCommonEvents {
     @SubscribeEvent
     public static void onRegisterCaps(RegisterCapabilitiesEvent event) {
         event.register(OhAttribute.class);
+    }
+    @SubscribeEvent
+    public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
+        event.registerAboveAll(Utils.MOD_ID, new PlayerOverlay());
     }
 
 }
