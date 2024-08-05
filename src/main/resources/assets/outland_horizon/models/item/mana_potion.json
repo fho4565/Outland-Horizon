@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "outland_horizon:item/mana_poison"
+    "layer0": "outland_horizon:item/mana_potion"
   }
 }

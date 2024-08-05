@@ -6,10 +6,7 @@ import com.isl.outland_horizon.world.item.weapons.wand.FireWand;
 import com.isl.outland_horizon.world.item.weapons.weapon.melee.AAASword;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -19,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+
+import static com.isl.outland_horizon.world.block.BlockRegistry.NIGHTMARE_LOG;
 
 public class ItemRegistry {
     public static List<RegistryObject<Item>> ITEM_LIST = new ArrayList<>();

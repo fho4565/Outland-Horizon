@@ -15,6 +15,7 @@ public class PlayerOverlay implements IGuiOverlay {
 
     public PlayerOverlay() {
         hudSections.add(new HealthBar());
+        hudSections.add(new ManaBar());
     }
 
     @Override
@@ -23,7 +24,6 @@ public class PlayerOverlay implements IGuiOverlay {
     }
     @SubscribeEvent
     public void onGameOverlayRenderPre(RenderGuiOverlayEvent.Pre event) {
-        System.out.println("|||||||||||||||||||||||||||||||||||||");
         ResourceLocation overlay = event.getOverlay().id();
         if (overlay == VanillaGuiOverlay.PLAYER_HEALTH.id()) {
             event.setCanceled(true);
