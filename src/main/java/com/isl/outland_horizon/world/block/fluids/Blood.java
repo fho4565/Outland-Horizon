@@ -1,6 +1,7 @@
 package com.isl.outland_horizon.world.block.fluids;
 
 import com.isl.outland_horizon.world.block.BlockRegistry;
+import com.isl.outland_horizon.world.item.ItemRegistry;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.Fluid;
@@ -9,7 +10,10 @@ import net.minecraftforge.fluids.ForgeFlowingFluid;
 
 public abstract class Blood extends ForgeFlowingFluid {
     public static final ForgeFlowingFluid.Properties PROPERTIES
-            = new ForgeFlowingFluid.Properties(BlockRegistry.FluidTypeRegistry.BLOOD_TYPE, BlockRegistry.FluidRegistry.BLOOD, BlockRegistry.FluidRegistry.BLOOD_FLOWING).explosionResistance(100f)
+            = new ForgeFlowingFluid.Properties(BlockRegistry.FluidTypeRegistry.BLOOD_TYPE,
+            BlockRegistry.FluidRegistry.BLOOD, BlockRegistry.FluidRegistry.BLOOD_FLOWING)
+            .explosionResistance(100f)
+            .bucket(ItemRegistry.BLOOD_BUCKET)
             .block(() -> (LiquidBlock) BlockRegistry.BLOOD_BLOCK.get());
 
     protected Blood() {

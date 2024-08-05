@@ -1,6 +1,7 @@
 package com.isl.outland_horizon.world.block.fluids;
 
 
+import com.isl.outland_horizon.utils.Utils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
@@ -11,14 +12,19 @@ import java.util.function.Consumer;
 
 public class BloodType extends FluidType {
     public BloodType() {
-        super(FluidType.Properties.create().fallDistanceModifier(0F).canExtinguish(true).supportsBoating(true).canHydrate(true).motionScale(0.007D).sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
-                .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY).sound(SoundActions.FLUID_VAPORIZE, SoundEvents.FIRE_EXTINGUISH));
+        super(FluidType.Properties.create().fallDistanceModifier(0F)
+                .canExtinguish(true).supportsBoating(false)
+                .motionScale(0.007D)
+                .sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
+                .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)
+                .sound(SoundActions.FLUID_VAPORIZE, SoundEvents.FIRE_EXTINGUISH));
     }
 
     @Override
     public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
         consumer.accept(new IClientFluidTypeExtensions() {
-            private static final ResourceLocation STILL_TEXTURE = new ResourceLocation("outland_horizon:blocks/blood"), FLOWING_TEXTURE = new ResourceLocation("outland_horizon:blocks/blood");
+            private static final ResourceLocation STILL_TEXTURE = new ResourceLocation(Utils.MOD_ID+":block/blood")
+                    , FLOWING_TEXTURE = new ResourceLocation(Utils.MOD_ID+":block/blood");
 
             @Override
             public ResourceLocation getStillTexture() {

@@ -1,7 +1,6 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "outland_horizon:block/blood",
 		"particle": "outland_horizon:block/blood"
 	},
 	"elements": [
