@@ -2,15 +2,23 @@ package com.isl.outland_horizon.world.item.weapons.weapon;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.TieredItem;
+import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public abstract class AbstractWeapon extends TieredItem {
     protected final Multimap<Attribute, AttributeModifier> defaultModifiers;
@@ -58,8 +66,17 @@ public abstract class AbstractWeapon extends TieredItem {
         this.defaultModifiers = builder.build();
     }
 
-    public float getDamage() {
-        return this.attackDamage;
+    public abstract float getDamage();
+    public InteractionHand getWeaponHand(LivingEntity holder) {
+        return holder.getMainHandItem().getItem() == this || holder.getOffhandItem().getItem() != this ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
     }
-
+    public void onProjectileHitBlock(ThrowableProjectile projectile, Vec3 location, LivingEntity shooter){
+    }
+    public void onProjectileHitEntity(ThrowableProjectile projectile, Entity target, LivingEntity shooter){
+    }
+    @Override
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+        pTooltipComponents.add(Component.literal("伤害："+getDamage()).withStyle(ChatFormatting.RED));
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
+    }
 }

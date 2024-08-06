@@ -17,7 +17,7 @@ public class ManaBar extends HudSection{
         if (player == null) return;
         float scale =  ((float)ManaUtils.getMana(player)/(float)ManaUtils.getMaxMana(player));
 
-        guiGraphics.fill(0, 80, 0+160, 80+20, Color.BLACK.getRGB());
+        guiGraphics.fill(0, 80, 160, 80+20, Color.BLACK.getRGB());
         guiGraphics.fill(0,80, Math.round(0+160*scale), 80+20,-1, Color.RED.getRGB());
     }
 }

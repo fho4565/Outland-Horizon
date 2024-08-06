@@ -6,6 +6,4 @@ public class AAASword extends AbstractMeleeWeapon {
     public AAASword() {
         super(96, 2147483647, 15, Items.NETHERITE_SWORD);
     }
-
-
 }

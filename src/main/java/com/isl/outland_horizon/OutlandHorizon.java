@@ -5,6 +5,7 @@ import com.isl.outland_horizon.utils.MaterialPack;
 import com.isl.outland_horizon.utils.Utils;
 import com.isl.outland_horizon.world.block.BlockRegistry;
 import com.isl.outland_horizon.world.effect.EffectRegistry;
+import com.isl.outland_horizon.world.entity.EntityRegistry;
 import com.isl.outland_horizon.world.item.ItemRegistry;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -19,8 +20,9 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod(Utils.MOD_ID)
 public class OutlandHorizon {
+    public static IEventBus bus;
     public OutlandHorizon() {
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
+        bus = FMLJavaModLoadingContext.get().getModEventBus();
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Configs.COMMON_CONFIG);
 
         MaterialPack.create(MaterialPack.MaterialType.GEM, "blue", 1);
@@ -31,6 +33,8 @@ public class OutlandHorizon {
         BlockRegistry.FluidRegistry.FLUIDS.register(bus);
         BlockRegistry.FluidTypeRegistry.FLUID_TYPES.register(bus);
         EffectRegistry.register(bus);
+        EntityRegistry.EntityRenders.init();
+        EntityRegistry.register(bus);
     }
 
 }

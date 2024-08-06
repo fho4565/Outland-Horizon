@@ -32,22 +32,36 @@ public class ManaUtils {
         attribute.setMana(Math.min(attribute.getMana() + mana, getMaxMana(player)));
         serverSyncAttribute(player);
     }
+    public static boolean removeMana(Player player, double amount) {
+        OhAttribute attribute = getOhAttribute(player);
+        if(amount >= attribute.getMana()){
+            return false;
+        }else{
+            attribute.setMana(attribute.getMana() - amount);
+            serverSyncAttribute(player);
+            return true;
+        }
+    }
 
     public static void setMana(Player player, double mana) {
         OhAttribute attribute = getOhAttribute(player);
-        attribute.setMana(Math.min(mana, getMaxMana(player)));
+        attribute.setMana(Math.max(mana, 0));
         serverSyncAttribute(player);
     }
 
     public static void setManaRecover(Player player, double manaRecover) {
         OhAttribute attribute = getOhAttribute(player);
-        attribute.setManaRecover(Math.min(manaRecover, getMaxManaRecover(player)));
+        attribute.setManaRecover(Math.max(manaRecover, 0));
         serverSyncAttribute(player);
     }
 
-    public static void removeManaRecover(Player player) {
+    public static void removeManaRecover(Player player,double amount) {
         OhAttribute attribute = getOhAttribute(player);
-        attribute.setManaRecover(0.0D);
+        if(amount >= attribute.getManaRecover()){
+            attribute.setManaRecover(0.0D);
+        }else{
+            attribute.setManaRecover(attribute.getManaRecover() - amount);
+        }
         serverSyncAttribute(player);
     }
 }

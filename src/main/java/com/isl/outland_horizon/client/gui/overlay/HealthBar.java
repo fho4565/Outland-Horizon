@@ -8,7 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import java.awt.*;
 
 public class HealthBar extends HudSection{
-    private ResourceLocation texture = new ResourceLocation("outland_horizon", "textures/gui/health_bar.png");
+    private final ResourceLocation texture = new ResourceLocation("outland_horizon", "textures/gui/health_bar.png");
     public HealthBar() {
         super(0, 0);
     }
