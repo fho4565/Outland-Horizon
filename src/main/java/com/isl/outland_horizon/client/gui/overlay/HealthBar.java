@@ -18,7 +18,12 @@ public class HealthBar extends HudSection{
         LocalPlayer player = minecraft.player;
         if (player == null) return;
         float scale = player.getHealth()/player.getMaxHealth();
-        guiGraphics.blit(texture, 200, 100, 0, 0, minecraft.getWindow().getScreenWidth()/25, minecraft.getWindow().getScreenHeight()/100, minecraft.getWindow().getScreenWidth()/25, minecraft.getWindow().getScreenHeight()/100);
-        guiGraphics.fill(x, y, Math.round(x + (minecraft.getWindow().getScreenWidth() / 25.0f) * scale), y + minecraft.getWindow().getScreenHeight()/100, Color.RED.getRGB());
+        guiGraphics.blit(texture, 0, 0,
+                1, 0,1,
+                140, 21,
+                140, 21);
+        guiGraphics.fill(22, 4,
+                Math.round(22 + 111 * scale),
+                4 + 11,0,Color.RED.getRGB());
     }
 }

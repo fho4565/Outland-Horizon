@@ -75,7 +75,7 @@ public class FireWand extends AbstractWand implements GeoItem {
 
     @Override
     public int getManaCost() {
-        return 15;
+        return 10;
     }
 
     @Override

@@ -14,7 +14,7 @@ public class OhAttribute implements INBTSerializable<CompoundTag> {
     public OhAttribute(Entity entity) {
         if (!(entity instanceof Player)) return;
 
-        this.mana = 0.0D;
+        this.mana = 100.0D;
         this.manaRecover = 0.1D;
         this.maxMana = 100.0D;
         this.maxManaRecover = 100.0D;
