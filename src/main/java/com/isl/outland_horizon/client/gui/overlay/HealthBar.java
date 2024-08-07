@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
 
 import java.awt.*;
 
@@ -18,12 +19,19 @@ public class HealthBar extends HudSection{
         LocalPlayer player = minecraft.player;
         if (player == null) return;
         float scale = player.getHealth()/player.getMaxHealth();
-        guiGraphics.blit(texture, 0, 0,
-                1, 0,1,
-                140, 21,
+        int offsetX = 0,offsetY = 0;
+        if(scale<=0.05f){
+            RandomSource randomSource = minecraft.player.getRandom();
+            offsetX = Math.round((randomSource.nextFloat() - 0.5f) * 2);
+            offsetY = Math.round((randomSource.nextFloat() - 0.5f) * 2);
+        }
+        guiGraphics.blit(texture, offsetX, offsetY,
+                1, 0,0,
+                140, 20,
                 140, 21);
-        guiGraphics.fill(22, 4,
-                Math.round(22 + 111 * scale),
-                4 + 11,0,Color.RED.getRGB());
+        guiGraphics.fill(22 + offsetX, 5 + offsetY,
+                Math.round(22 + offsetX + 111 * scale), 5 + offsetY + 11,
+                0,
+                Color.RED.getRGB());
     }
 }

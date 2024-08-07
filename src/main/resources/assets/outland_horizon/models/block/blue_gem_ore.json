@@ -1,5 +1,5 @@
 {
-	"parent": "block/cube_all",
+	"parent": "minecraft:block/cube_all",
 	"textures": {
 		"all": "outland_horizon:block/blue_gem_ore",
 		"particle": "outland_horizon:block/blue_gem_ore"

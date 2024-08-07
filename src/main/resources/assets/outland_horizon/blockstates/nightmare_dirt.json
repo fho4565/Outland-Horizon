@@ -1,0 +1,13 @@
+{
+	"variants": {
+		"vascular_type=none": {
+			"model": "outland_horizon:block/nightmare_dirt"
+		},
+		"vascular_type=light": {
+			"model": "outland_horizon:block/nightmare_dirt_1"
+		},
+		"vascular_type=heavy": {
+			"model": "outland_horizon:block/nightmare_dirt_2"
+		}
+	}
+}

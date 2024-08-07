@@ -1,0 +1,46 @@
+{
+  "type": "minecraft:lake",
+  "config": {
+    "fluid": {
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "outland_horizon:arterial_blood",
+        "Properties": {
+          "level": "0"
+        }
+      }
+    },
+    "barrier": {
+      "type": "minecraft:weighted_state_provider",
+      "entries": [
+        {
+          "weight": 1,
+          "data": {
+            "Name": "outland_horizon:nightmare_dirt",
+            "Properties": {
+              "vascular_type": "none"
+            }
+          }
+        },
+        {
+          "weight": 1,
+          "data": {
+            "Name": "outland_horizon:nightmare_dirt",
+            "Properties": {
+              "vascular_type": "light"
+            }
+          }
+        },
+        {
+          "weight": 1,
+          "data": {
+            "Name": "outland_horizon:nightmare_dirt",
+            "Properties": {
+              "vascular_type": "heavy"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

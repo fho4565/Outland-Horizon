@@ -10,4 +10,11 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Utils.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ForgeClientEvents {
+    @SubscribeEvent
+    public static void onGameOverlayRenderPre(RenderGuiOverlayEvent.Pre event) {
+        ResourceLocation overlay = event.getOverlay().id();
+        if (VanillaGuiOverlay.PLAYER_HEALTH.id() == overlay) {
+            event.setCanceled(true);
+        }
+    }
 }

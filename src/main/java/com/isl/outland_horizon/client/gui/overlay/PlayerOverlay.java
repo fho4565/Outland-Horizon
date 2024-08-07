@@ -16,7 +16,6 @@ public class PlayerOverlay implements IGuiOverlay {
     public PlayerOverlay() {
         hudSections.add(new HealthBar());
         hudSections.add(new ManaBar());
-        hudSections.add(new DangerousHealth());
     }
 
     @Override

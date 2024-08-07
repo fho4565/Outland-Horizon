@@ -1,4 +1,4 @@
-package com.isl.outland_horizon.world.block.fluids;
+package com.isl.outland_horizon.world.block.fluids.blood;
 
 import com.isl.outland_horizon.world.block.BlockRegistry;
 import com.isl.outland_horizon.world.item.ItemRegistry;
@@ -8,19 +8,18 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 
-public abstract class Blood extends ForgeFlowingFluid {
-    public static final ForgeFlowingFluid.Properties PROPERTIES
-            = new ForgeFlowingFluid.Properties(BlockRegistry.FluidTypeRegistry.BLOOD_TYPE,
-            BlockRegistry.FluidRegistry.BLOOD, BlockRegistry.FluidRegistry.BLOOD_FLOWING)
+public abstract class ArterialBlood extends ForgeFlowingFluid {
+    public static final Properties PROPERTIES
+            = new Properties(BlockRegistry.FluidTypeRegistry.ArterialBLOOD_TYPE,
+            BlockRegistry.FluidRegistry.ArterialBLOOD, BlockRegistry.FluidRegistry.ArterialBLOOD_FLOWING)
             .explosionResistance(100f)
-            .bucket(ItemRegistry.BLOOD_BUCKET)
-            .block(() -> (LiquidBlock) BlockRegistry.BLOOD_BLOCK.get());
+            .block(() -> (LiquidBlock) BlockRegistry.Arterial_BLOOD_BLOCK.get());
 
-    protected Blood() {
+    protected ArterialBlood() {
         super(PROPERTIES);
     }
 
-    public static class Flowing extends Blood {
+    public static class Flowing extends ArterialBlood {
         protected void createFluidStateDefinition(StateDefinition.Builder<Fluid, FluidState> pBuilder) {
             super.createFluidStateDefinition(pBuilder);
             pBuilder.add(LEVEL);
@@ -34,7 +33,7 @@ public abstract class Blood extends ForgeFlowingFluid {
         }
     }
 
-    public static class Source extends Blood {
+    public static class Source extends ArterialBlood {
         public int getAmount(FluidState pState) {
             return 8;
         }

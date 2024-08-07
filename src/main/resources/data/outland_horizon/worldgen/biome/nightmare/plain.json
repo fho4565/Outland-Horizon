@@ -8,10 +8,42 @@
         "water_color": 3997696,
         "water_fog_color": 10066329,
         "grass_color": 16711680,
-        "foliage_color": 7667712
+        "foliage_color": 7667712,
+        "mood_sound": {
+            "sound": "outland_horizon:nightmare_around",
+            "tick_delay": 300,
+            "offset": 3,
+            "block_search_extent": 8
+        }
     },
     "spawners": {},
     "spawn_costs": {},
     "carvers": {},
-    "features": []
+    "features": [
+        [
+        ],
+        [
+            "outland_horizon:nightmare/blood_lake",
+            "outland_horizon:nightmare/arterial_blood_lake"
+        ],
+        [
+        ],
+        [
+        ],
+        [
+        ],
+        [
+        ],
+        [
+        ],
+        [
+        ],
+        [
+        ],
+        [
+            "outland_horizon:nightmare/plain_tree"
+        ],
+        [
+        ]
+    ]
 }

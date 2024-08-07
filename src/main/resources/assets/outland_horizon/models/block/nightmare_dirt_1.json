@@ -1,11 +1,10 @@
 {
 	"parent": "minecraft:block/cube_all",
 	"credit": "Made with Blockbench",
-	"render_type": "solid",
 	"textures": {
-		"0": "outland_horizon:block/nightmare_log",
-		"1": "outland_horizon:block/nightmare_log_bottom",
-		"particle": "outland_horizon:block/nightmare_log"
+		"0": "outland_horizon:block/nightmare_dirt",
+		"1": "outland_horizon:block/nightmare_dirt_1",
+		"particle": "outland_horizon:block/nightmare_dirt"
 	},
 	"elements": [
 		{
@@ -17,7 +16,7 @@
 				"south": {"uv": [0, 0, 16, 16], "texture": "#0"},
 				"west": {"uv": [0, 0, 16, 16], "texture": "#0"},
 				"up": {"uv": [0, 0, 16, 16], "texture": "#1"},
-				"down": {"uv": [0, 0, 16, 16], "texture": "#1"}
+				"down": {"uv": [0, 0, 16, 16], "texture": "#0"}
 			}
 		}
 	]

@@ -1,4 +1,4 @@
-package com.isl.outland_horizon.world.block.fluids;
+package com.isl.outland_horizon.world.block.fluids.blood;
 
 import com.isl.outland_horizon.world.block.BlockRegistry;
 import net.minecraft.world.level.block.LiquidBlock;
