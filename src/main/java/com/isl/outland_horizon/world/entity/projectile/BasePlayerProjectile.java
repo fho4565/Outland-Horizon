@@ -142,10 +142,10 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
                 Entity shooter = getOwner();
                 if (shooter instanceof LivingEntity) {
                     if (result.getType() == HitResult.Type.BLOCK) {
-                        weapon.onProjectileHitBlock(this, result.getLocation(), (LivingEntity)shooter);
+                        weapon.doProjectileHitBlock(this, result.getLocation(), (LivingEntity)shooter);
                     }
                     else if (result.getType() == HitResult.Type.ENTITY) {
-                        weapon.onProjectileHitEntity(this, ((EntityHitResult)result).getEntity(), (LivingEntity)shooter);
+                        weapon.doProjectileHitEntity(this, ((EntityHitResult)result).getEntity(), (LivingEntity)shooter);
                     }
                 }
             }

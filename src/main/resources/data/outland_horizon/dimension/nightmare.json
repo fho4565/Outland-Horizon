@@ -1,6 +1,7 @@
 {
     "type": "outland_horizon:nightmare",
     "generator": {
+        "seed": 0,
         "type": "minecraft:noise",
         "settings":{
             "sea_level": 40,
@@ -475,7 +476,36 @@
                         "type": "minecraft:condition",
                         "if_true": {
                             "type": "minecraft:vertical_gradient",
-                            "random_name": "outland_horizon:flesh_blocke",
+                            "random_name": "ad",
+                            "true_at_and_below": {
+                                "absolute": -40
+                            },
+                            "false_at_and_above": {
+                                "absolute": -10
+                            }
+                        },
+                        "then_run": {
+                            "type": "minecraft:condition",
+                            "if_true": {
+                                "type": "minecraft:stone_depth",
+                                "offset": 150,
+                                "surface_type": "floor",
+                                "add_surface_depth": false,
+                                "secondary_depth_range": -150
+                            },
+                            "then_run": {
+                                "type": "minecraft:block",
+                                "result_state": {
+                                    "Name": "outland_horizon:scarred_flesh_block"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "type": "minecraft:condition",
+                        "if_true": {
+                            "type": "minecraft:vertical_gradient",
+                            "random_name": "outland_horizon:flesh_block",
                             "true_at_and_below": {
                                 "absolute": 0
                             },
@@ -486,16 +516,14 @@
                         "then_run": {
                             "type": "minecraft:block",
                             "result_state": {
-                                "Name": "outland_horizon:flesh_block",
-                                "Properties": {
-                                    "axis": "y"
-                                }
+                                "Name": "outland_horizon:flesh_block"
                             }
                         }
                     }
                 ]
             }
         }
+
     ,
 
         "biome_source": {

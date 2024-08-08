@@ -46,7 +46,7 @@ public class BlockRegistry {
     public static final RegistryObject<Block> NIGHTMARE_DIRT = register("nightmare_dirt",NightmareDirt::new);
     public static final RegistryObject<Block> FLESH_BLOCK = register("flesh_block", () -> new Block(BlockBehaviour.Properties.of()
             .mapColor(MapColor.COLOR_RED)
-            .sound(new ForgeSoundType(0.8f,1,
+            .sound(new ForgeSoundType(0.5f,1,
                     ()-> SoundEvent.createVariableRangeEvent(Utils.createResourceLocation("flesh_block_broken"))
                     , SoundType.MUD::getStepSound
                     , SoundType.MUD::getPlaceSound
@@ -55,6 +55,17 @@ public class BlockRegistry {
                     ))
             .requiresCorrectToolForDrops()
             .strength(2.8F, 12.0F)));
+    public static final RegistryObject<Block> SCARRED_FLESH_BLOCK = register("scarred_flesh_block", () -> new Block(BlockBehaviour.Properties.of()
+            .mapColor(MapColor.COLOR_RED)
+            .sound(new ForgeSoundType(0.5f,1,
+                    ()-> SoundEvent.createVariableRangeEvent(Utils.createResourceLocation("flesh_block_broken"))
+                    , SoundType.MUD::getStepSound
+                    , SoundType.MUD::getPlaceSound
+                    ,()-> SoundEvent.createVariableRangeEvent(Utils.createResourceLocation("flesh_block_breaking"))
+                    , SoundType.MUD::getFallSound
+            ))
+            .requiresCorrectToolForDrops()
+            .strength(2.4F, 11.0F)));
 
     public static RegistryObject<Block> register(String id, Supplier<Block> block) {
         return register(id, block, true);

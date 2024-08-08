@@ -1,7 +1,7 @@
 package com.isl.outland_horizon.client.model;
 
 import com.isl.outland_horizon.utils.Utils;
-import com.isl.outland_horizon.world.item.weapons.wand.FireWand;
+import com.isl.outland_horizon.world.item.weapons.weapon.magic.wand.FireWand;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
