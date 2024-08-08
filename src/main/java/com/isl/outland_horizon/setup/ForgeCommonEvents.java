@@ -50,12 +50,4 @@ public class ForgeCommonEvents {
         }
         event.getOriginal().invalidateCaps();
     }
-    /*@SubscribeEvent
-    public static void onLevelLoad(LevelEvent.Load event){
-        if (event.getLevel() instanceof ServerLevel serverLevel) {
-            if(serverLevel.dimension().location().getPath().equals("nightmare")){
-                serverLevel.setRainLevel(0.2f);
-            }
-        }
-    }*/
 }

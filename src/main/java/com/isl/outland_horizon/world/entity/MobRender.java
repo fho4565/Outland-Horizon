@@ -13,7 +13,6 @@ public class MobRender extends MobRenderer<Mob, EntityModel<Mob>> {
 
     public MobRender(EntityRendererProvider.Context renderManager, EntityModel<? extends Mob> model, float shadowSize, float scale, ResourceLocation texture) {
         super(renderManager, (EntityModel<Mob>)model, shadowSize);
-
         this.model = getModel();
         this.texture = texture;
         this.scale = scale;

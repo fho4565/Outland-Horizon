@@ -8,18 +8,10 @@ import com.isl.outland_horizon.world.effect.EffectRegistry;
 import com.isl.outland_horizon.world.entity.EntityRegistry;
 import com.isl.outland_horizon.world.item.ItemRegistry;
 import com.isl.outland_horizon.world.sound.SoundEventRegister;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 @Mod(Utils.MOD_ID)
@@ -30,6 +22,7 @@ public class OutlandHorizon {
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Configs.COMMON_CONFIG);
 
         MaterialPack.create(MaterialPack.MaterialType.GEM, "blue", 1);
+        MaterialPack.create(MaterialPack.MaterialType.CUSTOM, "blood_stone", 1);
 
         ItemRegistry.register(bus);
         BlockRegistry.register(bus);
