@@ -2,9 +2,12 @@ package com.isl.outland_horizon.world.item.weapons.weapon.magic.wand;
 
 import com.isl.outland_horizon.client.renderer.FireWandRenderer;
 import com.isl.outland_horizon.utils.EntityUtils;
+import com.isl.outland_horizon.world.entity.projectile.FireWandShot;
 import com.isl.outland_horizon.world.item.weapons.weapon.magic.MagicWeapon;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -81,5 +84,20 @@ public class FireWand extends MagicWeapon implements GeoItem {
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return this.cache;
+    }
+
+    @Override
+    public int getCoolDown() {
+        return 20;
+    }
+
+    @Override
+    public int getManaCost() {
+        return 10;
+    }
+
+    @Override
+    public void successfullyUsed(Level pLevel, ServerPlayer serverPlayer, InteractionHand pUsedHand) {
+        pLevel.addFreshEntity(new FireWandShot(serverPlayer, this, 60));
     }
 }

@@ -18,6 +18,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.util.ForgeSoundType;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.FluidType;
@@ -94,14 +95,5 @@ public class BlockRegistry {
 
         public static final RegistryObject<FlowingFluid> ArterialBLOOD = FLUIDS.register("arterial_blood", ArterialBlood.Source::new);
         public static final RegistryObject<FlowingFluid> ArterialBLOOD_FLOWING = FLUIDS.register("arterial_blood_flowing", ArterialBlood.Flowing::new);
-
-        @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-        public static class FluidsClientSideHandler {
-            @SubscribeEvent
-            public static void clientSetup(FMLClientSetupEvent event) {
-                ItemBlockRenderTypes.setRenderLayer(BLOOD.get(), RenderType.translucent());
-                ItemBlockRenderTypes.setRenderLayer(BLOOD_FLOWING.get(), RenderType.translucent());
-            }
-        }
     }
 }
