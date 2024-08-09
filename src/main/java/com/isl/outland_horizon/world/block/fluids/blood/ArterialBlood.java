@@ -1,6 +1,7 @@
 package com.isl.outland_horizon.world.block.fluids.blood;
 
 import com.isl.outland_horizon.world.block.BlockRegistry;
+import com.isl.outland_horizon.world.item.ItemRegistry;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.Fluid;
@@ -13,6 +14,7 @@ public abstract class ArterialBlood extends ForgeFlowingFluid {
             = new Properties(BlockRegistry.FluidTypeRegistry.ArterialBLOOD_TYPE,
             BlockRegistry.FluidRegistry.ArterialBLOOD, BlockRegistry.FluidRegistry.ArterialBLOOD_FLOWING)
             .explosionResistance(100f)
+            .bucket(ItemRegistry.BLOOD_BUCKET)
             .block(() -> (LiquidBlock) BlockRegistry.Arterial_BLOOD_BLOCK.get());
 
     protected ArterialBlood() {

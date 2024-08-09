@@ -33,7 +33,6 @@ public class ItemRegistry {
     public static final RegistryObject<Item> MANA_POTION_BOTTLE = register("malicious_gun", ()-> new MaliciousGun(450, 10, Items.DIAMOND));
     public static final RegistryObject<Item> FREQUENCY_VARIATION = register("frequency_variation", ()-> new FrequencyVariation(375, 10, Items.DIAMOND));
     public static final RegistryObject<Item> PAO = register("pao", ()-> new RPG(100, 10, Items.DIAMOND));
-    public static final RegistryObject<Item> IRON_BULLET = register("iron_bullet", ()-> new Item(new Item.Properties()));
 
     public static RegistryObject<Item> register(String id, Supplier<Item> item) {
         var object = ITEMS.register(id, item);
