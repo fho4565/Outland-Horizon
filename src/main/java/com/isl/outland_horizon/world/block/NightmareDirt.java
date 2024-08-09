@@ -12,7 +12,7 @@ import net.minecraft.world.level.material.MapColor;
 import org.jetbrains.annotations.NotNull;
 
 public class NightmareDirt extends Block {
-    public static enum VascularType implements StringRepresentable {
+    public enum VascularType implements StringRepresentable {
         NONE("none"),
         LIGHT("light"),
         HEAVY("heavy");
@@ -26,7 +26,7 @@ public class NightmareDirt extends Block {
             return this.name;
         }
     }
-    public static final EnumProperty<VascularType> vascularType = EnumProperty.create("vascular_type", VascularType.class);;
+    public static final EnumProperty<VascularType> vascularType = EnumProperty.create("vascular_type", VascularType.class);
 
 
     public NightmareDirt() {

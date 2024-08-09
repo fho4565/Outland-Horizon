@@ -23,5 +23,17 @@
     "sounds": [
       "outland_horizon:audio/nightmare/flesh_block_broken"
     ]
+  },
+  "gun": {
+    "subtitle": "subtitles.item.gun",
+    "sounds": [
+      "outland_horizon:audio/misc/gun/gun"
+    ]
+  },
+  "snipe_gun": {
+    "subtitle": "subtitles.item.gun",
+    "sounds": [
+      "outland_horizon:audio/misc/gun/snipe_gun"
+    ]
   }
 }

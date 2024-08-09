@@ -6,13 +6,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public class MeleeWeapon extends AbstractWeapon {
     public MeleeWeapon(int maxDamage, int meleeAttackDamage, int enchantAbility, Item repairIngredient) {
@@ -22,7 +22,7 @@ public class MeleeWeapon extends AbstractWeapon {
         super(tier, meleeAttackDamage);
     }
     @Override
-    public boolean canAttackBlock(BlockState p_41441_, Level p_41442_, BlockPos p_41443_, Player p_41444_) {
+    public boolean canAttackBlock(@NotNull BlockState p_41441_, @NotNull Level p_41442_, @NotNull BlockPos p_41443_, Player p_41444_) {
         return !p_41444_.isCreative();
     }
 

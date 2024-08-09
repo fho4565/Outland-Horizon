@@ -12,18 +12,19 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public abstract class MagicWeapon extends AbstractWeapon {
-    public MagicWeapon(int maxDurability, int enchantAbility, Item repairIngredient) {
+public abstract class AbstractMagicWeapon extends AbstractWeapon {
+    public AbstractMagicWeapon(int maxDurability, int enchantAbility, Item repairIngredient) {
         super(maxDurability, 1, enchantAbility, repairIngredient);
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
-        if(pPlayer instanceof ServerPlayer player){
+    public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, @NotNull Player pPlayer, @NotNull InteractionHand pUsedHand) {
+        if(pPlayer instanceof ServerPlayer player && pUsedHand.equals(InteractionHand.MAIN_HAND)){
             if(ManaUtils.removeMana(player,getManaCost())){
                 player.getCooldowns().addCooldown(this, getCoolDown());
                 successfullyUsed(pLevel, player, pUsedHand);

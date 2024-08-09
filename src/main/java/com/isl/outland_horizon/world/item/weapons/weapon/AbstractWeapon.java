@@ -63,18 +63,19 @@ public abstract class AbstractWeapon extends TieredItem {
     }
     public float getDamage(){
         return 1;
-    };
+    }
+
     public InteractionHand getWeaponHand(LivingEntity holder) {
         return holder.getMainHandItem().getItem() == this || holder.getOffhandItem().getItem() != this ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
     }
     public void doProjectileHitBlock(ThrowableProjectile projectile, Vec3 location, LivingEntity shooter){
 
     }
-    public void doProjectileHitEntity(ThrowableProjectile projectile, Entity target, LivingEntity shooter){
+    public void onPojectileHitEntity(ThrowableProjectile projectile, Entity target, LivingEntity shooter){
 
     }
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
 
         super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }

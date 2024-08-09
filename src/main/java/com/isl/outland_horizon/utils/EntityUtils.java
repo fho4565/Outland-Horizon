@@ -7,7 +7,6 @@ import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 
-import java.util.ArrayList;
 import java.util.function.Consumer;
 
 public class EntityUtils {

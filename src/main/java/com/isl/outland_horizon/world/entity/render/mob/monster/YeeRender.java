@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 public class YeeRender extends HumanoidMobRenderer<Yee, HumanoidModel<Yee>> {
     public YeeRender(EntityRendererProvider.Context context) {
@@ -20,7 +21,7 @@ public class YeeRender extends HumanoidMobRenderer<Yee, HumanoidModel<Yee>> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(Yee entity) {
+    public @NotNull ResourceLocation getTextureLocation(@NotNull Yee entity) {
         return new ResourceLocation(Utils.createResourceLocation("textures/entity/monster/yee.png").toString());
     }
 }

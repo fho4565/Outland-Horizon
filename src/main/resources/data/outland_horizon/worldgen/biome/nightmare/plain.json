@@ -22,7 +22,7 @@
                 "type": "outland_horizon:painful_man",
                 "weight": 20,
                 "minCount": 2,
-                "maxCount": 6
+                "maxCount": 3
             }
         ]
     },

@@ -2,17 +2,14 @@ package com.isl.outland_horizon.world.item;
 
 import com.isl.outland_horizon.utils.Utils;
 import com.isl.outland_horizon.world.block.BlockRegistry;
-import com.isl.outland_horizon.world.entity.projectile.FireWandShot;
 import com.isl.outland_horizon.world.item.consumables.Consumables;
-import com.isl.outland_horizon.world.item.weapons.weapon.magic.MagicWeapon;
 import com.isl.outland_horizon.world.item.weapons.weapon.magic.wand.FireWand;
 import com.isl.outland_horizon.world.item.weapons.weapon.melee.AAASword;
-import com.isl.outland_horizon.world.item.weapons.weapon.melee.MeleeWeapon;
+import com.isl.outland_horizon.world.item.weapons.weapon.ranged.gun.FrequencyVariation;
+import com.isl.outland_horizon.world.item.weapons.weapon.ranged.gun.MaliciousGun;
+import com.isl.outland_horizon.world.item.weapons.weapon.ranged.gun.RPG;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -33,6 +30,10 @@ public class ItemRegistry {
     public static final RegistryObject<Item> DEBUG_SWORD = register("debug_sword", AAASword::new);
     public static final RegistryObject<Item> FIRE_WAND = register("fire_wand", FireWand::new);
     public static final RegistryObject<Item> MANA_POTION = register("mana_potion", ()-> new Consumables(new Item.Properties()));
+    public static final RegistryObject<Item> MANA_POTION_BOTTLE = register("malicious_gun", ()-> new MaliciousGun(450, 10, Items.DIAMOND));
+    public static final RegistryObject<Item> FREQUENCY_VARIATION = register("frequency_variation", ()-> new FrequencyVariation(375, 10, Items.DIAMOND));
+    public static final RegistryObject<Item> PAO = register("pao", ()-> new RPG(100, 10, Items.DIAMOND));
+    public static final RegistryObject<Item> IRON_BULLET = register("iron_bullet", ()-> new Item(new Item.Properties()));
 
     public static RegistryObject<Item> register(String id, Supplier<Item> item) {
         var object = ITEMS.register(id, item);

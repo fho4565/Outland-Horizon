@@ -1,5 +1,7 @@
-package com.isl.outland_horizon.world.entity.projectile;
+package com.isl.outland_horizon.world.entity.render.projectile.magic;
 
+import com.isl.outland_horizon.world.entity.projectile.magic.FireWandShot;
+import com.isl.outland_horizon.world.entity.render.ParticleProjectileRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;

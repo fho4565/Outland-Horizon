@@ -1,22 +1,17 @@
 package com.isl.outland_horizon.setup;
 
-import com.isl.outland_horizon.utils.ChatUtils;
 import com.isl.outland_horizon.utils.ManaUtils;
 import com.isl.outland_horizon.utils.Utils;
 import com.isl.outland_horizon.world.capability.ModCapabilities;
 import com.isl.outland_horizon.world.capability.entity.OhAttribute;
 import com.isl.outland_horizon.world.capability.provider.OhAttributeProvider;
-import net.minecraft.client.particle.TextureSheetParticle;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 

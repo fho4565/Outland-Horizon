@@ -16,11 +16,17 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class BasePlayerProjectile extends ThrowableProjectile {
     protected int lifespan;
-    private int age;
+    public int age;
     protected AbstractWeapon weapon;
+
+    @Override
+    protected void defineSynchedData() {
+    }
+
     private Entity cachedOwner = null;
     protected BasePlayerProjectile(EntityType<? extends ThrowableProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -85,7 +91,7 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
         }
     }
 
-    public BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, LivingEntity shooter, AbstractWeapon weapon, int maxAge) {
+    public BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, LivingEntity shooter, AbstractWeapon weapon, int maxAge,int velocity) {
         super(entityType, shooter.level());
         this.age = 0;
         this.lifespan = maxAge;
@@ -110,7 +116,7 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
         shoot(-Mth.sin(getYRot() / 180.0F * (float)Math.PI) * Mth.cos(getXRot() / 180.0F * (float)Math.PI),
                 -Mth.sin(getXRot() / 180.0F * (float)Math.PI),
                 Mth.cos(getYRot() / 180.0F * (float)Math.PI) * Mth.cos(getXRot() / 180.0F * (float)Math.PI),
-                3.0f,1.0f);
+                velocity,1.0f);
 
         if (right) {
             setPos(getDeltaMovement().x() * 0.5f + getX() - ((double)(Mth.cos(getYRot() / 180.0F * (float)Math.PI) * 0.4F)), getDeltaMovement().y() * 0.5f + getY() - 0.3D, getDeltaMovement().z() * 0.5f + getZ() + ((double)(Mth.sin(getYRot() / 180.0F * (float)Math.PI) * 0.4F)));
@@ -120,7 +126,7 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
         }
     }
 
-    public BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, Level world, double x, double y, double z) {
+    public BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, Level world, double x, double y, double z, int velocity) {
         super(entityType, world);
         this.age = 0;
     }
@@ -136,7 +142,7 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
     }
 
     @Override
-    protected void onHit(HitResult result) {
+    protected void onHit(@NotNull HitResult result) {
         if (!level().isClientSide) {
             if (weapon != null && isAlive()) {
                 Entity shooter = getOwner();
@@ -145,7 +151,7 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
                         weapon.doProjectileHitBlock(this, result.getLocation(), (LivingEntity)shooter);
                     }
                     else if (result.getType() == HitResult.Type.ENTITY) {
-                        weapon.doProjectileHitEntity(this, ((EntityHitResult)result).getEntity(), (LivingEntity)shooter);
+                        weapon.onPojectileHitEntity(this, ((EntityHitResult)result).getEntity(), (LivingEntity)shooter);
                     }
                 }
             }
@@ -158,14 +164,10 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
         return true;
     }
     @Override
-    protected void defineSynchedData() {
-
-    }
-    @Override
     public void tick() {
-        if (!isAlive())
+        if (!isAlive()) {
             return;
-
+        }
         Vec3 motion = getDeltaMovement();
         Vec3 position = new Vec3(getX() - motion.x() * 0.5f, getY() - motion.y() * 0.5f, getZ() - motion.z() * 0.5f);
         Vec3 velocityAdjustedPosition = new Vec3(getX() + motion.x(), getY() + motion.y(), getZ() + motion.z());
@@ -173,19 +175,20 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
 
         if (collisionTrace.getType() != HitResult.Type.MISS) {
             velocityAdjustedPosition = new Vec3(collisionTrace.getLocation().x, collisionTrace.getLocation().y, collisionTrace.getLocation().z);
-        }
-        else {
+        } else {
             velocityAdjustedPosition = new Vec3(getX() + motion.x(), getY() + motion.y(), getZ() + motion.z());
         }
 
         Entity shooter = getOwner();
         EntityHitResult entityTrace = ProjectileUtil.getEntityHitResult(level(), this, position, velocityAdjustedPosition, getBoundingBox().expandTowards(motion.x(), motion.y(), motion.z()).inflate(0.5D), entity -> entity.isAlive() && entity.isPickable() && !entity.isSpectator() && entity != shooter);
 
-        if (entityTrace != null)
+        if (entityTrace != null) {
             collisionTrace = entityTrace;
+        }
 
-        if (collisionTrace.getType() != HitResult.Type.MISS && !ForgeEventFactory.onProjectileImpact(this, collisionTrace))
+        if (collisionTrace.getType() != HitResult.Type.MISS && !ForgeEventFactory.onProjectileImpact(this, collisionTrace)) {
             onHit(collisionTrace);
+        }
 
         xOld = getX();
         yOld = getY();
@@ -202,13 +205,8 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
             }
         }
     }
-
     @Override
     protected float getGravity() {
         return 0.0f;
-    }
-
-    public int getAge() {
-        return age;
     }
 }

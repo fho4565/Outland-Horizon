@@ -5,8 +5,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.player.LocalPlayer;
 
-import java.awt.*;
-
 public class ManaBar extends HudSection{
     public ManaBar() {
         super(0, 0);

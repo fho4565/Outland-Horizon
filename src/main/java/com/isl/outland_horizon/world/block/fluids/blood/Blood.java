@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class Blood extends ForgeFlowingFluid {
     public static final ForgeFlowingFluid.Properties PROPERTIES
@@ -21,7 +22,7 @@ public abstract class Blood extends ForgeFlowingFluid {
     }
 
     public static class Flowing extends Blood {
-        protected void createFluidStateDefinition(StateDefinition.Builder<Fluid, FluidState> pBuilder) {
+        protected void createFluidStateDefinition(StateDefinition.@NotNull Builder<Fluid, FluidState> pBuilder) {
             super.createFluidStateDefinition(pBuilder);
             pBuilder.add(LEVEL);
         }
@@ -29,17 +30,17 @@ public abstract class Blood extends ForgeFlowingFluid {
             return pState.getValue(LEVEL);
         }
 
-        public boolean isSource(FluidState pState) {
+        public boolean isSource(@NotNull FluidState pState) {
             return false;
         }
     }
 
     public static class Source extends Blood {
-        public int getAmount(FluidState pState) {
+        public int getAmount(@NotNull FluidState pState) {
             return 8;
         }
 
-        public boolean isSource(FluidState pState) {
+        public boolean isSource(@NotNull FluidState pState) {
             return true;
         }
     }

@@ -12,6 +12,10 @@ import java.util.List;
 public class SoundEventRegister {
     public static List<RegistryObject<SoundEvent>> SOUNDS = new ArrayList<>();
     public static final DeferredRegister<SoundEvent> REGISTRY = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Utils.MOD_ID);
+    public static final RegistryObject<SoundEvent> GUN = REGISTRY.register("gun", () ->
+            SoundEvent.createVariableRangeEvent(Utils.createResourceLocation("gun")));
+    public static final RegistryObject<SoundEvent> SNIPE_GUN = REGISTRY.register("snipe_gun", () ->
+            SoundEvent.createVariableRangeEvent(Utils.createResourceLocation("snipe_gun")));
 
     public static void init(){
         SOUNDS.add(REGISTRY.register("nightmare_around", () ->
@@ -20,5 +24,7 @@ public class SoundEventRegister {
                 SoundEvent.createVariableRangeEvent(Utils.createResourceLocation("flesh_block_breaking"))));
         SOUNDS.add(REGISTRY.register("flesh_block_broken", () ->
                 SoundEvent.createVariableRangeEvent(Utils.createResourceLocation("flesh_block_broken"))));
+        SOUNDS.add(GUN);
+        SOUNDS.add(SNIPE_GUN);
     }
 }

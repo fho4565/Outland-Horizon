@@ -2,8 +2,8 @@ package com.isl.outland_horizon.world.item.weapons.weapon.magic.wand;
 
 import com.isl.outland_horizon.client.renderer.FireWandRenderer;
 import com.isl.outland_horizon.utils.EntityUtils;
-import com.isl.outland_horizon.world.entity.projectile.FireWandShot;
-import com.isl.outland_horizon.world.item.weapons.weapon.magic.MagicWeapon;
+import com.isl.outland_horizon.world.entity.projectile.magic.FireWandShot;
+import com.isl.outland_horizon.world.item.weapons.weapon.magic.AbstractMagicWeapon;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -17,6 +17,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
@@ -28,7 +29,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 
 import java.util.function.Consumer;
 
-public class FireWand extends MagicWeapon implements GeoItem {
+public class FireWand extends AbstractMagicWeapon implements GeoItem {
     private static final RawAnimation ACTIVATE_ANIM = RawAnimation.begin().thenPlay("fire_wand.loop");
     private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
 
@@ -58,9 +59,9 @@ public class FireWand extends MagicWeapon implements GeoItem {
     }
 
     @Override
-    public void doProjectileHitEntity(ThrowableProjectile projectile, Entity target, LivingEntity shooter) {
+    public void onPojectileHitEntity(ThrowableProjectile projectile, Entity target, LivingEntity shooter) {
         EntityUtils.hurt(shooter, target, DamageTypes.MAGIC, getDamage());
-        super.doProjectileHitEntity(projectile, target, shooter);
+        super.onPojectileHitEntity(projectile, target, shooter);
     }
 
     @Override
@@ -74,7 +75,7 @@ public class FireWand extends MagicWeapon implements GeoItem {
     }
 
     @Override
-    public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
+    public void inventoryTick(@NotNull ItemStack pStack, @NotNull Level pLevel, @NotNull Entity pEntity, int pSlotId, boolean pIsSelected) {
         if (pLevel instanceof ServerLevel serverLevel) {
             triggerAnim(pEntity, GeoItem.getOrAssignId(pStack, serverLevel), "Activation", "activate");
         }
@@ -98,6 +99,6 @@ public class FireWand extends MagicWeapon implements GeoItem {
 
     @Override
     public void successfullyUsed(Level pLevel, ServerPlayer serverPlayer, InteractionHand pUsedHand) {
-        pLevel.addFreshEntity(new FireWandShot(serverPlayer, this, 60));
+        pLevel.addFreshEntity(new FireWandShot(serverPlayer, this, 60,3));
     }
 }

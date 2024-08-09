@@ -4,8 +4,10 @@ import com.isl.outland_horizon.OutlandHorizon;
 import com.isl.outland_horizon.utils.Utils;
 import com.isl.outland_horizon.world.entity.mob.monster.PainfulMan;
 import com.isl.outland_horizon.world.entity.mob.monster.Yee;
-import com.isl.outland_horizon.world.entity.projectile.FireWandShot;
-import com.isl.outland_horizon.world.entity.projectile.FireWandShotRender;
+import com.isl.outland_horizon.world.entity.projectile.bullet.IronBullet;
+import com.isl.outland_horizon.world.entity.projectile.magic.FireWandShot;
+import com.isl.outland_horizon.world.entity.render.projectile.bullet.IronBulletRenderer;
+import com.isl.outland_horizon.world.entity.render.projectile.magic.FireWandShotRender;
 import com.isl.outland_horizon.world.entity.render.mob.monster.PainfulManRender;
 import com.isl.outland_horizon.world.entity.render.mob.monster.YeeRender;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -45,7 +47,9 @@ import java.util.function.Supplier;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EntityRegistry {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, "outland_horizon");
-    public static final RegistryObject<EntityType<FireWandShot>> FIREWANDSHOT = Projectiles.registerProjectile("firewandshot", FireWandShot::new);
+    public static final RegistryObject<EntityType<FireWandShot>> FIREWAND_SHOT = Projectiles.registerProjectile("firewandshot", FireWandShot::new);
+    public static final RegistryObject<EntityType<IronBullet>> IRON_BULLET = Projectiles.registerProjectile("iron_bullet", IronBullet::new);
+
     public static final RegistryObject<EntityType<Yee>> YEE = register("yee",
             EntityType.Builder.<Yee>of(Yee::new, MobCategory.MONSTER)
                     .setShouldReceiveVelocityUpdates(true)
@@ -95,8 +99,10 @@ public class EntityRegistry {
     }
     public static class EntityRenders {
         private static List<EntityRendererPackage> RENDERER_PACKAGES = new ObjectArrayList<>();
-        public static final EntityRendererPackage<?> POISON_SHOT = new EntityRendererPackage<>(EntityRegistry.FIREWANDSHOT)
+        public static final EntityRendererPackage<?> POISON_SHOT = new EntityRendererPackage<>(EntityRegistry.FIREWAND_SHOT)
                 .provider(FireWandShotRender::new);
+        public static final EntityRendererPackage<?> IRON_BULLET = new EntityRendererPackage<>(EntityRegistry.IRON_BULLET)
+                .provider(IronBulletRenderer::new);
 
         public static void init() {
             OutlandHorizon.bus.addListener(EventPriority.NORMAL, false, EntityRenderersEvent.RegisterRenderers.class, EntityRegistry.EntityRenders::registerEntityRenderers);
