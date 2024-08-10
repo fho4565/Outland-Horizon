@@ -47,5 +47,11 @@
     "sounds": [
       "outland_horizon:audio/misc/gun/bomb"
     ]
+  },
+  "machine_gun": {
+    "subtitle": "subtitles.item.gun",
+    "sounds": [
+      "outland_horizon:audio/misc/gun/machine_gun"
+    ]
   }
 }

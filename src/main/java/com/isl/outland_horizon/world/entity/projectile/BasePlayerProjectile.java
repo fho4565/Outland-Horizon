@@ -91,7 +91,7 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
         }
     }
 
-    public BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, LivingEntity shooter, AbstractWeapon weapon, int maxAge,int velocity) {
+    public BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, LivingEntity shooter, AbstractWeapon weapon, int maxAge,int velocity,int inaccuracy) {
         super(entityType, shooter.level());
         this.age = 0;
         this.lifespan = maxAge;
@@ -116,12 +116,11 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
         shoot(-Mth.sin(getYRot() / 180.0F * (float)Math.PI) * Mth.cos(getXRot() / 180.0F * (float)Math.PI),
                 -Mth.sin(getXRot() / 180.0F * (float)Math.PI),
                 Mth.cos(getYRot() / 180.0F * (float)Math.PI) * Mth.cos(getXRot() / 180.0F * (float)Math.PI),
-                velocity,1.0f);
+                velocity,inaccuracy);
 
         if (right) {
             setPos(getDeltaMovement().x() * 0.5f + getX() - ((double)(Mth.cos(getYRot() / 180.0F * (float)Math.PI) * 0.4F)), getDeltaMovement().y() * 0.5f + getY() - 0.3D, getDeltaMovement().z() * 0.5f + getZ() + ((double)(Mth.sin(getYRot() / 180.0F * (float)Math.PI) * 0.4F)));
-        }
-        else {
+        } else {
             setPos(getDeltaMovement().x() * 0.5f + getX() + ((double)(Mth.cos(getYRot() / 180.0F * (float)Math.PI) * 0.4F)), getDeltaMovement().y() * 0.5f + getY() - 0.3D, getDeltaMovement().z() * 0.5f + getZ() - ((double)(Mth.sin(getYRot() / 180.0F * (float)Math.PI) * 0.4F)));
         }
     }

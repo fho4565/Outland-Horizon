@@ -18,7 +18,7 @@ public class FireWandShot extends BasePlayerProjectile {
     }
 
     public FireWandShot(LivingEntity shooter, AbstractWeapon weapon, int maxAge,int velocity) {
-        super(EntityRegistry.FIREWAND_SHOT.get(), shooter, weapon, maxAge,velocity);
+        super(EntityRegistry.FIREWAND_SHOT.get(), shooter, weapon, maxAge,velocity,1);
     }
 
     public FireWandShot(Level world, double x, double y, double z, int velocity) {

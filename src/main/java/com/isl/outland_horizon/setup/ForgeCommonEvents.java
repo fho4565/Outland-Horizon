@@ -24,7 +24,6 @@ public class ForgeCommonEvents {
 
         event.addCapability(new ResourceLocation(Utils.MOD_ID, "attribute"), new OhAttributeProvider(event.getObject()));
     }
-
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         Player player = event.player;

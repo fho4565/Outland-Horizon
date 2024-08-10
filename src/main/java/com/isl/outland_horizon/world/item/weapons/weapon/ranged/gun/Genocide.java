@@ -5,7 +5,6 @@ import com.isl.outland_horizon.utils.WorldUtils;
 import com.isl.outland_horizon.world.entity.projectile.bullet.Bullet;
 import com.isl.outland_horizon.world.item.weapons.weapon.ranged.AbstractRangedWeapon;
 import com.isl.outland_horizon.world.sound.SoundEventRegister;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -37,10 +36,14 @@ public class Genocide extends AbstractRangedWeapon {
     @Override
     public void onPojectileHitEntity(ThrowableProjectile projectile, Entity target, LivingEntity shooter) {
         List<Entity> entities = target.level().getEntities(target,
-                new AABB(target.getX() - 10, target.getY() - 5, target.getZ() - 10,
-                        target.getX() + 10, target.getY() + 5, target.getZ() + 10));
-        WorldUtils.playSound(target.level(), target.getX(), target.getY(), target.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS);
-
+                new AABB(target.getX() - 10,
+                        target.getY() - 5,
+                        target.getZ() - 10,
+                        target.getX() + 10,
+                        target.getY() + 5,
+                        target.getZ() + 10
+                ));
+        WorldUtils.playSound(target.level(), target.getX(), target.getY(), target.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS,2,1);
         entities.stream().filter(entity -> entity instanceof LivingEntity)
                 .forEach(entity -> EntityUtils.hurt(shooter, entity, DamageTypes.MOB_ATTACK, getDamage()));
         super.onPojectileHitEntity(projectile, target, shooter);
@@ -51,9 +54,6 @@ public class Genocide extends AbstractRangedWeapon {
         WorldUtils.playSound(pLevel, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), SoundEventRegister.ROCKET_LAUNCHER.get(), SoundSource.PLAYERS);
         Bullet bullet = new Bullet(serverPlayer, this, 180, 8);
         bullet.setPos(serverPlayer.getX(), serverPlayer.getEyeY() - 0.1, serverPlayer.getZ());
-        pLevel.addParticle(ParticleTypes.FLAME,
-                serverPlayer.getLookAngle().x, serverPlayer.getLookAngle().y, serverPlayer.getLookAngle().z,
-                0.1, 0.1, 0.1);
         bullet.shoot(serverPlayer.getLookAngle().x, serverPlayer.getLookAngle().y, serverPlayer.getLookAngle().z, 15, 0);
         pLevel.addFreshEntity(bullet);
     }

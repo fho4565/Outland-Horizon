@@ -8,6 +8,7 @@ import com.isl.outland_horizon.world.item.weapons.weapon.melee.AAASword;
 import com.isl.outland_horizon.world.item.weapons.weapon.ranged.gun.FrequencyVariation;
 import com.isl.outland_horizon.world.item.weapons.weapon.ranged.gun.MaliciousGun;
 import com.isl.outland_horizon.world.item.weapons.weapon.ranged.gun.Genocide;
+import com.isl.outland_horizon.world.item.weapons.weapon.ranged.gun.VoidImpact;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
@@ -32,6 +33,7 @@ public class ItemRegistry {
     public static final RegistryObject<Item> MANA_POTION_BOTTLE = register("malicious_gun", ()-> new MaliciousGun(450, 10, Items.DIAMOND));
     public static final RegistryObject<Item> FREQUENCY_VARIATION = register("frequency_variation", ()-> new FrequencyVariation(375, 10, Items.DIAMOND));
     public static final RegistryObject<Item> PAO = register("genocide", ()-> new Genocide(100, 10, Items.DIAMOND));
+    public static final RegistryObject<Item> VOID_IMPACT = register("void_impact", ()-> new VoidImpact(3500, 10, Items.DIAMOND));
 
     public static RegistryObject<Item> register(String id, Supplier<Item> item) {
         var object = ITEMS.register(id, item);

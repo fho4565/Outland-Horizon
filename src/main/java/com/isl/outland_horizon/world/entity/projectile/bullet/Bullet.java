@@ -18,7 +18,7 @@ public class Bullet extends BasePlayerProjectile {
     }
 
     public Bullet(LivingEntity shooter, AbstractWeapon weapon, int maxAge, int velocity) {
-        super(EntityRegistry.IRON_BULLET.get(), shooter, weapon, maxAge,velocity);
+        super(EntityRegistry.IRON_BULLET.get(), shooter, weapon, maxAge,velocity,0);
     }
 
     public Bullet(Level world, double x, double y, double z, int velocity) {

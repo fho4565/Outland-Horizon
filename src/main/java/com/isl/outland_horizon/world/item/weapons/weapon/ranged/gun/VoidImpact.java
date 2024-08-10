@@ -10,27 +10,27 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
 
-public class FrequencyVariation extends AbstractRangedWeapon {
-    public FrequencyVariation(int maxDurability, int enchantAbility, Item repairIngredient) {
+public class VoidImpact extends AbstractRangedWeapon {
+    public VoidImpact(int maxDurability, int enchantAbility, Item repairIngredient) {
         super(maxDurability, 1, enchantAbility, repairIngredient);
     }
 
     @Override
     public int getCoolDown() {
-        return 60;
+        return 0;
     }
 
     @Override
     public float getDamage() {
-        return 35;
+        return 7;
     }
 
     @Override
     public void successfullyUsed(Level pLevel, ServerPlayer serverPlayer, InteractionHand pUsedHand) {
-        WorldUtils.playSound(pLevel, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), SoundEventRegister.SNIPE_GUN.get(), SoundSource.PLAYERS);
-        Bullet bullet = new Bullet(serverPlayer, this, 180, 8);
+        WorldUtils.playSound(pLevel, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), SoundEventRegister.MACHINE_GUN.get(), SoundSource.PLAYERS,0.5f,1);
+        Bullet bullet = new Bullet(serverPlayer, this, 1, 18);
         bullet.setPos(serverPlayer.getX(), serverPlayer.getEyeY() - 0.1, serverPlayer.getZ());
-        bullet.shoot(serverPlayer.getLookAngle().x, serverPlayer.getLookAngle().y, serverPlayer.getLookAngle().z, 25, 0);
+        bullet.shoot(serverPlayer.getLookAngle().x, serverPlayer.getLookAngle().y, serverPlayer.getLookAngle().z, 18, 2);
         pLevel.addFreshEntity(bullet);
     }
 }
