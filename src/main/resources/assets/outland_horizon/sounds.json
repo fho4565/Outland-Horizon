@@ -35,5 +35,17 @@
     "sounds": [
       "outland_horizon:audio/misc/gun/snipe_gun"
     ]
+  },
+  "rocket_launcher": {
+    "subtitle": "subtitles.item.gun",
+    "sounds": [
+      "outland_horizon:audio/misc/gun/rocket_launcher"
+    ]
+  },
+  "bomb": {
+    "subtitle": "subtitles.item.gun",
+    "sounds": [
+      "outland_horizon:audio/misc/gun/bomb"
+    ]
   }
 }

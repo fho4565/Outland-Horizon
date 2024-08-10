@@ -16,6 +16,10 @@ public class SoundEventRegister {
             SoundEvent.createVariableRangeEvent(Utils.createResourceLocation("gun")));
     public static final RegistryObject<SoundEvent> SNIPE_GUN = REGISTRY.register("snipe_gun", () ->
             SoundEvent.createVariableRangeEvent(Utils.createResourceLocation("snipe_gun")));
+    public static final RegistryObject<SoundEvent> BOMB = REGISTRY.register("bomb", () ->
+            SoundEvent.createVariableRangeEvent(Utils.createResourceLocation("bomb")));
+    public static final RegistryObject<SoundEvent> ROCKET_LAUNCHER = REGISTRY.register("rocket_launcher", () ->
+            SoundEvent.createVariableRangeEvent(Utils.createResourceLocation("rocket_launcher")));
 
     public static void init(){
         SOUNDS.add(REGISTRY.register("nightmare_around", () ->

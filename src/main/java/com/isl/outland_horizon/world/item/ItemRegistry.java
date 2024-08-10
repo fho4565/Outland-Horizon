@@ -7,7 +7,7 @@ import com.isl.outland_horizon.world.item.weapons.weapon.magic.wand.FireWand;
 import com.isl.outland_horizon.world.item.weapons.weapon.melee.AAASword;
 import com.isl.outland_horizon.world.item.weapons.weapon.ranged.gun.FrequencyVariation;
 import com.isl.outland_horizon.world.item.weapons.weapon.ranged.gun.MaliciousGun;
-import com.isl.outland_horizon.world.item.weapons.weapon.ranged.gun.RPG;
+import com.isl.outland_horizon.world.item.weapons.weapon.ranged.gun.Genocide;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.*;
@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 
 public class ItemRegistry {
     public static List<RegistryObject<Item>> ITEM_LIST = new ArrayList<>();
-
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Utils.MOD_ID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Utils.MOD_ID);
     public static final RegistryObject<Item> BLOOD_BUCKET = register("blood_bucket", () -> new BucketItem(BlockRegistry.FluidRegistry.BLOOD, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
@@ -32,7 +31,7 @@ public class ItemRegistry {
     public static final RegistryObject<Item> MANA_POTION = register("mana_potion", ()-> new Consumables(new Item.Properties()));
     public static final RegistryObject<Item> MANA_POTION_BOTTLE = register("malicious_gun", ()-> new MaliciousGun(450, 10, Items.DIAMOND));
     public static final RegistryObject<Item> FREQUENCY_VARIATION = register("frequency_variation", ()-> new FrequencyVariation(375, 10, Items.DIAMOND));
-    public static final RegistryObject<Item> PAO = register("pao", ()-> new RPG(100, 10, Items.DIAMOND));
+    public static final RegistryObject<Item> PAO = register("genocide", ()-> new Genocide(100, 10, Items.DIAMOND));
 
     public static RegistryObject<Item> register(String id, Supplier<Item> item) {
         var object = ITEMS.register(id, item);

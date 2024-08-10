@@ -1,7 +1,7 @@
 package com.isl.outland_horizon.world.item.weapons.weapon.ranged.gun;
 
 import com.isl.outland_horizon.utils.WorldUtils;
-import com.isl.outland_horizon.world.entity.projectile.bullet.IronBullet;
+import com.isl.outland_horizon.world.entity.projectile.bullet.Bullet;
 import com.isl.outland_horizon.world.item.weapons.weapon.ranged.AbstractRangedWeapon;
 import com.isl.outland_horizon.world.sound.SoundEventRegister;
 import net.minecraft.core.particles.ParticleTypes;
@@ -29,12 +29,12 @@ public class FrequencyVariation extends AbstractRangedWeapon {
     @Override
     public void successfullyUsed(Level pLevel, ServerPlayer serverPlayer, InteractionHand pUsedHand) {
         WorldUtils.playSound(pLevel, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), SoundEventRegister.SNIPE_GUN.get(), SoundSource.PLAYERS);
-        IronBullet ironBullet = new IronBullet(serverPlayer, this, 180, 8);
-        ironBullet.setPos(serverPlayer.getX(), serverPlayer.getEyeY() - 0.1, serverPlayer.getZ());
+        Bullet bullet = new Bullet(serverPlayer, this, 180, 8);
+        bullet.setPos(serverPlayer.getX(), serverPlayer.getEyeY() - 0.1, serverPlayer.getZ());
         pLevel.addParticle(ParticleTypes.FLAME,
                 serverPlayer.getLookAngle().x, serverPlayer.getLookAngle().y, serverPlayer.getLookAngle().z,
                 0.1, 0.1, 0.1);
-        ironBullet.shoot(serverPlayer.getLookAngle().x, serverPlayer.getLookAngle().y, serverPlayer.getLookAngle().z, 20, 0);
-        pLevel.addFreshEntity(ironBullet);
+        bullet.shoot(serverPlayer.getLookAngle().x, serverPlayer.getLookAngle().y, serverPlayer.getLookAngle().z, 25, 0);
+        pLevel.addFreshEntity(bullet);
     }
 }
