@@ -1,8 +1,11 @@
 package com.isl.outland_horizon.world.item;
 
 import com.isl.outland_horizon.utils.Utils;
+import com.isl.outland_horizon.world.Tiers;
 import com.isl.outland_horizon.world.block.BlockRegistry;
 import com.isl.outland_horizon.world.item.consumables.Consumables;
+import com.isl.outland_horizon.world.item.tools.multi.Hammer;
+import com.isl.outland_horizon.world.item.tools.multi.Paxel;
 import com.isl.outland_horizon.world.item.weapons.weapon.magic.wand.FireWand;
 import com.isl.outland_horizon.world.item.weapons.weapon.melee.AAASword;
 import com.isl.outland_horizon.world.item.weapons.weapon.ranged.gun.FrequencyVariation;
@@ -30,10 +33,14 @@ public class ItemRegistry {
     public static final RegistryObject<Item> DEBUG_SWORD = register("debug_sword", AAASword::new);
     public static final RegistryObject<Item> FIRE_WAND = register("fire_wand", FireWand::new);
     public static final RegistryObject<Item> MANA_POTION = register("mana_potion", ()-> new Consumables(new Item.Properties()));
-    public static final RegistryObject<Item> MANA_POTION_BOTTLE = register("malicious_gun", ()-> new MaliciousGun(450, 10, Items.DIAMOND));
+    public static final RegistryObject<Item> NIGHTMARE_ENERGY = register("nightmare_energy", ()-> new Item(new Item.Properties()));
+    public static final RegistryObject<Item> MANA_POTION_BOTTLE = register("malicious_gun", ()-> new MaliciousGun(450, 10, ItemRegistry.NIGHTMARE_ENERGY.get()));
     public static final RegistryObject<Item> FREQUENCY_VARIATION = register("frequency_variation", ()-> new FrequencyVariation(375, 10, Items.DIAMOND));
     public static final RegistryObject<Item> PAO = register("genocide", ()-> new Genocide(100, 10, Items.DIAMOND));
     public static final RegistryObject<Item> VOID_IMPACT = register("void_impact", ()-> new VoidImpact(3500, 10, Items.DIAMOND));
+    public static final RegistryObject<Item> TOOL = register("multi", ()-> new Paxel(Tiers.BLUE_GEM,new Item.Properties()));
+    public static final RegistryObject<Item> HAMMER = register("hammer", ()-> new Hammer(Tiers.BLUE_GEM,new Item.Properties()));
+
 
     public static RegistryObject<Item> register(String id, Supplier<Item> item) {
         var object = ITEMS.register(id, item);

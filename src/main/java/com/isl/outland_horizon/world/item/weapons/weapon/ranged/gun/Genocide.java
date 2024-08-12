@@ -52,7 +52,7 @@ public class Genocide extends AbstractRangedWeapon {
     @Override
     public void successfullyUsed(Level pLevel, ServerPlayer serverPlayer, InteractionHand pUsedHand) {
         WorldUtils.playSound(pLevel, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), SoundEventRegister.ROCKET_LAUNCHER.get(), SoundSource.PLAYERS);
-        Bullet bullet = new Bullet(serverPlayer, this, 180, 8);
+        Bullet bullet = new Bullet(serverPlayer, this, 6, 8);
         bullet.setPos(serverPlayer.getX(), serverPlayer.getEyeY() - 0.1, serverPlayer.getZ());
         bullet.shoot(serverPlayer.getLookAngle().x, serverPlayer.getLookAngle().y, serverPlayer.getLookAngle().z, 15, 0);
         pLevel.addFreshEntity(bullet);

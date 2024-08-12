@@ -2,6 +2,8 @@ package com.isl.outland_horizon.utils;
 
 import com.isl.outland_horizon.world.block.BlockRegistry;
 import com.isl.outland_horizon.world.item.ItemRegistry;
+import com.isl.outland_horizon.world.item.tools.multi.Hammer;
+import com.isl.outland_horizon.world.item.tools.multi.Paxel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.*;
@@ -129,6 +131,8 @@ public class MaterialPack {
         ItemRegistry.register(nameWithPrefix + "_axe", () -> new AxeItem(materialPack.tier, 6, -3.1f, new Item.Properties()));
         ItemRegistry.register(nameWithPrefix + "_shovel", () -> new ShovelItem(materialPack.tier, 1.5f, -3.0f, new Item.Properties()));
         ItemRegistry.register(nameWithPrefix + "_hoe", () -> new HoeItem(materialPack.tier, -2, -1.0f, new Item.Properties()));
+        ItemRegistry.register(nameWithPrefix + "_paxel", () -> new Paxel(materialPack.tier,  new Item.Properties()));
+        ItemRegistry.register(nameWithPrefix + "_hammer", () -> new Hammer(materialPack.tier, new Item.Properties()));
         ItemRegistry.register(nameWithPrefix + "_helmet", () -> new ArmorItem(materialPack.armorMaterial, ArmorItem.Type.HELMET, new Item.Properties()));
         ItemRegistry.register(nameWithPrefix + "_chestplate", () -> new ArmorItem(materialPack.armorMaterial, ArmorItem.Type.CHESTPLATE, new Item.Properties()));
         ItemRegistry.register(nameWithPrefix + "_leggings", () -> new ArmorItem(materialPack.armorMaterial, ArmorItem.Type.LEGGINGS, new Item.Properties()));

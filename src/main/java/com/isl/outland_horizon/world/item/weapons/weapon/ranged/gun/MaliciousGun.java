@@ -28,7 +28,7 @@ public class MaliciousGun extends AbstractRangedWeapon {
     @Override
     public void successfullyUsed(Level pLevel, ServerPlayer serverPlayer, InteractionHand pUsedHand) {
         WorldUtils.playSound(pLevel, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), SoundEventRegister.GUN.get(), SoundSource.PLAYERS);
-        Bullet bullet = new Bullet(serverPlayer, this, 0, 18);
+        Bullet bullet = new Bullet(serverPlayer, this, 5, 18);
         bullet.setPos(serverPlayer.getX(), serverPlayer.getEyeY() - 0.1, serverPlayer.getZ());
         bullet.shoot(serverPlayer.getLookAngle().x, serverPlayer.getLookAngle().y, serverPlayer.getLookAngle().z, 18, 0);
         pLevel.addFreshEntity(bullet);

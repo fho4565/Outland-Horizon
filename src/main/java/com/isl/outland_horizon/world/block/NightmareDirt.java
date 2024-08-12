@@ -28,7 +28,6 @@ public class NightmareDirt extends Block {
     }
     public static final EnumProperty<VascularType> vascularType = EnumProperty.create("vascular_type", VascularType.class);
 
-
     public NightmareDirt() {
         super(BlockBehaviour.Properties.of().mapColor(MapColor.DIRT).strength(0.8F).sound(SoundType.GRAVEL));
         this.registerDefaultState(this.stateDefinition.any().setValue(vascularType, VascularType.NONE));

@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -25,7 +26,7 @@ public class ForgeClientEvents {
     }
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event) {
-        ItemBlockRenderTypes.setRenderLayer(BLOOD.get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(BLOOD_FLOWING.get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(BLOOD.get(), RenderType.waterMask());
+        ItemBlockRenderTypes.setRenderLayer(BLOOD_FLOWING.get(), RenderType.waterMask());
     }
 }
