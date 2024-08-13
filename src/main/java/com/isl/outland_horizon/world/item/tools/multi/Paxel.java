@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class Paxel extends DiggerItem {
     public Paxel(Tier pTier, Properties pProperties) {
-        super(1,-1.8f ,pTier,BlockTags.MINEABLE_WITH_PICKAXE,pProperties);
+        super(1,-2.8f ,pTier,BlockTags.MINEABLE_WITH_PICKAXE,pProperties);
     }
 
     @Override

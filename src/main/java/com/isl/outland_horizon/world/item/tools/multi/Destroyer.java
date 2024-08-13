@@ -5,28 +5,28 @@ import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class Hammer extends PickaxeItem {
-    public Hammer(Tier pTier, Properties pProperties) {
-        super(pTier, 1,-3.5f, pProperties);
+public class Destroyer extends DiggerItem {
+    public Destroyer(Tier pTier, Properties pProperties) {
+        super(1,-3.2f ,pTier,BlockTags.MINEABLE_WITH_PICKAXE,pProperties);
     }
 
     @Override
     public boolean mineBlock(ItemStack pStack, Level pLevel, BlockState pState, BlockPos pos, LivingEntity pEntityLiving) {
         if(pEntityLiving instanceof Player player){
             if(isCorrectToolForDrops(pStack, pState)){
-                doBreakBlocks(pLevel,pos.getX(), pos.getY(), pos.getZ(), player, pStack);
+                doBreakBlocks(pLevel,pos.getX(), pos.getY(), pos.getZ(), player, pStack, pState);
             }
         }
         return super.mineBlock(pStack, pLevel, pState, pos, pEntityLiving);
     }
 
-    public static void doBreakBlocks(Level world, double x, double y, double z, Player player,ItemStack stack) {
+    public void doBreakBlocks(Level world, double x, double y, double z, Player player,ItemStack stack, BlockState pState) {
         if (player == null)
             return;
         double i = -1,j;
@@ -38,7 +38,7 @@ public class Hammer extends PickaxeItem {
                         return;
                     }
                     if (player.getXRot() > 40 || player.getXRot() < -40) {
-                        if ((world.getBlockState(BlockPos.containing(x + i, y, z + j))).is(BlockTags.MINEABLE_WITH_PICKAXE)) {
+                        if (checkBlock(world.getBlockState(BlockPos.containing(x + i, y, z + j)), pState)) {
                             {
                                 BlockPos blockPos = BlockPos.containing(x + i, y, z + j);
                                 stack.hurtAndBreak(1, player, (serverPlayer) -> serverPlayer.broadcastBreakEvent(player.getUsedItemHand()));
@@ -46,7 +46,7 @@ public class Hammer extends PickaxeItem {
                             }
                         }
                     } else if ((player.getDirection()).getAxis() == Direction.Axis.Z) {
-                        if ((world.getBlockState(BlockPos.containing(x + i, y + j, z))).is(BlockTags.MINEABLE_WITH_PICKAXE)) {
+                        if (checkBlock(world.getBlockState(BlockPos.containing(x + i, y + j, z)), pState)) {
                             {
                                 BlockPos blockPos = BlockPos.containing(x + i, y + j, z);
                                 stack.hurtAndBreak(1, player, (serverPlayer) -> serverPlayer.broadcastBreakEvent(player.getUsedItemHand()));
@@ -54,7 +54,7 @@ public class Hammer extends PickaxeItem {
                             }
                         }
                     } else if ((player.getDirection()).getAxis() == Direction.Axis.X) {
-                        if ((world.getBlockState(BlockPos.containing(x, y + j, z + i))).is(BlockTags.MINEABLE_WITH_PICKAXE)) {
+                        if (checkBlock(world.getBlockState(BlockPos.containing(x, y + j, z + i)), pState)) {
                             {
                                 BlockPos blockPos = BlockPos.containing(x, y + j, z + i);
                                 stack.hurtAndBreak(1, player, (serverPlayer) -> serverPlayer.broadcastBreakEvent(player.getUsedItemHand()));
@@ -68,5 +68,19 @@ public class Hammer extends PickaxeItem {
             i++;
         }
     }
-
+    @Override
+    public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
+        if(state.is(BlockTags.MINEABLE_WITH_PICKAXE) || state.is(BlockTags.MINEABLE_WITH_AXE) || state.is(BlockTags.MINEABLE_WITH_SHOVEL)) {
+            return net.minecraftforge.common.TierSortingRegistry.isCorrectTierForDrops(getTier(), state);
+        }
+        return super.isCorrectToolForDrops(stack, state);
+    }
+    @Override
+    public float getDestroySpeed(ItemStack stack, BlockState state) {
+        return (state.is(BlockTags.MINEABLE_WITH_PICKAXE) || state.is(BlockTags.MINEABLE_WITH_AXE) || state.is(BlockTags.MINEABLE_WITH_SHOVEL)) ? this.speed : 1.0F;
+    }
+    private boolean checkBlock(BlockState state,BlockState original){
+        return (state.is(BlockTags.MINEABLE_WITH_PICKAXE) || state.is(BlockTags.MINEABLE_WITH_AXE) || state.is(BlockTags.MINEABLE_WITH_SHOVEL))
+                && state.is(original.getBlock());
+    }
 }

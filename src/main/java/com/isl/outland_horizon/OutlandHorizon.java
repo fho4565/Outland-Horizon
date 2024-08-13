@@ -1,8 +1,9 @@
 package com.isl.outland_horizon;
 
 import com.isl.outland_horizon.config.Configs;
-import com.isl.outland_horizon.utils.MaterialPack;
+import com.isl.outland_horizon.utils.ToolPack;
 import com.isl.outland_horizon.utils.Utils;
+import com.isl.outland_horizon.world.ModTiers;
 import com.isl.outland_horizon.world.block.BlockRegistry;
 import com.isl.outland_horizon.world.effect.EffectRegistry;
 import com.isl.outland_horizon.world.entity.EntityRegistry;
@@ -21,8 +22,7 @@ public class OutlandHorizon {
         bus = FMLJavaModLoadingContext.get().getModEventBus();
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Configs.COMMON_CONFIG);
 
-        MaterialPack.create(MaterialPack.MaterialType.GEM, "blue", 1);
-        MaterialPack.create(MaterialPack.MaterialType.CUSTOM, "blood_stone", 1);
+        ToolPack.create(ToolPack.MaterialType.GEM,"blue", ModTiers.BLUE_GEM, 2);
 
         ItemRegistry.register(bus);
         BlockRegistry.register(bus);

@@ -1,7 +1,7 @@
 package com.isl.outland_horizon.world.item;
 
 import com.isl.outland_horizon.utils.Utils;
-import com.isl.outland_horizon.world.Tiers;
+import com.isl.outland_horizon.world.ModTiers;
 import com.isl.outland_horizon.world.block.BlockRegistry;
 import com.isl.outland_horizon.world.item.consumables.Consumables;
 import com.isl.outland_horizon.world.item.tools.multi.Hammer;
@@ -14,6 +14,7 @@ import com.isl.outland_horizon.world.item.weapons.weapon.ranged.gun.Genocide;
 import com.isl.outland_horizon.world.item.weapons.weapon.ranged.gun.VoidImpact;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -38,14 +39,22 @@ public class ItemRegistry {
     public static final RegistryObject<Item> FREQUENCY_VARIATION = register("frequency_variation", ()-> new FrequencyVariation(375, 10, Items.DIAMOND));
     public static final RegistryObject<Item> PAO = register("genocide", ()-> new Genocide(100, 10, Items.DIAMOND));
     public static final RegistryObject<Item> VOID_IMPACT = register("void_impact", ()-> new VoidImpact(3500, 10, Items.DIAMOND));
-    public static final RegistryObject<Item> TOOL = register("multi", ()-> new Paxel(Tiers.BLUE_GEM,new Item.Properties()));
-    public static final RegistryObject<Item> HAMMER = register("hammer", ()-> new Hammer(Tiers.BLUE_GEM,new Item.Properties()));
+    public static final RegistryObject<Item> TOOL = register("multi", ()-> new Paxel(ModTiers.BLUE_GEM,new Item.Properties()));
+    public static final RegistryObject<Item> HAMMER = register("hammer", ()-> new Hammer(ModTiers.BLUE_GEM,new Item.Properties()));
 
 
     public static RegistryObject<Item> register(String id, Supplier<Item> item) {
         var object = ITEMS.register(id, item);
         ITEM_LIST.add(object);
         return object;
+    }
+    public static RegistryObject<Item> getItemRegistered(ResourceLocation resourceLocation){
+        return ITEM_LIST.stream().filter(itemRegistryObject -> {
+            if (itemRegistryObject.getKey() != null) {
+                return itemRegistryObject.getKey().location().equals(resourceLocation);
+            }
+            return false;
+        }).findFirst().orElseThrow();
     }
 
     public static void register(IEventBus bus) {
