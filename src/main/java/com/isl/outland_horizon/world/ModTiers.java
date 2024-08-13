@@ -1,15 +1,17 @@
 package com.isl.outland_horizon.world;
 
+import com.isl.outland_horizon.utils.Utils;
+import com.isl.outland_horizon.world.item.ItemRegistry;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 
-public class Tiers {
+public class ModTiers {
     public static final Tier BLUE_GEM = new Tier() {
         @Override
         public int getUses() {
-            return 375;
+            return 15;
         }
-
         @Override
         public float getSpeed() {
             return 6.3f;
@@ -31,8 +33,8 @@ public class Tiers {
         }
 
         @Override
-        public Ingredient getRepairIngredient() {
-            return null;
+        public @NotNull Ingredient getRepairIngredient() {
+            return Ingredient.of(ItemRegistry.getItemRegistered(Utils.createResourceLocation("blue_gem")).get());
         }
     };
 }
