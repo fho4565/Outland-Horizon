@@ -23,6 +23,7 @@ public class OutlandHorizon {
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Configs.COMMON_CONFIG);
 
         ToolPack.create(ToolPack.MaterialType.GEM,"blue", ModTiers.BLUE_GEM, 2);
+        ToolPack.create(ToolPack.MaterialType.CUSTOM,"blood_stone", ModTiers.BLOOD_STONE, 3);
 
         ItemRegistry.register(bus);
         BlockRegistry.register(bus);

@@ -10,7 +10,7 @@ public class ModTiers {
     public static final Tier BLUE_GEM = new Tier() {
         @Override
         public int getUses() {
-            return 15;
+            return 275;
         }
         @Override
         public float getSpeed() {
@@ -35,6 +35,36 @@ public class ModTiers {
         @Override
         public @NotNull Ingredient getRepairIngredient() {
             return Ingredient.of(ItemRegistry.getItemRegistered(Utils.createResourceLocation("blue_gem")).get());
+        }
+    };
+    public static final Tier BLOOD_STONE = new Tier() {
+        @Override
+        public int getUses() {
+            return 1750;
+        }
+        @Override
+        public float getSpeed() {
+            return 7.0f;
+        }
+
+        @Override
+        public float getAttackDamageBonus() {
+            return 4.0f;
+        }
+
+        @Override
+        public int getLevel() {
+            return 3;
+        }
+
+        @Override
+        public int getEnchantmentValue() {
+            return 15;
+        }
+
+        @Override
+        public @NotNull Ingredient getRepairIngredient() {
+            return Ingredient.of(ItemRegistry.getItemRegistered(Utils.createResourceLocation("blood_stone")).get());
         }
     };
 }
