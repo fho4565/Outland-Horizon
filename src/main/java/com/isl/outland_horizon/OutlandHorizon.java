@@ -1,13 +1,19 @@
 package com.isl.outland_horizon;
 
 import com.isl.outland_horizon.config.Configs;
+import com.isl.outland_horizon.utils.MaterialPack;
 import com.isl.outland_horizon.utils.ToolPack;
 import com.isl.outland_horizon.utils.Utils;
+import com.isl.outland_horizon.world.ModArmorMaterials;
 import com.isl.outland_horizon.world.ModTiers;
-import com.isl.outland_horizon.world.block.BlockRegistry;
-import com.isl.outland_horizon.world.effect.EffectRegistry;
+import com.isl.outland_horizon.world.block.*;
 import com.isl.outland_horizon.world.entity.EntityRegistry;
 import com.isl.outland_horizon.world.item.ItemRegistry;
+import com.isl.outland_horizon.world.item.registry.*;
+import com.isl.outland_horizon.world.item.registry.weapons.Magic;
+import com.isl.outland_horizon.world.item.registry.weapons.Melee;
+import com.isl.outland_horizon.world.item.registry.weapons.Ranged;
+import com.isl.outland_horizon.world.mod_effect.EffectRegistry;
 import com.isl.outland_horizon.world.sound.SoundEventRegister;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -23,12 +29,23 @@ public class OutlandHorizon {
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Configs.COMMON_CONFIG);
 
         ToolPack.create(ToolPack.MaterialType.GEM,"blue", ModTiers.BLUE_GEM, 2);
-        ToolPack.create(ToolPack.MaterialType.CUSTOM,"blood_stone", ModTiers.BLOOD_STONE, 3);
-
+        MaterialPack.create(MaterialPack.MaterialType.CUSTOM,"blood_stone",ModTiers.BLOOD_STONE, ModArmorMaterials.BLOOD_STONE, 3);
+        Magic.init();
+        Melee.init();
+        Ranged.init();
+        Armors.init();
+        BlockItems.init();
+        Consumables.init();
+        Materials.init();
+        Tools.init();
+        Fluid.init();
+        Building.init();
+        Functional.init();
+        Natural.init();
         ItemRegistry.register(bus);
         BlockRegistry.register(bus);
-        BlockRegistry.FluidRegistry.FLUIDS.register(bus);
-        BlockRegistry.FluidTypeRegistry.FLUID_TYPES.register(bus);
+        Fluid.FluidRegistry.FLUIDS.register(bus);
+        Fluid.FluidTypeRegistry.FLUID_TYPES.register(bus);
         EffectRegistry.register(bus);
         EntityRegistry.EntityRenders.init();
         EntityRegistry.register(bus);

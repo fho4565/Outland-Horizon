@@ -16,7 +16,6 @@ public class ModCommonEvents {
     public static void onCommonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(NetworkHandler::register);
     }
-
     @SubscribeEvent
     public static void onRegisterCaps(RegisterCapabilitiesEvent event) {
         event.register(OhAttribute.class);

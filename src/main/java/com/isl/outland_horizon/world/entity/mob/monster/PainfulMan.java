@@ -78,7 +78,7 @@ public class PainfulMan extends Monster {
 
     @Override
     public @NotNull MobType getMobType() {
-        return MobType.UNDEFINED;
+        return MobType.UNDEAD;
     }
 
     @Override

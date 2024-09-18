@@ -4,7 +4,6 @@ import com.isl.outland_horizon.network.Packet;
 import com.isl.outland_horizon.world.capability.ModCapabilities;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -28,8 +27,7 @@ public class ServerAttributeSyncPacket implements Packet {
     public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             // Client
-            ServerPlayer p = ctx.get().getSender();
-            ModCapabilities.getOhAttribute(p).deserializeNBT(nbt);
+            ModCapabilities.getOhAttribute(ctx.get().getSender()).deserializeNBT(nbt);
         });
         ctx.get().setPacketHandled(true);
     }

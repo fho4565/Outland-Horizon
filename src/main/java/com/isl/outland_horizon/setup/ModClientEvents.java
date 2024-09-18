@@ -13,4 +13,5 @@ public class ModClientEvents {
     public static void registerKeys(RegisterKeyMappingsEvent event) {
         KeyRegistry.register(event);
     }
+
 }

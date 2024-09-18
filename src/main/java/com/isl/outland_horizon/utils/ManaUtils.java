@@ -19,10 +19,6 @@ public class ManaUtils {
         return getOhAttribute(player).getMaxMana();
     }
 
-    public static double getMaxManaRecover(Player player) {
-        return getOhAttribute(player).getMaxManaRecover();
-    }
-
     public static void recoverMana(Player player) {
         addMana(player, getManaRecover(player));
     }

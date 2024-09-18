@@ -2,8 +2,8 @@
 	"parent": "minecraft:block/cube_all",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "outland_horizon:block/nightmare_stone",
-		"particle": "outland_horizon:block/nightmare_stone"
+		"0": "outland_horizon:block/building/nightmare_stone",
+		"particle": "outland_horizon:block/building/nightmare_stone"
 	},
 	"elements": [
 		{

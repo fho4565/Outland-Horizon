@@ -6,14 +6,13 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.gui.overlay.VanillaGuiOverlay;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
-import static com.isl.outland_horizon.world.block.BlockRegistry.FluidRegistry.BLOOD;
-import static com.isl.outland_horizon.world.block.BlockRegistry.FluidRegistry.BLOOD_FLOWING;
+import static com.isl.outland_horizon.world.block.Fluid.FluidRegistry.BLOOD;
+import static com.isl.outland_horizon.world.block.Fluid.FluidRegistry.BLOOD_FLOWING;
 
 @Mod.EventBusSubscriber(modid = Utils.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ForgeClientEvents {

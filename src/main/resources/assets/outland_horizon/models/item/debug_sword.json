@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "outland_horizon:item/debug_sword"
+    "layer0": "outland_horizon:item/weapons/melee/sword/debug_sword"
   }
 }

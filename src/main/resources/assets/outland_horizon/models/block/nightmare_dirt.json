@@ -2,8 +2,8 @@
 	"parent": "minecraft:block/cube_all",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "outland_horizon:block/nightmare_dirt",
-		"particle": "outland_horizon:block/nightmare_dirt"
+		"0": "outland_horizon:block/natural/nightmare_dirt",
+		"particle": "outland_horizon:block/natural/nightmare_dirt"
 	},
 	"elements": [
 		{

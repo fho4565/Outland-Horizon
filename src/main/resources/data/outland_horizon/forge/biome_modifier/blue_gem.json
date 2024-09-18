@@ -1,0 +1,8 @@
+{
+  "type": "forge:add_features",
+  "biomes": {
+    "type": "forge:any"
+  },
+  "features": "outland_horizon:overworld/blue_gem",
+  "step": "underground_ores"
+}

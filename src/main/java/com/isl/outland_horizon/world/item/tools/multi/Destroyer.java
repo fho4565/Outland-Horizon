@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public class Destroyer extends DiggerItem {
     public Destroyer(Tier pTier, Properties pProperties) {
@@ -25,7 +26,6 @@ public class Destroyer extends DiggerItem {
         }
         return super.mineBlock(pStack, pLevel, pState, pos, pEntityLiving);
     }
-
     public void doBreakBlocks(Level world, double x, double y, double z, Player player,ItemStack stack, BlockState pState) {
         if (player == null)
             return;
@@ -75,6 +75,13 @@ public class Destroyer extends DiggerItem {
         }
         return super.isCorrectToolForDrops(stack, state);
     }
+
+    @Override
+    public boolean hurtEnemy(@NotNull ItemStack itemStack, LivingEntity pTarget, LivingEntity pAttacker) {
+        pTarget.knockback(1.0F, 0, 0);
+        return super.hurtEnemy(itemStack, pTarget, pAttacker);
+    }
+
     @Override
     public float getDestroySpeed(ItemStack stack, BlockState state) {
         return (state.is(BlockTags.MINEABLE_WITH_PICKAXE) || state.is(BlockTags.MINEABLE_WITH_AXE) || state.is(BlockTags.MINEABLE_WITH_SHOVEL)) ? this.speed : 1.0F;

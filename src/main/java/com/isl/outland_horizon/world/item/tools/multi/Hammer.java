@@ -10,6 +10,7 @@ import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 public class Hammer extends PickaxeItem {
     public Hammer(Tier pTier, Properties pProperties) {
@@ -25,7 +26,11 @@ public class Hammer extends PickaxeItem {
         }
         return super.mineBlock(pStack, pLevel, pState, pos, pEntityLiving);
     }
-
+    @Override
+    public boolean hurtEnemy(@NotNull ItemStack itemStack, LivingEntity pTarget, LivingEntity pAttacker) {
+        pTarget.knockback(1.0F, 0, 0);
+        return super.hurtEnemy(itemStack, pTarget, pAttacker);
+    }
     public static void doBreakBlocks(Level world, double x, double y, double z, Player player,ItemStack stack) {
         if (player == null)
             return;

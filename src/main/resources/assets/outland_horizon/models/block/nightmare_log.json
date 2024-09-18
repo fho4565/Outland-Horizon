@@ -3,9 +3,9 @@
 	"credit": "Made with Blockbench",
 	"render_type": "solid",
 	"textures": {
-		"0": "outland_horizon:block/nightmare_log",
-		"1": "outland_horizon:block/nightmare_log_bottom",
-		"particle": "outland_horizon:block/nightmare_log"
+		"0": "outland_horizon:block/building/nightmare_log",
+		"1": "outland_horizon:block/building/nightmare_log_bottom",
+		"particle": "outland_horizon:block/building/nightmare_log"
 	},
 	"elements": [
 		{

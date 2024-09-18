@@ -1,20 +1,5 @@
 {
-	"credit": "Made with Blockbench",
 	"textures": {
-		"particle": "outland_horizon:block/blood"
-	},
-	"elements": [
-		{
-			"from": [0, 0, 0],
-			"to": [16, 16, 16],
-			"faces": {
-				"north": {"uv": [0, 0, 16, 16], "texture": "#0", "cullface": "north"},
-				"east": {"uv": [0, 32, 16, 48], "texture": "#0"},
-				"south": {"uv": [48, 32, 64, 48], "texture": "#0"},
-				"west": {"uv": [32, 32, 48, 48], "texture": "#0"},
-				"up": {"uv": [32, 32, 16, 16], "texture": "#0"},
-				"down": {"uv": [48, 16, 32, 32], "texture": "#0"}
-			}
-		}
-	]
+		"particle": "outland_horizon:block/fluid/blood_still"
+	}
 }

@@ -52,7 +52,7 @@ public abstract class AbstractRangedWeapon extends AbstractWeapon {
     }
 
     @Override
-    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> components, TooltipFlag pIsAdvanced) {
+    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> components, @NotNull TooltipFlag pIsAdvanced) {
         components.add(Component.literal("远程伤害："+getDamage()).withStyle(ChatFormatting.LIGHT_PURPLE));
         super.appendHoverText(pStack, pLevel, components, pIsAdvanced);
     }

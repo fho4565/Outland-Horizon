@@ -2,8 +2,8 @@
 	"parent": "minecraft:block/cube_all",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "outland_horizon:block/scarred_flesh_block",
-		"particle": "outland_horizon:block/scarred_flesh_block"
+		"0": "outland_horizon:block/building/scarred_flesh_block",
+		"particle": "outland_horizon:block/building/scarred_flesh_block"
 	},
 	"elements": [
 		{

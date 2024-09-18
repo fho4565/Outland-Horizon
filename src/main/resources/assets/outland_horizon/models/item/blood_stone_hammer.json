@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "outland_horizon:item/tools/hammer/blood_stone_hammer"
+  }
+}

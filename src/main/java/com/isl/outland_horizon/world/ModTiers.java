@@ -67,4 +67,38 @@ public class ModTiers {
             return Ingredient.of(ItemRegistry.getItemRegistered(Utils.createResourceLocation("blood_stone")).get());
         }
     };
+
+    public static @NotNull Tier createTier(float level, String name) {
+        return new Tier() {
+            @Override
+            public int getUses() {
+                return (int) (450 * level);
+            }
+
+            @Override
+            public float getSpeed() {
+                return Math.round(4.5 * level);
+            }
+
+            @Override
+            public float getAttackDamageBonus() {
+                return Math.round(level);
+            }
+
+            @Override
+            public int getLevel() {
+                return (int) level;
+            }
+
+            @Override
+            public int getEnchantmentValue() {
+                return (int) (7 * level);
+            }
+
+            @Override
+            public @NotNull Ingredient getRepairIngredient() {
+                return Ingredient.of(ItemRegistry.getItemRegistered(Utils.createResourceLocation(name)).get());
+            }
+        };
+    }
 }

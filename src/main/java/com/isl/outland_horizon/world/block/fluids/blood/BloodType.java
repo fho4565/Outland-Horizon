@@ -24,8 +24,8 @@ public class BloodType extends FluidType {
     @Override
     public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
         consumer.accept(new IClientFluidTypeExtensions() {
-            private static final ResourceLocation STILL_TEXTURE = new ResourceLocation(Utils.MOD_ID+":block/blood")
-                    , FLOWING_TEXTURE = new ResourceLocation(Utils.MOD_ID+":block/blood");
+            private static final ResourceLocation STILL_TEXTURE = new ResourceLocation(Utils.MOD_ID+":block/fluid/blood_still")
+                    , FLOWING_TEXTURE = new ResourceLocation(Utils.MOD_ID+":block/fluid/blood");
 
             @Override
             public ResourceLocation getStillTexture() {

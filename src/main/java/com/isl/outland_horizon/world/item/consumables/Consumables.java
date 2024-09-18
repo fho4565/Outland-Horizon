@@ -1,14 +1,12 @@
 package com.isl.outland_horizon.world.item.consumables;
 
-import com.isl.outland_horizon.utils.ManaUtils;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,21 +22,16 @@ public class Consumables extends Item {
         }
         return super.use(level, player, interactionHand);
     }
-    @Override
-    public @NotNull UseAnim getUseAnimation(@NotNull ItemStack itemstack) {
-        return UseAnim.DRINK;
-    }
 
     @Override
-    public int getUseDuration(@NotNull ItemStack itemstack) {
-        return 30;
-    }
-
-    @Override
-    public @NotNull ItemStack finishUsingItem(@NotNull ItemStack p_41409_, @NotNull Level p_41410_, @NotNull LivingEntity p_41411_) {
-        if(p_41411_ instanceof ServerPlayer player){
-            ManaUtils.addMana(player, 100);
+    public @NotNull ItemStack finishUsingItem(@NotNull ItemStack itemStack, @NotNull Level level, @NotNull LivingEntity livingEntity) {
+        Player player = livingEntity instanceof Player ? (Player)livingEntity : null;
+        if (player != null) {
+            player.awardStat(Stats.ITEM_USED.get(this));
+            if (!player.getAbilities().instabuild) {
+                itemStack.shrink(1);
+            }
         }
-        return super.finishUsingItem(p_41409_, p_41410_, p_41411_);
+        return super.finishUsingItem(itemStack, level, livingEntity);
     }
 }

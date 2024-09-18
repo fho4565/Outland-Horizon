@@ -1,31 +1,27 @@
 package com.isl.outland_horizon.world.entity;
 
 import com.isl.outland_horizon.OutlandHorizon;
-import com.isl.outland_horizon.utils.Utils;
+import com.isl.outland_horizon.world.entity.mob.monster.EntityTZT;
 import com.isl.outland_horizon.world.entity.mob.monster.PainfulMan;
 import com.isl.outland_horizon.world.entity.mob.monster.Yee;
 import com.isl.outland_horizon.world.entity.projectile.bullet.Bullet;
 import com.isl.outland_horizon.world.entity.projectile.magic.FireWandShot;
-import com.isl.outland_horizon.world.entity.render.projectile.bullet.BulletRenderer;
-import com.isl.outland_horizon.world.entity.render.projectile.magic.FireWandShotRender;
+import com.isl.outland_horizon.world.entity.render.mob.monster.EntityTZTRender;
 import com.isl.outland_horizon.world.entity.render.mob.monster.PainfulManRender;
 import com.isl.outland_horizon.world.entity.render.mob.monster.YeeRender;
+import com.isl.outland_horizon.world.entity.render.projectile.bullet.BulletRenderer;
+import com.isl.outland_horizon.world.entity.render.projectile.magic.FireWandShotRender;
+import com.mojang.datafixers.util.Pair;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.SharedConstants;
-import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
-import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
@@ -37,12 +33,10 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import com.mojang.datafixers.util.Pair;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Supplier;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EntityRegistry {
@@ -63,6 +57,13 @@ public class EntityRegistry {
                     .setTrackingRange(64)
                     .setUpdateInterval(3)
                     .setCustomClientFactory(PainfulMan::new)
+                    .sized(0.6f, 1.8f));
+    public static final RegistryObject<EntityType<EntityTZT>> MOBA = register("entity_tzt",
+            EntityType.Builder.<EntityTZT>of(EntityTZT::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(EntityTZT::new)
                     .sized(0.6f, 1.8f));
     public static void register(IEventBus bus){
         ENTITIES.register(bus);
@@ -116,6 +117,7 @@ public class EntityRegistry {
             }
             event.registerEntityRenderer(YEE.get(), YeeRender::new);
             event.registerEntityRenderer(PAINFUL_MAN.get(), PainfulManRender::new);
+            event.registerEntityRenderer(MOBA.get(), EntityTZTRender::new);
             RENDERER_PACKAGES = null;
 
         }
@@ -124,10 +126,6 @@ public class EntityRegistry {
             for (EntityRendererPackage<?> rendererPackage : RENDERER_PACKAGES) {
                 rendererPackage.registerModelLayer(ev);
             }
-        }
-
-        private static Supplier<LayerDefinition> humanoidLayerDefinition() {
-            return () -> LayerDefinition.create(HumanoidModel.createMesh(CubeDeformation.NONE, 0.0F), 64, 64);
         }
 
         private static void onRenderLayerRegistration(final EntityRenderersEvent.AddLayers ev) {
@@ -139,57 +137,21 @@ public class EntityRegistry {
         public static class EntityRendererPackage<T extends Entity> {
             protected final RegistryObject<EntityType<T>> entityType;
             protected final HashMap<String, Pair<ModelLayerLocation, Supplier<LayerDefinition>>> layerDefinitions = new HashMap<>();
-
             protected EntityRendererProvider<T> rendererProvider = null;
             protected float shadowSize = -1;
-
             private EntityRendererPackage(RegistryObject<EntityType<T>> entityType) {
                 this.entityType = entityType;
                 RENDERER_PACKAGES.add(this);
             }
-
-            protected EntityRendererPackage<T> shadowSize(float shadow) {
-                this.shadowSize = shadow;
-                return this;
-            }
-
-            private EntityRendererPackage<T> defineLayer(String path, Supplier<LayerDefinition> definition) {
-                return defineLayer(path, "main", definition);
-            }
-
-            private EntityRendererPackage<T> defineLayer(String path, String layerName, Supplier<LayerDefinition> definition) {
-                this.layerDefinitions.put(layerName, Pair.of(new ModelLayerLocation(new ResourceLocation(Utils.MOD_ID,path), layerName), definition));
-                return this;
-            }
-
             private EntityRendererPackage<T> provider(EntityRendererProvider provider) {
                 this.rendererProvider = provider;
                 return this;
             }
-
-            private EntityRendererPackage<T> defaultMobRenderer(Function<ModelPart, EntityModel<? extends Mob>> modelFunction, String texturePath) {
-                return defaultMobRenderer(modelFunction, texturePath, 1f);
-            }
-
-            private EntityRendererPackage<T> defaultMobRenderer(Function<ModelPart, EntityModel<? extends Mob>> model, String texturePath, float scale) {
-                return provider(context -> new MobRender(context, model.apply(context.bakeLayer(this.layerDefinitions.get("main").getFirst())), this.shadowSize, scale, new ResourceLocation(Utils.MOD_ID, texturePath)));
-            }
-
             private void registerModelLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
                 for (Pair<ModelLayerLocation, Supplier<LayerDefinition>> layer : this.layerDefinitions.values()) {
                     event.registerLayerDefinition(layer.getFirst(), layer.getSecond());
                 }
             }
-
-            public ModelLayerLocation getMainLayerLocation() {
-                return getLayerLocation("main");
-            }
-
-
-            public ModelLayerLocation getLayerLocation(String layerName) {
-                return this.layerDefinitions.get(layerName).getFirst();
-            }
-
             protected EntityRendererProvider<T> build() {
                 if (this.rendererProvider == null)
                     throw new IllegalStateException("No registered renderer provider for entity: " + this.entityType.getId());
@@ -216,6 +178,7 @@ public class EntityRegistry {
     public static void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(YEE.get(), Yee.createAttributes().build());
         event.put(PAINFUL_MAN.get(), PainfulMan.createAttributes().build());
+        event.put(MOBA.get(), EntityTZT.createAttributes().build());
     }
 
 }

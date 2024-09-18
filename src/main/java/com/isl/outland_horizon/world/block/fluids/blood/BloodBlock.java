@@ -1,6 +1,6 @@
 package com.isl.outland_horizon.world.block.fluids.blood;
 
-import com.isl.outland_horizon.world.block.BlockRegistry;
+import com.isl.outland_horizon.world.block.Fluid;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -9,7 +9,7 @@ import net.minecraft.world.level.material.PushReaction;
 
 public class BloodBlock extends LiquidBlock {
     public BloodBlock() {
-        super(BlockRegistry.FluidRegistry.BLOOD, BlockBehaviour.Properties.of().mapColor(MapColor.WATER).strength(100f)
+        super(Fluid.FluidRegistry.BLOOD, BlockBehaviour.Properties.of().mapColor(MapColor.WATER).strength(100f)
                 .noCollission().noLootTable().liquid().pushReaction(PushReaction.DESTROY).sound(SoundType.EMPTY).replaceable());
     }
 }
