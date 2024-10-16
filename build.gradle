@@ -6,16 +6,11 @@ plugins {
     id 'org.spongepowered.mixin' version '0.7.+'
 }
 repositories {
-    maven {
-        name = 'GeckoLib'
-        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
-        content {
-            includeGroupByRegex("software\\.bernie.*")
-            includeGroup("com.eliotlash.mclib")
-        }
-    }
     maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
     gradlePluginPortal()
+    flatDir {
+        dir 'libs'
+    }
 }
 
 apply plugin: 'org.spongepowered.mixin'
@@ -39,7 +34,7 @@ minecraft {
         configureEach {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES'
-            property 'forge.logging.console.level', 'debug'
+            property 'forge.logging.console.level', 'info'
             mods {
                 "${mod_id}" {
                     source sourceSets.main
@@ -76,8 +71,7 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
-    implementation("com.eliotlash.mclib:mclib:20")
+    implementation fg.deobf("snownee.jade:Jade:1.20.1.11.12.1")
 }
 
 tasks.named('processResources', ProcessResources).configure {

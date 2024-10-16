@@ -1,4 +1,35 @@
 {
-  "item.outland_horizon.debug_sword": "调试武器",
-  "entity.outland_horizon.entity_tzt": "Entity 303"
+  "item_group.outland_horizon.weapon.ranged": "Ranged Weapon",
+  "item_group.outland_horizon.weapon.melee": "Melee Weapon",
+  "item_group.outland_horizon.weapon.magic": "Magic Weapon",
+  "item_group.outland_horizon.weapon.consumables": "Consumable",
+  "item_group.outland_horizon.material": "Material",
+  "item_group.outland_horizon.armor": "Armor",
+  "item_group.outland_horizon.block": "Block",
+  "item_group.outland_horizon.tool": "Tool",
+
+
+
+  "item.outland_horizon.debug_sword": "Debug Sword",
+  "item.outland_horizon.malicious": "Malicious",
+  "item.outland_horizon.frequency_variation": "Frequency Variation",
+  "item.outland_horizon.genocide": "Genocide",
+  "item.outland_horizon.void_impact": "Void Impact",
+
+
+
+
+
+
+
+  "entity.outland_horizon.entity_tzt": "Entity 303",
+
+
+
+
+  "text.outland_horizon.advancement.powerful_sniper.title": "A Powerful Sniper",
+  "text.outland_horizon.advancement.powerful_sniper.description": "Use a Sniper Rifle to kill any entity from up to 75 meters away",
+  "text.outland_horizon.gui.weapon.ranged_damage": "%d Ranged Damage",
+  "text.outland_horizon.gui.weapon.reload_cooldown": "%d Reload Cooldown",
+  "text.outland_horizon.gui.weapon.inaccuracy": "%d Inaccuracy"
 }

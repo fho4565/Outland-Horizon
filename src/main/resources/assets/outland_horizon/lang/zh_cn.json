@@ -1,4 +1,21 @@
 {
-  "item.outland_horizon.debug_sword": "调试武器",
-  "entity.outland_horizon.entity_tzt": "实体303"
+  "item_group.outland_horizon.weapon.ranged": "异界世界线：远程武器",
+  "item_group.outland_horizon.weapon.consumables": "异界世界线：消耗品",
+  "item_group.outland_horizon.weapon.melee": "异界世界线：近战武器",
+  "item_group.outland_horizon.weapon.magic": "异界世界线：魔法武器",
+  "item_group.outland_horizon.material": "异界世界线：材料",
+  "item_group.outland_horizon.armor": "异界世界线：盔甲",
+  "item_group.outland_horizon.block": "异界世界线：方块",
+  "item_group.outland_horizon.tool": "异界世界线：工具",
+  "item.outland_horizon.debug_sword": "调试剑",
+  "item.outland_horizon.malicious": "恶意",
+  "item.outland_horizon.frequency_variation": "频变",
+  "item.outland_horizon.genocide": "种族灭绝",
+  "item.outland_horizon.void_impact": "虚空冲击",
+  "entity.outland_horizon.entity_tzt": "实体303",
+  "text.outland_horizon.advancement.powerful_sniper.title": "强力狙击手",
+  "text.outland_horizon.advancement.powerful_sniper.description": "用狙击枪在75米外击杀任意实体",
+  "text.outland_horizon.gui.weapon.ranged_damage": "%d 远程伤害",
+  "text.outland_horizon.gui.weapon.reload_cooldown": "%d 换弹冷却",
+  "text.outland_horizon.gui.weapon.inaccuracy": "%d 不准确度"
 }
