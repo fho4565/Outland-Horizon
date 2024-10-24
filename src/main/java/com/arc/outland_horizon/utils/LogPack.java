@@ -1,6 +1,6 @@
 package com.arc.outland_horizon.utils;
 
-import com.arc.outland_horizon.world.block.BlockRegistry;
+import com.arc.outland_horizon.registry.block.BlockRegistry;
 import net.minecraft.core.Direction;
 import net.minecraft.world.flag.FeatureFlag;
 import net.minecraft.world.level.block.*;

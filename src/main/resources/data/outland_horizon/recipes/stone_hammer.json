@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa",
+    "aaa",
+    " l "
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:cobblestone"
+    },
+    "l": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "outland_horizon:stone_hammer"
+  },
+  "show_notification": true
+}

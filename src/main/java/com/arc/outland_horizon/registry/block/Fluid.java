@@ -1,7 +1,6 @@
 package com.arc.outland_horizon.registry.block;
 
 import com.arc.outland_horizon.utils.Utils;
-import com.arc.outland_horizon.world.block.BlockRegistry;
 import com.arc.outland_horizon.world.block.fluids.blood.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.FlowingFluid;

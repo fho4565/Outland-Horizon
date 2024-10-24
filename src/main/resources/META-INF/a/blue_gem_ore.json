@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "outland_horizon:blue_gem_ore"
+  },
+  "result": "outland_horizon:blue_gem",
+  "experience": 5,
+  "cookingtime": 200
+}

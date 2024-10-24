@@ -1,0 +1,1 @@
+{  "type": "minecraft:crafting_shaped",  "pattern": ["III","ISI"," S "],"key": {"S":{"item":"minecraft:stick"},"I":{"item":"outland_horizon:blood_stone"}  },  "result": {    "item": "outland_horizon:blood_stone_spade",    "count": 1  }}

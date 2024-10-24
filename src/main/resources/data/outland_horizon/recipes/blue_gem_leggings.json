@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aaa",
+    "a a",
+    "a a"
+  ],
+  "key": {
+    "a": {
+      "item": "outland_horizon:blue_gem"
+    }
+  },
+  "result": {
+    "item": "outland_horizon:blue_gem_leggings"
+  },
+  "show_notification": true
+}

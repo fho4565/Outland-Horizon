@@ -1,0 +1,1 @@
+{  "type": "minecraft:crafting_shaped",  "pattern": ["II "," S "," S "],"key": {"S":{"item":"minecraft:stick"},"I":{"item":"outland_horizon:blue_gem"}  },  "result": {    "item": "outland_horizon:blue_gem_hoe",    "count": 1  }}

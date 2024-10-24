@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "abc",
+    " l ",
+    " l "
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:netherite_axe"
+    },
+    "b": {
+      "item": "minecraft:netherite_pickaxe"
+    },
+    "c": {
+      "item": "minecraft:netherite_shovel"
+    },
+    "l": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "outland_horizon:netherite_paxel"
+  },
+  "show_notification": true
+}

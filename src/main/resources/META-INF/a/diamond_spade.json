@@ -1,0 +1,1 @@
+{  "type": "minecraft:crafting_shaped",  "pattern": ["III","ISI"," S "],"key": {"S":{"item":"minecraft:stick"},"I":{"item":"minecraft:diamond"}  },  "result": {    "item": "outland_horizon:diamond_spade",    "count": 1  }}

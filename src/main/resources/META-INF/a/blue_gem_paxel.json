@@ -1,0 +1,1 @@
+{  "type": "minecraft:crafting_shaped",  "pattern": ["ABC"," S "," S "],"key": {"S":{"item":"minecraft:stick"},"C":{"item":"outland_horizon:blue_gem_shovel"},"B":{"item":"outland_horizon:blue_gem_axe"},"A":{"item":"outland_horizon:blue_gem_pickaxe"}  },  "result": {    "item": "outland_horizon:blue_gem_paxel",    "count": 1  }}

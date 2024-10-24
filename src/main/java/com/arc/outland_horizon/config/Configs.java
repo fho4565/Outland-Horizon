@@ -9,7 +9,7 @@ public class Configs {
     static {
         ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
         COMMON_BUILDER.push("Common");
-        keycd1 = COMMON_BUILDER.define("keycd1","");
+        keycd1 = COMMON_BUILDER.define("string","default");
         COMMON_BUILDER.pop();
         COMMON_CONFIG = COMMON_BUILDER.build();
     }

@@ -6,9 +6,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -27,5 +29,9 @@ public class EntityUtils {
     }
     public static boolean isInDimension(Entity entity, ResourceLocation dimensionLocation){
         return entity.level().dimension().location().compareTo(dimensionLocation) == 0;
+    }
+
+    public static @NotNull ResourceKey<DamageType> getMachineGun(LivingEntity holder, ResourceLocation location) {
+        return holder.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ResourceKey.create(Registries.DAMAGE_TYPE, location)).key();
     }
 }

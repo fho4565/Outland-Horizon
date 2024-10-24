@@ -1,5 +1,6 @@
 package com.arc.outland_horizon.world.item.weapons.weapon.ranged;
 
+import com.arc.outland_horizon.utils.ChatUtils;
 import com.arc.outland_horizon.world.entity.projectile.BasePlayerProjectile;
 import com.arc.outland_horizon.world.item.weapons.weapon.AbstractWeapon;
 import net.minecraft.ChatFormatting;
@@ -56,7 +57,7 @@ public abstract class AbstractRangedWeapon extends AbstractWeapon {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> components, @NotNull TooltipFlag pIsAdvanced) {
         components.add(Component.empty());
-        components.add(Component.translatable("text.outland_horizon.gui.weapon.ranged_damage",getDamage()).withStyle(ChatFormatting.DARK_GREEN));
+        components.add(ChatUtils.translatable("text.outland_horizon.gui.weapon.ranged_damage",getDamage()).withStyle(ChatFormatting.DARK_GREEN));
         super.appendHoverText(pStack, pLevel, components, pIsAdvanced);
     }
 }

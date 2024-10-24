@@ -1,5 +1,6 @@
 package com.arc.outland_horizon.world.item.weapons.weapon.ranged.gun;
 
+import com.arc.outland_horizon.utils.ChatUtils;
 import com.arc.outland_horizon.utils.WorldUtils;
 import com.arc.outland_horizon.world.entity.projectile.BasePlayerProjectile;
 import com.arc.outland_horizon.world.entity.projectile.bullet.Bullet;
@@ -46,7 +47,7 @@ public abstract class Gun extends AbstractRangedWeapon {
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> components, @NotNull TooltipFlag pIsAdvanced) {
         super.appendHoverText(pStack, pLevel, components, pIsAdvanced);
-        components.add(Component.translatable("text.outland_horizon.gui.weapon.reload_cooldown",getCoolDown()).withStyle(ChatFormatting.DARK_GREEN));
-        components.add(Component.translatable("text.outland_horizon.gui.weapon.inaccuracy",getBulletInaccuracy()).withStyle(ChatFormatting.DARK_GREEN));
+        components.add(ChatUtils.translatable("text.outland_horizon.gui.weapon.reload_cooldown",getCoolDown()).withStyle(ChatFormatting.DARK_GREEN));
+        components.add(ChatUtils.translatable("text.outland_horizon.gui.weapon.inaccuracy",getBulletInaccuracy()).withStyle(ChatFormatting.DARK_GREEN));
     }
 }

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "aa ",
+    " l ",
+    " l "
+  ],
+  "key": {
+    "a": {
+      "item": "outland_horizon:blue_gem"
+    },
+    "l": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "outland_horizon:blue_gem_hoe"
+  },
+  "show_notification": true
+}

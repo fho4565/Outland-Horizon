@@ -22,7 +22,7 @@ public class PainfulManRender extends HumanoidMobRenderer<PainfulMan, HumanoidMo
 
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull PainfulMan entity) {
-        return new ResourceLocation(Utils.createResourceLocation("textures/entity/monster/painful_man.png").toString());
+        return new ResourceLocation(Utils.createModResourceLocation("textures/entity/monster/painful_man.png").toString());
     }
 }
 

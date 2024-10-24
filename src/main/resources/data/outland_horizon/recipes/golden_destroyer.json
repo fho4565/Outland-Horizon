@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "alb",
+    " l ",
+    " l "
+  ],
+  "key": {
+    "a": {
+      "item": "outland_horizon:golden_spade"
+    },
+    "b": {
+      "item": "outland_horizon:golden_hammer"
+    },
+    "l": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "outland_horizon:golden_destroyer"
+  },
+  "show_notification": true
+}

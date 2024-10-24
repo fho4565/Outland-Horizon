@@ -36,7 +36,7 @@ public class ModArmorMaterials {
 
             @Override
             public @NotNull Ingredient getRepairIngredient() {
-                return Ingredient.of(ItemRegistry.getItemRegistered(Utils.createResourceLocation(finalNameWithPrefix)).get());
+                return Ingredient.of(ItemRegistry.getItemRegistered(Utils.createModResourceLocation(finalNameWithPrefix)));
             }
 
             @Override

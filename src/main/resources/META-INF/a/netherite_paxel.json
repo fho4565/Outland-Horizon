@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABC",
+    " S ",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "C": {
+      "item": "minecraft:netherite_shovel"
+    },
+    "B": {
+      "item": "minecraft:netherite_axe"
+    },
+    "A": {
+      "item": "minecraft:netherite_pickaxe"
+    }
+  },
+  "result": {
+    "item": "outland_horizon:netherite_paxel",
+    "count": 1
+  }
+}

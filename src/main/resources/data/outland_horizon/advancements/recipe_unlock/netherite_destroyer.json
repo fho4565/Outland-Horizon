@@ -1,0 +1,48 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "outland_horizon:netherite_destroyer"
+    ]
+  },
+  "criteria": {
+    "has_spade": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "outland_horizon:netherite_spade"
+            ]
+          }
+        ]
+      }
+    },
+    "has_hammer": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "outland_horizon:netherite_hammer"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "outland_horizon:netherite_destroyer"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_spade",
+      "has_hammer",
+      "has_the_recipe"
+    ]
+  ],
+  "sends_telemetry_event": false
+}

@@ -22,6 +22,6 @@ public class EntityTZTRender extends HumanoidMobRenderer<EntityTZT, HumanoidMode
 
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull EntityTZT entity) {
-        return new ResourceLocation(Utils.createResourceLocation("textures/entity/monster/boss/entity_tzt.png").toString());
+        return new ResourceLocation(Utils.createModResourceLocation("textures/entity/monster/boss/entity_tzt.png").toString());
     }
 }

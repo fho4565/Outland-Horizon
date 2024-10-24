@@ -1,0 +1,61 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "outland_horizon:netherite_paxel"
+    ]
+  },
+  "criteria": {
+    "has_axe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_axe"
+            ]
+          }
+        ]
+      }
+    },
+    "has_pickaxe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_pickaxe"
+            ]
+          }
+        ]
+      }
+    },
+    "has_shovel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_shovel"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "outland_horizon:netherite_paxel"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_axe",
+      "has_pickaxe",
+      "has_shovel",
+      "has_the_recipe"
+    ]
+  ],
+  "sends_telemetry_event": false
+}

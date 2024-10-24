@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "outland_horizon:blue_gem_block"
+        }
+      ]
+    }
+  ],
+  "random_sequence": "outland_horizon:block/blue_gem_block"
+}

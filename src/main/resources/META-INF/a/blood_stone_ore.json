@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "outland_horizon:blood_stone_ore"
+  },
+  "result": "outland_horizon:blood_stone",
+  "experience": 5,
+  "cookingtime": 200
+}

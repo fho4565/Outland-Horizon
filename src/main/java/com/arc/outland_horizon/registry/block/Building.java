@@ -1,7 +1,6 @@
 package com.arc.outland_horizon.registry.block;
 
 import com.arc.outland_horizon.utils.Utils;
-import com.arc.outland_horizon.world.block.BlockRegistry;
 import com.arc.outland_horizon.world.block.logs.NightmareLog;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.level.block.Block;
@@ -26,7 +25,7 @@ public class Building {
                     , SoundType.MUD::getBreakSound
                     , SoundType.MUD::getStepSound
                     , SoundType.MUD::getPlaceSound
-                    ,()-> SoundEvent.createVariableRangeEvent(Utils.createResourceLocation("flesh_block_breaking"))
+                    ,()-> SoundEvent.createVariableRangeEvent(Utils.createModResourceLocation("flesh_block_breaking"))
                     , SoundType.MUD::getFallSound
                     ))
             .requiresCorrectToolForDrops()
@@ -37,7 +36,7 @@ public class Building {
                     ,SoundType.MUD::getBreakSound
                     , SoundType.MUD::getStepSound
                     , SoundType.MUD::getPlaceSound
-                    ,()-> SoundEvent.createVariableRangeEvent(Utils.createResourceLocation("flesh_block_breaking"))
+                    ,()-> SoundEvent.createVariableRangeEvent(Utils.createModResourceLocation("flesh_block_breaking"))
                     , SoundType.MUD::getFallSound
             ))
             .requiresCorrectToolForDrops()

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "outland_horizon:blood_stone_block"
+        }
+      ]
+    }
+  ],
+  "random_sequence": "outland_horizon:block/blood_stone_block"
+}

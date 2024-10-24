@@ -1,5 +1,6 @@
 package com.arc.outland_horizon.world.entity.mob.monster;
 
+import com.arc.outland_horizon.world.entity.DamageResistance;
 import com.arc.outland_horizon.world.entity.EntityRegistry;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -15,13 +16,14 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import org.jetbrains.annotations.NotNull;
 
-public class EntityTZT extends PathfinderMob{
+public class EntityTZT extends Monster implements DamageResistance {
     private final ServerBossEvent bossEvent = (ServerBossEvent)(new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.PURPLE, BossEvent.BossBarOverlay.PROGRESS)).setCreateWorldFog(true).setDarkenScreen(true);
 
     public EntityTZT(PlayMessages.SpawnEntity packet, Level world) {
@@ -39,6 +41,12 @@ public class EntityTZT extends PathfinderMob{
         flyingpathnavigation.setCanFloat(true);
         flyingpathnavigation.setCanPassDoors(true);
         return flyingpathnavigation;
+    }
+
+    @Override
+    public void remove(RemovalReason pReason) {
+        bossEvent.removeAllPlayers();
+        super.remove(pReason);
     }
 
     @Override
@@ -103,5 +111,10 @@ public class EntityTZT extends PathfinderMob{
     @Override
     public @NotNull MobType getMobType() {
         return MobType.UNDEFINED;
+    }
+
+    @Override
+    public double magicDamageResistance() {
+        return 40.0;
     }
 }

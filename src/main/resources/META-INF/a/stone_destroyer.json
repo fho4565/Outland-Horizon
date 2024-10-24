@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ASB",
+    " S ",
+    " S "
+  ],
+  "key": {
+    "A": {
+      "item": "outland_horizon:stone_hammer"
+    },
+    "B": {
+      "item": "outland_horizon:stone_spade"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "outland_horizon:stone_destroyer",
+    "count": 1
+  }
+}

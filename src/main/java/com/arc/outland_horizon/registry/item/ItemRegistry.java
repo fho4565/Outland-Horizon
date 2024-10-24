@@ -1,15 +1,15 @@
 package com.arc.outland_horizon.registry.item;
 
-import com.arc.outland_horizon.utils.Utils;
 import com.arc.outland_horizon.registry.item.weapons.Magic;
 import com.arc.outland_horizon.registry.item.weapons.Melee;
 import com.arc.outland_horizon.registry.item.weapons.Ranged;
+import com.arc.outland_horizon.utils.ChatUtils;
+import com.arc.outland_horizon.utils.Utils;
 import com.arc.outland_horizon.world.item.tools.multi.Destroyer;
 import com.arc.outland_horizon.world.item.tools.multi.Hammer;
 import com.arc.outland_horizon.world.item.tools.multi.Paxel;
 import com.arc.outland_horizon.world.item.tools.multi.Spade;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -25,6 +25,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static com.arc.outland_horizon.registry.item.Tools.registerTool;
+import static com.arc.outland_horizon.utils.Utils.createModResourceLocation;
 
 public class ItemRegistry {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Utils.MOD_ID);
@@ -81,13 +82,13 @@ public class ItemRegistry {
         ITEM_LIST.add(object);
         return object;
     }
-    public static RegistryObject<Item> getItemRegistered(ResourceLocation resourceLocation) {
-        return ITEM_LIST.stream().filter(itemRegistryObject -> {
-            if (itemRegistryObject.getKey() != null) {
-                return itemRegistryObject.getKey().location().equals(resourceLocation);
+    public static Item getItemRegistered(ResourceLocation resourceLocation) {
+        return ITEM_LIST.stream().filter(object -> {
+            if (object.getKey() != null) {
+                return object.getKey().location().equals(resourceLocation);
             }
             return false;
-        }).findFirst().orElseThrow();
+        }).findFirst().orElseThrow().get();
     }
     public static void register(IEventBus bus) {
         Tier nTier = new Tier() {
@@ -128,45 +129,45 @@ public class ItemRegistry {
         initVanillaExtends("diamond", Tiers.DIAMOND);
         initVanillaExtends("netherite", Tiers.NETHERITE);
         TABS.register(Utils.MOD_ID+".weapon.ranged", () -> CreativeModeTab.builder()
-                .title(Component.translatable("item_group." + Utils.MOD_ID + ".weapon.ranged"))
+                .title(ChatUtils.translatable("item_group." + Utils.MOD_ID + ".weapon.ranged"))
                 .icon(() -> new ItemStack(Ranged.MALICIOUS.get()))
                 .displayItems((p, o) -> o.acceptAll(RANGED_WEAPON_LIST.stream().map(itemRegistryObject -> new ItemStack(itemRegistryObject.get())).collect(Collectors.toList())))
                 .build());
         TABS.register(Utils.MOD_ID+".weapon.melee", () -> CreativeModeTab.builder()
-                .title(Component.translatable("item_group." + Utils.MOD_ID + ".weapon.melee"))
+                .title(ChatUtils.translatable("item_group." + Utils.MOD_ID + ".weapon.melee"))
                 .icon(() -> new ItemStack(Melee.BLAZE_SWORD.get()))
                 .displayItems((p, o) -> o.acceptAll(MELEE_WEAPON_LIST.stream().map(itemRegistryObject -> new ItemStack(itemRegistryObject.get())).collect(Collectors.toList())))
                 .build());
         TABS.register(Utils.MOD_ID+".weapon.magic", () -> CreativeModeTab.builder()
-                .title(Component.translatable("item_group." + Utils.MOD_ID + ".weapon.magic"))
+                .title(ChatUtils.translatable("item_group." + Utils.MOD_ID + ".weapon.magic"))
                 .icon(() -> new ItemStack(Magic.FIRE_WAND.get()))
                 .displayItems((p, o) -> o.acceptAll(MAGIC_WEAPON_LIST.stream().map(itemRegistryObject -> new ItemStack(itemRegistryObject.get())).collect(Collectors.toList())))
                 .build());
         TABS.register(Utils.MOD_ID+".material", () -> CreativeModeTab.builder()
-                .title(Component.translatable("item_group." + Utils.MOD_ID + ".material"))
+                .title(ChatUtils.translatable("item_group." + Utils.MOD_ID + ".material"))
                 .icon(() -> new ItemStack(Materials.NIGHTMARE_ENERGY.get()))
                 .displayItems((p, o) -> o.acceptAll(MATERIAL_LIST.stream().map(itemRegistryObject -> new ItemStack(itemRegistryObject.get())).collect(Collectors.toList())))
                 .build());
         TABS.register(Utils.MOD_ID+".consumables", () -> CreativeModeTab.builder()
-                .title(Component.translatable("item_group." + Utils.MOD_ID + ".consumables"))
-                .icon(() -> new ItemStack(Consumables.MANA_POTION.get()))
+                .title(ChatUtils.translatable("item_group." + Utils.MOD_ID + ".consumables"))
+                .icon(() -> new ItemStack(Consumables.MANA_POTIONCommon.get()))
                 .displayItems((p, o) -> o.acceptAll(CONSUMABLES_LIST.stream().map(itemRegistryObject ->
                     new ItemStack(itemRegistryObject.get())
                 ).collect(Collectors.toList())))
                 .build());
         TABS.register(Utils.MOD_ID+".armor", () -> CreativeModeTab.builder()
-                .title(Component.translatable("item_group." + Utils.MOD_ID + ".armor"))
-                .icon(() -> new ItemStack(ItemRegistry.getItemRegistered(Utils.createResourceLocation("blood_stone_helmet")).get()))
+                .title(ChatUtils.translatable("item_group." + Utils.MOD_ID + ".armor"))
+                .icon(() -> new ItemStack(ItemRegistry.getItemRegistered(createModResourceLocation("blood_stone_helmet"))))
                 .displayItems((p, o) -> o.acceptAll(ARMOR_LIST.stream().map(itemRegistryObject -> new ItemStack(itemRegistryObject.get())).collect(Collectors.toList())))
                 .build());
         TABS.register(Utils.MOD_ID+".block", () -> CreativeModeTab.builder()
-                .title(Component.translatable("item_group." + Utils.MOD_ID + ".block"))
-                .icon(() -> new ItemStack(getItemRegistered(Utils.createResourceLocation("blood_stone_block")).get()))
+                .title(ChatUtils.translatable("item_group." + Utils.MOD_ID + ".block"))
+                .icon(() -> new ItemStack(getItemRegistered(createModResourceLocation("blood_stone_block"))))
                 .displayItems((p, o) -> o.acceptAll(BLOCK_ITEM_LIST.stream().map(itemRegistryObject -> new ItemStack(itemRegistryObject.get())).collect(Collectors.toList())))
                 .build());
         TABS.register(Utils.MOD_ID+".tool", () -> CreativeModeTab.builder()
-                .title(Component.translatable("item_group." + Utils.MOD_ID + ".tool"))
-                .icon(() -> new ItemStack(getItemRegistered(Utils.createResourceLocation("blood_stone_paxel")).get()))
+                .title(ChatUtils.translatable("item_group." + Utils.MOD_ID + ".tool"))
+                .icon(() -> new ItemStack(getItemRegistered(createModResourceLocation("blood_stone_paxel"))))
                 .displayItems((p, o) -> o.acceptAll(TOOL_LIST.stream().map(itemRegistryObject -> new ItemStack(itemRegistryObject.get())).collect(Collectors.toList())))
                 .build());
         TABS.register(bus);

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "abc",
+    " l ",
+    " l "
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:wooden_axe"
+    },
+    "b": {
+      "item": "minecraft:wooden_pickaxe"
+    },
+    "c": {
+      "item": "minecraft:wooden_shovel"
+    },
+    "l": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "outland_horizon:wooden_paxel"
+  },
+  "show_notification": true
+}

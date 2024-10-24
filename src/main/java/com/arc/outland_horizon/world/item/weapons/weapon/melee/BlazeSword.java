@@ -5,6 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +16,7 @@ import java.util.List;
 public class BlazeSword extends AbstractMeleeWeapon {
 
     public BlazeSword() {
-        super(1400, 13,-3.2f, 12, Items.ACACIA_PLANKS);
+        super(1400, 13,-3.2f, 12, Items.ACACIA_PLANKS,new Properties().rarity(Rarity.EPIC));
     }
 
     @Override

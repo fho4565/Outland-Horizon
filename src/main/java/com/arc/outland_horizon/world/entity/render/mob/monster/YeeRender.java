@@ -22,7 +22,7 @@ public class YeeRender extends HumanoidMobRenderer<Yee, HumanoidModel<Yee>> {
 
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull Yee entity) {
-        return new ResourceLocation(Utils.createResourceLocation("textures/entity/monster/yee.png").toString());
+        return new ResourceLocation(Utils.createModResourceLocation("textures/entity/monster/yee.png").toString());
     }
 }
 

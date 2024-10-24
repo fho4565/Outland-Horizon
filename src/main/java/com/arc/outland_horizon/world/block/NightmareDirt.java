@@ -41,6 +41,4 @@ public class NightmareDirt extends Block {
     public BlockState getStateForPlacement(@NotNull BlockPlaceContext context) {
         return this.defaultBlockState().setValue(vascularType, VascularType.NONE);
     }
-
-
 }

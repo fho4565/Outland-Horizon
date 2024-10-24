@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "outland_horizon:block/natural/pale_abyss_stone",
+    "particle": "outland_horizon:block/natural/pale_abyss_stone"
+  },
+  "render_type": "solid"
+}

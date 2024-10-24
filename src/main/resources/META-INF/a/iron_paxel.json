@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABC",
+    " S ",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "C": {
+      "item": "minecraft:iron_shovel"
+    },
+    "B": {
+      "item": "minecraft:iron_axe"
+    },
+    "A": {
+      "item": "minecraft:iron_pickaxe"
+    }
+  },
+  "result": {
+    "item": "outland_horizon:iron_paxel",
+    "count": 1
+  }
+}

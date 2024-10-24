@@ -51,7 +51,33 @@ public abstract class AbstractWeapon extends TieredItem {
                 return Ingredient.of(new ItemStack(repairIngredient));
             }
         }, meleeAttackDamage,attackSpeed);
-        createModifiers(meleeAttackDamage, attackSpeed, Map.of());
+    }
+    public AbstractWeapon(int maxDurability, float meleeAttackDamage,float attackSpeed, int enchantAbility, Item repairIngredient,Properties properties) {
+        this(new Tier() {
+            public int getUses() {
+                return maxDurability;
+            }
+
+            public float getSpeed() {
+                return 4f;
+            }
+
+            public float getAttackDamageBonus() {
+                return meleeAttackDamage;
+            }
+
+            public int getLevel() {
+                return 0;
+            }
+
+            public int getEnchantmentValue() {
+                return enchantAbility;
+            }
+
+            public @NotNull Ingredient getRepairIngredient() {
+                return Ingredient.of(new ItemStack(repairIngredient));
+            }
+        }, meleeAttackDamage,attackSpeed,properties);
     }
     public AbstractWeapon(int maxDurability, float meleeAttackDamage, int enchantAbility, Item repairIngredient) {
         this(new Tier() {
@@ -86,6 +112,10 @@ public abstract class AbstractWeapon extends TieredItem {
         super(tier, new Properties());
         createModifiers(meleeAttackDamage, attackSpeed, Map.of());
     }
+    public AbstractWeapon(Tier tier,float meleeAttackDamage,float attackSpeed, Properties properties) {
+        super(tier, properties);
+        createModifiers(meleeAttackDamage, attackSpeed, Map.of());
+    }
     public float getDamage(){
         return 1;
     }
@@ -100,7 +130,6 @@ public abstract class AbstractWeapon extends TieredItem {
         EntityUtils.hurt(shooter, target, DamageTypes.MAGIC, (float) (getDamage()+shooter.getAttributeValue(Attributes.ATTACK_DAMAGE)));
 
     }
-
     public void createModifiers(float meleeAttackDamage, float attackSpeed, Map<Attribute,AttributeModifier> additionalModifiers){
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, WEAPON_MODIFIER_NAME, meleeAttackDamage, AttributeModifier.Operation.ADDITION));

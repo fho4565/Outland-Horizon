@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "abc",
+    " l ",
+    " l "
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:diamond_axe"
+    },
+    "b": {
+      "item": "minecraft:diamond_pickaxe"
+    },
+    "c": {
+      "item": "minecraft:diamond_shovel"
+    },
+    "l": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "outland_horizon:diamond_paxel"
+  },
+  "show_notification": true
+}

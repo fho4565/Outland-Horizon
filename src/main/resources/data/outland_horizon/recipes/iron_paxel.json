@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "abc",
+    " l ",
+    " l "
+  ],
+  "key": {
+    "a": {
+      "item": "minecraft:iron_axe"
+    },
+    "b": {
+      "item": "minecraft:iron_pickaxe"
+    },
+    "c": {
+      "item": "minecraft:iron_shovel"
+    },
+    "l": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "item": "outland_horizon:iron_paxel"
+  },
+  "show_notification": true
+}
