@@ -1,0 +1,7 @@
+{
+  "parent": "block/template_torch",
+  "textures": {
+    "torch": "outland_horizon:block/functional/dungeon_torch"
+  },
+  "render_type": "cutout"
+}

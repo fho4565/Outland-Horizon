@@ -8,6 +8,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 public class OhAttribute implements INBTSerializable<CompoundTag> {
     public double mana,manaRecover,maxMana;
     public double rage, maxRage,rageRecover;
+    public double shieldValue;
 
     public OhAttribute() {
         this.mana = 200.0D;
@@ -16,6 +17,7 @@ public class OhAttribute implements INBTSerializable<CompoundTag> {
         this.rage = 0.0D;
         this.maxRage = 100.0D;
         this.rageRecover = 1.0D;
+        this.shieldValue = 0.0D;
     }
     public double getMana() {
         return this.mana;
@@ -46,6 +48,15 @@ public class OhAttribute implements INBTSerializable<CompoundTag> {
     public double getRageRecover() {
         return this.rageRecover/20.0d;
     }
+    public void addShieldValue(double amount) {
+        this.shieldValue += amount;
+    }
+    public void setShieldValue(double shieldValue) {
+        this.shieldValue = shieldValue;
+    }
+    public double getShieldValue() {
+        return this.shieldValue;
+    }
 
     public void setRageRecover(double rageRecover) {
         this.rageRecover = rageRecover;
@@ -67,6 +78,7 @@ public class OhAttribute implements INBTSerializable<CompoundTag> {
         nbt.putDouble("rage", this.rage);
         nbt.putDouble("rageRecover", this.rageRecover);
         nbt.putDouble("maxRage", this.maxRage);
+        nbt.putDouble("shieldValue", this.shieldValue);
         return nbt;
     }
 
@@ -78,5 +90,6 @@ public class OhAttribute implements INBTSerializable<CompoundTag> {
         this.rage = nbt.getDouble("rage");
         this.rageRecover = nbt.getDouble("rageRecover");
         this.maxRage = nbt.getDouble("maxRage");
+        this.shieldValue = nbt.getDouble("shieldValue");
     }
 }

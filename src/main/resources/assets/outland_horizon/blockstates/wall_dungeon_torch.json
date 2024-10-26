@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "outland_horizon:block/wall_dungeon_torch"
+    },
+    "facing=north": {
+      "model": "outland_horizon:block/wall_dungeon_torch",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "outland_horizon:block/wall_dungeon_torch",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "outland_horizon:block/wall_dungeon_torch",
+      "y": 180
+    }
+  }
+}

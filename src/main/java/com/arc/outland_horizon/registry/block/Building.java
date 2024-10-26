@@ -1,5 +1,6 @@
 package com.arc.outland_horizon.registry.block;
 
+import com.arc.outland_horizon.develop.ModLootTable;
 import com.arc.outland_horizon.utils.Utils;
 import com.arc.outland_horizon.world.block.logs.NightmareLog;
 import net.minecraft.sounds.SoundEvent;
@@ -53,9 +54,28 @@ public class Building {
                 ))
                 .requiresCorrectToolForDrops()
                 .strength(15F, 6000.0F)));
+        public static final RegistryObject<Block> HELMET_DUNGEON_BRICK = BlockRegistry.register("helmet_dungeon_brick", () -> new Block(BlockBehaviour.Properties.of()
+                .mapColor(MapColor.COLOR_GRAY)
+                .sound(new ForgeSoundType(0.5f,1,
+                        SoundType.NETHER_BRICKS::getBreakSound
+                        , SoundType.NETHER_BRICKS::getStepSound
+                        , SoundType.NETHER_BRICKS::getPlaceSound
+                        ,SoundType.NETHER_BRICKS::getHitSound
+                        , SoundType.NETHER_BRICKS::getFallSound
+                ))
+                .requiresCorrectToolForDrops()
+                .strength(15F, 6000.0F)));
         public static void init(){}
     }
     public static void init(){
         DUNGEON.init();
+    }
+    public static void genData(){
+        ModLootTable.of().dropSelf(NIGHTMARE_LOG.get());
+        ModLootTable.of().dropSelf(NIGHTMARE_STONE.get());
+        ModLootTable.of().dropSelf(FLESH_BLOCK.get());
+        ModLootTable.of().dropSelf(SCARRED_FLESH_BLOCK.get());
+        ModLootTable.of().dropSelf(DUNGEON.DUNGEON_BRICK.get());
+        ModLootTable.of().dropSelf(DUNGEON.HELMET_DUNGEON_BRICK.get());
     }
 }

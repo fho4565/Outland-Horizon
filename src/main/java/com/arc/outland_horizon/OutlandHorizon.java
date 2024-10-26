@@ -43,18 +43,19 @@ public class OutlandHorizon {
         SoundEventRegister.init();
         SoundEventRegister.REGISTRY.register(bus);
     }
-
     private static void initAll() {
         Magic.init();
         Melee.init();
         Ranged.init();
         Armors.init();
         BlockItems.init();
+        Items.init();
         Consumables.init();
         Materials.init();
         Tools.init();
         Fluid.init();
         Building.init();
+        Medal.init();
         Functional.init();
         Natural.init();
     }

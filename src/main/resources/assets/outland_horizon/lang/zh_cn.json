@@ -16,6 +16,7 @@
   "item.outland_horizon.genocide": "种族灭绝",
   "item.outland_horizon.void_impact": "虚空冲击",
   "item.outland_horizon.reinforced_iron_ingot": "强化铁锭",
+  "item.outland_horizon.apprentice_shield_book": "学徒护盾法术书",
   "death.attack.bleed": "%s 失血过多",
   "death.attack.bleed.item": "%s 因 %s 用 %s 失血过多",
   "death.attack.bleed.player": "%s 因 %s 失血过多",
@@ -34,9 +35,9 @@
   "text.outland_horizon.gui.consumable.magic_potion": "恢复 %d 魔力",
   "text.outland_horizon.key.rage.description": "怒气",
   "text.outland_horizon.mod.name": "异界世界线",
-  "text.outland_horizon.gui.weapon.ka_zhi_sword.damage_add": "%s 伤害提升",
-  "text.outland_horizon.gui.weapon.ka_zhi_sword.stage_1": "嘿，伙计！你知道凋灵头颅尝起来是什么样的吗？\n要不要试试看？反正我没尝过，可以帮我试试吗？",
-  "text.outland_horizon.gui.weapon.ka_zhi_sword.stage_2": "嘿，伙计！我听别的牛仔说末地有一只体型特别大的龙，我从小到大还没见过龙呢，让我去见识一下。",
+  "text.outland_horizon.gui.weapon.caramel_baka.damage_add": "%s 伤害提升",
+  "text.outland_horizon.gui.weapon.caramel_baka.stage_1": "嘿，伙计！你知道凋灵头颅尝起来是什么样的吗？\n要不要试试看？反正我没尝过，可以帮我试试吗？",
+  "text.outland_horizon.gui.weapon.caramel_baka.stage_2": "嘿，伙计！我听别的牛仔说末地有一只体型特别大的龙，我从小到大还没见过龙呢，让我去见识一下。",
   "text.outland_horizon.advancement.start.name": "开始了",
   "text.outland_horizon.advancement.start.description": "击杀一只凋灵",
   "effect.outland_horizon.nightmare_comes": "梦魇来袭！",
@@ -120,6 +121,6 @@
   "entity.outland_horizon.iron_bullet": "EMPTY",
   "entity.outland_horizon.yee": "YEE",
   "entity.outland_horizon.painful_man": "痛苦者",
-  "item.outland_horizon.ka_zhi_sword": "午时已到",
-  "text.outland_horizon.gui.weapon.ka_zhi_sword.hover_text": "哦天哪，这把剑戴了顶牛仔帽，还带了把枪，他打架一定经常赢。\n确实如此，同志。我曾经取得连续13次牛仔决斗胜利，因为每当敌人以为我要进行剑术决斗时..."
+  "item.outland_horizon.caramel_baka": "焦糖苏打",
+  "text.outland_horizon.gui.weapon.caramel_baka.hover_text": "哦天哪，这把剑戴了顶牛仔帽，还带了把枪，他打架一定经常赢。\n确实如此，同志。我曾经取得连续13次牛仔决斗胜利，因为每当敌人以为我要进行剑术决斗时..."
 }

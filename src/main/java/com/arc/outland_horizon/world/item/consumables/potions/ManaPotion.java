@@ -1,7 +1,7 @@
 package com.arc.outland_horizon.world.item.consumables.potions;
 
 import com.arc.outland_horizon.utils.ChatUtils;
-import com.arc.outland_horizon.utils.ManaUtils;
+import com.arc.outland_horizon.utils.ModCapabilityUtils;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentContents;
@@ -70,7 +70,7 @@ public abstract class ManaPotion extends ConsumablePotion {
     @Override
     public @NotNull ItemStack finishUsingItem(@NotNull ItemStack itemStack, @NotNull Level level, @NotNull LivingEntity livingEntity) {
         if(livingEntity instanceof ServerPlayer player){
-            ManaUtils.addMana(player,manaRecover());
+            ModCapabilityUtils.addMana(player,manaRecover());
         }
         return super.finishUsingItem(itemStack, level, livingEntity);
     }

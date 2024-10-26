@@ -11,7 +11,7 @@ public class FrequencyVariation extends Gun {
 
     @Override
     public int getCoolDown() {
-        return 60;
+        return 100;
     }
 
     @Override
@@ -22,11 +22,6 @@ public class FrequencyVariation extends Gun {
     @Override
     public int getBulletVelocity() {
         return 14;
-    }
-
-    @Override
-    public int getBulletInaccuracy() {
-        return 0;
     }
 
     @Override

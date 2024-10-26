@@ -12,10 +12,8 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -27,21 +25,22 @@ import java.util.List;
 
 public abstract class AbstractRangedWeapon extends AbstractWeapon {
     public AbstractRangedWeapon(int maxDurability, int meleeAttackDamage, int enchantAbility, Item repairIngredient) {
-        super(maxDurability, meleeAttackDamage, enchantAbility, repairIngredient);
+        this(maxDurability, meleeAttackDamage, enchantAbility, repairIngredient,new Properties());
+    }
+    public AbstractRangedWeapon(int maxDurability, int meleeAttackDamage, int enchantAbility, Item repairIngredient,Properties properties) {
+        super(maxDurability, meleeAttackDamage, enchantAbility, repairIngredient,properties);
     }
     public ResourceKey<DamageType> getDamageType(LivingEntity holder){
         return DamageTypes.MOB_ATTACK;
-    }
-    @Override
-    public void onProjectileHitEntity(ThrowableProjectile projectile, Entity target, LivingEntity shooter) {
-        super.onProjectileHitEntity(projectile, target, shooter);
     }
     public abstract float getDamage();
     public abstract int getCoolDown();
     public abstract BasePlayerProjectile getProjectile(LivingEntity shooter, AbstractWeapon weapon, int maxAge, int velocity);
     public abstract int getBulletMaxAge();
     public abstract int getBulletVelocity();
-    public abstract int getBulletInaccuracy();
+    public int getBulletInaccuracy(){
+        return 0;
+    }
     public abstract SoundEvent getSoundEvent();
     public abstract void successfullyUsed(Level pLevel, ServerPlayer serverPlayer, InteractionHand pUsedHand);
     @Override

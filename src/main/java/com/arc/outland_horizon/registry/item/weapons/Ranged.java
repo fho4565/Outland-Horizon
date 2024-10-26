@@ -2,10 +2,7 @@ package com.arc.outland_horizon.registry.item.weapons;
 
 import com.arc.outland_horizon.registry.item.ItemRegistry;
 import com.arc.outland_horizon.registry.item.Materials;
-import com.arc.outland_horizon.world.item.weapons.weapon.ranged.gun.FrequencyVariation;
-import com.arc.outland_horizon.world.item.weapons.weapon.ranged.gun.Genocide;
-import com.arc.outland_horizon.world.item.weapons.weapon.ranged.gun.Malicious;
-import com.arc.outland_horizon.world.item.weapons.weapon.ranged.gun.VoidImpact;
+import com.arc.outland_horizon.world.item.weapons.weapon.ranged.gun.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.registries.RegistryObject;
@@ -17,6 +14,7 @@ public class Ranged {
     public static final RegistryObject<Item> FREQUENCY_VARIATION = registerWeaponRanged("frequency_variation", () -> new FrequencyVariation(375, 10, Items.DIAMOND));
     public static final RegistryObject<Item> PAO = registerWeaponRanged("genocide", () -> new Genocide(100, 10, Items.DIAMOND));
     public static final RegistryObject<Item> VOID_IMPACT = registerWeaponRanged("void_impact", () -> new VoidImpact(3500, 10, Items.DIAMOND));
+    public static final RegistryObject<Item> CARAMEL_BAKA = registerWeaponRanged("caramel_baka", CaramelBaka::new);
 
     public static RegistryObject<Item> registerWeaponRanged(String id, Supplier<Item> item) {
         RegistryObject<Item> object = ItemRegistry.registerItem(id, item);

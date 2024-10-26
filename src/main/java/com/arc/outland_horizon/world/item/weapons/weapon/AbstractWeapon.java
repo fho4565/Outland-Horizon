@@ -79,7 +79,7 @@ public abstract class AbstractWeapon extends TieredItem {
             }
         }, meleeAttackDamage,attackSpeed,properties);
     }
-    public AbstractWeapon(int maxDurability, float meleeAttackDamage, int enchantAbility, Item repairIngredient) {
+    public AbstractWeapon(int maxDurability, float meleeAttackDamage, int enchantAbility, Item repairIngredient,Properties properties) {
         this(new Tier() {
             public int getUses() {
                 return maxDurability;
@@ -104,7 +104,7 @@ public abstract class AbstractWeapon extends TieredItem {
             public @NotNull Ingredient getRepairIngredient() {
                 return Ingredient.of(new ItemStack(repairIngredient));
             }
-        }, meleeAttackDamage,-2.4f);
+        }, meleeAttackDamage,-2.4f,properties);
         createModifiers(meleeAttackDamage,-2.4f, Map.of());
     }
 
@@ -117,7 +117,7 @@ public abstract class AbstractWeapon extends TieredItem {
         createModifiers(meleeAttackDamage, attackSpeed, Map.of());
     }
     public float getDamage(){
-        return 1;
+        return 0;
     }
 
     public InteractionHand getWeaponHand(LivingEntity holder) {
@@ -128,7 +128,6 @@ public abstract class AbstractWeapon extends TieredItem {
     }
     public void onProjectileHitEntity(ThrowableProjectile projectile, Entity target, LivingEntity shooter){
         EntityUtils.hurt(shooter, target, DamageTypes.MAGIC, (float) (getDamage()+shooter.getAttributeValue(Attributes.ATTACK_DAMAGE)));
-
     }
     public void createModifiers(float meleeAttackDamage, float attackSpeed, Map<Attribute,AttributeModifier> additionalModifiers){
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();

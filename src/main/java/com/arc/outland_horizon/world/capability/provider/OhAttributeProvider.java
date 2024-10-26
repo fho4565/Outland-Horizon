@@ -15,7 +15,7 @@ public class OhAttributeProvider implements ICapabilityProvider,
     private OhAttribute ohAttribute;
     public static final Capability<OhAttribute> OH_ATTRIBUTE = CapabilityManager.get(new CapabilityToken<>() {});
     public final LazyOptional<OhAttribute> lazyOptional = LazyOptional.of(() -> this.ohAttribute);
-    public static double mana,manaRecover, maxMana,rage, maxRage,rageRecover;
+    public static double mana,manaRecover, maxMana,rage, maxRage,rageRecover,shieldValue;
     public OhAttributeProvider() {
         this.ohAttribute = new OhAttribute();
     }

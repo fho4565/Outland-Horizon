@@ -18,6 +18,7 @@
   "item.outland_horizon.genocide": "Genocide",
   "item.outland_horizon.void_impact": "Void Impact",
   "item.outland_horizon.reinforced_iron_ingot": "Reinforced iron ingot",
+  "item.outland_horizon.apprentice_shield_book" : "Apprentice shield book",
 
   "death.attack.bleed": "%s lost a lot of blood",
   "death.attack.bleed.item": "%s lost too much blood due to %s using %s",
@@ -48,9 +49,9 @@
   "text.outland_horizon.gui.consumable.magic_potion": "Restores %d Mana",
   "text.outland_horizon.key.rage.description" : "Rage",
   "text.outland_horizon.mod.name" : "Outland Horizon",
-  "text.outland_horizon.gui.weapon.ka_zhi_sword.damage_add": "%s Damage Bonus",
-  "text.outland_horizon.gui.weapon.ka_zhi_sword.stage_1": "Hey bro!do you know what the wither skull tastes like?\nDo you want to give it a try? Anyway, I haven't tried it before, can you help me give it a try?",
-  "text.outland_horizon.gui.weapon.ka_zhi_sword.stage_2": "Hey bro!I heard from other cowboys that there is a particularly large ender dragon in the end. I have never seen the ender dragon since I was young. Let me go and see it.",
+  "text.outland_horizon.gui.weapon.caramel_baka.damage_add": "%s Damage Bonus",
+  "text.outland_horizon.gui.weapon.caramel_baka.stage_1": "Hey bro!do you know what the wither skull tastes like?\nDo you want to give it a try? Anyway, I haven't tried it before, can you help me give it a try?",
+  "text.outland_horizon.gui.weapon.caramel_baka.stage_2": "Hey bro!I heard from other cowboys that there is a particularly large ender dragon in the end. I have never seen the ender dragon since I was young. Let me go and see it.",
 
   "text.outland_horizon.advancement.start.name": "The Beginning",
   "text.outland_horizon.advancement.start.description": "Killed a wither",
@@ -137,6 +138,6 @@
   "entity.outland_horizon.iron_bullet" : "EMPTY",
   "entity.outland_horizon.yee" : "YEE",
   "entity.outland_horizon.painful_man" : "Painful man",
-  "item.outland_horizon.ka_zhi_sword" : "High Noon Relic",
-  "text.outland_horizon.gui.weapon.ka_zhi_sword.hover_text": "Oh my god, this sword is wearing a cowboy hat and carrying a gun. He must always win in fights.\nIndeed, comrade. I have won 13 consecutive cowboy duels because whenever the enemy thought I was going to engage in a swordsmanship duel"
+  "item.outland_horizon.caramel_baka" : "Caramel baka",
+  "text.outland_horizon.gui.weapon.caramel_baka.hover_text": "Oh my god, this sword is wearing a cowboy hat and carrying a gun. He must always win in fights.\nIndeed, comrade. I have won 13 consecutive cowboy duels because whenever the enemy thought I was going to engage in a swordsmanship duel"
 }

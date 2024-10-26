@@ -25,6 +25,9 @@ public abstract class Gun extends AbstractRangedWeapon {
     public Gun(int maxDurability, int enchantAbility, Item repairIngredient) {
         super(maxDurability, 1, enchantAbility, repairIngredient);
     }
+    public Gun(int maxDurability, int enchantAbility, Item repairIngredient,Properties properties) {
+        super(maxDurability, 1, enchantAbility, repairIngredient,properties);
+    }
 
     @Override
     public BasePlayerProjectile getProjectile(LivingEntity shooter, AbstractWeapon weapon, int maxAge, int velocity) {

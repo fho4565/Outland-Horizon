@@ -2,7 +2,10 @@ package com.arc.outland_horizon.setup;
 
 import com.arc.outland_horizon.registry.item.ItemRegistry;
 import com.arc.outland_horizon.registry.mod_effect.MobEffectRegistry;
-import com.arc.outland_horizon.utils.*;
+import com.arc.outland_horizon.utils.ChatUtils;
+import com.arc.outland_horizon.utils.EntityUtils;
+import com.arc.outland_horizon.utils.ModCapabilityUtils;
+import com.arc.outland_horizon.utils.Utils;
 import com.arc.outland_horizon.world.ModCommands;
 import com.arc.outland_horizon.world.capability.ModCapabilities;
 import com.arc.outland_horizon.world.capability.entity.OhAttribute;
@@ -48,24 +51,49 @@ public class ForgeCommonEvents {
         Player player = event.player;
         if (event.phase == TickEvent.Phase.END) {
             if (!player.level().isClientSide) {
-                ManaUtils.recoverMana(player);
-                RageUtils.recoverRage(player);
+                ModCapabilityUtils.recoverMana(player);
+                ModCapabilityUtils.recoverRage(player);
+                double remove = Math.max(Math.pow((ModCapabilityUtils.getShieldValue(player) / 2.0 + 0.3) / 1000.0, 2), 0.005);
+                ModCapabilityUtils.removeShieldValue(player, Math.min(remove, 0.5));
             }
         }
         if (EntityUtils.isInDimension(player, Utils.createModResourceLocation("nightmare"))) {
             player.addEffect(new MobEffectInstance(MobEffectRegistry.NIGHTMARE_POSSESSED.get(), 6000));
+        }
+        if (EntityUtils.isInDimension(player, new ResourceLocation("minecraft:overworld"))) {
+            if (player.hasEffect(MobEffectRegistry.NIGHTMARE_POSSESSED.get())) {
+                player.getActiveEffects().removeIf(effect -> effect.getEffect().equals(MobEffectRegistry.NIGHTMARE_POSSESSED.get()));
+                player.addEffect(new MobEffectInstance(MobEffectRegistry.NIGHTMARE_COMES.get(), 6000));
+            }
         }
     }
 
     @SubscribeEvent
     public static void onEntityHurt(LivingHurtEvent event) {
         LivingEntity entity = event.getEntity();
-        if(entity instanceof DamageResistance resistanceEntity && event.getSource().is(DamageTypes.MAGIC)){
-            float scale = (float) ((100.0 - resistanceEntity.magicDamageResistance())/100.0);
-            event.setAmount(Math.max(event.getAmount()*scale,0));
+        if (entity instanceof DamageResistance resistanceEntity && event.getSource().is(DamageTypes.MAGIC)) {
+            float scale = (float) ((100.0 - resistanceEntity.magicDamageResistance()) / 100.0);
+            event.setAmount(Math.max(event.getAmount() * scale, 0));
         }
         if (entity.hasEffect(MobEffectRegistry.NIGHTMARE_COMES.get())) {
             event.setAmount(event.getAmount() * 2);
+        }
+        if (entity instanceof Player player) {
+            double shieldValue = ModCapabilities.getOhAttribute(player).getShieldValue();
+            float damageAmount = event.getAmount();
+
+            float shieldAbsorb = damageAmount * 0.9f;
+            float playerDamage = damageAmount * 0.1f;
+            float remainingDamage = 0.0f;
+            if (shieldValue >= shieldAbsorb) {
+                ModCapabilities.getOhAttribute(player).setShieldValue(shieldValue - shieldAbsorb);
+            } else {
+                ModCapabilities.getOhAttribute(player).setShieldValue(0);
+                remainingDamage = (float) (shieldAbsorb - shieldValue);
+            }
+
+            playerDamage += remainingDamage;
+            event.setAmount(playerDamage);
         }
     }
 
@@ -73,6 +101,7 @@ public class ForgeCommonEvents {
     public static void onPlayerSleep(PlayerSleepInBedEvent event) {
         LivingEntity entity = event.getEntity();
         if (entity.hasEffect(MobEffectRegistry.NIGHTMARE_COMES.get())) {
+            EntityUtils.hurt(entity, DamageTypes.GENERIC, 5);
             event.setResult(Player.BedSleepingProblem.OTHER_PROBLEM);
             if (entity instanceof Player player) {
                 ChatUtils.simpleMessage(player, ChatUtils.translatable("text.outland_horizon.mob_effect.nightmare_comes.sleep").withStyle(ChatFormatting.DARK_RED));
@@ -83,18 +112,18 @@ public class ForgeCommonEvents {
     @SubscribeEvent
     public static void registerTrades(VillagerTradesEvent event) {
         if (event.getType() == VillagerProfession.TOOLSMITH) {
-            event.getTrades().get(3).add(getVillagerTrade(6, 10, "stone_hammer", 10, 6, 0.05f));
-            event.getTrades().get(4).add(getVillagerTrade(8, 13, "iron_hammer", 10, 8, 0.06f));
-            event.getTrades().get(4).add(getVillagerTrade(8, 13, "iron_spade", 10, 8, 0.06f));
-            event.getTrades().get(4).add(getVillagerTrade(9, 13, "iron_paxel", 10, 8, 0.06f));
-            event.getTrades().get(4).add(getVillagerTrade(11, 17, "iron_destroyer", 10, 10, 0.1f));
-            event.getTrades().get(5).add(getVillagerTrade(22, 37, "diamond_paxel", 10, 13, 0.1f));
-            event.getTrades().get(5).add(getVillagerTrade(29, 41, "diamond_destroyer", 10, 18, 0.2f));
+            event.getTrades().get(3).add(getVillagerTradeTool(6, 10, "stone_hammer", 6, 0.05f));
+            event.getTrades().get(4).add(getVillagerTradeTool(8, 13, "iron_hammer", 8, 0.06f));
+            event.getTrades().get(4).add(getVillagerTradeTool(8, 13, "iron_spade", 8, 0.06f));
+            event.getTrades().get(4).add(getVillagerTradeTool(9, 13, "iron_paxel", 8, 0.06f));
+            event.getTrades().get(4).add(getVillagerTradeTool(11, 17, "iron_destroyer", 10, 0.1f));
+            event.getTrades().get(5).add(getVillagerTradeTool(22, 37, "diamond_paxel", 13, 0.1f));
+            event.getTrades().get(5).add(getVillagerTradeTool(29, 41, "diamond_destroyer", 18, 0.2f));
         }
     }
 
-    private static @NotNull BasicItemListing getVillagerTrade(int origin, int bound, String sell, int maxTrades, int xp, float priceMultiplier) {
-        return new BasicItemListing(ThreadLocalRandom.current().nextInt(origin, bound), new ItemStack(ItemRegistry.getItemRegistered(Utils.createModResourceLocation(sell))), maxTrades, xp, priceMultiplier);
+    private static @NotNull BasicItemListing getVillagerTradeTool(int origin, int bound, String sell, int xp, float priceMultiplier) {
+        return new BasicItemListing(ThreadLocalRandom.current().nextInt(origin, bound), new ItemStack(ItemRegistry.getItemRegistered(Utils.createModResourceLocation(sell))), 10, xp, priceMultiplier);
     }
 
     @SubscribeEvent
@@ -109,19 +138,8 @@ public class ForgeCommonEvents {
     }
 
     @SubscribeEvent
-    public static void onPlayerChangeDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
-        Player player = event.getEntity();
-        if (event.getFrom().location().equals(Utils.createModResourceLocation("nightmare"))
-                && event.getTo().location().equals(ResourceLocation.tryParse("minecraft:overworld"))) {
-            if (player.hasEffect(MobEffectRegistry.NIGHTMARE_POSSESSED.get())) {
-                player.getActiveEffects().removeIf(effect -> effect.getEffect().equals(MobEffectRegistry.NIGHTMARE_POSSESSED.get()));
-                player.addEffect(new MobEffectInstance(MobEffectRegistry.NIGHTMARE_COMES.get(), 6000));
-            }
-        }
-    }
-
-    @SubscribeEvent
     public static void onRegisterCommands(RegisterCommandsEvent event) {
         ModCommands.registerModCommands(event.getDispatcher());
     }
+
 }
