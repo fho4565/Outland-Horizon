@@ -4,7 +4,7 @@ import com.arc.outland_horizon.utils.Utils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
 
-public interface ICooldown {
+public interface ICooldownItem {
     String COOLDOWN_TAG = "cooldown";
     int cooldownTime();
     default boolean isCooldown(ItemStack stack) {

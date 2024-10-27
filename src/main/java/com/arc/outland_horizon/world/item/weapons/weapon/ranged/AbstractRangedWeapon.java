@@ -5,13 +5,10 @@ import com.arc.outland_horizon.world.entity.projectile.BasePlayerProjectile;
 import com.arc.outland_horizon.world.item.weapons.weapon.AbstractWeapon;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.damagesource.DamageType;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -29,9 +26,6 @@ public abstract class AbstractRangedWeapon extends AbstractWeapon {
     }
     public AbstractRangedWeapon(int maxDurability, int meleeAttackDamage, int enchantAbility, Item repairIngredient,Properties properties) {
         super(maxDurability, meleeAttackDamage, enchantAbility, repairIngredient,properties);
-    }
-    public ResourceKey<DamageType> getDamageType(LivingEntity holder){
-        return DamageTypes.MOB_ATTACK;
     }
     public abstract float getDamage();
     public abstract int getCoolDown();

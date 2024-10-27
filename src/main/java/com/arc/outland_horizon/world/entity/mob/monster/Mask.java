@@ -32,27 +32,18 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 import software.bernie.geckolib.core.object.PlayState;
 import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class PainfulMan extends Monster implements GeoEntity {
-    protected static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("idle");
-    protected static final RawAnimation ATTACK_ANIM = RawAnimation.begin().thenLoop("attack");
-    protected static final RawAnimation HURT_ANIM = RawAnimation.begin().thenLoop("hurt");
-    AnimationController<PainfulMan> attack = new AnimationController<>(this, "attack", 5, this::attackController);
-    AnimationController<PainfulMan> idle = new AnimationController<>(this, "idle", 5, this::animController);
-    AnimationController<PainfulMan> hurt = new AnimationController<>(this, "hurt", 5, this::hurtController);
+public class Mask extends Monster implements GeoEntity {
+    protected static final RawAnimation ROTATE_ANIM = RawAnimation.begin().thenLoop("rotate");
 
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
-    public PainfulMan(PlayMessages.SpawnEntity packet, Level world) {
-        this(EntityRegistry.PAINFUL_MAN.get(), world);
+    public Mask(EntityType<? extends Mask> type, Level level) {
+        super(type, level);
     }
 
-    public PainfulMan(EntityType<PainfulMan> type, Level world) {
-        super(type, world);
-        setMaxUpStep(0.6f);
-        xpReward = 0;
-        setNoAi(false);
+    public Mask(PlayMessages.SpawnEntity spawnEntity, Level level) {
+        super(EntityRegistry.MASK.get(),level);
     }
-
     @Override
     public @NotNull Packet<ClientGamePacketListener> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
@@ -114,7 +105,7 @@ public class PainfulMan extends Monster implements GeoEntity {
     }
 
     public static void init() {
-        SpawnPlacements.register(EntityRegistry.PAINFUL_MAN.get(),
+        SpawnPlacements.register(EntityRegistry.MASK.get(),
                 SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 (entityType, world, reason, pos, random) -> (world.getDifficulty() != Difficulty.PEACEFUL && Monster.isDarkEnoughToSpawn(world, pos, random) && Mob.checkMobSpawnRules(entityType, world, reason, pos, random)));
@@ -122,42 +113,21 @@ public class PainfulMan extends Monster implements GeoEntity {
 
     public static AttributeSupplier.Builder createAttributes() {
         AttributeSupplier.Builder builder = Mob.createMobAttributes();
-        builder = builder.add(Attributes.MOVEMENT_SPEED, 0.3);
-        builder = builder.add(Attributes.MAX_HEALTH, 30);
-        builder = builder.add(Attributes.ARMOR, 5);
-        builder = builder.add(Attributes.ATTACK_DAMAGE, 8);
+        builder = builder.add(Attributes.MOVEMENT_SPEED, 0.5);
+        builder = builder.add(Attributes.MAX_HEALTH, 20);
+        builder = builder.add(Attributes.ARMOR, 2);
+        builder = builder.add(Attributes.ATTACK_DAMAGE, 9);
         builder = builder.add(Attributes.FOLLOW_RANGE, 32);
         return builder;
     }
-
     @Override
     public void registerControllers(final AnimatableManager.ControllerRegistrar controllers) {
-        controllers.add(idle);
-        controllers.add(attack);
-        controllers.add(hurt);
+        controllers.add(new AnimationController<>(this, "rotate", 5, this::rotateAnimController));
     }
 
-    protected <E extends PainfulMan> PlayState animController(final AnimationState<E> event) {
-        if(attack.getAnimationState()== AnimationController.State.STOPPED&&hurt.getAnimationState()== AnimationController.State.STOPPED&&idle.getAnimationState()== AnimationController.State.STOPPED) {
-            if (!event.isMoving()) {
-                event.getController().forceAnimationReset();
-                return event.setAndContinue(IDLE_ANIM);
-                /*if(ThreadLocalRandom.current().nextInt(0,5)==2) {
-
-                }*/
-            }
-        }
-        return PlayState.STOP;
-    }
-    protected <E extends PainfulMan> PlayState attackController(final AnimationState<E> event) {
-        if(Float.compare(event.getAnimatable().getAttackAnim(event.getPartialTick()),0.0f) > 0){
-            return event.setAndContinue(ATTACK_ANIM);
-        }
-        return PlayState.STOP;
-    }
-    protected <E extends PainfulMan> PlayState hurtController(final AnimationState<E> event) {
-        if(event.getAnimatable().hurtDuration==10){
-            return event.setAndContinue(HURT_ANIM);
+    protected <E extends Mask> PlayState rotateAnimController(final AnimationState<E> event) {
+        if (!event.isMoving()) {
+            return event.setAndContinue(ROTATE_ANIM);
         }
         return PlayState.STOP;
     }

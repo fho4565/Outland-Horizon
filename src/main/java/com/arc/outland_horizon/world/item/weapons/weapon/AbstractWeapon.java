@@ -3,7 +3,9 @@ package com.arc.outland_horizon.world.item.weapons.weapon;
 import com.arc.outland_horizon.utils.EntityUtils;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -119,7 +121,9 @@ public abstract class AbstractWeapon extends TieredItem {
     public float getDamage(){
         return 0;
     }
-
+    public ResourceKey<DamageType> getDamageType(LivingEntity holder){
+        return DamageTypes.MOB_ATTACK;
+    }
     public InteractionHand getWeaponHand(LivingEntity holder) {
         return holder.getMainHandItem().getItem() == this || holder.getOffhandItem().getItem() != this ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
     }
@@ -127,7 +131,7 @@ public abstract class AbstractWeapon extends TieredItem {
 
     }
     public void onProjectileHitEntity(ThrowableProjectile projectile, Entity target, LivingEntity shooter){
-        EntityUtils.hurt(shooter, target, DamageTypes.MAGIC, (float) (getDamage()+shooter.getAttributeValue(Attributes.ATTACK_DAMAGE)));
+        EntityUtils.hurt(shooter, target, getDamageType(shooter), (float) (getDamage()+shooter.getAttributeValue(Attributes.ATTACK_DAMAGE)-1));
     }
     public void createModifiers(float meleeAttackDamage, float attackSpeed, Map<Attribute,AttributeModifier> additionalModifiers){
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();

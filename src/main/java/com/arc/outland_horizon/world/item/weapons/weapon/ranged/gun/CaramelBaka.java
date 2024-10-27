@@ -7,7 +7,9 @@ import com.arc.outland_horizon.world.DeveloperItem;
 import com.arc.outland_horizon.world.sound.SoundEventRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -29,7 +31,7 @@ public class CaramelBaka extends Gun implements DeveloperItem {
 
     @Override
     public float getDamage() {
-        return 65;
+        return 27;
     }
 
     @Override
@@ -46,17 +48,17 @@ public class CaramelBaka extends Gun implements DeveloperItem {
 
     @Override
     public int getCoolDown() {
-        return Utils.secondsToTicks(1.5f);
+        return Utils.secondsToTicks(0.4f);
     }
 
     @Override
     public int getBulletMaxAge() {
-        return 8;
+        return 30;
     }
 
     @Override
     public int getBulletVelocity() {
-        return 10;
+        return 6;
     }
 
     @Override
@@ -70,7 +72,10 @@ public class CaramelBaka extends Gun implements DeveloperItem {
         tooltipComponents.add(ChatUtils.translatable("text.outland_horizon.gui.item.developer", developerName()).withStyle(ChatFormatting.GOLD));
         super.appendHoverText(stack, level, tooltipComponents, isAdvanced);
     }
-
+    @Override
+    public ResourceKey<DamageType> getDamageType(LivingEntity holder) {
+        return EntityUtils.getMachineGun(holder,Utils.createModResourceLocation("machine_gun"));
+    }
     @Override
     public String developerName() {
         return "caramel";

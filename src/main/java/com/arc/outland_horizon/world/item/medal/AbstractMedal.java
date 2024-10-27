@@ -1,6 +1,6 @@
 package com.arc.outland_horizon.world.item.medal;
 
-import com.arc.outland_horizon.world.item.ICooldown;
+import com.arc.outland_horizon.world.item.ICooldownItem;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
@@ -8,7 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class AbstractMedal extends Item implements ICooldown {
+public abstract class AbstractMedal extends Item implements ICooldownItem {
     public AbstractMedal() {
         super(new Properties());
     }

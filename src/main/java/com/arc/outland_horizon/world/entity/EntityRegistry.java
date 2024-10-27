@@ -2,11 +2,13 @@ package com.arc.outland_horizon.world.entity;
 
 import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.world.entity.mob.monster.EntityTZT;
+import com.arc.outland_horizon.world.entity.mob.monster.Mask;
 import com.arc.outland_horizon.world.entity.mob.monster.PainfulMan;
 import com.arc.outland_horizon.world.entity.mob.monster.Yee;
 import com.arc.outland_horizon.world.entity.projectile.bullet.Bullet;
 import com.arc.outland_horizon.world.entity.projectile.magic.FireWandShot;
 import com.arc.outland_horizon.world.entity.render.mob.monster.EntityTZTRender;
+import com.arc.outland_horizon.world.entity.render.mob.monster.MaskRender;
 import com.arc.outland_horizon.world.entity.render.mob.monster.PainfulManRender;
 import com.arc.outland_horizon.world.entity.render.mob.monster.YeeRender;
 import com.arc.outland_horizon.world.entity.render.projectile.bullet.BulletRenderer;
@@ -65,6 +67,13 @@ public class EntityRegistry {
                     .setUpdateInterval(3)
                     .setCustomClientFactory(EntityTZT::new)
                     .sized(0.6f, 1.8f));
+    public static final RegistryObject<EntityType<Mask>> MASK = register("mask",
+            EntityType.Builder.<Mask>of(Mask::new, MobCategory.MONSTER)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .setTrackingRange(64)
+                    .setUpdateInterval(3)
+                    .setCustomClientFactory(Mask::new)
+                    .sized(0.6f, 1.8f));
     public static void register(IEventBus bus){
         ENTITIES.register(bus);
     }
@@ -118,6 +127,7 @@ public class EntityRegistry {
             event.registerEntityRenderer(YEE.get(), YeeRender::new);
             event.registerEntityRenderer(PAINFUL_MAN.get(), PainfulManRender::new);
             event.registerEntityRenderer(MOBA.get(), EntityTZTRender::new);
+            event.registerEntityRenderer(MASK.get(), MaskRender::new);
             RENDERER_PACKAGES = null;
 
         }
@@ -143,7 +153,7 @@ public class EntityRegistry {
                 this.entityType = entityType;
                 RENDERER_PACKAGES.add(this);
             }
-            private EntityRendererPackage<T> provider(EntityRendererProvider provider) {
+            private EntityRendererPackage<T> provider(EntityRendererProvider<T> provider) {
                 this.rendererProvider = provider;
                 return this;
             }
@@ -172,12 +182,14 @@ public class EntityRegistry {
     public static void init(FMLCommonSetupEvent event) {
         event.enqueueWork(Yee::init);
         event.enqueueWork(PainfulMan::init);
+        event.enqueueWork(Mask::init);
     }
 
     @SubscribeEvent
     public static void registerAttributes(EntityAttributeCreationEvent event) {
         event.put(YEE.get(), Yee.createAttributes().build());
         event.put(PAINFUL_MAN.get(), PainfulMan.createAttributes().build());
+        event.put(MASK.get(), Mask.createAttributes().build());
         event.put(MOBA.get(), EntityTZT.createAttributes().build());
     }
 

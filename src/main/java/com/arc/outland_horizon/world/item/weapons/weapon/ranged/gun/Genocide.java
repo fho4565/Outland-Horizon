@@ -33,11 +33,6 @@ public class Genocide extends Gun {
     }
 
     @Override
-    public int getBulletInaccuracy() {
-        return 0;
-    }
-
-    @Override
     public SoundEvent getSoundEvent() {
         return SoundEventRegister.ROCKET_LAUNCHER.get();
     }

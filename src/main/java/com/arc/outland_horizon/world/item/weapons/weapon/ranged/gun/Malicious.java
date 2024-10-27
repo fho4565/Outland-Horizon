@@ -16,17 +16,12 @@ public class Malicious extends Gun {
 
     @Override
     public int getBulletMaxAge() {
-        return 8;
+        return 16;
     }
 
     @Override
     public int getBulletVelocity() {
-        return 12;
-    }
-
-    @Override
-    public int getBulletInaccuracy() {
-        return 0;
+        return 5;
     }
 
     @Override

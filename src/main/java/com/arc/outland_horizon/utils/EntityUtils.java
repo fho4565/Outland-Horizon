@@ -13,6 +13,7 @@ import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public class EntityUtils {
     public static void hurt(Entity source, Entity target, ResourceKey<DamageType> damageType, float damage) {
@@ -28,6 +29,20 @@ public class EntityUtils {
                 pos.x + radius + 1, pos.y + radius + 1, pos.z + radius + 1);
         return level.getEntities(null, box).stream()
                 .filter(entity -> entity.position().distanceTo(pos) <= radius).toList();
+    }
+    public static List<Entity> getEntitiesByRadio(Level level, Vec3 pos, double radius, Predicate<Entity> entityPredicate) {
+        AABB box = new AABB(pos.x - radius - 1, pos.y - radius - 1, pos.z - radius - 1,
+                pos.x + radius + 1, pos.y + radius + 1, pos.z + radius + 1);
+        return level.getEntities(null, box).stream()
+                .filter(entity -> entity.position().distanceTo(pos) <= radius && entityPredicate.test(entity))
+                .toList();
+    }
+    public static List<Entity> getEntitiesByRadio(Level level, Vec3 pos, double radius, Class<?> clazz) {
+        AABB box = new AABB(pos.x - radius - 1, pos.y - radius - 1, pos.z - radius - 1,
+                pos.x + radius + 1, pos.y + radius + 1, pos.z + radius + 1);
+        return level.getEntities(null, box).stream()
+                .filter(entity -> entity.position().distanceTo(pos) <= radius && entity.getClass().isAssignableFrom(clazz))
+                .toList();
     }
 
     public static boolean isInDimension(Entity entity, ResourceLocation dimensionLocation) {
