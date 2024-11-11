@@ -8,7 +8,7 @@ import software.bernie.geckolib.model.GeoModel;
 public class MaskModel extends GeoModel<Mask> {
     @Override
     public ResourceLocation getModelResource(Mask animatable) {
-        return Utils.createModResourceLocation("geo/monster/mask.geo.json");
+        return Utils.createModResourceLocation("geo/entity/monster/mask.geo.json");
     }
 
     @Override
@@ -18,6 +18,6 @@ public class MaskModel extends GeoModel<Mask> {
 
     @Override
     public ResourceLocation getAnimationResource(Mask animatable) {
-        return Utils.createModResourceLocation("animations/monster/mask.animation.json");
+        return Utils.createModResourceLocation("animations/entity/monster/mask.animation.json");
     }
 }

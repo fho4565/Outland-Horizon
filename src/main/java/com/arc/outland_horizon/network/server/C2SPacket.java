@@ -2,7 +2,7 @@ package com.arc.outland_horizon.network.server;
 
 import com.arc.outland_horizon.network.Packet;
 import com.arc.outland_horizon.registry.mod_effect.MobEffectRegistry;
-import com.arc.outland_horizon.utils.ModCapabilityUtils;
+import com.arc.outland_horizon.utils.CapabilityUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -33,9 +33,9 @@ public class C2SPacket implements Packet {
         ServerPlayer p = Objects.requireNonNull(ctx.get().getSender());
         switch (this.operation){
             case Operation.TRIGGER_RAGE -> {
-                if(ModCapabilityUtils.isRageFull(p)){
+                if(CapabilityUtils.isRageFull(p)){
                     p.addEffect(new MobEffectInstance(MobEffectRegistry.RAGE.get(), 600));
-                    ModCapabilityUtils.setRage(p, 0);
+                    CapabilityUtils.setRage(p, 0);
                 }
             }
         }

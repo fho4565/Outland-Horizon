@@ -1,6 +1,7 @@
 package com.arc.outland_horizon.world.block.fluids.blood;
 
-import com.arc.outland_horizon.registry.item.Tools;
+import com.arc.outland_horizon.registry.OHBlocks;
+import com.arc.outland_horizon.registry.OHItems;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.Fluid;
@@ -10,11 +11,11 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class Blood extends ForgeFlowingFluid {
     public static final ForgeFlowingFluid.Properties PROPERTIES
-            = new ForgeFlowingFluid.Properties(com.arc.outland_horizon.registry.block.Fluid.FluidTypeRegistry.BLOOD_TYPE,
-            com.arc.outland_horizon.registry.block.Fluid.FluidRegistry.BLOOD, com.arc.outland_horizon.registry.block.Fluid.FluidRegistry.BLOOD_FLOWING)
+            = new ForgeFlowingFluid.Properties(OHBlocks.Fluid.FluidTypeRegistry.BLOOD_TYPE,
+            OHBlocks.Fluid.FluidRegistry.BLOOD, OHBlocks.Fluid.FluidRegistry.BLOOD_FLOWING)
             .explosionResistance(100f)
-            .bucket(Tools.BLOOD_BUCKET)
-            .block(() -> (LiquidBlock) com.arc.outland_horizon.registry.block.Fluid.BLOOD_BLOCK.get());
+            .bucket(OHItems.Tool.BLOOD_BUCKET)
+            .block(() -> (LiquidBlock) OHBlocks.Fluid.BLOOD_BLOCK.get());
 
     protected Blood() {
         super(PROPERTIES);

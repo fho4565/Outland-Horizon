@@ -14,9 +14,11 @@ public class ManaBar extends HudSection{
     }
     @Override
     public void render(Minecraft minecraft, GuiGraphics guiGraphics) {
+        guiGraphics.pose().pushPose();
+        guiGraphics.pose().translate(0, 0, 0);
+        guiGraphics.setColor(1F, 1F, 1F, 1F);
         LocalPlayer player = minecraft.player;
         if (player != null) {
-
             float scale = (float) (OhAttributeProvider.mana / OhAttributeProvider.maxMana);
             String text = ((int) OhAttributeProvider.mana) + " / " + ((int) OhAttributeProvider.maxMana);
             int width = minecraft.font.width(text);
@@ -26,5 +28,6 @@ public class ManaBar extends HudSection{
             guiGraphics.fill(0, 80, Math.round(100 * scale), 80+20, Color.BLUE.getRGB());
             guiGraphics.fill(0, 80, 100, 80+20, -1, Color.BLACK.getRGB());
         }
+        guiGraphics.pose().popPose();
     }
 }

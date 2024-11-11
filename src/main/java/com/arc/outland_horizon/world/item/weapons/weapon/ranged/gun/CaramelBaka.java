@@ -3,6 +3,7 @@ package com.arc.outland_horizon.world.item.weapons.weapon.ranged.gun;
 import com.arc.outland_horizon.utils.ChatUtils;
 import com.arc.outland_horizon.utils.EntityUtils;
 import com.arc.outland_horizon.utils.Utils;
+import com.arc.outland_horizon.utils.WorldUtils;
 import com.arc.outland_horizon.world.DeveloperItem;
 import com.arc.outland_horizon.world.sound.SoundEventRegister;
 import net.minecraft.ChatFormatting;
@@ -36,7 +37,7 @@ public class CaramelBaka extends Gun implements DeveloperItem {
 
     @Override
     public void onProjectileHitEntity(ThrowableProjectile projectile, Entity target, LivingEntity shooter) {
-        EntityUtils.getEntitiesByRadio(target.level(),target.position(),5).forEach(entity -> {
+        WorldUtils.getEntitiesByRadio(target.level(),target.position(),5).forEach(entity -> {
             if(entity instanceof LivingEntity livingEntity){
                 if(!livingEntity.is(target)){
                     EntityUtils.hurt(shooter, livingEntity, DamageTypes.MOB_ATTACK, getDamage()*0.65f);

@@ -65,7 +65,7 @@ public class Mask extends Monster implements GeoEntity {
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.2, true) {
             @Override
             protected double getAttackReachSqr(@NotNull LivingEntity entity) {
-                return this.mob.getBbWidth() * this.mob.getBbWidth() + entity.getBbWidth();
+                return super.getAttackReachSqr(entity);
             }
         });
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
@@ -81,7 +81,6 @@ public class Mask extends Monster implements GeoEntity {
         this.goalSelector.addGoal(3, new RandomStrollGoal(this, 1));
         this.goalSelector.addGoal(3, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(4, new FloatGoal(this));
-
     }
 
     @Override

@@ -11,6 +11,7 @@ import net.minecraft.util.RandomSource;
 import java.awt.*;
 
 public class HealthBar extends HudSection {
+    public static final int MAX_BAR_WIDTH = 158;
     private final ResourceLocation texture = Utils.createModResourceLocation("textures/gui/health_bar.png");
 
     public HealthBar() {
@@ -48,39 +49,59 @@ public class HealthBar extends HudSection {
             }
             guiGraphics.blit(texture, offsetX, offsetY,
                     0, 0,
-                    160, 24,
-                    160, 24);
+                    160, 48,
+                    160, 48);
             String hpString = String.format("%.1f/%.1f", player.getHealth(), player.getMaxHealth());
-            guiGraphics.drawString(minecraft.font,hpString, (2+offsetX+minecraft.font.width(hpString)),(2+offsetY+minecraft.font.lineHeight)/2,100,false);
-
-            guiGraphics.fill(
-                    2 + offsetX,
-                    2 + offsetY,
-                    Math.round(158 * healthScale) + offsetX,
-                    14 + offsetY,
-                    -1,
-                    Color.RED.darker().getRGB());
-            String absorptionString = String.format("%.1f", player.getAbsorptionAmount());
-            guiGraphics.drawString(minecraft.font,absorptionString,160+offsetX,(12+offsetY+minecraft.font.lineHeight)/2,100,false);
-
-            guiGraphics.fill(
-                    2 + offsetX,
-                    15 + offsetY,
-                    Math.round(158 * absorptionScale) + offsetX,
-                    18 + offsetY,
-                    -1,
-                    Color.YELLOW.getRGB());
+            guiGraphics.drawString(minecraft.font, hpString, (2 + offsetX + minecraft.font.width(hpString)), (2 + offsetY + minecraft.font.lineHeight) / 2, 100, false);
+            renderHealthBar(minecraft, guiGraphics, player, offsetX, offsetY);
             String shieldString = String.format("%.1f", OhAttributeProvider.shieldValue);
-            guiGraphics.drawString(minecraft.font,shieldString,160+offsetX,(28+offsetY+minecraft.font.lineHeight)/2,100,false);
+            guiGraphics.drawString(minecraft.font, shieldString, 160 + offsetX, (28 + offsetY + minecraft.font.lineHeight) / 2, 100, false);
 
             guiGraphics.fill(
                     2 + offsetX,
                     19 + offsetY,
-                    Math.round(158 * shieldValueScale) + offsetX,
+                    Math.round(MAX_BAR_WIDTH * shieldValueScale) + offsetX,
                     22 + offsetY,
                     -1,
                     Color.GRAY.getRGB());
-            guiGraphics.pose().popPose();
+        }
+        guiGraphics.pose().popPose();
+    }
+
+    private void renderHealthBar(Minecraft mc, GuiGraphics guiGraphics, LocalPlayer player, int offsetX, int offsetY) {
+        float maxHealth = player.getMaxHealth();
+        float health = player.getHealth();
+        if (player.getAbsorptionAmount() > 0) {
+            float absorptionAmount = player.getAbsorptionAmount();
+            float barWidth = (health + absorptionAmount) / maxHealth * MAX_BAR_WIDTH;
+            if (barWidth > MAX_BAR_WIDTH) {
+                barWidth = MAX_BAR_WIDTH;
+            }
+            float absorptionBarWidth = absorptionAmount / (health + absorptionAmount) * barWidth;
+            float healthBarWidth = health / (health + absorptionAmount) * barWidth;
+            guiGraphics.fill(
+                    2 + offsetX,
+                    2 + offsetY,
+                    Math.round(healthBarWidth) + offsetX,
+                    14 + offsetY,
+                    -1,
+                    Color.RED.darker().getRGB());
+            guiGraphics.fill(
+                    Math.round(2 + healthBarWidth + 1 + offsetX),
+                    2 + offsetY,
+                    Math.round(absorptionBarWidth) + offsetX,
+                    14 + offsetY,
+                    -1,
+                    Color.YELLOW.getRGB());
+        } else {
+            float barWidth = health / maxHealth * MAX_BAR_WIDTH;
+            guiGraphics.fill(
+                    2 + offsetX,
+                    2 + offsetY,
+                    Math.round(barWidth) + offsetX,
+                    14 + offsetY,
+                    -1,
+                    Color.RED.darker().getRGB());
         }
     }
 }

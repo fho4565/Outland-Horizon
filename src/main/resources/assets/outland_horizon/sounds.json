@@ -24,6 +24,12 @@
       "outland_horizon:audio/nightmare/flesh_block_broken"
     ]
   },
+  "nightmare_comes": {
+    "subtitle": "subtitles.game.nightmare.comes",
+    "sounds": [
+      "outland_horizon:audio/nightmare/comes"
+    ]
+  },
   "gun": {
     "subtitle": "subtitles.item.gun",
     "sounds": [

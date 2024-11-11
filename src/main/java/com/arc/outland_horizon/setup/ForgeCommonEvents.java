@@ -1,18 +1,18 @@
 package com.arc.outland_horizon.setup;
 
+import com.arc.outland_horizon.ModCommands;
 import com.arc.outland_horizon.registry.item.ItemRegistry;
 import com.arc.outland_horizon.registry.mod_effect.MobEffectRegistry;
-import com.arc.outland_horizon.utils.ChatUtils;
-import com.arc.outland_horizon.utils.EntityUtils;
-import com.arc.outland_horizon.utils.ModCapabilityUtils;
-import com.arc.outland_horizon.utils.Utils;
-import com.arc.outland_horizon.world.ModCommands;
+import com.arc.outland_horizon.utils.*;
 import com.arc.outland_horizon.world.capability.ModCapabilities;
 import com.arc.outland_horizon.world.capability.entity.OhAttribute;
 import com.arc.outland_horizon.world.capability.provider.OhAttributeProvider;
 import com.arc.outland_horizon.world.entity.DamageResistance;
+import com.arc.outland_horizon.world.sound.SoundEventRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -51,19 +51,20 @@ public class ForgeCommonEvents {
         Player player = event.player;
         if (event.phase == TickEvent.Phase.END) {
             if (!player.level().isClientSide) {
-                ModCapabilityUtils.recoverMana(player);
-                ModCapabilityUtils.recoverRage(player);
-                double remove = Math.max(Math.pow((ModCapabilityUtils.getShieldValue(player) / 2.0 + 0.3) / 1000.0, 2), 0.005);
-                ModCapabilityUtils.removeShieldValue(player, Math.min(remove, 0.5));
+                CapabilityUtils.recoverMana(player);
+                CapabilityUtils.recoverRage(player);
+                double remove = Math.max(Math.pow((CapabilityUtils.getShieldValue(player) / 2.0 + 0.3) / 1000.0, 2), 0.005);
+                CapabilityUtils.removeShieldValue(player, Math.min(remove, 0.5));
             }
         }
         if (EntityUtils.isInDimension(player, Utils.createModResourceLocation("nightmare"))) {
-            player.addEffect(new MobEffectInstance(MobEffectRegistry.NIGHTMARE_POSSESSED.get(), 6000));
+            player.addEffect(new MobEffectInstance(MobEffectRegistry.NIGHTMARE_POSSESSED.get(), Utils.secondsToTicks(30)));
         }
         if (EntityUtils.isInDimension(player, new ResourceLocation("minecraft:overworld"))) {
-            if (player.hasEffect(MobEffectRegistry.NIGHTMARE_POSSESSED.get())) {
+            if (player.hasEffect(MobEffectRegistry.NIGHTMARE_POSSESSED.get()) && player instanceof ServerPlayer serverPlayer) {
+                WorldUtils.playSoundForPlayer(serverPlayer, SoundEventRegister.NIGHTMARE_COMES.get(), SoundSource.PLAYERS);
                 player.getActiveEffects().removeIf(effect -> effect.getEffect().equals(MobEffectRegistry.NIGHTMARE_POSSESSED.get()));
-                player.addEffect(new MobEffectInstance(MobEffectRegistry.NIGHTMARE_COMES.get(), 6000));
+                player.addEffect(new MobEffectInstance(MobEffectRegistry.NIGHTMARE_COMES.get(), Utils.secondsToTicks(60)));
             }
         }
     }
@@ -104,7 +105,7 @@ public class ForgeCommonEvents {
             EntityUtils.hurt(entity, DamageTypes.GENERIC, 5);
             event.setResult(Player.BedSleepingProblem.OTHER_PROBLEM);
             if (entity instanceof Player player) {
-                ChatUtils.simpleMessage(player, ChatUtils.translatable("text.outland_horizon.mob_effect.nightmare_comes.sleep").withStyle(ChatFormatting.DARK_RED));
+                ChatUtils.singlePlayer(player, ChatUtils.translatable("text.outland_horizon.mob_effect.nightmare_comes.sleep").withStyle(ChatFormatting.DARK_RED));
             }
         }
     }

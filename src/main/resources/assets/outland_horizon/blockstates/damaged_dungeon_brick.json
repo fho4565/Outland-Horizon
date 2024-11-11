@@ -1,0 +1,79 @@
+{
+  "variants": {
+    "type=1,facing=north": {
+      "model": "outland_horizon:block/damaged_dungeon_brick1"
+    },
+    "type=1,facing=east": {
+      "model": "outland_horizon:block/damaged_dungeon_brick1",
+      "y": 90
+    },
+    "type=1,facing=south": {
+      "model": "outland_horizon:block/damaged_dungeon_brick1",
+      "y": 180
+    },
+    "type=1,facing=west": {
+      "model": "outland_horizon:block/damaged_dungeon_brick1",
+      "y": 270
+    },
+    "type=2,facing=north": {
+      "model": "outland_horizon:block/damaged_dungeon_brick2"
+    },
+    "type=2,facing=east": {
+      "model": "outland_horizon:block/damaged_dungeon_brick2",
+      "y": 90
+    },
+    "type=2,facing=south": {
+      "model": "outland_horizon:block/damaged_dungeon_brick2",
+      "y": 180
+    },
+    "type=2,facing=west": {
+      "model": "outland_horizon:block/damaged_dungeon_brick2",
+      "y": 270
+    },
+    "type=3,facing=north": {
+      "model": "outland_horizon:block/damaged_dungeon_brick3"
+    },
+    "type=3,facing=east": {
+      "model": "outland_horizon:block/damaged_dungeon_brick3",
+      "y": 90
+    },
+    "type=3,facing=south": {
+      "model": "outland_horizon:block/damaged_dungeon_brick3",
+      "y": 180
+    },
+    "type=3,facing=west": {
+      "model": "outland_horizon:block/damaged_dungeon_brick3",
+      "y": 270
+    },
+    "type=4,facing=north": {
+      "model": "outland_horizon:block/damaged_dungeon_brick4"
+    },
+    "type=4,facing=east": {
+      "model": "outland_horizon:block/damaged_dungeon_brick4",
+      "y": 90
+    },
+    "type=4,facing=south": {
+      "model": "outland_horizon:block/damaged_dungeon_brick4",
+      "y": 180
+    },
+    "type=4,facing=west": {
+      "model": "outland_horizon:block/damaged_dungeon_brick4",
+      "y": 270
+    },
+    "type=5,facing=north": {
+      "model": "outland_horizon:block/damaged_dungeon_brick5"
+    },
+    "type=5,facing=east": {
+      "model": "outland_horizon:block/damaged_dungeon_brick5",
+      "y": 90
+    },
+    "type=5,facing=south": {
+      "model": "outland_horizon:block/damaged_dungeon_brick5",
+      "y": 180
+    },
+    "type=5,facing=west": {
+      "model": "outland_horizon:block/damaged_dungeon_brick5",
+      "y": 270
+    }
+  }
+}

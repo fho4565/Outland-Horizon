@@ -1,6 +1,7 @@
 package com.arc.outland_horizon.world.item.tools.multi;
 
 import com.arc.outland_horizon.utils.EntityUtils;
+import com.arc.outland_horizon.utils.WorldUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
@@ -30,7 +31,7 @@ public class Hammer extends PickaxeItem {
     }
     @Override
     public boolean hurtEnemy(@NotNull ItemStack itemStack, LivingEntity pTarget, LivingEntity pAttacker) {
-        EntityUtils.getEntitiesByRadio(pAttacker.level(), pTarget.position(), 5)
+        WorldUtils.getEntitiesByRadio(pAttacker.level(), pTarget.position(), 5)
                 .forEach(entity -> {
                     if(entity instanceof LivingEntity livingEntity){
                         EntityUtils.hurt(pAttacker, livingEntity, DamageTypes.MOB_ATTACK, this.getAttackDamage() / 2);

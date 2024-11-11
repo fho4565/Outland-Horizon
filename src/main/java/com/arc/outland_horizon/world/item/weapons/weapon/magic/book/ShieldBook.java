@@ -1,7 +1,6 @@
 package com.arc.outland_horizon.world.item.weapons.weapon.magic.book;
 
-import com.arc.outland_horizon.utils.EntityUtils;
-import com.arc.outland_horizon.utils.ModCapabilityUtils;
+import com.arc.outland_horizon.utils.CapabilityUtils;
 import com.arc.outland_horizon.utils.WorldUtils;
 import com.arc.outland_horizon.world.entity.projectile.BasePlayerProjectile;
 import com.arc.outland_horizon.world.item.weapons.weapon.AbstractWeapon;
@@ -48,10 +47,10 @@ public class ShieldBook extends AbstractMagicWeapon {
     @Override
     public void successfullyUsed(Level pLevel, ServerPlayer serverPlayer, InteractionHand pUsedHand) {
         WorldUtils.playSound(serverPlayer.level(), serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), getSoundEvent(), SoundSource.PLAYERS);
-        EntityUtils.getEntitiesByRadio(pLevel, serverPlayer.position(), 8)
+        WorldUtils.getEntitiesByRadio(pLevel, serverPlayer.position(), 8)
                 .forEach(entity -> {
                             if (entity instanceof Player player) {
-                                ModCapabilityUtils.addShieldValue(player, 12);
+                                CapabilityUtils.addShieldValue(player, 12);
                             }
                         }
                 );

@@ -1,6 +1,6 @@
 package com.arc.outland_horizon.world.block;
 
-import com.arc.outland_horizon.registry.block.Natural;
+import com.arc.outland_horizon.registry.OHBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.BlockGetter;
@@ -32,7 +32,7 @@ public class Saplings extends SaplingBlock {
 
     @Override
     public boolean mayPlaceOn(BlockState groundState, @NotNull BlockGetter worldIn, @NotNull BlockPos pos) {
-        return groundState.is(Natural.NIGHTMARE_DIRT.get());
+        return groundState.is(OHBlocks.Natural.NIGHTMARE_DIRT.get());
     }
 
     @Override

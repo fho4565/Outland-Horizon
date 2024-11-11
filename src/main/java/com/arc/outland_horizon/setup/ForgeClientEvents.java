@@ -17,8 +17,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 import static com.arc.outland_horizon.client.key.KeyRegistry.KEY_RAGE;
-import static com.arc.outland_horizon.registry.block.Fluid.FluidRegistry.BLOOD;
-import static com.arc.outland_horizon.registry.block.Fluid.FluidRegistry.BLOOD_FLOWING;
+import static com.arc.outland_horizon.registry.OHBlocks.Fluid.FluidRegistry.BLOOD;
+import static com.arc.outland_horizon.registry.OHBlocks.Fluid.FluidRegistry.BLOOD_FLOWING;
 
 @Mod.EventBusSubscriber(modid = Utils.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ForgeClientEvents {

@@ -45,7 +45,7 @@ public class Genocide extends Gun {
     @Override
     public void onProjectileHitEntity(ThrowableProjectile projectile, Entity target, LivingEntity shooter) {
         WorldUtils.playSound(target.level(), target.getX(), target.getY(), target.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS,2,1);
-        EntityUtils.getEntitiesByRadio(projectile.level(), projectile.position(), 5)
+        WorldUtils.getEntitiesByRadio(projectile.level(), projectile.position(), 5)
                 .stream().filter(entity -> entity instanceof LivingEntity && !entity.is(target))
                 .forEach(entity -> EntityUtils.hurt(shooter, entity, DamageTypes.MOB_ATTACK, (float) (getDamage()+shooter.getAttributeValue(Attributes.ATTACK_DAMAGE))/2.0f));
         super.onProjectileHitEntity(projectile, target, shooter);

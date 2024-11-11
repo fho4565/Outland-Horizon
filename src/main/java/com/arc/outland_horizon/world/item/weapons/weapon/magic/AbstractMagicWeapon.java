@@ -1,7 +1,7 @@
 package com.arc.outland_horizon.world.item.weapons.weapon.magic;
 
 import com.arc.outland_horizon.utils.ChatUtils;
-import com.arc.outland_horizon.utils.ModCapabilityUtils;
+import com.arc.outland_horizon.utils.CapabilityUtils;
 import com.arc.outland_horizon.utils.WorldUtils;
 import com.arc.outland_horizon.world.entity.projectile.BasePlayerProjectile;
 import com.arc.outland_horizon.world.item.weapons.weapon.AbstractWeapon;
@@ -34,7 +34,7 @@ public abstract class AbstractMagicWeapon extends AbstractWeapon {
     @Override
     public @NotNull InteractionResultHolder<ItemStack> use(@NotNull Level pLevel, @NotNull Player pPlayer, @NotNull InteractionHand pUsedHand) {
         if(pPlayer instanceof ServerPlayer player && pUsedHand.equals(InteractionHand.MAIN_HAND)){
-            if(ModCapabilityUtils.removeMana(player,getManaCost())){
+            if(CapabilityUtils.removeMana(player,getManaCost())){
                 player.getCooldowns().addCooldown(this, getCoolDown());
                 successfullyUsed(pLevel, player, pUsedHand);
             }else{

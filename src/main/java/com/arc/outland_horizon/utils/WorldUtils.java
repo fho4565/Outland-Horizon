@@ -1,22 +1,27 @@
 package com.arc.outland_horizon.utils;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.network.protocol.game.ClientboundSoundPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.RegistryObject;
 
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -39,6 +44,17 @@ public class WorldUtils {
             }
         }
     }
+    public static void playSoundForPlayer(ServerPlayer serverPlayer, SoundEvent soundEvent, SoundSource soundSource) {
+        serverPlayer.connection.send(new ClientboundSoundPacket(Holder.direct(soundEvent),
+                soundSource,
+                serverPlayer.getX(),
+                serverPlayer.getY(),
+                serverPlayer.getZ(),
+                1,
+                1,
+                serverPlayer.level().getRandom().nextLong()));
+
+    }
     public static void summonItem(ServerPlayer player, RegistryObject<Item> item) {
         player.level().addFreshEntity(
                 new ItemEntity(player.level(),
@@ -48,17 +64,97 @@ public class WorldUtils {
     public static String getWorldFolderPath(MinecraftServer server){
         return server.getWorldPath(new LevelResource("")).toAbsolutePath().toString().replace("\\.\\","\\");
     }
-    public static List<BlockState> getBlocksByRadio(Level level, Vec3 center, double radius) {
-        AABB box = new AABB(center.x - radius - 1, center.y - radius - 1, center.z - radius - 1,
-                center.x + radius + 1, center.y + radius + 1, center.z + radius + 1);
-        return BlockPos.betweenClosedStream(box).filter(blockPos -> center.distanceTo(blockPos.getCenter())<=radius)
-                .map(level::getBlockState).collect(Collectors.toCollection(List::of));
+    public static LinkedHashSet<BlockPos> getBlocksByRadio(Level level, BlockPos center, int radius) {
+        return getAllBlocksByRadio(level, center, radius, block -> true);
     }
-    public static List<BlockState> getBlocksByRadio(Level level, Vec3 center, double radius, Predicate<BlockState> blockStatePredicate) {
-        AABB box = new AABB(center.x - radius - 1, center.y - radius - 1, center.z - radius - 1,
-                center.x + radius + 1, center.y + radius + 1, center.z + radius + 1);
+    /**
+     * 获取指定球形范围内的所有满足条件的方块坐标，坐标会按照离中心距离从小到大排序
+     *
+     * @param level               Level对象
+     * @param center              中心点的坐标
+     * @param radius              球形范围半径
+     * @param blockStatePredicate 方块测试
+     * @return LinkedHashSet对象，保存了满足条件的方块的坐标
+     */
+    public static LinkedHashSet<BlockPos> getAllBlocksByRadio(Level level, BlockPos center, int radius, Predicate<BlockState> blockStatePredicate) {
+        AABB box = new AABB(center.getX() - radius, center.getY() - radius, center.getZ() - radius,
+                center.getX() + radius, center.getY() + radius, center.getZ() + radius);
         return BlockPos.betweenClosedStream(box)
-                .filter(blockPos -> center.distanceTo(blockPos.getCenter())<=radius&&blockStatePredicate.test(level.getBlockState(blockPos)))
-                .map(level::getBlockState).toList();
+                .filter(pos -> center.getCenter().distanceTo(pos.getCenter()) <= radius && blockStatePredicate.test(level.getBlockState(pos)))
+                .map(BlockPos::immutable)
+                .sorted(Comparator.comparingDouble(pos -> pos.getCenter().distanceToSqr(center.getCenter())))
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+    }
+
+    /**
+     * 获取指定球形范围内的所有满足条件而且和中心坐标直接或者间接相连(不包括对角线)的的方块坐标，坐标会按照离中心距离从小到大排序
+     * 这个算法是使用层级顺序的广度优先算法
+     *
+     * @param level               Level对象
+     * @param center              中心点的坐标
+     * @param radius              球形范围半径
+     * @param blockStatePredicate 方块测试
+     * @return LinkedHashSet对象，保存了满足条件的方块的坐标
+     */
+    public static LinkedHashSet<BlockPos> getConnectedBlocksByRadio(Level level, BlockPos center, int radius, Predicate<BlockState> blockStatePredicate) {
+        LinkedHashSet<BlockPos> connectedBlocks = new LinkedHashSet<>();
+        Queue<BlockPos> queue = new LinkedList<>();
+        HashSet<BlockPos> visited = new HashSet<>();
+
+        queue.offer(center);
+        visited.add(center);
+
+        while (!queue.isEmpty()) {
+            int levelSize = queue.size();
+            for (int i = 0; i < levelSize; i++) {
+                BlockPos current = queue.poll();
+                connectedBlocks.add(current);
+
+                for (BlockPos neighbor : getNeighbors(current, level, blockStatePredicate)) {
+                    if (!visited.contains(neighbor) && isWithinRadius(neighbor, center, radius)) {
+                        queue.offer(neighbor);
+                        visited.add(neighbor);
+                    }
+                }
+            }
+        }
+        return connectedBlocks;
+    }
+
+    private static List<BlockPos> getNeighbors(BlockPos pos, Level level, Predicate<BlockState> blockStatePredicate) {
+        return Arrays.stream(Direction.values())
+                .map(pos::relative)
+                .filter(blockPos -> blockStatePredicate.test(level.getBlockState(blockPos)))
+                .toList();
+    }
+
+    private static boolean isWithinRadius(BlockPos pos, BlockPos center, int radius) {
+        return pos.distSqr(center) <= radius * radius;
+    }
+    public static boolean hasBlockInRadius(Level level, BlockPos center, int radius, Block block) {
+        return getBlocksByRadio(level, center, radius).stream().anyMatch(blockPos -> level.getBlockState(blockPos).is(block));
+    }
+
+    public static List<Entity> getEntitiesByRadio(Level level, Vec3 pos, double radius) {
+        AABB box = new AABB(pos.x - radius - 1, pos.y - radius - 1, pos.z - radius - 1,
+                pos.x + radius + 1, pos.y + radius + 1, pos.z + radius + 1);
+        return level.getEntities(null, box).stream()
+                .filter(entity -> entity.position().distanceTo(pos) <= radius).toList();
+    }
+
+    public static List<Entity> getEntitiesByRadio(Level level, Vec3 pos, double radius, Predicate<Entity> entityPredicate) {
+        AABB box = new AABB(pos.x - radius - 1, pos.y - radius - 1, pos.z - radius - 1,
+                pos.x + radius + 1, pos.y + radius + 1, pos.z + radius + 1);
+        return level.getEntities(null, box).stream()
+                .filter(entity -> entity.position().distanceTo(pos) <= radius && entityPredicate.test(entity))
+                .toList();
+    }
+
+    public static List<Entity> getEntitiesByRadio(Level level, Vec3 pos, double radius, Class<?> clazz) {
+        AABB box = new AABB(pos.x - radius - 1, pos.y - radius - 1, pos.z - radius - 1,
+                pos.x + radius + 1, pos.y + radius + 1, pos.z + radius + 1);
+        return level.getEntities(null, box).stream()
+                .filter(entity -> entity.position().distanceTo(pos) <= radius && entity.getClass().isAssignableFrom(clazz))
+                .toList();
     }
 }

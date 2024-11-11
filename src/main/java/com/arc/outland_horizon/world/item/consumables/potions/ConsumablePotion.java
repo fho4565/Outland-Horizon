@@ -1,6 +1,6 @@
 package com.arc.outland_horizon.world.item.consumables.potions;
 
-import com.arc.outland_horizon.world.item.consumables.Consumables;
+import com.arc.outland_horizon.world.item.consumables.Consumable;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class ConsumablePotion extends Consumables {
+public class ConsumablePotion extends Consumable {
     public ConsumablePotion(Properties properties) {
         super(properties);
     }

@@ -9,6 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Utils {
     public static final String MOD_ID = "outland_horizon";
@@ -40,5 +41,17 @@ public class Utils {
     }
     public static int secondsToTicks(float seconds) {
         return Math.round(seconds * 20);
+    }
+    /**
+     * @param chance 触发事件的概率，以百分比表示（例如，50表示50%的概率）
+     * @return boolean 表示事件是否被触发 true表示触发，false表示未触发
+     * @throws IllegalArgumentException 参数不正确时抛出异常
+     */
+    public static boolean chanceToTrigger(double chance) {
+        chance /= 100.0;
+        if (chance < 0.0 || chance > 1.0) {
+            throw new IllegalArgumentException("参数不正确，chance必须大于0小于100！");
+        }
+        return ThreadLocalRandom.current().nextDouble() < chance;
     }
 }

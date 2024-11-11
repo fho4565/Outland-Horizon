@@ -9,6 +9,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Rage extends MobEffect {
@@ -21,14 +22,14 @@ public class Rage extends MobEffect {
     public void addAttributeModifiers(@NotNull LivingEntity entity, @NotNull AttributeMap attributeMap, int amplifier) {
         super.addAttributeModifiers(entity, attributeMap, amplifier);
         AttributeModifier attackDamage = new AttributeModifier(ATTACKDAMAGE_UUID,Utils.MOD_ID+".mob_effect.rage.attack_damage", (amplifier+1)*0.1, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        attributeMap.getInstance(Attributes.ATTACK_DAMAGE).addPermanentModifier(attackDamage);
+        Objects.requireNonNull(attributeMap.getInstance(Attributes.ATTACK_DAMAGE)).addPermanentModifier(attackDamage);
     }
 
     @Override
     public void removeAttributeModifiers(@NotNull LivingEntity entity, @NotNull AttributeMap attributeMap, int amplifier) {
         super.removeAttributeModifiers(entity, attributeMap, amplifier);
         AttributeModifier attackDamage = new AttributeModifier(ATTACKDAMAGE_UUID,Utils.MOD_ID+".mob_effect.rage.attack_damage", (amplifier+1)*0.1, AttributeModifier.Operation.MULTIPLY_TOTAL);
-        attributeMap.getInstance(Attributes.ATTACK_DAMAGE).removeModifier(attackDamage);
+        Objects.requireNonNull(attributeMap.getInstance(Attributes.ATTACK_DAMAGE)).removeModifier(attackDamage);
     }
 
     @Override
