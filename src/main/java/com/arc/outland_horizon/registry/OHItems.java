@@ -88,81 +88,6 @@ public class OHItems {
         Weapon.init();
         Armor.init();
         BlockItem.init();
-        Tier nTier = new Tier() {
-            @Override
-            public int getUses() {
-                return Math.round(Tiers.WOOD.getUses() * 2.5f);
-            }
-
-            @Override
-            public float getSpeed() {
-                return Tiers.WOOD.getSpeed() * 0.9f;
-            }
-
-            @Override
-            public float getAttackDamageBonus() {
-                return Tiers.WOOD.getAttackDamageBonus();
-            }
-
-            @Override
-            public int getLevel() {
-                return Tiers.WOOD.getLevel();
-            }
-
-            @Override
-            public int getEnchantmentValue() {
-                return Tiers.WOOD.getEnchantmentValue();
-            }
-
-            @Override
-            public @NotNull Ingredient getRepairIngredient() {
-                return Tiers.WOOD.getRepairIngredient();
-            }
-        };
-        registerTool("wooden_paxel", () -> new Paxel(nTier, new Item.Properties()));
-        initVanillaExtends("golden", Tiers.GOLD);
-        initVanillaExtends("stone", Tiers.STONE);
-        initVanillaExtends("iron", Tiers.IRON);
-        initVanillaExtends("diamond", Tiers.DIAMOND);
-        initVanillaExtends("netherite", Tiers.NETHERITE);
-    }
-
-    private static void initVanillaExtends(String nameWithPrefix, Tier tier) {
-        Tier nTier = new Tier() {
-            @Override
-            public int getUses() {
-                return Math.round(tier.getUses() * 2.5f);
-            }
-
-            @Override
-            public float getSpeed() {
-                return tier.getSpeed() * 0.9f;
-            }
-
-            @Override
-            public float getAttackDamageBonus() {
-                return tier.getAttackDamageBonus();
-            }
-
-            @Override
-            public int getLevel() {
-                return tier.getLevel();
-            }
-
-            @Override
-            public int getEnchantmentValue() {
-                return tier.getEnchantmentValue();
-            }
-
-            @Override
-            public @NotNull Ingredient getRepairIngredient() {
-                return tier.getRepairIngredient();
-            }
-        };
-        registerTool(nameWithPrefix + "_paxel", () -> new Paxel(nTier, new Item.Properties()));
-        registerTool(nameWithPrefix + "_hammer", () -> new Hammer(tier, new Item.Properties()));
-        registerTool(nameWithPrefix + "_spade", () -> new Spade(tier, new Item.Properties()));
-        registerTool(nameWithPrefix + "_destroyer", () -> new Destroyer(nTier, new Item.Properties()));
     }
 
     public static class Consumable {
@@ -196,7 +121,6 @@ public class OHItems {
         public static final RegistryObject<Item> BLUE_GEM_SPADE = registerTool("blue_gem_spade", () -> new Spade(ModTiers.BLUE_GEM, new Item.Properties()));
         public static final RegistryObject<Item> BLUE_GEM_DESTROYER = registerTool("blue_gem_destroyer", () -> new Destroyer(ModTiers.BLUE_GEM, new Item.Properties()));
 
-
         public static final RegistryObject<Item> BLOOD_STONE_PICKAXE = registerTool("blood_stone_pickaxe", () -> new PickaxeItem(ModTiers.BLOOD_STONE, 1, -2.8f, new Item.Properties()));
         public static final RegistryObject<Item> BLOOD_STONE_AXE = registerTool("blood_stone_axe", () -> new AxeItem(ModTiers.BLOOD_STONE, 6, -3.1f, new Item.Properties()));
         public static final RegistryObject<Item> BLOOD_STONE_SHOVEL = registerTool("blood_stone_shovel", () -> new ShovelItem(ModTiers.BLOOD_STONE, 1.5f, -3.0f, new Item.Properties()));
@@ -205,6 +129,63 @@ public class OHItems {
         public static final RegistryObject<Item> BLOOD_STONE_HAMMER = registerTool("blood_stone_hammer", () -> new Hammer(ModTiers.BLOOD_STONE, new Item.Properties()));
         public static final RegistryObject<Item> BLOOD_STONE_SPADE = registerTool("blood_stone_spade", () -> new Spade(ModTiers.BLOOD_STONE, new Item.Properties()));
         public static final RegistryObject<Item> BLOOD_STONE_DESTROYER = registerTool("blood_stone_destroyer", () -> new Destroyer(ModTiers.BLOOD_STONE, new Item.Properties()));
+
+        public static final RegistryObject<Item> WOODEN_PAXEL = registerTool("wooden_paxel", () -> new Paxel(new Tier() {
+            @Override
+            public int getUses() {
+                return Math.round(Tiers.WOOD.getUses() * 2.5f);
+            }
+
+            @Override
+            public float getSpeed() {
+                return Tiers.WOOD.getSpeed() * 0.9f;
+            }
+
+            @Override
+            public float getAttackDamageBonus() {
+                return Tiers.WOOD.getAttackDamageBonus();
+            }
+
+            @Override
+            public int getLevel() {
+                return Tiers.WOOD.getLevel();
+            }
+
+            @Override
+            public int getEnchantmentValue() {
+                return Tiers.WOOD.getEnchantmentValue();
+            }
+
+            @Override
+            public @NotNull Ingredient getRepairIngredient() {
+                return Tiers.WOOD.getRepairIngredient();
+            }
+        }, new Item.Properties()));
+
+        public static final RegistryObject<Item> STONE_PAXEL = registerTool("stone_paxel", () -> new Paxel(Tiers.STONE, new Item.Properties()));
+        public static final RegistryObject<Item> STONE_HAMMER = registerTool("stone_hammer", () -> new Hammer(Tiers.STONE, new Item.Properties()));
+        public static final RegistryObject<Item> STONE_SPADE = registerTool("stone_spade", () -> new Spade(Tiers.STONE, new Item.Properties()));
+        public static final RegistryObject<Item> STONE_DESTROYER = registerTool("stone_destroyer", () -> new Destroyer(Tiers.STONE, new Item.Properties()));
+
+        public static final RegistryObject<Item> IRON_PAXEL = registerTool("iron_paxel", () -> new Paxel(Tiers.IRON, new Item.Properties()));
+        public static final RegistryObject<Item> IRON_HAMMER = registerTool("iron_hammer", () -> new Hammer(Tiers.IRON, new Item.Properties()));
+        public static final RegistryObject<Item> IRON_SPADE = registerTool("iron_spade", () -> new Spade(Tiers.IRON, new Item.Properties()));
+        public static final RegistryObject<Item> IRON_DESTROYER = registerTool("iron_destroyer", () -> new Destroyer(Tiers.IRON, new Item.Properties()));
+
+        public static final RegistryObject<Item> GOLDEN_PAXEL = registerTool("golden_paxel", () -> new Paxel(Tiers.GOLD, new Item.Properties()));
+        public static final RegistryObject<Item> GOLDEN_HAMMER = registerTool("golden_hammer", () -> new Hammer(Tiers.GOLD, new Item.Properties()));
+        public static final RegistryObject<Item> GOLDEN_SPADE = registerTool("golden_spade", () -> new Spade(Tiers.GOLD, new Item.Properties()));
+        public static final RegistryObject<Item> GOLDEN_DESTROYER = registerTool("golden_destroyer", () -> new Destroyer(Tiers.GOLD, new Item.Properties()));
+
+        public static final RegistryObject<Item> DIAMOND_PAXEL = registerTool("diamond_paxel", () -> new Paxel(Tiers.DIAMOND, new Item.Properties()));
+        public static final RegistryObject<Item> DIAMOND_HAMMER = registerTool("diamond_hammer", () -> new Hammer(Tiers.DIAMOND, new Item.Properties()));
+        public static final RegistryObject<Item> DIAMOND_SPADE = registerTool("diamond_spade", () -> new Spade(Tiers.DIAMOND, new Item.Properties()));
+        public static final RegistryObject<Item> DIAMOND_DESTROYER = registerTool("diamond_destroyer", () -> new Destroyer(Tiers.DIAMOND, new Item.Properties()));
+
+        public static final RegistryObject<Item> NETHERITE_PAXEL = registerTool("netherite_paxel", () -> new Paxel(Tiers.NETHERITE, new Item.Properties()));
+        public static final RegistryObject<Item> NETHERITE_HAMMER = registerTool("netherite_hammer", () -> new Hammer(Tiers.NETHERITE, new Item.Properties()));
+        public static final RegistryObject<Item> NETHERITE_SPADE = registerTool("netherite_spade", () -> new Spade(Tiers.NETHERITE, new Item.Properties()));
+        public static final RegistryObject<Item> NETHERITE_DESTROYER = registerTool("netherite_destroyer", () -> new Destroyer(Tiers.NETHERITE, new Item.Properties()));
 
         private static void init() {
         }

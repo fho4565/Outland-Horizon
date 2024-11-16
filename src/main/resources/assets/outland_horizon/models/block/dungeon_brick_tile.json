@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "outland_horizon:block/building/dungeon/dungeon_brick_tile",
+    "particle": "outland_horizon:block/building/dungeon/dungeon_brick_tile"
+  },
+  "render_type": "solid"
+}

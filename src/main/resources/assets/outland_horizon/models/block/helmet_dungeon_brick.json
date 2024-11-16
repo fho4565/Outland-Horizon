@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "outland_horizon:block/building/helmet_dungeon_brick",
-    "particle": "outland_horizon:block/building/helmet_dungeon_brick"
-  },
-  "render_type": "solid"
-}

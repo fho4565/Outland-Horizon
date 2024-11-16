@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "outland_horizon:block/test/i",
+    "particle": "outland_horizon:block/test/i"
+  },
+  "render_type": "solid"
+}

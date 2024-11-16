@@ -13,6 +13,7 @@ import net.minecraft.world.item.DiggerItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.CampfireBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -25,20 +26,53 @@ import static net.minecraftforge.common.ToolActions.*;
 
 public class Paxel extends DiggerItem {
 
-    public Paxel(Tier pTier, Properties pProperties) {
-        super(1,-2.8f ,pTier,BlockTags.MINEABLE_WITH_PICKAXE,pProperties);
+    public Paxel(Tier tier, Properties pProperties) {
+        super(1, -2.8f, new Tier() {
+            @Override
+            public int getUses() {
+                return Math.round(tier.getUses() * 2.5f);
+            }
+
+            @Override
+            public float getSpeed() {
+                return tier.getSpeed() * 0.9f;
+            }
+
+            @Override
+            public float getAttackDamageBonus() {
+                return tier.getAttackDamageBonus();
+            }
+
+            @Override
+            public int getLevel() {
+                return tier.getLevel();
+            }
+
+            @Override
+            public int getEnchantmentValue() {
+                return tier.getEnchantmentValue();
+            }
+
+            @Override
+            public @NotNull Ingredient getRepairIngredient() {
+                return tier.getRepairIngredient();
+            }
+        }, BlockTags.MINEABLE_WITH_PICKAXE, pProperties);
     }
+
     @Override
     public boolean isCorrectToolForDrops(@NotNull ItemStack stack, BlockState state) {
-        if(state.is(BlockTags.MINEABLE_WITH_PICKAXE) || state.is(BlockTags.MINEABLE_WITH_AXE) || state.is(BlockTags.MINEABLE_WITH_SHOVEL)) {
+        if (state.is(BlockTags.MINEABLE_WITH_PICKAXE) || state.is(BlockTags.MINEABLE_WITH_AXE) || state.is(BlockTags.MINEABLE_WITH_SHOVEL)) {
             return net.minecraftforge.common.TierSortingRegistry.isCorrectTierForDrops(getTier(), state);
         }
         return super.isCorrectToolForDrops(stack, state);
     }
+
     @Override
     public float getDestroySpeed(@NotNull ItemStack stack, BlockState state) {
         return (state.is(BlockTags.MINEABLE_WITH_PICKAXE) || state.is(BlockTags.MINEABLE_WITH_AXE) || state.is(BlockTags.MINEABLE_WITH_SHOVEL)) ? this.speed : 1.0F;
     }
+
     public @NotNull InteractionResult useOn(UseOnContext context) {
         Level level = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
@@ -105,6 +139,7 @@ public class Paxel extends DiggerItem {
             }
         }
     }
+
     @Override
     public boolean canPerformAction(ItemStack stack, net.minecraftforge.common.ToolAction toolAction) {
         return DEFAULT_AXE_ACTIONS.contains(toolAction) || DEFAULT_SHOVEL_ACTIONS.contains(toolAction);

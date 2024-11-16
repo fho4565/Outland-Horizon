@@ -1,6 +1,7 @@
 package com.arc.outland_horizon.setup;
 
 import com.arc.outland_horizon.client.gui.overlay.PlayerOverlay;
+import com.arc.outland_horizon.develop.LangEN_US;
 import com.arc.outland_horizon.develop.LangZH_CN;
 import com.arc.outland_horizon.develop.ModRecipe;
 import com.arc.outland_horizon.network.NetworkHandler;
@@ -18,15 +19,15 @@ public class ModCommonEvents {
         event.enqueueWork(NetworkHandler::register);
     }
 
-    /*@SubscribeEvent
-    public static void onRegisterCaps(RegisterCapabilitiesEvent event) {
-        event.register(OhAttribute.class);
-    }*/
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
         event.getGenerator().addProvider(
                 true,
                 new LangZH_CN(event.getGenerator().getPackOutput(), "zh_cn")
+        );
+        event.getGenerator().addProvider(
+                true,
+                new LangEN_US(event.getGenerator().getPackOutput(), "en_us")
         );
         event.getGenerator().addProvider(
                 true,

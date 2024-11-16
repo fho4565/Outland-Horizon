@@ -1,5 +1,5 @@
 {
-  "parent": "outland_horizon:block/helmet_dungeon_brick",
+  "parent": "outland_horizon:block/zombie_dungeon_brick",
   "display": {
     "thirdperson": {
       "rotation": [

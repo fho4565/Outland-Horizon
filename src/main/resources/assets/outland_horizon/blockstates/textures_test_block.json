@@ -1,0 +1,82 @@
+{
+  "variants": {
+    "texture=a": {
+      "model": "outland_horizon:block/textures_test_block/a"
+    },
+    "texture=b": {
+      "model": "outland_horizon:block/textures_test_block/b"
+    },
+    "texture=c": {
+      "model": "outland_horizon:block/textures_test_block/c"
+    },
+    "texture=d": {
+      "model": "outland_horizon:block/textures_test_block/d"
+    },
+    "texture=e": {
+      "model": "outland_horizon:block/textures_test_block/e"
+    },
+    "texture=f": {
+      "model": "outland_horizon:block/textures_test_block/f"
+    },
+    "texture=g": {
+      "model": "outland_horizon:block/textures_test_block/g"
+    },
+    "texture=h": {
+      "model": "outland_horizon:block/textures_test_block/h"
+    },
+    "texture=i": {
+      "model": "outland_horizon:block/textures_test_block/i"
+    },
+    "texture=j": {
+      "model": "outland_horizon:block/textures_test_block/j"
+    },
+    "texture=k": {
+      "model": "outland_horizon:block/textures_test_block/k"
+    },
+    "texture=l": {
+      "model": "outland_horizon:block/textures_test_block/l"
+    },
+    "texture=m": {
+      "model": "outland_horizon:block/textures_test_block/m"
+    },
+    "texture=n": {
+      "model": "outland_horizon:block/textures_test_block/n"
+    },
+    "texture=o": {
+      "model": "outland_horizon:block/textures_test_block/o"
+    },
+    "texture=p": {
+      "model": "outland_horizon:block/textures_test_block/p"
+    },
+    "texture=q": {
+      "model": "outland_horizon:block/textures_test_block/q"
+    },
+    "texture=r": {
+      "model": "outland_horizon:block/textures_test_block/r"
+    },
+    "texture=s": {
+      "model": "outland_horizon:block/textures_test_block/s"
+    },
+    "texture=t": {
+      "model": "outland_horizon:block/textures_test_block/t"
+    },
+    "texture=u": {
+      "model": "outland_horizon:block/textures_test_block/u"
+    },
+    "texture=v": {
+      "model": "outland_horizon:block/textures_test_block/v"
+    },
+    "texture=w": {
+      "model": "outland_horizon:block/textures_test_block/w"
+    },
+    "texture=x": {
+      "model": "outland_horizon:block/textures_test_block/x"
+    },
+    "texture=y": {
+      "model": "outland_horizon:block/textures_test_block/y"
+    },
+    "texture=z": {
+      "model": "outland_horizon:block/textures_test_block/z"
+    }
+  }
+}
