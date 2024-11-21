@@ -1,9 +1,12 @@
 package com.arc.outland_horizon.setup;
 
 import com.arc.outland_horizon.client.key.KeyRegistry;
+import com.arc.outland_horizon.registry.OHBlocks;
 import com.arc.outland_horizon.utils.Utils;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -14,4 +17,10 @@ public class ModClientEvents {
         KeyRegistry.register(event);
     }
 
+    @SubscribeEvent
+    public static void onR(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey().equals(CreativeModeTabs.OP_BLOCKS)) {
+            event.accept(OHBlocks.Functional.TEXTURES_TEST_BLOCK);
+        }
+    }
 }

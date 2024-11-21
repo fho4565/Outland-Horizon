@@ -2,7 +2,6 @@ package com.arc.outland_horizon.utils;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.Item;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,10 +27,6 @@ public class Utils {
         return !FMLEnvironment.production;
     }
 
-    public static String itemName(Item item) {
-        return item.getDescriptionId().split("\\.")[2];
-    }
-
     public static int getColorForBar(float scale) {
         return Mth.hsvToRgb(Math.max(0.0F, scale) / 3.0F, 1.0F, 1.0F);
     }
@@ -39,9 +34,11 @@ public class Utils {
     public static int getScaledBarWidth(float scale) {
         return Math.round(13.0F - 13.0F * scale);
     }
+
     public static int secondsToTicks(float seconds) {
         return Math.round(seconds * 20);
     }
+
     /**
      * @param chance 触发事件的概率，以百分比表示（例如，50表示50%的概率）
      * @return boolean 表示事件是否被触发 true表示触发，false表示未触发

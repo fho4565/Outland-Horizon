@@ -12,14 +12,18 @@ import net.minecraftforge.common.Tags;
 import org.jetbrains.annotations.NotNull;
 
 public class ModTiers {
-    public static final int BLUE_GEM_LEVEL = 2;//蓝宝石
-    public static final int BLOOD_STONE_LEVEL = 3;//血石
-    public static final int SPLENDID_COPPER_LEVEL = 3;//辉铜
-    public static final int VOID_WASTE_LEVEL = 4;//虚空废料
-    public static final int MITHRIL_LEVEL = 4;//秘银
-    public static final int GAMMA_LEVEL = 4;//伽马
-    public static final int CONDENSE_LEVEL = 5;//凝结石
-    public static final int VOID_CRYSTAL_LEVEL = 5;//虚空晶体
+    public static final double BLUE_GEM_LEVEL = 2;//蓝宝石
+    public static final double BRILLIANT_GOLD_LEVEL = 2.5;//璀璨金
+    public static final double SUNLIGHT_STONE_LEVEL = 2.7;//日光石
+    public static final double MOONLIGHT_STONE_LEVEL = 2.7;//月光石
+    public static final double BLOOD_STONE_LEVEL = 3.6;//血石
+    public static final double SPLENDID_COPPER_LEVEL = 3.8;//辉铜
+    public static final double VOID_WASTE_LEVEL = 4;//虚空废料
+    public static final double MITHRIL_LEVEL = 4.2;//秘银
+    public static final double MATRIX_LEVEL = 4.3;//秘银
+    public static final double GAMMA_ENERGY_BATTERY_LEVEL = 4.6;//伽马能量电池
+    public static final double CONDENSE_LEVEL = 5;//凝结石
+    public static final double VOID_CRYSTAL_LEVEL = 6.9;//虚空晶体
     static TagKey<Block> wood = Tags.Blocks.NEEDS_WOOD_TOOL;
     static TagKey<Block> stone = BlockTags.NEEDS_STONE_TOOL;
     static TagKey<Block> iron = BlockTags.NEEDS_IRON_TOOL;
@@ -33,8 +37,9 @@ public class ModTiers {
         public static final Tier GAMMA = createTier(GAMMA_LEVEL, "gamma_energy_battery");
         public static final Tier CONDENSE = createTier(CONDENSE_LEVEL, "condense");*/
     public static final Tier VOID_CRYSTAL = createTier(VOID_CRYSTAL_LEVEL, Ingredient.of(OHItems.Material.VOID_CRYSTAL.get()));
+    public static final Tier MATRIX_INGOT = createTier(MATRIX_LEVEL, Ingredient.of(OHItems.Material.MATRIX_INGOT.get()));
 
-    public static @NotNull Tier createTier(float level, Ingredient repairIngredient) {
+    private static @NotNull Tier createTier(double level, Ingredient repairIngredient) {
         return new Tier() {
             @Override
             public @NotNull TagKey<Block> getTag() {
@@ -73,14 +78,19 @@ public class ModTiers {
         };
     }
 
-    private static TagKey<Block> getTag(int level) {
-        return switch (level) {
-            case 1 -> stone;
-            case 2 -> iron;
-            case 3 -> diamond;
-            case 4 -> netherite;
-            case 5 -> level5;
-            default -> wood;
-        };
+    private static TagKey<Block> getTag(double level) {
+        if (5 <= level) {
+            return level5;
+        } else if (1 <= level && level < 2) {
+            return stone;
+        } else if (2 <= level && level < 3) {
+            return iron;
+        } else if (3 <= level && level < 4) {
+            return diamond;
+        } else if (4 <= level) {
+            return netherite;
+        } else {
+            return wood;
+        }
     }
 }

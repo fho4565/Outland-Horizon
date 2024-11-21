@@ -2,7 +2,7 @@
   "parent": "minecraft:block/cube_all",
   "textures": {
     "all": "outland_horizon:block/building/dungeon/dungeon_brick",
-    "particle": "outland_horizon:block/building/dungeon/ddungeon_brick"
+    "particle": "outland_horizon:block/building/dungeon/dungeon_brick"
   },
   "render_type": "solid"
 }

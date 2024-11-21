@@ -16,6 +16,7 @@ import java.util.function.Supplier;
 
 public class BlockRegistry {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Utils.MOD_ID);
+
     public static RegistryObject<Block> register(String id, Supplier<Block> block) {
         return register(id, block, true);
     }
@@ -27,13 +28,23 @@ public class BlockRegistry {
         }
         return object;
     }
-    public static RegistryObject<Block> register(String id, Supplier<Block> block, boolean blockItem,Rarity rarity) {
+
+    public static RegistryObject<Block> register(String id, Supplier<Block> block, boolean blockItem, boolean autoAddToTab) {
+        RegistryObject<Block> object = BLOCKS.register(id, block);
+        if (blockItem) {
+            OHItems.registerBlockItem(id, () -> new BlockItem(object.get(), new Item.Properties()), autoAddToTab);
+        }
+        return object;
+    }
+
+    public static RegistryObject<Block> register(String id, Supplier<Block> block, boolean blockItem, Rarity rarity) {
         RegistryObject<Block> object = BLOCKS.register(id, block);
         if (blockItem) {
             OHItems.registerBlockItem(id, () -> new BlockItem(object.get(), new Item.Properties().rarity(rarity)));
         }
         return object;
     }
+
     public static void register(IEventBus bus) {
         OHBlocks.init();
         BLOCKS.register(bus);

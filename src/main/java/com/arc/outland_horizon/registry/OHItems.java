@@ -7,6 +7,7 @@ import com.arc.outland_horizon.utils.Utils;
 import com.arc.outland_horizon.world.item.consumables.potions.MadPotion;
 import com.arc.outland_horizon.world.item.consumables.potions.ManaPotion;
 import com.arc.outland_horizon.world.item.medal.ZombieMedal;
+import com.arc.outland_horizon.world.item.tools.DungeonDestroyer;
 import com.arc.outland_horizon.world.item.tools.ZeroReformer;
 import com.arc.outland_horizon.world.item.tools.multi.Destroyer;
 import com.arc.outland_horizon.world.item.tools.multi.Hammer;
@@ -76,8 +77,14 @@ public class OHItems {
     }
 
     public static RegistryObject<Item> registerBlockItem(String id, Supplier<Item> item) {
+        return registerBlockItem(id, item, true);
+    }
+
+    public static RegistryObject<Item> registerBlockItem(String id, Supplier<Item> item, boolean autoAddToTab) {
         RegistryObject<Item> object = ItemRegistry.registerItem(id, item);
-        ItemRegistry.BLOCK_ITEM_LIST.add(object);
+        if (autoAddToTab) {
+            ItemRegistry.BLOCK_ITEM_LIST.add(object);
+        }
         return object;
     }
 
@@ -111,6 +118,7 @@ public class OHItems {
     public static class Tool {
         public static final RegistryObject<Item> BLOOD_BUCKET = registerTool("blood_bucket", () -> new BucketItem(OHBlocks.Fluid.FluidRegistry.BLOOD, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
         public static final RegistryObject<Item> ZERO_REFORMER = registerTool("zero_reformer", ZeroReformer::new);
+        public static final RegistryObject<Item> DUNGEON_DESTROYER = registerTool("dungeon_destroyer", DungeonDestroyer::new);
 
         public static final RegistryObject<Item> BLUE_GEM_PICKAXE = registerTool("blue_gem_pickaxe", () -> new PickaxeItem(ModTiers.BLUE_GEM, 1, -2.8f, new Item.Properties()));
         public static final RegistryObject<Item> BLUE_GEM_AXE = registerTool("blue_gem_axe", () -> new AxeItem(ModTiers.BLUE_GEM, 6, -3.1f, new Item.Properties()));
@@ -199,6 +207,7 @@ public class OHItems {
         public static final RegistryObject<Item> BLUE_GEM = registerMaterial("blue_gem", () -> new Item(new Item.Properties()));
         public static final RegistryObject<Item> BLOOD_STONE = registerMaterial("blood_stone", () -> new Item(new Item.Properties()));
         public static final RegistryObject<Item> VOID_CRYSTAL = registerMaterial("void_crystal", () -> new Item(new Item.Properties()));
+        public static final RegistryObject<Item> CONDENSED_CRYSTAL = registerMaterial("condensed_crystal", () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
 
         private static void init() {
         }
@@ -228,20 +237,22 @@ public class OHItems {
 
     public static class Weapon {
         public static final RegistryObject<Item> BLAZE_SWORD = registerWeaponMelee("blaze_sword", BlazeSword::new);
-        public static final RegistryObject<Item> DEBUG_SWORD = registerWeaponMelee("debug_sword", AAASword::new);
         public static final RegistryObject<Item> BLUE_GEM_SWORD = registerWeaponMelee("blue_gem_sword", () -> new SwordItem(ModTiers.BLUE_GEM, 3, -2.4f, new Item.Properties()));
-        public static final RegistryObject<Item> BLOOD_STONE_SWORD = registerWeaponMelee("blood_stone_sword", () -> new SwordItem(ModTiers.BLOOD_STONE, 3, -2.4f, new Item.Properties()));
-
+        public static final RegistryObject<Item> BLOOD_STONE_SWORD = registerWeaponMelee("blood_stone_sword", () -> new SwordItem(ModTiers.BLOOD_STONE, 3, -2.4f, new Item.Properties()));        public static final RegistryObject<Item> DEBUG_SWORD = registerWeaponMelee("debug_sword", AAASword::new);
+        public static final RegistryObject<Item> MATRIX_SWORD = registerWeaponMelee("matrix_sword", () -> new SwordItem(ModTiers.MATRIX_INGOT, 9, -2.4f, new Item.Properties()));
         public static final RegistryObject<Item> MALICIOUS = registerWeaponRanged("malicious", () -> new Malicious(450, 10, Material.NIGHTMARE_ENERGY.get()));
         public static final RegistryObject<Item> FREQUENCY_VARIATION = registerWeaponRanged("frequency_variation", () -> new FrequencyVariation(375, 10, Items.DIAMOND));
         public static final RegistryObject<Item> PAO = registerWeaponRanged("genocide", () -> new Genocide(100, 10, Items.DIAMOND));
         public static final RegistryObject<Item> VOID_IMPACT = registerWeaponRanged("void_impact", () -> new VoidImpact(3500, 10, Items.DIAMOND));
         public static final RegistryObject<Item> CARAMEL_BAKA = registerWeaponRanged("caramel_baka", CaramelBaka::new);
-
         public static final RegistryObject<Item> FIRE_WAND = registerWeaponMagic("fire_wand", FireWand::new);
         public static final RegistryObject<Item> APPRENTICE_SHIELD_BOOK = registerWeaponMagic("apprentice_shield_book", ShieldBook::new);
 
         private static void init() {
         }
+
+
+
+
     }
 }

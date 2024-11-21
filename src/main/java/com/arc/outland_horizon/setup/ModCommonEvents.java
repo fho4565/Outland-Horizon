@@ -3,6 +3,7 @@ package com.arc.outland_horizon.setup;
 import com.arc.outland_horizon.client.gui.overlay.PlayerOverlay;
 import com.arc.outland_horizon.develop.LangEN_US;
 import com.arc.outland_horizon.develop.LangZH_CN;
+import com.arc.outland_horizon.develop.ModLootTable;
 import com.arc.outland_horizon.develop.ModRecipe;
 import com.arc.outland_horizon.network.NetworkHandler;
 import com.arc.outland_horizon.utils.Utils;
@@ -32,6 +33,10 @@ public class ModCommonEvents {
         event.getGenerator().addProvider(
                 true,
                 new ModRecipe(event.getGenerator().getPackOutput())
+        );
+        event.getGenerator().addProvider(
+                true, new ModLootTable(event.getGenerator().getPackOutput())
+
         );
     }
 

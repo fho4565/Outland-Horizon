@@ -80,15 +80,9 @@ public class OHBlocks {
         public static class DUNGEON {
             private static final BlockBehaviour.Properties PROPERTIES = BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_GRAY)
-                    .sound(new ForgeSoundType(0.5f, 1,
-                            SoundType.NETHER_BRICKS::getBreakSound
-                            , SoundType.NETHER_BRICKS::getStepSound
-                            , SoundType.NETHER_BRICKS::getPlaceSound
-                            , SoundType.NETHER_BRICKS::getHitSound
-                            , SoundType.NETHER_BRICKS::getFallSound
-                    ))
+                    .sound(SoundType.NETHER_BRICKS)
                     .requiresCorrectToolForDrops()
-                    .strength(60.0F, 6000.0F);
+                    .strength(150.0F, 600.0F);
 
             public static final RegistryObject<Block> DUNGEON_BRICK = BlockRegistry.register("dungeon_brick",
                     () -> new Block(PROPERTIES));
@@ -102,6 +96,8 @@ public class OHBlocks {
                     () -> new Block(PROPERTIES));
             public static final RegistryObject<Block> DAMAGED_DUNGEON_BRICK = BlockRegistry.register("damaged_dungeon_brick",
                     () -> new DamagedDungeonBrick(PROPERTIES.noOcclusion()));
+            public static final RegistryObject<Block> WORN_DUNGEON_BRICK = BlockRegistry.register("worn_dungeon_brick",
+                    () -> new Block(PROPERTIES));
 
             public static void init() {
             }
@@ -109,7 +105,7 @@ public class OHBlocks {
     }
 
     public static class Functional {
-        public static RegistryObject<Block> TEXTURES_TEST_BLOCK = BlockRegistry.register("textures_test_block", () -> new TexturesTestBlock(Block.Properties.copy(Blocks.IRON_BLOCK)), true);
+        public static RegistryObject<Block> TEXTURES_TEST_BLOCK = BlockRegistry.register("textures_test_block", () -> new TexturesTestBlock(Block.Properties.copy(Blocks.STONE)), true, false);
         public static RegistryObject<Block> DUNGEON_TORCH = BlockRegistry.BLOCKS.register("dungeon_torch", () -> new TorchBlock(Block.Properties.copy(Blocks.TORCH), ParticleTypes.FLAME));
         public static RegistryObject<Block> WALL_DUNGEON_TORCH = BlockRegistry.BLOCKS.register("wall_dungeon_torch", () -> new WallTorchBlock(Block.Properties.copy(Blocks.WALL_TORCH), ParticleTypes.FLAME));
 
