@@ -63,7 +63,7 @@ public class ModCommands {
                 .executes(ctx -> {
                     ctx.getSource().sendSuccess(() -> {
                         try {
-                            return Component.literal("整理出" + ModLang.generate(ctx.getSource().getServer()) + "条待处理翻译键");
+                            return Component.literal("整理出" + ModLang.generate() + "条待处理翻译键");
                         } catch (IOException e) {
                             Utils.LOGGER.error(e.getLocalizedMessage());
                         }

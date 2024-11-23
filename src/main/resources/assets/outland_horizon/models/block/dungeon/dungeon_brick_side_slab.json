@@ -1,0 +1,6 @@
+{
+  "parent": "outland_horizon:block/base/side_slab",
+  "textures": {
+    "texture": "outland_horizon:block/building/dungeon/dungeon_brick"
+  }
+}

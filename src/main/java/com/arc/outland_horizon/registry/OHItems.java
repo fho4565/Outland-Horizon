@@ -13,11 +13,12 @@ import com.arc.outland_horizon.world.item.tools.multi.Destroyer;
 import com.arc.outland_horizon.world.item.tools.multi.Hammer;
 import com.arc.outland_horizon.world.item.tools.multi.Paxel;
 import com.arc.outland_horizon.world.item.tools.multi.Spade;
-import com.arc.outland_horizon.world.item.weapons.weapon.magic.book.ShieldBook;
-import com.arc.outland_horizon.world.item.weapons.weapon.magic.wand.FireWand;
-import com.arc.outland_horizon.world.item.weapons.weapon.melee.AAASword;
-import com.arc.outland_horizon.world.item.weapons.weapon.melee.BlazeSword;
-import com.arc.outland_horizon.world.item.weapons.weapon.ranged.gun.*;
+import com.arc.outland_horizon.world.item.weapons.magic.book.ShieldBook;
+import com.arc.outland_horizon.world.item.weapons.magic.wand.FireWand;
+import com.arc.outland_horizon.world.item.weapons.melee.sword.BlazeSword;
+import com.arc.outland_horizon.world.item.weapons.melee.sword.Debugger;
+import com.arc.outland_horizon.world.item.weapons.melee.sword.Elegy;
+import com.arc.outland_horizon.world.item.weapons.ranged.gun.*;
 import net.minecraft.core.Direction;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -236,22 +237,35 @@ public class OHItems {
     }
 
     public static class Weapon {
-        public static final RegistryObject<Item> BLAZE_SWORD = registerWeaponMelee("blaze_sword", BlazeSword::new);
-        public static final RegistryObject<Item> BLUE_GEM_SWORD = registerWeaponMelee("blue_gem_sword", () -> new SwordItem(ModTiers.BLUE_GEM, 3, -2.4f, new Item.Properties()));
-        public static final RegistryObject<Item> BLOOD_STONE_SWORD = registerWeaponMelee("blood_stone_sword", () -> new SwordItem(ModTiers.BLOOD_STONE, 3, -2.4f, new Item.Properties()));        public static final RegistryObject<Item> DEBUG_SWORD = registerWeaponMelee("debug_sword", AAASword::new);
-        public static final RegistryObject<Item> MATRIX_SWORD = registerWeaponMelee("matrix_sword", () -> new SwordItem(ModTiers.MATRIX_INGOT, 9, -2.4f, new Item.Properties()));
-        public static final RegistryObject<Item> MALICIOUS = registerWeaponRanged("malicious", () -> new Malicious(450, 10, Material.NIGHTMARE_ENERGY.get()));
-        public static final RegistryObject<Item> FREQUENCY_VARIATION = registerWeaponRanged("frequency_variation", () -> new FrequencyVariation(375, 10, Items.DIAMOND));
-        public static final RegistryObject<Item> PAO = registerWeaponRanged("genocide", () -> new Genocide(100, 10, Items.DIAMOND));
-        public static final RegistryObject<Item> VOID_IMPACT = registerWeaponRanged("void_impact", () -> new VoidImpact(3500, 10, Items.DIAMOND));
+        public static final RegistryObject<Item> MALICIOUS = registerWeaponRanged("malicious", Malicious::new);
+        public static final RegistryObject<Item> FREQUENCY_VARIATION = registerWeaponRanged("frequency_variation", FrequencyVariation::new);
+        public static final RegistryObject<Item> PAO = registerWeaponRanged("genocide", Genocide::new);
+        public static final RegistryObject<Item> VOID_IMPACT = registerWeaponRanged("void_impact", VoidImpact::new);
         public static final RegistryObject<Item> CARAMEL_BAKA = registerWeaponRanged("caramel_baka", CaramelBaka::new);
         public static final RegistryObject<Item> FIRE_WAND = registerWeaponMagic("fire_wand", FireWand::new);
         public static final RegistryObject<Item> APPRENTICE_SHIELD_BOOK = registerWeaponMagic("apprentice_shield_book", ShieldBook::new);
 
         private static void init() {
+            Melee.init();
         }
 
+        public static class Melee {
+            public static void init() {
+                Sword.init();
+            }
 
+            public static class Sword {
+                public static final RegistryObject<Item> BLAZE_SWORD = registerWeaponMelee("blaze_sword", BlazeSword::new);
+                public static final RegistryObject<Item> BLUE_GEM_SWORD = registerWeaponMelee("blue_gem_sword", () -> new SwordItem(ModTiers.BLUE_GEM, 3, -2.4f, new Item.Properties()));
+                public static final RegistryObject<Item> BLOOD_STONE_SWORD = registerWeaponMelee("blood_stone_sword", () -> new SwordItem(ModTiers.BLOOD_STONE, 3, -2.4f, new Item.Properties()));
+                public static final RegistryObject<Item> DEBUGGER = registerWeaponMelee("debug_sword", Debugger::new);
+                public static final RegistryObject<Item> MATRIX_SWORD = registerWeaponMelee("matrix_sword", () -> new SwordItem(ModTiers.MATRIX_INGOT, 9, -2.4f, new Item.Properties()));
+                public static final RegistryObject<Item> ELEGY = registerWeaponMelee("elegy", Elegy::new);
+
+                public static void init() {
+                }
+            }
+        }
 
 
     }

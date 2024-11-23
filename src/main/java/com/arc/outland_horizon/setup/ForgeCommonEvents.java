@@ -1,6 +1,7 @@
 package com.arc.outland_horizon.setup;
 
 import com.arc.outland_horizon.ModCommands;
+import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.registry.item.ItemRegistry;
 import com.arc.outland_horizon.registry.mod_effect.MobEffectRegistry;
 import com.arc.outland_horizon.utils.*;
@@ -8,6 +9,7 @@ import com.arc.outland_horizon.world.capability.ModCapabilities;
 import com.arc.outland_horizon.world.capability.entity.OhAttribute;
 import com.arc.outland_horizon.world.capability.provider.OhAttributeProvider;
 import com.arc.outland_horizon.world.entity.DamageResistance;
+import com.arc.outland_horizon.world.item.ICooldownItem;
 import com.arc.outland_horizon.world.sound.SoundEventRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
@@ -41,7 +43,7 @@ public class ForgeCommonEvents {
     public static void onAttachCaps(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof Player player) {
             if (!player.getCapability(OhAttributeProvider.OH_ATTRIBUTE).isPresent()) {
-                event.addCapability(Utils.createModResourceLocation("attribute"), new OhAttributeProvider());
+                event.addCapability(OutlandHorizon.createModResourceLocation("attribute"), new OhAttributeProvider());
             }
         }
     }
@@ -49,6 +51,21 @@ public class ForgeCommonEvents {
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         Player player = event.player;
+        player.getInventory().items.forEach(itemStack -> {
+            if (itemStack.getItem() instanceof ICooldownItem iCooldownItem) {
+                iCooldownItem.tickCooldown(itemStack);
+            }
+        });
+        player.getInventory().armor.forEach(itemStack -> {
+            if (itemStack.getItem() instanceof ICooldownItem iCooldownItem) {
+                iCooldownItem.tickCooldown(itemStack);
+            }
+        });
+        player.getInventory().offhand.forEach(itemStack -> {
+            if (itemStack.getItem() instanceof ICooldownItem iCooldownItem) {
+                iCooldownItem.tickCooldown(itemStack);
+            }
+        });
         if (event.phase == TickEvent.Phase.END) {
             if (!player.level().isClientSide) {
                 CapabilityUtils.recoverMana(player);
@@ -57,7 +74,7 @@ public class ForgeCommonEvents {
                 CapabilityUtils.removeShieldValue(player, Math.min(remove, 0.5));
             }
         }
-        if (EntityUtils.isInDimension(player, Utils.createModResourceLocation("nightmare"))) {
+        if (EntityUtils.isInDimension(player, OutlandHorizon.createModResourceLocation("nightmare"))) {
             player.addEffect(new MobEffectInstance(MobEffectRegistry.NIGHTMARE_POSSESSED.get(), Utils.secondsToTicks(30)));
         }
         if (EntityUtils.isInDimension(player, new ResourceLocation("minecraft:overworld"))) {
@@ -124,7 +141,7 @@ public class ForgeCommonEvents {
     }
 
     private static @NotNull BasicItemListing getVillagerTradeTool(int origin, int bound, String sell, int xp, float priceMultiplier) {
-        return new BasicItemListing(ThreadLocalRandom.current().nextInt(origin, bound), new ItemStack(ItemRegistry.getItemRegistered(Utils.createModResourceLocation(sell))), 10, xp, priceMultiplier);
+        return new BasicItemListing(ThreadLocalRandom.current().nextInt(origin, bound), new ItemStack(ItemRegistry.getItemRegistered(OutlandHorizon.createModResourceLocation(sell))), 10, xp, priceMultiplier);
     }
 
     @SubscribeEvent

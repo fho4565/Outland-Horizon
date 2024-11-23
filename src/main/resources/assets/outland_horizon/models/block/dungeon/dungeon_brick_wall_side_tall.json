@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_wall_side_tall",
+  "textures": {
+    "wall": "outland_horizon:block/building/dungeon/dungeon_brick"
+  }
+}

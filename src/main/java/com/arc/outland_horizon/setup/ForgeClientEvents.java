@@ -29,6 +29,7 @@ public class ForgeClientEvents {
             event.setCanceled(true);
         }
     }
+
     @SubscribeEvent
     public static void clientSetup(FMLClientSetupEvent event) {
         ItemBlockRenderTypes.setRenderLayer(BLOOD.get(), RenderType.waterMask());

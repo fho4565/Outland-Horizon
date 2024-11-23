@@ -1,13 +1,10 @@
 package com.arc.outland_horizon.world.entity.projectile;
 
-import com.arc.outland_horizon.world.item.weapons.weapon.AbstractWeapon;
+import com.arc.outland_horizon.world.item.weapons.IOHRangedWeapon;
 import net.minecraft.util.Mth;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.entity.projectile.ThrowableProjectile;
 import net.minecraft.world.level.ClipContext;
@@ -19,21 +16,17 @@ import net.minecraftforge.event.ForgeEventFactory;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class BasePlayerProjectile extends ThrowableProjectile {
-    protected int lifespan;
     public int age;
-    protected AbstractWeapon weapon;
-
-    @Override
-    protected void defineSynchedData() {
-    }
-
+    protected float lifespan;
+    protected IOHRangedWeapon weapon;
     private Entity cachedOwner = null;
+
     protected BasePlayerProjectile(EntityType<? extends ThrowableProjectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.age = 0;
     }
 
-    public BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, Entity shooter, AbstractWeapon weapon, double posX, double posY, double posZ, float velocity) {
+    public BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, Entity shooter, IOHRangedWeapon weapon, double posX, double posY, double posZ, float velocity) {
         super(entityType, shooter.level());
         this.age = 0;
         this.lifespan = 120;
@@ -45,7 +38,7 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
         setDeltaMovement(new Vec3(random.nextGaussian() / 33 + 0.03D, -velocity, random.nextGaussian() / 33 + 0.03D));
     }
 
-    protected BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, LivingEntity shooter, AbstractWeapon weapon, double posX, double posY, double posZ, double motionX, double motionY, double motionZ) {
+    protected BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, LivingEntity shooter, IOHRangedWeapon weapon, double posX, double posY, double posZ, double motionX, double motionY, double motionZ) {
         super(entityType, shooter.level());
         this.age = 0;
         this.lifespan = 60;
@@ -56,7 +49,7 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
         setDeltaMovement(new Vec3(motionX, motionY, motionZ));
     }
 
-    public BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, LivingEntity shooter, AbstractWeapon weapon, int maxAge, float xMod, float yMod, float zMod) {
+    public BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, LivingEntity shooter, IOHRangedWeapon weapon, int maxAge, float xMod, float yMod, float zMod) {
         super(entityType, shooter.level());
         this.age = 0;
         this.lifespan = maxAge;
@@ -65,33 +58,16 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
         setOwner(shooter);
         moveTo(shooter.getX(), shooter.getY() + shooter.getEyeHeight(), shooter.getZ(), shooter.getYRot(), shooter.getXRot());
 
-        boolean right = true;
 
-        if (shooter instanceof Player) {
-            if (weapon.getWeaponHand(shooter) == InteractionHand.MAIN_HAND) {
-                if (shooter.getMainArm() == HumanoidArm.LEFT)
-                    right = false;
-            }
-            else {
-                if (shooter.getMainArm() == HumanoidArm.RIGHT)
-                    right = false;
-            }
-        }
+        shoot(((double) (-Mth.sin(getYRot() / 180.0F * (float) Math.PI) * Mth.cos(getXRot() / 180.0F * (float) Math.PI)) + xMod),
+                ((double) (-Mth.sin(getXRot() / 180.0F * (float) Math.PI)) + yMod),
+                ((double) (Mth.cos(getYRot() / 180.0F * (float) Math.PI) * Mth.cos(getXRot() / 180.0F * (float) Math.PI)) + zMod),
+                3.0f, 1.0f);
 
-        shoot(((double)(-Mth.sin(getYRot() / 180.0F * (float)Math.PI) * Mth.cos(getXRot() / 180.0F * (float)Math.PI)) + xMod),
-                ((double)(-Mth.sin(getXRot() / 180.0F * (float)Math.PI)) + yMod),
-                ((double)(Mth.cos(getYRot() / 180.0F * (float)Math.PI) * Mth.cos(getXRot() / 180.0F * (float)Math.PI)) + zMod),
-                3.0f,1.0f);
-
-        if (right) {
-            setPos(getDeltaMovement().x() * 0.5f + getX() - ((double)(Mth.cos(getYRot() / 180.0F * (float)Math.PI) * 0.4f)), getDeltaMovement().y() * 0.5f + getY() - 0.3D, getDeltaMovement().z() * 0.5f + getZ() + ((double)(Mth.sin(getYRot() / 180.0F * (float)Math.PI) * 0.4f)));
-        }
-        else {
-            setPos(getDeltaMovement().x() * 0.5f + getX() + ((double)(Mth.cos(getYRot() / 180.0F * (float)Math.PI) * 0.4f)), getDeltaMovement().y() * 0.5f + getY() - 0.3D, getDeltaMovement().z() * 0.5f + getZ() - ((double)(Mth.sin(getYRot() / 180.0F * (float)Math.PI) * 0.4f)));
-        }
+        setPos(getDeltaMovement().x() * 0.5f + getX() - ((double) (Mth.cos(getYRot() / 180.0F * (float) Math.PI) * 0.4f)), getDeltaMovement().y() * 0.5f + getY() - 0.3D, getDeltaMovement().z() * 0.5f + getZ() + ((double) (Mth.sin(getYRot() / 180.0F * (float) Math.PI) * 0.4f)));
     }
 
-    public BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, LivingEntity shooter, AbstractWeapon weapon, int maxAge,int velocity,int inaccuracy) {
+    public BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, LivingEntity shooter, IOHRangedWeapon weapon, float maxAge, float velocity, float inaccuracy) {
         super(entityType, shooter.level());
         this.age = 0;
         this.lifespan = maxAge;
@@ -103,6 +79,10 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
     public BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, Level world, double x, double y, double z, int velocity) {
         super(entityType, world);
         this.age = 0;
+    }
+
+    @Override
+    protected void defineSynchedData() {
     }
 
     @Override
@@ -122,10 +102,9 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
                 Entity shooter = getOwner();
                 if (shooter instanceof LivingEntity) {
                     if (result.getType() == HitResult.Type.BLOCK) {
-                        weapon.onProjectileHitBlock(this, result.getLocation(), (LivingEntity)shooter);
-                    }
-                    else if (result.getType() == HitResult.Type.ENTITY) {
-                        weapon.onProjectileHitEntity(this, ((EntityHitResult)result).getEntity(), (LivingEntity)shooter);
+                        weapon.onProjectileHitBlock(this, result.getLocation(), (LivingEntity) shooter);
+                    } else if (result.getType() == HitResult.Type.ENTITY) {
+                        weapon.onProjectileHitEntity(this, ((EntityHitResult) result).getEntity(), (LivingEntity) shooter);
                     }
                 }
             }
@@ -137,6 +116,7 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
     public boolean ignoreExplosion() {
         return true;
     }
+
     @Override
     public void tick() {
         if (!isAlive()) {
@@ -173,12 +153,12 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
         if (!level().isClientSide) {
             if (age > lifespan) {
                 discard();
-            }
-            else {
+            } else {
                 age++;
             }
         }
     }
+
     @Override
     protected float getGravity() {
         return 0.0f;

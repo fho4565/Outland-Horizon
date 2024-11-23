@@ -1,6 +1,6 @@
 package com.arc.outland_horizon.client.gui.overlay;
 
-import com.arc.outland_horizon.utils.Utils;
+import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.world.capability.provider.OhAttributeProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -12,7 +12,7 @@ import java.awt.*;
 
 public class HealthBar extends HudSection {
     public static final int MAX_BAR_WIDTH = 158;
-    private final ResourceLocation texture = Utils.createModResourceLocation("textures/gui/health_bar.png");
+    private final ResourceLocation texture = OutlandHorizon.createModResourceLocation("textures/gui/health_bar.png");
 
     public HealthBar() {
         super(0, 0);

@@ -1,11 +1,9 @@
 package com.arc.outland_horizon.registry;
 
+import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.registry.block.BlockRegistry;
 import com.arc.outland_horizon.utils.Utils;
-import com.arc.outland_horizon.world.block.DamagedDungeonBrick;
-import com.arc.outland_horizon.world.block.NightmareDirt;
-import com.arc.outland_horizon.world.block.Saplings;
-import com.arc.outland_horizon.world.block.TexturesTestBlock;
+import com.arc.outland_horizon.world.block.*;
 import com.arc.outland_horizon.world.block.fluids.blood.*;
 import com.arc.outland_horizon.world.block.logs.NightmareLog;
 import net.minecraft.core.particles.ParticleTypes;
@@ -56,7 +54,7 @@ public class OHBlocks {
                         , SoundType.MUD::getBreakSound
                         , SoundType.MUD::getStepSound
                         , SoundType.MUD::getPlaceSound
-                        , () -> SoundEvent.createVariableRangeEvent(Utils.createModResourceLocation("flesh_block_breaking"))
+                        , () -> SoundEvent.createVariableRangeEvent(OutlandHorizon.createModResourceLocation("flesh_block_breaking"))
                         , SoundType.MUD::getFallSound
                 ))
                 .requiresCorrectToolForDrops()
@@ -67,7 +65,7 @@ public class OHBlocks {
                         , SoundType.MUD::getBreakSound
                         , SoundType.MUD::getStepSound
                         , SoundType.MUD::getPlaceSound
-                        , () -> SoundEvent.createVariableRangeEvent(Utils.createModResourceLocation("flesh_block_breaking"))
+                        , () -> SoundEvent.createVariableRangeEvent(OutlandHorizon.createModResourceLocation("flesh_block_breaking"))
                         , SoundType.MUD::getFallSound
                 ))
                 .requiresCorrectToolForDrops()
@@ -86,6 +84,8 @@ public class OHBlocks {
 
             public static final RegistryObject<Block> DUNGEON_BRICK = BlockRegistry.register("dungeon_brick",
                     () -> new Block(PROPERTIES));
+            public static final RegistryObject<Block> DUNGEON_BRICK_STAIR = BlockRegistry.register("dungeon_brick_stairs",
+                    () -> new StairBlock(DUNGEON.DUNGEON_BRICK.get().defaultBlockState(), PROPERTIES));
             public static final RegistryObject<Block> DUNGEON_BRICK_TILE = BlockRegistry.register("dungeon_brick_tile",
                     () -> new Block(PROPERTIES));
             public static final RegistryObject<Block> DUNGEON_BRICK_PILLAR = BlockRegistry.register("dungeon_brick_pillar",
@@ -98,6 +98,13 @@ public class OHBlocks {
                     () -> new DamagedDungeonBrick(PROPERTIES.noOcclusion()));
             public static final RegistryObject<Block> WORN_DUNGEON_BRICK = BlockRegistry.register("worn_dungeon_brick",
                     () -> new Block(PROPERTIES));
+            public static final RegistryObject<Block> DUNGEON_BRICK_SLAB = BlockRegistry.register("dungeon_brick_slab",
+                    () -> new SlabBlock(PROPERTIES));
+            public static final RegistryObject<Block> DUNGEON_BRICK_SIDE_SLAB = BlockRegistry.register("dungeon_brick_side_slab",
+                    () -> new SideSlab(PROPERTIES));
+            public static final RegistryObject<Block> DUNGEON_BRICK_WALL = BlockRegistry.register("dungeon_brick_wall",
+                    () -> new WallBlock(PROPERTIES.forceSolidOn()));
+
 
             public static void init() {
             }

@@ -8,11 +8,10 @@ import net.minecraft.world.level.Level;
 public abstract class ZombieMedal extends AbstractMedal {
     @Override
     public void whenActive(ItemStack stack, Level level, ServerPlayer serverPlayer, int slotId) {
-        tickCooldown(stack);
         if (serverPlayer.getHealth() >= serverPlayer.getMaxHealth()) {
             return;
         }
-        if(!isCooldown(stack)){
+        if (!isCooldown(stack)) {
             serverPlayer.heal(heal());
             startCooldown(stack);
         }

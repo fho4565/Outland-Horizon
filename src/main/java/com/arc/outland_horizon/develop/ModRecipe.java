@@ -22,7 +22,7 @@ public class ModRecipe extends RecipeProvider {
     @Override
     protected void buildRecipes(@NotNull Consumer<FinishedRecipe> writer) {
         tools(writer, OHItems.Material.BLOOD_STONE.get(),
-                OHItems.Weapon.BLOOD_STONE_SWORD.get(),
+                OHItems.Weapon.Melee.Sword.BLOOD_STONE_SWORD.get(),
                 OHItems.Tool.BLOOD_STONE_PICKAXE.get(),
                 OHItems.Tool.BLOOD_STONE_AXE.get(),
                 OHItems.Tool.BLOOD_STONE_SHOVEL.get(),

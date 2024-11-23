@@ -1,6 +1,6 @@
 package com.arc.outland_horizon.world.entity.render.mob.monster;
 
-import com.arc.outland_horizon.utils.Utils;
+import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.world.entity.mob.monster.EntityTZT;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -22,6 +22,6 @@ public class EntityTZTRender extends HumanoidMobRenderer<EntityTZT, HumanoidMode
 
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull EntityTZT entity) {
-        return new ResourceLocation(Utils.createModResourceLocation("textures/entity/monster/boss/entity_tzt.png").toString());
+        return new ResourceLocation(OutlandHorizon.createModResourceLocation("textures/entity/monster/boss/entity_tzt.png").toString());
     }
 }

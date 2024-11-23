@@ -219,5 +219,11 @@
   "item.outland_horizon.matrix_ingot": "矩阵锭",
   "item.outland_horizon.condensed_crystal": "凝烧晶",
   "item.outland_horizon.dungeon_destroyer": "地牢破坏者",
-  "block.outland_horizon.textures_test_block": "材质测试方块"
+  "block.outland_horizon.textures_test_block": "材质测试方块",
+  "item.outland_horizon.matrix_sword": "矩阵剑",
+  "item.outland_horizon.elegy": "挽歌",
+  "block.outland_horizon.dungeon_brick_stairs": "地牢砖楼梯",
+  "block.outland_horizon.dungeon_brick_slab": "地牢砖半砖",
+  "block.outland_horizon.dungeon_brick_side_slab": "地牢砖侧半砖",
+  "block.outland_horizon.dungeon_brick_wall": "地牢砖墙"
 }

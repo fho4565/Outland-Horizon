@@ -1,0 +1,64 @@
+{
+  "variants": {
+    "facing=east,full=false,waterlogged=false": {
+      "model": "outland_horizon:block/mc/polished_diorite_side_slab"
+    },
+    "facing=east,full=false,waterlogged=true": {
+      "model": "outland_horizon:block/mc/polished_diorite_side_slab"
+    },
+    "facing=east,full=true,waterlogged=false": {
+      "model": "minecraft:block/polished_diorite"
+    },
+    "facing=east,full=true,waterlogged=true": {
+      "model": "minecraft:block/polished_diorite"
+    },
+    "facing=north,full=false,waterlogged=false": {
+      "model": "outland_horizon:block/mc/polished_diorite_side_slab",
+      "y": 270
+    },
+    "facing=north,full=false,waterlogged=true": {
+      "model": "outland_horizon:block/mc/polished_diorite_side_slab",
+      "y": 270
+    },
+    "facing=north,full=true,waterlogged=false": {
+      "model": "minecraft:block/polished_diorite",
+      "y": 270
+    },
+    "facing=north,full=true,waterlogged=true": {
+      "model": "minecraft:block/polished_diorite",
+      "y": 270
+    },
+    "facing=south,full=false,waterlogged=false": {
+      "model": "outland_horizon:block/mc/polished_diorite_side_slab",
+      "y": 90
+    },
+    "facing=south,full=false,waterlogged=true": {
+      "model": "outland_horizon:block/mc/polished_diorite_side_slab",
+      "y": 90
+    },
+    "facing=south,full=true,waterlogged=false": {
+      "model": "minecraft:block/polished_diorite",
+      "y": 90
+    },
+    "facing=south,full=true,waterlogged=true": {
+      "model": "minecraft:block/polished_diorite",
+      "y": 180
+    },
+    "facing=west,full=false,waterlogged=false": {
+      "model": "outland_horizon:block/mc/polished_diorite_side_slab",
+      "y": 180
+    },
+    "facing=west,full=false,waterlogged=true": {
+      "model": "outland_horizon:block/mc/polished_diorite_side_slab",
+      "y": 180
+    },
+    "facing=west,full=true,waterlogged=false": {
+      "model": "minecraft:block/polished_diorite",
+      "y": 180
+    },
+    "facing=west,full=true,waterlogged=true": {
+      "model": "minecraft:block/polished_diorite",
+      "y": 180
+    }
+  }
+}

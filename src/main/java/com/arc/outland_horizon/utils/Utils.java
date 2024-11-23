@@ -1,6 +1,5 @@
 package com.arc.outland_horizon.utils;
 
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.apache.logging.log4j.LogManager;
@@ -14,10 +13,6 @@ public class Utils {
     public static final String MOD_ID = "outland_horizon";
     public static final String MOD_NAME = "Outland Horizon";
     public static final Logger LOGGER = LogManager.getLogger();
-
-    public static ResourceLocation createModResourceLocation(String path) {
-        return new ResourceLocation(MOD_ID, path);
-    }
 
     public static UUID generateUUIDFromText(String text) {
         return UUID.nameUUIDFromBytes(text.getBytes(StandardCharsets.UTF_8));

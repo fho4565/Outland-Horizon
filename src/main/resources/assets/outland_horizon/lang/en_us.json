@@ -219,5 +219,11 @@
   "item.outland_horizon.matrix_ingot": "Matrix ingot",
   "item.outland_horizon.condensed_crystal": "Condensed crystal",
   "item.outland_horizon.dungeon_destroyer": "Dungeon destroyer",
-  "block.outland_horizon.textures_test_block": "Textures test block"
+  "block.outland_horizon.textures_test_block": "Textures test block",
+  "item.outland_horizon.matrix_sword": "Matrix sword",
+  "item.outland_horizon.elegy": "Elegy",
+  "block.outland_horizon.dungeon_brick_stairs": "Dungeon brick stairs",
+  "block.outland_horizon.dungeon_brick_slab": "Dungeon brick slab",
+  "block.outland_horizon.dungeon_brick_side_slab": "Dungeon brick side slab",
+  "block.outland_horizon.dungeon_brick_wall": "Dungeon brick wall"
 }

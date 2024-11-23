@@ -1,6 +1,6 @@
 package com.arc.outland_horizon.world.entity.render.mob.monster;
 
-import com.arc.outland_horizon.utils.Utils;
+import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.world.entity.mob.monster.Yee;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelLayers;
@@ -22,7 +22,7 @@ public class YeeRender extends HumanoidMobRenderer<Yee, HumanoidModel<Yee>> {
 
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull Yee entity) {
-        return new ResourceLocation(Utils.createModResourceLocation("textures/entity/monster/yee.png").toString());
+        return new ResourceLocation(OutlandHorizon.createModResourceLocation("textures/entity/monster/yee.png").toString());
     }
 }
 

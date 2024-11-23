@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "outland_horizon:block/building/dungeon/dungeon_brick",
+    "side": "outland_horizon:block/building/dungeon/dungeon_brick",
+    "top": "outland_horizon:block/building/dungeon/dungeon_brick"
+  }
+}

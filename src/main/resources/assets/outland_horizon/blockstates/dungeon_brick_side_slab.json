@@ -1,0 +1,64 @@
+{
+  "variants": {
+    "facing=east,full=false,waterlogged=false": {
+      "model": "outland_horizon:block/dungeon/dungeon_brick_side_slab"
+    },
+    "facing=east,full=false,waterlogged=true": {
+      "model": "outland_horizon:block/dungeon/dungeon_brick_side_slab"
+    },
+    "facing=east,full=true,waterlogged=false": {
+      "model": "outland_horizon:block/dungeon_brick"
+    },
+    "facing=east,full=true,waterlogged=true": {
+      "model": "outland_horizon:block/dungeon_brick"
+    },
+    "facing=north,full=false,waterlogged=false": {
+      "model": "outland_horizon:block/dungeon/dungeon_brick_side_slab",
+      "y": 270
+    },
+    "facing=north,full=false,waterlogged=true": {
+      "model": "outland_horizon:block/dungeon/dungeon_brick_side_slab",
+      "y": 270
+    },
+    "facing=north,full=true,waterlogged=false": {
+      "model": "outland_horizon:block/dungeon_brick",
+      "y": 270
+    },
+    "facing=north,full=true,waterlogged=true": {
+      "model": "outland_horizon:block/dungeon_brick",
+      "y": 270
+    },
+    "facing=south,full=false,waterlogged=false": {
+      "model": "outland_horizon:block/dungeon/dungeon_brick_side_slab",
+      "y": 90
+    },
+    "facing=south,full=false,waterlogged=true": {
+      "model": "outland_horizon:block/dungeon/dungeon_brick_side_slab",
+      "y": 90
+    },
+    "facing=south,full=true,waterlogged=false": {
+      "model": "outland_horizon:block/dungeon_brick",
+      "y": 90
+    },
+    "facing=south,full=true,waterlogged=true": {
+      "model": "outland_horizon:block/dungeon_brick",
+      "y": 180
+    },
+    "facing=west,full=false,waterlogged=false": {
+      "model": "outland_horizon:block/dungeon/dungeon_brick_side_slab",
+      "y": 180
+    },
+    "facing=west,full=false,waterlogged=true": {
+      "model": "outland_horizon:block/dungeon/dungeon_brick_side_slab",
+      "y": 180
+    },
+    "facing=west,full=true,waterlogged=false": {
+      "model": "outland_horizon:block/dungeon_brick",
+      "y": 180
+    },
+    "facing=west,full=true,waterlogged=true": {
+      "model": "outland_horizon:block/dungeon_brick",
+      "y": 180
+    }
+  }
+}

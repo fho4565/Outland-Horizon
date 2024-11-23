@@ -1,7 +1,6 @@
 package com.arc.outland_horizon;
 
 import com.arc.outland_horizon.registry.OHItems;
-import com.arc.outland_horizon.utils.Utils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -29,7 +28,7 @@ public class ModTiers {
     static TagKey<Block> iron = BlockTags.NEEDS_IRON_TOOL;
     static TagKey<Block> diamond = BlockTags.NEEDS_DIAMOND_TOOL;
     static TagKey<Block> netherite = Tags.Blocks.NEEDS_NETHERITE_TOOL;
-    static TagKey<Block> level5 = new TagKey<>(Registries.BLOCK, Utils.createModResourceLocation("needs_level_5_tool"));
+    static TagKey<Block> level5 = new TagKey<>(Registries.BLOCK, OutlandHorizon.createModResourceLocation("needs_level_5_tool"));
     public static final Tier BLUE_GEM = createTier(BLUE_GEM_LEVEL, Ingredient.of(OHItems.Material.BLUE_GEM.get()));
     public static final Tier BLOOD_STONE = createTier(BLOOD_STONE_LEVEL, Ingredient.of(OHItems.Material.BLOOD_STONE.get()));
     /*    public static final Tier VOID_WASTE = createTier(VOID_WASTE_LEVEL, "void_waste");

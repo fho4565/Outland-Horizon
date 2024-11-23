@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "outland_horizon:block/dungeon/dungeon_brick_slab"
+    },
+    "type=double": {
+      "model": "outland_horizon:block/dungeon_brick"
+    },
+    "type=top": {
+      "model": "outland_horizon:block/dungeon/dungeon_brick_slab_top"
+    }
+  }
+}

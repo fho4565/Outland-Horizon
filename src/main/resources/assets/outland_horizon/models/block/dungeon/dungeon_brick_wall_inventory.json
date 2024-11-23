@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/wall_inventory",
+  "textures": {
+    "wall": "outland_horizon:block/building/dungeon/dungeon_brick"
+  }
+}

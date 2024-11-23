@@ -1,0 +1,6 @@
+{
+  "parent": "outland_horizon:block/base/side_slab",
+  "textures": {
+    "texture": "minecraft:block/polished_diorite"
+  }
+}
