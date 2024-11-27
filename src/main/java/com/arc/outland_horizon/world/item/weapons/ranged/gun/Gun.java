@@ -1,12 +1,10 @@
 package com.arc.outland_horizon.world.item.weapons.ranged.gun;
 
-import com.arc.outland_horizon.utils.ChatUtils;
 import com.arc.outland_horizon.utils.WorldUtils;
 import com.arc.outland_horizon.world.entity.projectile.BasePlayerProjectile;
 import com.arc.outland_horizon.world.entity.projectile.bullet.Bullet;
 import com.arc.outland_horizon.world.item.UsableItem;
-import com.arc.outland_horizon.world.item.weapons.IOHRangedWeapon;
-import net.minecraft.ChatFormatting;
+import com.arc.outland_horizon.world.item.weapons.IRangedWeapon;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -21,14 +19,14 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public abstract class Gun extends UsableItem implements IOHRangedWeapon {
+public abstract class Gun extends UsableItem implements IRangedWeapon {
 
     public Gun(int maxDurability, int enchantAbility, Ingredient repairIngredient, Properties properties) {
         super(maxDurability, enchantAbility, repairIngredient, properties);
     }
 
     @Override
-    public BasePlayerProjectile getProjectile(LivingEntity shooter, IOHRangedWeapon weapon, int maxAge, float velocity) {
+    public BasePlayerProjectile getProjectile(LivingEntity shooter, IRangedWeapon weapon, int maxAge, float velocity) {
         return new Bullet(shooter, weapon, maxAge, velocity);
     }
 
@@ -47,9 +45,10 @@ public abstract class Gun extends UsableItem implements IOHRangedWeapon {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> components, @NotNull TooltipFlag pIsAdvanced) {
-        super.appendHoverText(pStack, pLevel, components, pIsAdvanced);
+    public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag isAdvanced) {
+        super.appendHoverText(itemStack, level, components, isAdvanced);
+        components.add(rangedDamageTooltip());
         components.add(cooldownTooltip());
-        components.add(ChatUtils.translatable("text.outland_horizon.gui.weapon.inaccuracy", getBulletInaccuracy()).withStyle(ChatFormatting.DARK_GREEN));
+        components.add(inaccuracyTooltip());
     }
 }

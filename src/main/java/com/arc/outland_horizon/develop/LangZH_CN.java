@@ -1,14 +1,14 @@
 package com.arc.outland_horizon.develop;
 
+import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.registry.OHBlocks;
 import com.arc.outland_horizon.registry.OHItems;
-import com.arc.outland_horizon.utils.Utils;
 import net.minecraft.data.PackOutput;
 import net.minecraftforge.common.data.LanguageProvider;
 
 public class LangZH_CN extends LanguageProvider {
     public LangZH_CN(PackOutput output, String locale) {
-        super(output, Utils.MOD_ID, locale);
+        super(output, OutlandHorizon.MOD_ID, locale);
     }
 
     @Override

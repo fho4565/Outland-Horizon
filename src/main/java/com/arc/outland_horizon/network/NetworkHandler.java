@@ -1,9 +1,9 @@
 package com.arc.outland_horizon.network;
 
+import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.network.server.C2SPacket;
 import com.arc.outland_horizon.network.server.ServerAttributeSyncPacket;
 import com.arc.outland_horizon.network.server.ServerModifyAttributesPacket;
-import com.arc.outland_horizon.utils.Utils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -20,7 +20,7 @@ public class NetworkHandler {
 
     public static void register() {
         INSTANCE = NetworkRegistry.newSimpleChannel(
-                new ResourceLocation(Utils.MOD_ID, "common"),
+                new ResourceLocation(OutlandHorizon.MOD_ID, "common"),
                 () -> PROTOCOL_VERSION,
                 PROTOCOL_VERSION::equals,
                 PROTOCOL_VERSION::equals

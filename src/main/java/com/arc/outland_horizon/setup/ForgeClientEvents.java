@@ -1,8 +1,8 @@
 package com.arc.outland_horizon.setup;
 
+import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.network.NetworkHandler;
 import com.arc.outland_horizon.network.server.C2SPacket;
-import com.arc.outland_horizon.utils.Utils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -20,7 +20,7 @@ import static com.arc.outland_horizon.client.key.KeyRegistry.KEY_RAGE;
 import static com.arc.outland_horizon.registry.OHBlocks.Fluid.FluidRegistry.BLOOD;
 import static com.arc.outland_horizon.registry.OHBlocks.Fluid.FluidRegistry.BLOOD_FLOWING;
 
-@Mod.EventBusSubscriber(modid = Utils.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = OutlandHorizon.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ForgeClientEvents {
     @SubscribeEvent
     public static void onGameOverlayRenderPre(RenderGuiOverlayEvent.Pre event) {

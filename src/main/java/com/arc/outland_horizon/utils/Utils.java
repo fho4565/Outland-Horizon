@@ -10,8 +10,6 @@ import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Utils {
-    public static final String MOD_ID = "outland_horizon";
-    public static final String MOD_NAME = "Outland Horizon";
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static UUID generateUUIDFromText(String text) {
@@ -26,8 +24,8 @@ public class Utils {
         return Mth.hsvToRgb(Math.max(0.0F, scale) / 3.0F, 1.0F, 1.0F);
     }
 
-    public static int getScaledBarWidth(float scale) {
-        return Math.round(13.0F - 13.0F * scale);
+    public static int getScaledBarWidth(float barLength, float scale) {
+        return Math.round(barLength - barLength * scale);
     }
 
     public static int secondsToTicks(float seconds) {

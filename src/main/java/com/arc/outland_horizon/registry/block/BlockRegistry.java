@@ -1,8 +1,8 @@
 package com.arc.outland_horizon.registry.block;
 
+import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.registry.OHBlocks;
 import com.arc.outland_horizon.registry.OHItems;
-import com.arc.outland_horizon.utils.Utils;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -15,7 +15,7 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.function.Supplier;
 
 public class BlockRegistry {
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Utils.MOD_ID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, OutlandHorizon.MOD_ID);
 
     public static RegistryObject<Block> register(String id, Supplier<Block> block) {
         return register(id, block, true);

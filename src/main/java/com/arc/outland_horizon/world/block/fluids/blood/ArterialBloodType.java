@@ -1,7 +1,7 @@
 package com.arc.outland_horizon.world.block.fluids.blood;
 
 
-import com.arc.outland_horizon.utils.Utils;
+import com.arc.outland_horizon.OutlandHorizon;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
@@ -25,8 +25,7 @@ public class ArterialBloodType extends FluidType {
     @Override
     public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
         consumer.accept(new IClientFluidTypeExtensions() {
-            private static final ResourceLocation STILL_TEXTURE = new ResourceLocation(Utils.MOD_ID+":block/arterial_blood")
-                    , FLOWING_TEXTURE = new ResourceLocation(Utils.MOD_ID+":block/arterial_blood");
+            private static final ResourceLocation STILL_TEXTURE = new ResourceLocation(OutlandHorizon.MOD_ID + ":block/arterial_blood"), FLOWING_TEXTURE = new ResourceLocation(OutlandHorizon.MOD_ID + ":block/arterial_blood");
 
             @Override
             public ResourceLocation getStillTexture() {

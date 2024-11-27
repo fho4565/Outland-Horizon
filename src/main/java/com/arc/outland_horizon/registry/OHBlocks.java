@@ -2,7 +2,6 @@ package com.arc.outland_horizon.registry;
 
 import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.registry.block.BlockRegistry;
-import com.arc.outland_horizon.utils.Utils;
 import com.arc.outland_horizon.world.block.*;
 import com.arc.outland_horizon.world.block.fluids.blood.*;
 import com.arc.outland_horizon.world.block.logs.NightmareLog;
@@ -95,7 +94,7 @@ public class OHBlocks {
             public static final RegistryObject<Block> SKELETON_DUNGEON_BRICK = BlockRegistry.register("skeleton_dungeon_brick",
                     () -> new Block(PROPERTIES));
             public static final RegistryObject<Block> DAMAGED_DUNGEON_BRICK = BlockRegistry.register("damaged_dungeon_brick",
-                    () -> new DamagedDungeonBrick(PROPERTIES.noOcclusion()));
+                    () -> new DamagedDungeonBrick(PROPERTIES.explosionResistance(0).noOcclusion()));
             public static final RegistryObject<Block> WORN_DUNGEON_BRICK = BlockRegistry.register("worn_dungeon_brick",
                     () -> new Block(PROPERTIES));
             public static final RegistryObject<Block> DUNGEON_BRICK_SLAB = BlockRegistry.register("dungeon_brick_slab",
@@ -160,13 +159,13 @@ public class OHBlocks {
         }
 
         public static class FluidTypeRegistry {
-            public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, Utils.MOD_ID);
+            public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, OutlandHorizon.MOD_ID);
             public static final RegistryObject<FluidType> BLOOD_TYPE = FLUID_TYPES.register("blood_type", BloodType::new);
             public static final RegistryObject<FluidType> ArterialBLOOD_TYPE = FLUID_TYPES.register("arterial_blood_type", ArterialBloodType::new);
         }
 
         public static class FluidRegistry {
-            public static final DeferredRegister<net.minecraft.world.level.material.Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Utils.MOD_ID);
+            public static final DeferredRegister<net.minecraft.world.level.material.Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, OutlandHorizon.MOD_ID);
             public static final RegistryObject<FlowingFluid> BLOOD = FLUIDS.register("blood", Blood.Source::new);
             public static final RegistryObject<FlowingFluid> BLOOD_FLOWING = FLUIDS.register("blood_flowing", Blood.Flowing::new);
 

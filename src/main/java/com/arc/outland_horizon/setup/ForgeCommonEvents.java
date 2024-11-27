@@ -37,7 +37,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-@Mod.EventBusSubscriber(modid = Utils.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@Mod.EventBusSubscriber(modid = OutlandHorizon.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeCommonEvents {
     @SubscribeEvent
     public static void onAttachCaps(AttachCapabilitiesEvent<Entity> event) {
@@ -53,25 +53,25 @@ public class ForgeCommonEvents {
         Player player = event.player;
         player.getInventory().items.forEach(itemStack -> {
             if (itemStack.getItem() instanceof ICooldownItem iCooldownItem) {
-                iCooldownItem.tickCooldown(itemStack);
+                iCooldownItem.tickCooldown(player, itemStack);
             }
         });
         player.getInventory().armor.forEach(itemStack -> {
             if (itemStack.getItem() instanceof ICooldownItem iCooldownItem) {
-                iCooldownItem.tickCooldown(itemStack);
+                iCooldownItem.tickCooldown(player, itemStack);
             }
         });
         player.getInventory().offhand.forEach(itemStack -> {
             if (itemStack.getItem() instanceof ICooldownItem iCooldownItem) {
-                iCooldownItem.tickCooldown(itemStack);
+                iCooldownItem.tickCooldown(player, itemStack);
             }
         });
         if (event.phase == TickEvent.Phase.END) {
             if (!player.level().isClientSide) {
-                CapabilityUtils.recoverMana(player);
-                CapabilityUtils.recoverRage(player);
-                double remove = Math.max(Math.pow((CapabilityUtils.getShieldValue(player) / 2.0 + 0.3) / 1000.0, 2), 0.005);
-                CapabilityUtils.removeShieldValue(player, Math.min(remove, 0.5));
+                CapabilityUtils.Mana.recoverMana(player);
+                CapabilityUtils.Rage.recoverRage(player);
+                double remove = Math.max(Math.pow((CapabilityUtils.Shield.getShieldValue(player) / 2.0 + 0.3) / 1000.0, 2), 0.005);
+                CapabilityUtils.Shield.removeShieldValue(player, Math.min(remove, 0.5));
             }
         }
         if (EntityUtils.isInDimension(player, OutlandHorizon.createModResourceLocation("nightmare"))) {

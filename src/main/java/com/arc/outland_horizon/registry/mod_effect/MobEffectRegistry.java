@@ -1,6 +1,6 @@
 package com.arc.outland_horizon.registry.mod_effect;
 
-import com.arc.outland_horizon.utils.Utils;
+import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.world.mob_effects.Bleed;
 import com.arc.outland_horizon.world.mob_effects.Mad;
 import com.arc.outland_horizon.world.mob_effects.Nightmare;
@@ -14,7 +14,7 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.function.Supplier;
 
 public class MobEffectRegistry {
-    public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, Utils.MOD_ID);
+    public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, OutlandHorizon.MOD_ID);
     public static final RegistryObject<MobEffect> BLEED = register("bleed", Bleed::new);
     public static final RegistryObject<MobEffect> MAD = register("mad", Mad::new);
     public static final RegistryObject<MobEffect> RAGE = register("rage", Rage::new);

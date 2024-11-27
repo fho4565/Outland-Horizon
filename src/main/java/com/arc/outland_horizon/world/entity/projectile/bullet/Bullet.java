@@ -2,7 +2,7 @@ package com.arc.outland_horizon.world.entity.projectile.bullet;
 
 import com.arc.outland_horizon.world.entity.EntityRegistry;
 import com.arc.outland_horizon.world.entity.projectile.BasePlayerProjectile;
-import com.arc.outland_horizon.world.item.weapons.IOHRangedWeapon;
+import com.arc.outland_horizon.world.item.weapons.IRangedWeapon;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -20,7 +20,7 @@ public class Bullet extends BasePlayerProjectile {
         super(EntityRegistry.IRON_BULLET.get(), world);
     }
 
-    public Bullet(LivingEntity shooter, IOHRangedWeapon weapon, int maxAge, float velocity) {
+    public Bullet(LivingEntity shooter, IRangedWeapon weapon, int maxAge, float velocity) {
         super(EntityRegistry.IRON_BULLET.get(), shooter, weapon, maxAge, velocity, 0);
     }
 

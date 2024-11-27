@@ -26,7 +26,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class WorldUtils {
-    public static void playSound(LevelAccessor levelAccessor, double x, double y, double z, SoundEvent soundEvent,SoundSource soundSource, float volume, float pitch) {
+    public static void playSound(LevelAccessor levelAccessor, double x, double y, double z, SoundEvent soundEvent, SoundSource soundSource, float volume, float pitch) {
         if (levelAccessor instanceof Level level) {
             if (!level.isClientSide()) {
                 level.playSound(null, BlockPos.containing(x, y, z), soundEvent, soundSource, volume, pitch);
@@ -35,7 +35,8 @@ public class WorldUtils {
             }
         }
     }
-    public static void playSound(LevelAccessor levelAccessor, double x, double y, double z, SoundEvent soundEvent,SoundSource soundSource) {
+
+    public static void playSound(LevelAccessor levelAccessor, double x, double y, double z, SoundEvent soundEvent, SoundSource soundSource) {
         if (levelAccessor instanceof Level level) {
             if (!level.isClientSide()) {
                 level.playSound(null, BlockPos.containing(x, y, z), soundEvent, soundSource, 1, 1);
@@ -44,6 +45,7 @@ public class WorldUtils {
             }
         }
     }
+
     public static void playSoundForPlayer(ServerPlayer serverPlayer, SoundEvent soundEvent, SoundSource soundSource) {
         serverPlayer.connection.send(new ClientboundSoundPacket(Holder.direct(soundEvent),
                 soundSource,
@@ -55,18 +57,22 @@ public class WorldUtils {
                 serverPlayer.level().getRandom().nextLong()));
 
     }
+
     public static void summonItem(ServerPlayer player, RegistryObject<Item> item) {
         player.level().addFreshEntity(
                 new ItemEntity(player.level(),
                         player.getX(), player.getY(), player.getZ(),
                         new ItemStack(item.get())));
     }
-    public static String getWorldFolderPath(MinecraftServer server){
-        return server.getWorldPath(new LevelResource("")).toAbsolutePath().toString().replace("\\.\\","\\");
+
+    public static String getWorldFolderPath(MinecraftServer server) {
+        return server.getWorldPath(new LevelResource("")).toAbsolutePath().toString().replace("\\.\\", "\\");
     }
+
     public static LinkedHashSet<BlockPos> getBlocksByRadio(Level level, BlockPos center, int radius) {
         return getAllBlocksByRadio(level, center, radius, block -> true);
     }
+
     /**
      * 获取指定球形范围内的所有满足条件的方块坐标，坐标会按照离中心距离从小到大排序
      *
@@ -88,7 +94,6 @@ public class WorldUtils {
 
     /**
      * 获取指定球形范围内的所有满足条件而且和中心坐标直接或者间接相连(不包括对角线)的的方块坐标，坐标会按照离中心距离从小到大排序
-     * 这个算法是使用层级顺序的广度优先算法
      *
      * @param level               Level对象
      * @param center              中心点的坐标
@@ -108,12 +113,16 @@ public class WorldUtils {
             int levelSize = queue.size();
             for (int i = 0; i < levelSize; i++) {
                 BlockPos current = queue.poll();
-                connectedBlocks.add(current);
-
-                for (BlockPos neighbor : getNeighbors(current, level, blockStatePredicate)) {
-                    if (!visited.contains(neighbor) && isWithinRadius(neighbor, center, radius)) {
-                        queue.offer(neighbor);
-                        visited.add(neighbor);
+                if (current != null) {
+                    connectedBlocks.add(current);
+                    for (BlockPos neighbor : Arrays.stream(Direction.values())
+                            .map(current::relative)
+                            .filter(blockPos -> blockStatePredicate.test(level.getBlockState(current)))
+                            .toList()) {
+                        if (!visited.contains(neighbor) && (neighbor.distSqr(center) <= radius * radius)) {
+                            queue.offer(neighbor);
+                            visited.add(neighbor);
+                        }
                     }
                 }
             }
@@ -121,25 +130,12 @@ public class WorldUtils {
         return connectedBlocks;
     }
 
-    private static List<BlockPos> getNeighbors(BlockPos pos, Level level, Predicate<BlockState> blockStatePredicate) {
-        return Arrays.stream(Direction.values())
-                .map(pos::relative)
-                .filter(blockPos -> blockStatePredicate.test(level.getBlockState(blockPos)))
-                .toList();
-    }
-
-    private static boolean isWithinRadius(BlockPos pos, BlockPos center, int radius) {
-        return pos.distSqr(center) <= radius * radius;
-    }
     public static boolean hasBlockInRadius(Level level, BlockPos center, int radius, Block block) {
         return getBlocksByRadio(level, center, radius).stream().anyMatch(blockPos -> level.getBlockState(blockPos).is(block));
     }
 
     public static List<Entity> getEntitiesByRadio(Level level, Vec3 pos, double radius) {
-        AABB box = new AABB(pos.x - radius - 1, pos.y - radius - 1, pos.z - radius - 1,
-                pos.x + radius + 1, pos.y + radius + 1, pos.z + radius + 1);
-        return level.getEntities(null, box).stream()
-                .filter(entity -> entity.position().distanceTo(pos) <= radius).toList();
+        return getEntitiesByRadio(level, pos, radius, entity -> true);
     }
 
     public static List<Entity> getEntitiesByRadio(Level level, Vec3 pos, double radius, Predicate<Entity> entityPredicate) {
@@ -147,14 +143,6 @@ public class WorldUtils {
                 pos.x + radius + 1, pos.y + radius + 1, pos.z + radius + 1);
         return level.getEntities(null, box).stream()
                 .filter(entity -> entity.position().distanceTo(pos) <= radius && entityPredicate.test(entity))
-                .toList();
-    }
-
-    public static List<Entity> getEntitiesByRadio(Level level, Vec3 pos, double radius, Class<?> clazz) {
-        AABB box = new AABB(pos.x - radius - 1, pos.y - radius - 1, pos.z - radius - 1,
-                pos.x + radius + 1, pos.y + radius + 1, pos.z + radius + 1);
-        return level.getEntities(null, box).stream()
-                .filter(entity -> entity.position().distanceTo(pos) <= radius && entity.getClass().isAssignableFrom(clazz))
                 .toList();
     }
 }

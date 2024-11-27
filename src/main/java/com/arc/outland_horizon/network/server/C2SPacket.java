@@ -12,9 +12,6 @@ import java.util.Objects;
 import java.util.function.Supplier;
 
 public class C2SPacket implements Packet {
-    public static class Operation {
-        public static final int TRIGGER_RAGE = 0;
-    }
     private final int operation;
 
     public C2SPacket(int operation) {
@@ -31,14 +28,18 @@ public class C2SPacket implements Packet {
 
     public void handle(Supplier<NetworkEvent.Context> ctx) {
         ServerPlayer p = Objects.requireNonNull(ctx.get().getSender());
-        switch (this.operation){
+        switch (this.operation) {
             case Operation.TRIGGER_RAGE -> {
-                if(CapabilityUtils.isRageFull(p)){
+                if (CapabilityUtils.Rage.isRageFull(p)) {
                     p.addEffect(new MobEffectInstance(MobEffectRegistry.RAGE.get(), 600));
-                    CapabilityUtils.setRage(p, 0);
+                    CapabilityUtils.Rage.setRage(p, 0);
                 }
             }
         }
         ctx.get().setPacketHandled(true);
+    }
+
+    public static class Operation {
+        public static final int TRIGGER_RAGE = 0;
     }
 }

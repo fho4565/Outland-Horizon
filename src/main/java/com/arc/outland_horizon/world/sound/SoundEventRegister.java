@@ -1,7 +1,6 @@
 package com.arc.outland_horizon.world.sound;
 
 import com.arc.outland_horizon.OutlandHorizon;
-import com.arc.outland_horizon.utils.Utils;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SoundEventRegister {
-    public static final DeferredRegister<SoundEvent> SOUND = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Utils.MOD_ID);
+    public static final DeferredRegister<SoundEvent> SOUND = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, OutlandHorizon.MOD_ID);
     public static final RegistryObject<SoundEvent> GUN = SOUND.register("gun", () ->
             SoundEvent.createVariableRangeEvent(OutlandHorizon.createModResourceLocation("gun")));
     public static final RegistryObject<SoundEvent> SNIPE_GUN = SOUND.register("snipe_gun", () ->

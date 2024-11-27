@@ -1,19 +1,19 @@
 package com.arc.outland_horizon.setup;
 
+import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.client.gui.overlay.PlayerOverlay;
 import com.arc.outland_horizon.develop.LangEN_US;
 import com.arc.outland_horizon.develop.LangZH_CN;
 import com.arc.outland_horizon.develop.ModLootTable;
 import com.arc.outland_horizon.develop.ModRecipe;
 import com.arc.outland_horizon.network.NetworkHandler;
-import com.arc.outland_horizon.utils.Utils;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
-@Mod.EventBusSubscriber(modid = Utils.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = OutlandHorizon.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModCommonEvents {
     @SubscribeEvent
     public static void onCommonSetup(FMLCommonSetupEvent event) {
@@ -42,6 +42,6 @@ public class ModCommonEvents {
 
     @SubscribeEvent
     public static void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
-        event.registerAboveAll(Utils.MOD_ID, new PlayerOverlay());
+        event.registerAboveAll(OutlandHorizon.MOD_ID, new PlayerOverlay());
     }
 }

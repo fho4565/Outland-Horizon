@@ -1,4 +1,4 @@
-package com.arc.outland_horizon.world;
+package com.arc.outland_horizon.world.item;
 
 import com.arc.outland_horizon.utils.ChatUtils;
 import net.minecraft.ChatFormatting;

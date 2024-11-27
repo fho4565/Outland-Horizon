@@ -22,15 +22,15 @@ public class ModCommands {
     public static void registerModCommands(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("rage").requires(requireDevelopEnvironment()).executes(ctx -> {
             ServerPlayer serverPlayer = ctx.getSource().getPlayerOrException();
-            Component msg = Component.literal("current rage：").append(String.valueOf(CapabilityUtils.getRage(serverPlayer))).append("\n")
-                    .append(Component.literal("max rage：").append(String.valueOf(CapabilityUtils.getMaxRage(serverPlayer))));
+            Component msg = Component.literal("current rage：").append(String.valueOf(CapabilityUtils.Rage.getRage(serverPlayer))).append("\n")
+                    .append(Component.literal("max rage：").append(String.valueOf(CapabilityUtils.Rage.getMaxRage(serverPlayer))));
             ChatUtils.singlePlayer(serverPlayer, msg);
             return 0;
         }));
         dispatcher.register(Commands.literal("mana").requires(requireDevelopEnvironment()).executes(ctx -> {
             ServerPlayer serverPlayer = ctx.getSource().getPlayerOrException();
-            Component msg = Component.literal("current mana：").append(String.valueOf(CapabilityUtils.getMana(serverPlayer))).append("\n")
-                    .append(Component.literal("max mana：").append(String.valueOf(CapabilityUtils.getMaxMana(serverPlayer))));
+            Component msg = Component.literal("current mana：").append(String.valueOf(CapabilityUtils.Mana.getMana(serverPlayer))).append("\n")
+                    .append(Component.literal("max mana：").append(String.valueOf(CapabilityUtils.Mana.getMaxMana(serverPlayer))));
             ChatUtils.singlePlayer(serverPlayer, msg);
             return 0;
         }));
@@ -45,14 +45,14 @@ public class ModCommands {
         dispatcher.register(Commands.literal("shield").requires(requireDevelopEnvironment())
                 .executes(ctx -> {
                     ServerPlayer serverPlayer = ctx.getSource().getPlayerOrException();
-                    Component msg = Component.literal("current shield value：").append(String.valueOf(CapabilityUtils.getShieldValue(serverPlayer)));
+                    Component msg = Component.literal("current shield value：").append(String.valueOf(CapabilityUtils.Shield.getShieldValue(serverPlayer)));
                     ChatUtils.singlePlayer(serverPlayer, msg);
                     return 0;
                 })
                 .then(Commands.argument("amount", DoubleArgumentType.doubleArg(0))
                         .executes(ctx -> {
                             ServerPlayer serverPlayer = ctx.getSource().getPlayerOrException();
-                            CapabilityUtils.setShieldValue(serverPlayer, DoubleArgumentType.getDouble(ctx, "amount"));
+                            CapabilityUtils.Shield.setShieldValue(serverPlayer, DoubleArgumentType.getDouble(ctx, "amount"));
                             Component msg = Component.literal("set shield value");
                             ChatUtils.singlePlayer(serverPlayer, msg);
                             return 0;

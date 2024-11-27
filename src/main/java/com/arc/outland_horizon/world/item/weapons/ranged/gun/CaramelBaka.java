@@ -4,7 +4,7 @@ import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.registry.OHItems;
 import com.arc.outland_horizon.utils.EntityUtils;
 import com.arc.outland_horizon.utils.WorldUtils;
-import com.arc.outland_horizon.world.DeveloperItem;
+import com.arc.outland_horizon.world.item.DeveloperItem;
 import com.arc.outland_horizon.world.sound.SoundEventRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -58,10 +58,10 @@ public class CaramelBaka extends Gun implements DeveloperItem {
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, @Nullable Level level, @NotNull List<Component> tooltipComponents, @NotNull TooltipFlag isAdvanced) {
+    public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> tooltipComponents, @NotNull TooltipFlag isAdvanced) {
         tooltipComponents.add(Component.empty());
         tooltipComponents.add(developerNameTooltip());
-        super.appendHoverText(stack, level, tooltipComponents, isAdvanced);
+        super.appendHoverText(itemStack, level, tooltipComponents, isAdvanced);
     }
 
     @Override

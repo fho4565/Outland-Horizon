@@ -2,15 +2,32 @@ package com.arc.outland_horizon.world.item.weapons.melee.sword;
 
 import com.arc.outland_horizon.ModRarities;
 import com.arc.outland_horizon.registry.OHItems;
+import com.arc.outland_horizon.utils.EntityUtils;
+import com.arc.outland_horizon.utils.Utils;
+import com.arc.outland_horizon.utils.WorldUtils;
+import com.google.common.collect.Multimap;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
@@ -56,7 +73,7 @@ public class Elegy extends SwordItem {
                   public @NotNull Ingredient getRepairIngredient() {
                       return Ingredient.EMPTY;
                   }
-              }, 76, 8,
+              }, 46, -2.7f,
                 new Properties().rarity(ModRarities.DISASTER));
     }
 
@@ -64,7 +81,6 @@ public class Elegy extends SwordItem {
     public static void onLivingDeath(LivingDeathEvent event) {
         if (event.getSource().getEntity() instanceof LivingEntity sourceLivingEntity) {
             if (sourceLivingEntity.getMainHandItem().getItem() == OHItems.Weapon.Melee.Sword.ELEGY.get()) {
-                System.out.println("A");
                 LivingEntity entity = event.getEntity();
                 ThreadLocalRandom random = ThreadLocalRandom.current();
                 if (entity.level() instanceof ServerLevel serverLevel) {
@@ -88,6 +104,77 @@ public class Elegy extends SwordItem {
         if (event.getEntity().getMobType() == MobType.UNDEAD) {
             event.setAmount(event.getAmount() * 1.75f);
         }
+    }
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
+        ItemStack item = player.getItemInHand(interactionHand);
+        InteractionHand otherHand = interactionHand == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
+        ItemStack otherItem = player.getItemInHand(otherHand);
+        if (otherItem.canPerformAction(net.minecraftforge.common.ToolActions.SHIELD_BLOCK) && !player.getCooldowns().isOnCooldown(otherItem.getItem())) {
+            return InteractionResultHolder.fail(item);
+        } else {
+            player.startUsingItem(interactionHand);
+            return InteractionResultHolder.consume(item);
+        }
+    }
+
+    @Override
+    public void onUseTick(Level level, @NotNull LivingEntity livingEntity, ItemStack stack, int pRemainingUseDuration) {
+        WorldUtils.getEntitiesByRadio(level, livingEntity.position(), 8, entity -> (!entity.equals(livingEntity) && entity instanceof Monster || entity instanceof Enemy))
+                .forEach(entity -> {
+                    if (entity instanceof LivingEntity enemy) {
+                        Multimap<Attribute, AttributeModifier> attributeModifiers = stack.getAttributeModifiers(EquipmentSlot.MAINHAND);
+                        double dmg = 0;
+                        for (Attribute key : attributeModifiers.keys()) {
+                            if (key == Attributes.ATTACK_DAMAGE) {
+                                dmg += attributeModifiers.get(key).stream().mapToDouble(AttributeModifier::getAmount).sum();
+                            }
+                        }
+                        AttributeInstance attribute = livingEntity.getAttribute(Attributes.ATTACK_DAMAGE);
+                        EntityUtils.hurt(livingEntity, enemy, DamageTypes.MOB_ATTACK,
+                                (float) (dmg + (attribute != null ? attribute.getValue() : 0)) * 0.03f
+                        );
+                    }
+                });
+        super.onUseTick(level, livingEntity, stack, pRemainingUseDuration);
+    }
+
+    @Override
+    public void releaseUsing(ItemStack itemStack, Level level, LivingEntity livingEntity, int pTimeCharged) {
+        if (pTimeCharged >= Utils.secondsToTicks(5)) {
+            WorldUtils.getEntitiesByRadio(level, livingEntity.position(), 3, entity -> (!entity.equals(livingEntity) && entity instanceof Monster || entity instanceof Enemy))
+                    .forEach(entity -> {
+                        if (entity instanceof LivingEntity target) {
+                            Multimap<Attribute, AttributeModifier> attributeModifiers = itemStack.getAttributeModifiers(EquipmentSlot.MAINHAND);
+                            double dmg = 0;
+                            for (Attribute key : attributeModifiers.keys()) {
+                                if (key == Attributes.ATTACK_DAMAGE) {
+                                    dmg += attributeModifiers.get(key).stream().mapToDouble(AttributeModifier::getAmount).sum();
+                                }
+                            }
+                            AttributeInstance attribute = livingEntity.getAttribute(Attributes.ATTACK_DAMAGE);
+                            target.addEffect(new MobEffectInstance(MobEffects.WITHER, Utils.secondsToTicks(10)));
+                            EntityUtils.hurt(livingEntity, target, DamageTypes.MOB_ATTACK,
+                                    (float) (dmg + (attribute != null ? attribute.getValue() : 0)) * Math.min(1.5f, pTimeCharged / 200.0f)
+                            );
+                            if (livingEntity instanceof Player player) {
+                                player.getCooldowns().addCooldown(itemStack.getItem(), pTimeCharged / 200);
+                            }
+                        }
+                    });
+        }
+        super.releaseUsing(itemStack, level, livingEntity, pTimeCharged);
+    }
+
+    @Override
+    public int getUseDuration(ItemStack stack) {
+        return Utils.secondsToTicks(20);
+    }
+
+    @Override
+    public UseAnim getUseAnimation(ItemStack stack) {
+        return UseAnim.BOW;
     }
 
     @Override

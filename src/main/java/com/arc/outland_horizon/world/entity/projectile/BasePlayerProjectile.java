@@ -1,6 +1,6 @@
 package com.arc.outland_horizon.world.entity.projectile;
 
-import com.arc.outland_horizon.world.item.weapons.IOHRangedWeapon;
+import com.arc.outland_horizon.world.item.weapons.IRangedWeapon;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 public abstract class BasePlayerProjectile extends ThrowableProjectile {
     public int age;
     protected float lifespan;
-    protected IOHRangedWeapon weapon;
+    protected IRangedWeapon weapon;
     private Entity cachedOwner = null;
 
     protected BasePlayerProjectile(EntityType<? extends ThrowableProjectile> pEntityType, Level pLevel) {
@@ -26,7 +26,7 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
         this.age = 0;
     }
 
-    public BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, Entity shooter, IOHRangedWeapon weapon, double posX, double posY, double posZ, float velocity) {
+    public BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, Entity shooter, IRangedWeapon weapon, double posX, double posY, double posZ, float velocity) {
         super(entityType, shooter.level());
         this.age = 0;
         this.lifespan = 120;
@@ -38,7 +38,7 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
         setDeltaMovement(new Vec3(random.nextGaussian() / 33 + 0.03D, -velocity, random.nextGaussian() / 33 + 0.03D));
     }
 
-    protected BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, LivingEntity shooter, IOHRangedWeapon weapon, double posX, double posY, double posZ, double motionX, double motionY, double motionZ) {
+    protected BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, LivingEntity shooter, IRangedWeapon weapon, double posX, double posY, double posZ, double motionX, double motionY, double motionZ) {
         super(entityType, shooter.level());
         this.age = 0;
         this.lifespan = 60;
@@ -49,7 +49,7 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
         setDeltaMovement(new Vec3(motionX, motionY, motionZ));
     }
 
-    public BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, LivingEntity shooter, IOHRangedWeapon weapon, int maxAge, float xMod, float yMod, float zMod) {
+    public BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, LivingEntity shooter, IRangedWeapon weapon, int maxAge, float xMod, float yMod, float zMod) {
         super(entityType, shooter.level());
         this.age = 0;
         this.lifespan = maxAge;
@@ -67,7 +67,7 @@ public abstract class BasePlayerProjectile extends ThrowableProjectile {
         setPos(getDeltaMovement().x() * 0.5f + getX() - ((double) (Mth.cos(getYRot() / 180.0F * (float) Math.PI) * 0.4f)), getDeltaMovement().y() * 0.5f + getY() - 0.3D, getDeltaMovement().z() * 0.5f + getZ() + ((double) (Mth.sin(getYRot() / 180.0F * (float) Math.PI) * 0.4f)));
     }
 
-    public BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, LivingEntity shooter, IOHRangedWeapon weapon, float maxAge, float velocity, float inaccuracy) {
+    public BasePlayerProjectile(EntityType<? extends ThrowableProjectile> entityType, LivingEntity shooter, IRangedWeapon weapon, float maxAge, float velocity, float inaccuracy) {
         super(entityType, shooter.level());
         this.age = 0;
         this.lifespan = maxAge;

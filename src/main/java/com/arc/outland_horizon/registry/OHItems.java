@@ -195,6 +195,7 @@ public class OHItems {
         public static final RegistryObject<Item> NETHERITE_HAMMER = registerTool("netherite_hammer", () -> new Hammer(Tiers.NETHERITE, new Item.Properties()));
         public static final RegistryObject<Item> NETHERITE_SPADE = registerTool("netherite_spade", () -> new Spade(Tiers.NETHERITE, new Item.Properties()));
         public static final RegistryObject<Item> NETHERITE_DESTROYER = registerTool("netherite_destroyer", () -> new Destroyer(Tiers.NETHERITE, new Item.Properties()));
+        public static final RegistryObject<Item> DEBUGGER = ItemRegistry.registerItem("debug_sword", Debugger::new);
 
         private static void init() {
         }
@@ -209,6 +210,9 @@ public class OHItems {
         public static final RegistryObject<Item> BLOOD_STONE = registerMaterial("blood_stone", () -> new Item(new Item.Properties()));
         public static final RegistryObject<Item> VOID_CRYSTAL = registerMaterial("void_crystal", () -> new Item(new Item.Properties()));
         public static final RegistryObject<Item> CONDENSED_CRYSTAL = registerMaterial("condensed_crystal", () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+
+
+        public static final RegistryObject<Item> APOCALYPTIC_CRYSTAL = registerMaterial("apocalyptic_crystal", () -> new Item(new Item.Properties()));
 
         private static void init() {
         }
@@ -258,7 +262,6 @@ public class OHItems {
                 public static final RegistryObject<Item> BLAZE_SWORD = registerWeaponMelee("blaze_sword", BlazeSword::new);
                 public static final RegistryObject<Item> BLUE_GEM_SWORD = registerWeaponMelee("blue_gem_sword", () -> new SwordItem(ModTiers.BLUE_GEM, 3, -2.4f, new Item.Properties()));
                 public static final RegistryObject<Item> BLOOD_STONE_SWORD = registerWeaponMelee("blood_stone_sword", () -> new SwordItem(ModTiers.BLOOD_STONE, 3, -2.4f, new Item.Properties()));
-                public static final RegistryObject<Item> DEBUGGER = registerWeaponMelee("debug_sword", Debugger::new);
                 public static final RegistryObject<Item> MATRIX_SWORD = registerWeaponMelee("matrix_sword", () -> new SwordItem(ModTiers.MATRIX_INGOT, 9, -2.4f, new Item.Properties()));
                 public static final RegistryObject<Item> ELEGY = registerWeaponMelee("elegy", Elegy::new);
 

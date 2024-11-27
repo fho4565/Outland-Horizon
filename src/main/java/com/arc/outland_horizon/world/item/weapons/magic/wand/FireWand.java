@@ -3,10 +3,8 @@ package com.arc.outland_horizon.world.item.weapons.magic.wand;
 import com.arc.outland_horizon.utils.WorldUtils;
 import com.arc.outland_horizon.world.entity.projectile.BasePlayerProjectile;
 import com.arc.outland_horizon.world.entity.projectile.magic.FireWandShot;
-import com.arc.outland_horizon.world.item.ICooldownItem;
-import com.arc.outland_horizon.world.item.IManaCostItem;
-import com.arc.outland_horizon.world.item.UsableItem;
-import com.arc.outland_horizon.world.item.weapons.IOHRangedWeapon;
+import com.arc.outland_horizon.world.item.weapons.IRangedWeapon;
+import com.arc.outland_horizon.world.item.weapons.magic.MagicWeapon;
 import com.arc.outland_horizon.world.sound.SoundEventRegister;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -16,7 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 
-public class FireWand extends UsableItem implements IOHRangedWeapon, IManaCostItem, ICooldownItem {
+public class FireWand extends MagicWeapon {
     public FireWand() {
         super(150, 15, Ingredient.EMPTY, new Properties());
     }
@@ -46,7 +44,7 @@ public class FireWand extends UsableItem implements IOHRangedWeapon, IManaCostIt
     }
 
     @Override
-    public BasePlayerProjectile getProjectile(LivingEntity shooter, IOHRangedWeapon weapon, int maxAge, float velocity) {
+    public BasePlayerProjectile getProjectile(LivingEntity shooter, IRangedWeapon weapon, int maxAge, float velocity) {
         return new FireWandShot(shooter, weapon, maxAge, velocity);
     }
 

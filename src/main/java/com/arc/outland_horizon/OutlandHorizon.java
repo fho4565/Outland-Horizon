@@ -6,7 +6,6 @@ import com.arc.outland_horizon.registry.block.BlockRegistry;
 import com.arc.outland_horizon.registry.item.ItemRegistry;
 import com.arc.outland_horizon.registry.item.Medal;
 import com.arc.outland_horizon.registry.mod_effect.MobEffectRegistry;
-import com.arc.outland_horizon.utils.Utils;
 import com.arc.outland_horizon.world.entity.EntityRegistry;
 import com.arc.outland_horizon.world.sound.SoundEventRegister;
 import net.minecraft.resources.ResourceLocation;
@@ -16,8 +15,11 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod(Utils.MOD_ID)
+@Mod(OutlandHorizon.MOD_ID)
 public class OutlandHorizon {
+
+    public static final String MOD_ID = "outland_horizon";
+    public static final String MOD_NAME = "Outland Horizon";
     public static IEventBus bus;
 
     public OutlandHorizon() {
@@ -40,6 +42,6 @@ public class OutlandHorizon {
     }
 
     public static ResourceLocation createModResourceLocation(String path) {
-        return new ResourceLocation(Utils.MOD_ID, path);
+        return new ResourceLocation(MOD_ID, path);
     }
 }

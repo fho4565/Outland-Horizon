@@ -36,7 +36,7 @@ public class ShieldBook extends UsableItem implements ICooldownItem, IManaCostIt
         WorldUtils.getEntitiesByRadio(pLevel, serverPlayer.position(), 8)
                 .forEach(entity -> {
                             if (entity instanceof Player player) {
-                                CapabilityUtils.addShieldValue(player, 12);
+                                CapabilityUtils.Shield.addShieldValue(player, 12);
                             }
                         }
                 );

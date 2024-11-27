@@ -1,20 +1,18 @@
 package com.arc.outland_horizon.world.item.medal;
 
 import com.arc.outland_horizon.utils.Utils;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 
 public abstract class ZombieMedal extends AbstractMedal {
     @Override
-    public void whenActive(ItemStack stack, Level level, ServerPlayer serverPlayer, int slotId) {
-        if (serverPlayer.getHealth() >= serverPlayer.getMaxHealth()) {
-            return;
-        }
-        if (!isCooldown(stack)) {
-            serverPlayer.heal(heal());
-            startCooldown(stack);
-        }
+    public void onCooldownStart(Player player, ItemStack itemStack) {
+        player.heal(heal());
+    }
+
+    @Override
+    public boolean autoCooldown(Player player, ItemStack itemStack) {
+        return player.getHealth() < player.getMaxHealth();
     }
 
     public abstract int heal();

@@ -1,5 +1,6 @@
 package com.arc.outland_horizon.world.item;
 
+import com.arc.outland_horizon.utils.ItemUtils;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
@@ -54,17 +55,17 @@ public abstract class UsableItem extends TieredItem implements ICooldownItem {
     }
 
     @Override
-    public @NotNull InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pUsedHand) {
-        if (pPlayer instanceof ServerPlayer player && pUsedHand.equals(InteractionHand.MAIN_HAND)) {
-            if (canUse(pLevel, player, player.getMainHandItem())) {
-                startCooldown(player.getItemInHand(pUsedHand));
-                successfullyUsed(pLevel, player, pUsedHand);
-                pPlayer.getItemInHand(pUsedHand).hurtAndBreak(1, player, (serverPlayer) -> serverPlayer.broadcastBreakEvent(pUsedHand));
+    public @NotNull InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
+        if (player instanceof ServerPlayer serverPlayer && interactionHand.equals(InteractionHand.MAIN_HAND)) {
+            if (canUse(level, serverPlayer, serverPlayer.getMainHandItem())) {
+                startCooldown(serverPlayer, serverPlayer.getItemInHand(interactionHand));
+                successfullyUsed(level, serverPlayer, interactionHand);
+                ItemUtils.damageItemStack(serverPlayer, interactionHand, 1);
             } else {
-                unsuccessfullyUsed(pLevel, player, pUsedHand);
+                unsuccessfullyUsed(level, serverPlayer, interactionHand);
             }
         }
-        return super.use(pLevel, pPlayer, pUsedHand);
+        return super.use(level, player, interactionHand);
     }
 
     public void unsuccessfullyUsed(Level pLevel, ServerPlayer serverPlayer, InteractionHand pUsedHand) {
