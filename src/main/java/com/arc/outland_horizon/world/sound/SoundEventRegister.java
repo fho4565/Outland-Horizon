@@ -25,7 +25,9 @@ public class SoundEventRegister {
             SoundEvent.createVariableRangeEvent(OutlandHorizon.createModResourceLocation("staff_shoot")));
     public static final RegistryObject<SoundEvent> NIGHTMARE_COMES = SOUND.register("nightmare_comes", () ->
             SoundEvent.createVariableRangeEvent(OutlandHorizon.createModResourceLocation("nightmare_comes")));
-    public static List<RegistryObject<SoundEvent>> SOUNDS = new ArrayList<>();
+    public static final RegistryObject<SoundEvent> BA = SOUND.register("ba", () ->
+            SoundEvent.createVariableRangeEvent(OutlandHorizon.createModResourceLocation("ba")));
+    public static final List<RegistryObject<SoundEvent>> SOUNDS = new ArrayList<>();
 
     public static void init() {
         SOUNDS.add(SOUND.register("nightmare_around", () ->

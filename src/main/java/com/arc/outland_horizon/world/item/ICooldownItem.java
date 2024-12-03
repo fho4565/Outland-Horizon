@@ -10,16 +10,28 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 /**
- * 此接口被用来处理物品栈冷却，冷却的数据保存在物品栈的标签中
+ * 此接口被用来处理物品栈冷却，冷却的数据保存在物品栈的标签中。
+ * 当你把正在冷却的物品栈分开时，冷却依旧保留，之后两个物品栈分别计算各自的冷却时间
  *
  * @author fho4565
  * @since 1.0-alpha
  */
+@SuppressWarnings("unused")
 public interface ICooldownItem {
     /**
      * 冷却数据在物品栈的标签中保存的键名
      */
     String COOLDOWN_TAG = "cooldown";
+    String TICK_TAG = "tick";
+    String AUTO_TAG = "auto";
+    String RENDER_BAR_TAG = "render_bar";
+    String RENDER_BAR_WHEN_ENDS_TAG = "render_bar_when_ends";
+
+    private static void initTag(ItemStack stack) {
+        if (!stack.getOrCreateTag().contains(OutlandHorizon.MOD_ID)) {
+            stack.getOrCreateTag().put(OutlandHorizon.MOD_ID, new CompoundTag());
+        }
+    }
 
     /**
      * 最大冷却时间
@@ -47,9 +59,7 @@ public interface ICooldownItem {
      * 使当前物品栈开始冷却，如果物品栈正处于冷却状态，则重新开始冷却
      */
     default void startCooldown(Player player, ItemStack stack) {
-        if (!stack.getOrCreateTag().contains(OutlandHorizon.MOD_ID)) {
-            stack.getOrCreateTag().put(OutlandHorizon.MOD_ID, new CompoundTag());
-        }
+        initTag(stack);
         stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).putInt(COOLDOWN_TAG, cooldownTime());
         onCooldownStart(player, stack);
     }
@@ -66,22 +76,42 @@ public interface ICooldownItem {
     /**
      * 是否应该继续调用{@link #tickCooldown(Player, ItemStack)}来处理物品栈冷却
      */
-    default boolean shouldTick(Player player, ItemStack itemStack) {
-        return true;
+    default boolean shouldTick(ItemStack stack) {
+        initTag(stack);
+        if (!stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).contains(TICK_TAG)) {
+            stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).putBoolean(TICK_TAG, true);
+            return true;
+        }
+        return stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).getBoolean(TICK_TAG);
+    }
+
+    default void setShouldTick(ItemStack stack, boolean shouldTick) {
+        initTag(stack);
+        stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).putBoolean(TICK_TAG, shouldTick);
     }
 
     /**
      * 物品栈是否应该自动在冷却结束时调用{@link #onCooldownEnd(Player, ItemStack)}并重新进入冷却
      */
-    default boolean autoCooldown(Player player, ItemStack itemStack) {
-        return false;
+    default boolean autoCooldown(ItemStack stack) {
+        initTag(stack);
+        if (!stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).contains(AUTO_TAG)) {
+            stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).putBoolean(AUTO_TAG, false);
+            return false;
+        }
+        return stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).getBoolean(AUTO_TAG);
+    }
+
+    default void setAutoCooldown(ItemStack stack, boolean autoCooldown) {
+        initTag(stack);
+        stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).putBoolean(AUTO_TAG, autoCooldown);
     }
 
     /**
-     * 处理物品栈的冷却，此函数不必被调用
+     * 处理物品栈的冷却，此函数不应该被其他地方调用，否则会造成冷却计算错误
      */
     default void tickCooldown(Player player, ItemStack stack) {
-        if (!shouldTick(player, stack)) {
+        if (!shouldTick(stack)) {
             return;
         }
         if (isCooldown(stack)) {
@@ -90,7 +120,7 @@ public interface ICooldownItem {
         }
         if (!isCooldown(stack)) {
             onCooldownEnd(player, stack);
-            if (autoCooldown(player, stack)) {
+            if (autoCooldown(stack)) {
                 startCooldown(player, stack);
             }
         }
@@ -100,14 +130,34 @@ public interface ICooldownItem {
      * 冷却条是否应该被渲染到物品栏
      */
     default boolean shouldRenderCooldownBar(ItemStack stack) {
-        return true;
+        initTag(stack);
+        if (!stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).contains(RENDER_BAR_TAG)) {
+            stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).putBoolean(RENDER_BAR_TAG, true);
+            return true;
+        }
+        return stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).getBoolean(RENDER_BAR_TAG);
+    }
+
+    default void setShouldRenderCooldownBar(ItemStack stack, boolean shouldRenderBar) {
+        initTag(stack);
+        stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).putBoolean(RENDER_BAR_TAG, shouldRenderBar);
     }
 
     /**
      * 当物品不处于冷却状态时，冷却条是否应该继续被渲染
      */
     default boolean renderCooldownBarWhenEnds(ItemStack stack) {
-        return false;
+        initTag(stack);
+        if (!stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).contains(RENDER_BAR_WHEN_ENDS_TAG)) {
+            stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).putBoolean(RENDER_BAR_WHEN_ENDS_TAG, false);
+            return false;
+        }
+        return stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).getBoolean(RENDER_BAR_WHEN_ENDS_TAG);
+    }
+
+    default void setRenderCooldownBarWhenEnds(ItemStack stack, boolean shouldRenderBarWhenEnds) {
+        initTag(stack);
+        stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).putBoolean(RENDER_BAR_WHEN_ENDS_TAG, shouldRenderBarWhenEnds);
     }
 
     /**

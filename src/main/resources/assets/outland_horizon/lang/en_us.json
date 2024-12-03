@@ -6,7 +6,8 @@
   "item_group.outland_horizon.material": "Outland Horizon:Material",
   "item_group.outland_horizon.armor": "Outland Horizon:Armor",
   "item_group.outland_horizon.block": "Outland Horizon:Block",
-  "item_group.outland_horizon.tool": "Outland Horizon:Tool",
+  "item_group.outland_horizon.tool": "Outland Horizon:Tools",
+  "item_group.outland_horizon.utilities": "Outland Horizon:Utilities",
   "effect.outland_horizon.bleed": "Bleed",
   "effect.outland_horizon.mad": "Mad",
   "effect.outland_horizon.rage": "Rage",
@@ -225,5 +226,6 @@
   "block.outland_horizon.dungeon_brick_stairs": "Dungeon brick stairs",
   "block.outland_horizon.dungeon_brick_slab": "Dungeon brick slab",
   "block.outland_horizon.dungeon_brick_side_slab": "Dungeon brick side slab",
-  "block.outland_horizon.dungeon_brick_wall": "Dungeon brick wall"
+  "block.outland_horizon.dungeon_brick_wall": "Dungeon brick wall",
+  "options.oh_difficulty": "Difficulty"
 }

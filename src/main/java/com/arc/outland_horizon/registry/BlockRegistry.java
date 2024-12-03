@@ -1,8 +1,6 @@
-package com.arc.outland_horizon.registry.block;
+package com.arc.outland_horizon.registry;
 
 import com.arc.outland_horizon.OutlandHorizon;
-import com.arc.outland_horizon.registry.OHBlocks;
-import com.arc.outland_horizon.registry.OHItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -24,7 +22,7 @@ public class BlockRegistry {
     public static RegistryObject<Block> register(String id, Supplier<Block> block, boolean blockItem) {
         RegistryObject<Block> object = BLOCKS.register(id, block);
         if (blockItem) {
-            OHItems.registerBlockItem(id, () -> new BlockItem(object.get(), new Item.Properties()));
+            ItemRegistry.registerBlockItem(id, () -> new BlockItem(object.get(), new Item.Properties()));
         }
         return object;
     }
@@ -32,7 +30,7 @@ public class BlockRegistry {
     public static RegistryObject<Block> register(String id, Supplier<Block> block, boolean blockItem, boolean autoAddToTab) {
         RegistryObject<Block> object = BLOCKS.register(id, block);
         if (blockItem) {
-            OHItems.registerBlockItem(id, () -> new BlockItem(object.get(), new Item.Properties()), autoAddToTab);
+            ItemRegistry.registerBlockItem(id, () -> new BlockItem(object.get(), new Item.Properties()), autoAddToTab);
         }
         return object;
     }
@@ -40,7 +38,7 @@ public class BlockRegistry {
     public static RegistryObject<Block> register(String id, Supplier<Block> block, boolean blockItem, Rarity rarity) {
         RegistryObject<Block> object = BLOCKS.register(id, block);
         if (blockItem) {
-            OHItems.registerBlockItem(id, () -> new BlockItem(object.get(), new Item.Properties().rarity(rarity)));
+            ItemRegistry.registerBlockItem(id, () -> new BlockItem(object.get(), new Item.Properties().rarity(rarity)));
         }
         return object;
     }

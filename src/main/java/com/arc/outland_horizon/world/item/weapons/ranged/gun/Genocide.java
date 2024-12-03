@@ -11,7 +11,7 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -27,7 +27,7 @@ public class Genocide extends Gun {
 
     @Override
     public float getBulletVelocity() {
-        return 8;
+        return 5;
     }
 
     @Override
@@ -36,7 +36,7 @@ public class Genocide extends Gun {
     }
 
     @Override
-    public void onProjectileHitEntity(ThrowableProjectile projectile, Entity target, LivingEntity shooter) {
+    public void onProjectileHitEntity(Projectile projectile, Entity target, LivingEntity shooter) {
         WorldUtils.playSound(target.level(), target.getX(), target.getY(), target.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS, 2, 1);
         WorldUtils.getEntitiesByRadio(projectile.level(), projectile.position(), 5)
                 .stream().filter(entity -> entity instanceof LivingEntity && !entity.is(target))

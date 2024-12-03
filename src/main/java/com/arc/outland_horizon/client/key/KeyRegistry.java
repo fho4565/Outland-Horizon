@@ -14,6 +14,8 @@ import java.util.Set;
 public class KeyRegistry {
     public static final Set<KeyMapping> keys = Sets.newHashSet();
     public static final KeyMapping KEY_RAGE = register(ChatUtils.translatable("text.outland_horizon.key.rage.description").plainCopy().getString(), ChatUtils.translatable("text.outland_horizon.mod.name").plainCopy().getString(), KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_J);
+    public static final KeyMapping KEY_TRIGGER_SKILL = register(ChatUtils.translatable("text.outland_horizon.key.skill.trigger").plainCopy().getString(), ChatUtils.translatable("text.outland_horizon.mod.name").plainCopy().getString(), KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_Z);
+    public static final KeyMapping KEY_SWITCH_SKILL = register(ChatUtils.translatable("text.outland_horizon.key.skill.switch").plainCopy().getString(), ChatUtils.translatable("text.outland_horizon.mod.name").plainCopy().getString(), KeyConflictContext.IN_GAME, InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_X);
 
     public static KeyMapping register(String description, String category,
                                       IKeyConflictContext keyConflictContext,

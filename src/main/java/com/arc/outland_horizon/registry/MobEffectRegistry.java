@@ -1,4 +1,4 @@
-package com.arc.outland_horizon.registry.mod_effect;
+package com.arc.outland_horizon.registry;
 
 import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.world.mob_effects.Bleed;

@@ -18,6 +18,14 @@ public class HealthBar extends HudSection {
         super(0, 0);
     }
 
+    private static float getShieldValueScale(LocalPlayer player) {
+        float maxRenderShieldValueAmount = (float) OhAttributeProvider.shieldValue;
+        if (maxRenderShieldValueAmount > player.getMaxHealth()) {
+            maxRenderShieldValueAmount = player.getMaxHealth();
+        }
+        return maxRenderShieldValueAmount / player.getMaxHealth();
+    }
+
     @Override
     public void render(Minecraft minecraft, GuiGraphics guiGraphics) {
         guiGraphics.pose().pushPose();
@@ -26,16 +34,7 @@ public class HealthBar extends HudSection {
         LocalPlayer player = minecraft.player;
         if (player != null) {
             float healthScale = player.getHealth() / player.getMaxHealth();
-            float maxRenderAbsorptionAmount = player.getAbsorptionAmount();
-            if (maxRenderAbsorptionAmount > player.getMaxHealth()) {
-                maxRenderAbsorptionAmount = player.getMaxHealth();
-            }
-            float absorptionScale = maxRenderAbsorptionAmount / player.getMaxHealth();
-            float maxRenderShieldValueAmount = (float) OhAttributeProvider.shieldValue;
-            if (maxRenderShieldValueAmount > player.getMaxHealth()) {
-                maxRenderShieldValueAmount = player.getMaxHealth();
-            }
-            float shieldValueScale = maxRenderShieldValueAmount / player.getMaxHealth();
+            float shieldValueScale = getShieldValueScale(player);
             int offsetX = 0, offsetY = 0;
             if (healthScale <= 0.05f) {
                 RandomSource randomSource = null;
@@ -53,7 +52,7 @@ public class HealthBar extends HudSection {
                     160, 48);
             String hpString = String.format("%.1f/%.1f", player.getHealth(), player.getMaxHealth());
             guiGraphics.drawString(minecraft.font, hpString, (2 + offsetX + minecraft.font.width(hpString)), (2 + offsetY + minecraft.font.lineHeight) / 2, 100, false);
-            renderHealthBar(minecraft, guiGraphics, player, offsetX, offsetY);
+            renderHealthBar(guiGraphics, player, offsetX, offsetY);
             String shieldString = String.format("%.1f", OhAttributeProvider.shieldValue);
             guiGraphics.drawString(minecraft.font, shieldString, 160 + offsetX, (28 + offsetY + minecraft.font.lineHeight) / 2, 100, false);
 
@@ -68,7 +67,7 @@ public class HealthBar extends HudSection {
         guiGraphics.pose().popPose();
     }
 
-    private void renderHealthBar(Minecraft mc, GuiGraphics guiGraphics, LocalPlayer player, int offsetX, int offsetY) {
+    private void renderHealthBar(GuiGraphics guiGraphics, LocalPlayer player, int offsetX, int offsetY) {
         float maxHealth = player.getMaxHealth();
         float health = player.getHealth();
         if (player.getAbsorptionAmount() > 0) {

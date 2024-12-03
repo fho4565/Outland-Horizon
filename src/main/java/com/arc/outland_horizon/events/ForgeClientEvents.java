@@ -1,4 +1,4 @@
-package com.arc.outland_horizon.setup;
+package com.arc.outland_horizon.events;
 
 import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.network.NetworkHandler;
@@ -16,7 +16,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
-import static com.arc.outland_horizon.client.key.KeyRegistry.KEY_RAGE;
+import static com.arc.outland_horizon.client.key.KeyRegistry.*;
 import static com.arc.outland_horizon.registry.OHBlocks.Fluid.FluidRegistry.BLOOD;
 import static com.arc.outland_horizon.registry.OHBlocks.Fluid.FluidRegistry.BLOOD_FLOWING;
 
@@ -40,10 +40,17 @@ public class ForgeClientEvents {
     public static void onClientTick(TickEvent.PlayerTickEvent event) {
         if (event.phase == TickEvent.Phase.END) {
             LocalPlayer player = Minecraft.getInstance().player;
+            if (player == null) {
+                return;
+            }
             while (KEY_RAGE.consumeClick()) {
-                if (player != null) {
-                    NetworkHandler.sendToServer(new C2SPacket(C2SPacket.Operation.TRIGGER_RAGE));
-                }
+                NetworkHandler.sendToServer(new C2SPacket(C2SPacket.Operation.TRIGGER_RAGE));
+            }
+            while (KEY_TRIGGER_SKILL.consumeClick()) {
+                NetworkHandler.sendToServer(new C2SPacket(C2SPacket.Operation.TRIGGER_SKILL));
+            }
+            while (KEY_SWITCH_SKILL.consumeClick()) {
+                NetworkHandler.sendToServer(new C2SPacket(C2SPacket.Operation.SWITCH_SKILL));
             }
         }
     }

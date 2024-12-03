@@ -10,6 +10,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ForgeTier;
 
+import javax.annotation.Nonnull;
+
 public class DungeonDestroyer extends PickaxeItem {
 
     public DungeonDestroyer() {
@@ -27,12 +29,12 @@ public class DungeonDestroyer extends PickaxeItem {
     }
 
     @Override
-    public float getDestroySpeed(ItemStack pStack, BlockState pState) {
+    public float getDestroySpeed(@Nonnull ItemStack pStack, @Nonnull BlockState pState) {
         return isDungeonBlock(pState) ? 64.0f : 1.0f;
     }
 
     @Override
-    public boolean isCorrectToolForDrops(ItemStack stack, BlockState state) {
+    public boolean isCorrectToolForDrops(@Nonnull ItemStack stack, @Nonnull BlockState state) {
         return isDungeonBlock(state);
     }
 }

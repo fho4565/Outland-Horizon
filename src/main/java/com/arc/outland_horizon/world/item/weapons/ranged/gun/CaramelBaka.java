@@ -14,7 +14,7 @@ import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.TooltipFlag;
@@ -36,7 +36,7 @@ public class CaramelBaka extends Gun implements DeveloperItem {
     }
 
     @Override
-    public void onProjectileHitEntity(ThrowableProjectile projectile, Entity target, LivingEntity shooter) {
+    public void onProjectileHitEntity(Projectile projectile, Entity target, LivingEntity shooter) {
         WorldUtils.getEntitiesByRadio(target.level(), target.position(), 5).forEach(entity -> {
             if (entity instanceof LivingEntity livingEntity) {
                 if (!livingEntity.is(target)) {
@@ -54,7 +54,7 @@ public class CaramelBaka extends Gun implements DeveloperItem {
 
     @Override
     public float getBulletVelocity() {
-        return 6;
+        return 8;
     }
 
     @Override

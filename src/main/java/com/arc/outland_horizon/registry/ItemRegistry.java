@@ -1,8 +1,6 @@
-package com.arc.outland_horizon.registry.item;
+package com.arc.outland_horizon.registry;
 
 import com.arc.outland_horizon.OutlandHorizon;
-import com.arc.outland_horizon.registry.OHBlocks;
-import com.arc.outland_horizon.registry.OHItems;
 import com.arc.outland_horizon.utils.ChatUtils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -22,15 +20,16 @@ import java.util.stream.Collectors;
 public class ItemRegistry {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, OutlandHorizon.MOD_ID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, OutlandHorizon.MOD_ID);
-    public static List<RegistryObject<Item>> ITEM_LIST = new ArrayList<>();
-    public static List<RegistryObject<Item>> MATERIAL_LIST = new ArrayList<>();
-    public static List<RegistryObject<Item>> ARMOR_LIST = new ArrayList<>();
-    public static List<RegistryObject<Item>> BLOCK_ITEM_LIST = new ArrayList<>();
-    public static List<RegistryObject<Item>> CONSUMABLES_LIST = new ArrayList<>();
-    public static List<RegistryObject<Item>> TOOL_LIST = new ArrayList<>();
-    public static List<RegistryObject<Item>> MAGIC_WEAPON_LIST = new ArrayList<>();
-    public static List<RegistryObject<Item>> MELEE_WEAPON_LIST = new ArrayList<>();
-    public static List<RegistryObject<Item>> RANGED_WEAPON_LIST = new ArrayList<>();
+    public static final List<RegistryObject<Item>> ITEM_LIST = new ArrayList<>();
+    public static final List<RegistryObject<Item>> MATERIAL_LIST = new ArrayList<>();
+    public static final List<RegistryObject<Item>> ARMOR_LIST = new ArrayList<>();
+    public static final List<RegistryObject<Item>> BLOCK_ITEM_LIST = new ArrayList<>();
+    public static final List<RegistryObject<Item>> CONSUMABLES_LIST = new ArrayList<>();
+    public static final List<RegistryObject<Item>> TOOL_LIST = new ArrayList<>();
+    public static final List<RegistryObject<Item>> MAGIC_WEAPON_LIST = new ArrayList<>();
+    public static final List<RegistryObject<Item>> MELEE_WEAPON_LIST = new ArrayList<>();
+    public static final List<RegistryObject<Item>> RANGED_WEAPON_LIST = new ArrayList<>();
+    public static final List<RegistryObject<Item>> UTILITIES_LIST = new ArrayList<>();
 
 
     public static RegistryObject<Item> registerItem(String id, Supplier<Item> item) {
@@ -52,7 +51,7 @@ public class ItemRegistry {
         OHItems.init();
         TABS.register(OutlandHorizon.MOD_ID + ".weapon.ranged", () -> CreativeModeTab.builder()
                 .title(ChatUtils.translatable("item_group." + OutlandHorizon.MOD_ID + ".weapon.ranged"))
-                .icon(() -> new ItemStack(OHItems.Weapon.MALICIOUS.get()))
+                .icon(() -> new ItemStack(OHItems.Weapon.Ranged.Gun.MALICIOUS.get()))
                 .displayItems((p, o) -> o.acceptAll(RANGED_WEAPON_LIST.stream().map(itemRegistryObject -> new ItemStack(itemRegistryObject.get())).collect(Collectors.toList())))
                 .build());
         TABS.register(OutlandHorizon.MOD_ID + ".weapon.melee", () -> CreativeModeTab.builder()
@@ -62,7 +61,7 @@ public class ItemRegistry {
                 .build());
         TABS.register(OutlandHorizon.MOD_ID + ".weapon.magic", () -> CreativeModeTab.builder()
                 .title(ChatUtils.translatable("item_group." + OutlandHorizon.MOD_ID + ".weapon.magic"))
-                .icon(() -> new ItemStack(OHItems.Weapon.FIRE_WAND.get()))
+                .icon(() -> new ItemStack(OHItems.Weapon.Magic.Staff.FIRE_WAND.get()))
                 .displayItems((p, o) -> o.acceptAll(MAGIC_WEAPON_LIST.stream().map(itemRegistryObject -> new ItemStack(itemRegistryObject.get())).collect(Collectors.toList())))
                 .build());
         TABS.register(OutlandHorizon.MOD_ID + ".material", () -> CreativeModeTab.builder()
@@ -92,7 +91,72 @@ public class ItemRegistry {
                 .icon(() -> new ItemStack(OHItems.Tool.BLUE_GEM_PAXEL.get()))
                 .displayItems((p, o) -> o.acceptAll(TOOL_LIST.stream().map(itemRegistryObject -> new ItemStack(itemRegistryObject.get())).collect(Collectors.toList())))
                 .build());
+        TABS.register(OutlandHorizon.MOD_ID + ".utilities", () -> CreativeModeTab.builder()
+                .title(ChatUtils.translatable("item_group." + OutlandHorizon.MOD_ID + ".utilities"))
+                .icon(() -> new ItemStack(OHItems.Tool.BLUE_GEM_PAXEL.get()))
+                .displayItems((p, o) -> o.acceptAll(UTILITIES_LIST.stream().map(itemRegistryObject -> new ItemStack(itemRegistryObject.get())).collect(Collectors.toList())))
+                .build());
         TABS.register(bus);
         ITEMS.register(bus);
+    }
+
+    static RegistryObject<Item> registerWeaponRanged(String id, Supplier<Item> item) {
+        RegistryObject<Item> object = registerItem(id, item);
+        RANGED_WEAPON_LIST.add(object);
+        return object;
+    }
+
+    static RegistryObject<Item> registerUtilities(String id, Supplier<Item> item) {
+        RegistryObject<Item> object = registerItem(id, item);
+        UTILITIES_LIST.add(object);
+        return object;
+    }
+
+    static RegistryObject<Item> registerConsumables(String id, Supplier<Item> item) {
+        RegistryObject<Item> object = registerItem(id, item);
+        CONSUMABLES_LIST.add(object);
+        return object;
+    }
+
+    static RegistryObject<Item> registerMaterial(String id, Supplier<Item> item) {
+        RegistryObject<Item> object = registerItem(id, item);
+        MATERIAL_LIST.add(object);
+        return object;
+    }
+
+    static RegistryObject<Item> registerTool(String id, Supplier<Item> item) {
+        RegistryObject<Item> object = registerItem(id, item);
+        TOOL_LIST.add(object);
+        return object;
+    }
+
+    static RegistryObject<Item> registerWeaponMagic(String id, Supplier<Item> item) {
+        RegistryObject<Item> object = registerItem(id, item);
+        MAGIC_WEAPON_LIST.add(object);
+        return object;
+    }
+
+    static RegistryObject<Item> registerWeaponMelee(String id, Supplier<Item> item) {
+        RegistryObject<Item> object = registerItem(id, item);
+        MELEE_WEAPON_LIST.add(object);
+        return object;
+    }
+
+    static RegistryObject<Item> registerArmor(String id, Supplier<Item> item) {
+        RegistryObject<Item> object = registerItem(id, item);
+        ARMOR_LIST.add(object);
+        return object;
+    }
+
+    public static RegistryObject<Item> registerBlockItem(String id, Supplier<Item> item) {
+        return registerBlockItem(id, item, true);
+    }
+
+    public static RegistryObject<Item> registerBlockItem(String id, Supplier<Item> item, boolean autoAddToTab) {
+        RegistryObject<Item> object = registerItem(id, item);
+        if (autoAddToTab) {
+            BLOCK_ITEM_LIST.add(object);
+        }
+        return object;
     }
 }

@@ -65,5 +65,11 @@
     "sounds": [
       "outland_horizon:audio/misc/staff/shoot"
     ]
+  },
+  "ba": {
+    "subtitle": "subtitles.item.gun",
+    "sounds": [
+      "outland_horizon:audio/item/weapon/bababoy"
+    ]
   }
 }

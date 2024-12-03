@@ -1,31 +1,19 @@
 package com.arc.outland_horizon.world.block.fluids.blood;
 
-import com.arc.outland_horizon.registry.OHBlocks;
-import com.arc.outland_horizon.registry.OHItems;
-import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
+import net.minecraft.world.level.material.WaterFluid;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class ArterialBlood extends ForgeFlowingFluid {
-    public static final Properties PROPERTIES
-            = new Properties(OHBlocks.Fluid.FluidTypeRegistry.ArterialBLOOD_TYPE,
-            OHBlocks.Fluid.FluidRegistry.ArterialBLOOD, OHBlocks.Fluid.FluidRegistry.ArterialBLOOD_FLOWING)
-            .explosionResistance(100f)
-            .bucket(OHItems.Tool.BLOOD_BUCKET)
-            .block(() -> (LiquidBlock) OHBlocks.Fluid.Arterial_BLOOD_BLOCK.get());
-
-    protected ArterialBlood() {
-        super(PROPERTIES);
-    }
+public abstract class ArterialBlood extends WaterFluid {
 
     public static class Flowing extends ArterialBlood {
         protected void createFluidStateDefinition(StateDefinition.@NotNull Builder<Fluid, FluidState> pBuilder) {
             super.createFluidStateDefinition(pBuilder);
             pBuilder.add(LEVEL);
         }
+
         public int getAmount(FluidState pState) {
             return pState.getValue(LEVEL);
         }

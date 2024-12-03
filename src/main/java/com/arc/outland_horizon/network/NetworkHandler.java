@@ -41,6 +41,11 @@ public class NetworkHandler {
                 .encoder(C2SPacket::toBytes)
                 .consumerMainThread(C2SPacket::handle)
                 .add();
+        INSTANCE.messageBuilder(OHChangeDifficultyPacket.class, id++)
+                .decoder(OHChangeDifficultyPacket::new)
+                .encoder(OHChangeDifficultyPacket::toBytes)
+                .consumerMainThread(OHChangeDifficultyPacket::handle)
+                .add();
     }
 
     public static <MSG> void sendToServer(MSG message) {

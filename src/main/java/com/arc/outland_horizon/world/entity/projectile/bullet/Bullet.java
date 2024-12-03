@@ -7,12 +7,12 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.ThrowableProjectile;
+import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 public class Bullet extends BasePlayerProjectile {
-    public Bullet(EntityType<? extends ThrowableProjectile> entityType, Level world) {
+    public Bullet(EntityType<? extends Projectile> entityType, Level world) {
         super(entityType, world);
     }
 

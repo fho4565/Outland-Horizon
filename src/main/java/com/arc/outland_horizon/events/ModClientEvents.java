@@ -1,4 +1,4 @@
-package com.arc.outland_horizon.setup;
+package com.arc.outland_horizon.events;
 
 import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.client.key.KeyRegistry;
@@ -17,6 +17,7 @@ public class ModClientEvents {
     public static void registerKeys(RegisterKeyMappingsEvent event) {
         KeyRegistry.register(event);
     }
+
     @SubscribeEvent
     public static void addItemToVanillaTab(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey().equals(CreativeModeTabs.OP_BLOCKS)) {

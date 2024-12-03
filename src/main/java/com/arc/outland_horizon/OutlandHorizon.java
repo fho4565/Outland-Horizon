@@ -1,11 +1,10 @@
 package com.arc.outland_horizon;
 
 import com.arc.outland_horizon.config.Configs;
+import com.arc.outland_horizon.registry.BlockRegistry;
+import com.arc.outland_horizon.registry.ItemRegistry;
+import com.arc.outland_horizon.registry.MobEffectRegistry;
 import com.arc.outland_horizon.registry.OHBlocks;
-import com.arc.outland_horizon.registry.block.BlockRegistry;
-import com.arc.outland_horizon.registry.item.ItemRegistry;
-import com.arc.outland_horizon.registry.item.Medal;
-import com.arc.outland_horizon.registry.mod_effect.MobEffectRegistry;
 import com.arc.outland_horizon.world.entity.EntityRegistry;
 import com.arc.outland_horizon.world.sound.SoundEventRegister;
 import net.minecraft.resources.ResourceLocation;
@@ -25,7 +24,6 @@ public class OutlandHorizon {
     public OutlandHorizon() {
         bus = FMLJavaModLoadingContext.get().getModEventBus();
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Configs.COMMON_CONFIG);
-        initClasses();
         ItemRegistry.register(bus);
         BlockRegistry.register(bus);
         OHBlocks.Fluid.FluidRegistry.FLUIDS.register(bus);
@@ -35,10 +33,6 @@ public class OutlandHorizon {
         EntityRegistry.register(bus);
         SoundEventRegister.init();
         SoundEventRegister.SOUND.register(bus);
-    }
-
-    private static void initClasses() {
-        Medal.init();
     }
 
     public static ResourceLocation createModResourceLocation(String path) {

@@ -1,4 +1,4 @@
-package com.arc.outland_horizon.setup;
+package com.arc.outland_horizon.events;
 
 import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.utils.ChatUtils;

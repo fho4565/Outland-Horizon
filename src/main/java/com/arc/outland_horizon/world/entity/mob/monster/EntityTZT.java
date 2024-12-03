@@ -23,8 +23,11 @@ import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
+import java.util.Objects;
+
 public class EntityTZT extends Monster implements DamageResistance {
-    private final ServerBossEvent bossEvent = (ServerBossEvent)(new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.PURPLE, BossEvent.BossBarOverlay.PROGRESS)).setCreateWorldFog(true).setDarkenScreen(true);
+    private final ServerBossEvent bossEvent = (ServerBossEvent) (new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.PURPLE, BossEvent.BossBarOverlay.PROGRESS)).setCreateWorldFog(true).setDarkenScreen(true);
 
     public EntityTZT(PlayMessages.SpawnEntity packet, Level world) {
         this(EntityRegistry.MOBA.get(), world);
@@ -33,26 +36,6 @@ public class EntityTZT extends Monster implements DamageResistance {
     public EntityTZT(EntityType<EntityTZT> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.moveControl = new FlyingMoveControl(this, 6, false);
-    }
-    @Override
-    protected @NotNull PathNavigation createNavigation(@NotNull Level level) {
-        FlyingPathNavigation flyingpathnavigation = new FlyingPathNavigation(this, level);
-        flyingpathnavigation.setCanOpenDoors(false);
-        flyingpathnavigation.setCanFloat(true);
-        flyingpathnavigation.setCanPassDoors(true);
-        return flyingpathnavigation;
-    }
-
-    @Override
-    public void remove(RemovalReason pReason) {
-        bossEvent.removeAllPlayers();
-        super.remove(pReason);
-    }
-
-    @Override
-    public void die(DamageSource pDamageSource) {
-        bossEvent.removeAllPlayers();
-        super.die(pDamageSource);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -68,6 +51,27 @@ public class EntityTZT extends Monster implements DamageResistance {
     }
 
     @Override
+    protected @NotNull PathNavigation createNavigation(@NotNull Level level) {
+        FlyingPathNavigation flyingpathnavigation = new FlyingPathNavigation(this, level);
+        flyingpathnavigation.setCanOpenDoors(false);
+        flyingpathnavigation.setCanFloat(true);
+        flyingpathnavigation.setCanPassDoors(true);
+        return flyingpathnavigation;
+    }
+
+    @Override
+    public void remove(@Nonnull RemovalReason pReason) {
+        bossEvent.removeAllPlayers();
+        super.remove(pReason);
+    }
+
+    @Override
+    public void die(@Nonnull DamageSource pDamageSource) {
+        bossEvent.removeAllPlayers();
+        super.die(pDamageSource);
+    }
+
+    @Override
     public @NotNull Packet<ClientGamePacketListener> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
@@ -75,10 +79,10 @@ public class EntityTZT extends Monster implements DamageResistance {
     @Override
     protected void customServerAiStep() {
         this.bossEvent.setProgress(this.getHealth() / this.getMaxHealth());
-        level().getServer().getPlayerList().getPlayers().forEach(serverPlayer -> {
-            if(this.position().distanceTo(serverPlayer.position())<=100){
+        Objects.requireNonNull(level().getServer()).getPlayerList().getPlayers().forEach(serverPlayer -> {
+            if (this.position().distanceTo(serverPlayer.position()) <= 100) {
                 bossEvent.addPlayer(serverPlayer);
-            }else{
+            } else {
                 bossEvent.removePlayer(serverPlayer);
             }
         });
@@ -86,7 +90,7 @@ public class EntityTZT extends Monster implements DamageResistance {
     }
 
     @Override
-    public boolean doHurtTarget(Entity pEntity) {
+    public boolean doHurtTarget(@Nonnull Entity pEntity) {
         return super.doHurtTarget(pEntity);
     }
 

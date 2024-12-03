@@ -18,9 +18,8 @@ public class Malicious extends Gun {
 
     @Override
     public float getBulletVelocity() {
-        return 5;
+        return 12;
     }
-
 
     @Override
     public float getDamage() {

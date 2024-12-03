@@ -9,8 +9,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import org.jetbrains.annotations.NotNull;
 
 public class ModArmorMaterials {
-    public static ArmorMaterial BLOOD_STONE = createArmorMaterial("blood_stone", 3, Ingredient.of(OHItems.Material.BLOOD_STONE.get()));
-    public static ArmorMaterial BLUE_GEM = createArmorMaterial("blue_gem", 2, Ingredient.of(OHItems.Material.BLUE_GEM.get()));
+    public static final ArmorMaterial BLOOD_STONE = createArmorMaterial("blood_stone", 3, Ingredient.of(OHItems.Material.BLOOD_STONE.get()));
+    public static final ArmorMaterial BLUE_GEM = createArmorMaterial("blue_gem", 2, Ingredient.of(OHItems.Material.BLUE_GEM.get()));
 
     /*public static ArmorMaterial VOID_WASTE = createArmorMaterial("void_waste", ModTiers.VOID_WASTE_LEVEL,"void_waste");
     public static ArmorMaterial MITHRIL = createArmorMaterial("mithril", ModTiers.MITHRIL_LEVEL,"mithril");

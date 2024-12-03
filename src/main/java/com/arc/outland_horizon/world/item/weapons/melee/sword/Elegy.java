@@ -38,6 +38,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nonnull;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Mod.EventBusSubscriber
@@ -106,8 +107,9 @@ public class Elegy extends SwordItem {
         }
     }
 
+    @Nonnull
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
+    public InteractionResultHolder<ItemStack> use(@Nonnull Level level, Player player, @Nonnull InteractionHand interactionHand) {
         ItemStack item = player.getItemInHand(interactionHand);
         InteractionHand otherHand = interactionHand == InteractionHand.MAIN_HAND ? InteractionHand.OFF_HAND : InteractionHand.MAIN_HAND;
         ItemStack otherItem = player.getItemInHand(otherHand);
@@ -120,7 +122,7 @@ public class Elegy extends SwordItem {
     }
 
     @Override
-    public void onUseTick(Level level, @NotNull LivingEntity livingEntity, ItemStack stack, int pRemainingUseDuration) {
+    public void onUseTick(@Nonnull Level level, @NotNull LivingEntity livingEntity, @Nonnull ItemStack stack, int pRemainingUseDuration) {
         WorldUtils.getEntitiesByRadio(level, livingEntity.position(), 8, entity -> (!entity.equals(livingEntity) && entity instanceof Monster || entity instanceof Enemy))
                 .forEach(entity -> {
                     if (entity instanceof LivingEntity enemy) {
@@ -141,7 +143,7 @@ public class Elegy extends SwordItem {
     }
 
     @Override
-    public void releaseUsing(ItemStack itemStack, Level level, LivingEntity livingEntity, int pTimeCharged) {
+    public void releaseUsing(@Nonnull ItemStack itemStack, @Nonnull Level level, @Nonnull LivingEntity livingEntity, int pTimeCharged) {
         if (pTimeCharged >= Utils.secondsToTicks(5)) {
             WorldUtils.getEntitiesByRadio(level, livingEntity.position(), 3, entity -> (!entity.equals(livingEntity) && entity instanceof Monster || entity instanceof Enemy))
                     .forEach(entity -> {
@@ -168,17 +170,18 @@ public class Elegy extends SwordItem {
     }
 
     @Override
-    public int getUseDuration(ItemStack stack) {
+    public int getUseDuration(@Nonnull ItemStack stack) {
         return Utils.secondsToTicks(20);
     }
 
+    @Nonnull
     @Override
-    public UseAnim getUseAnimation(ItemStack stack) {
+    public UseAnim getUseAnimation(@Nonnull ItemStack stack) {
         return UseAnim.BOW;
     }
 
     @Override
-    public void inventoryTick(ItemStack itemStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
+    public void inventoryTick(ItemStack itemStack, @Nonnull Level pLevel, @Nonnull Entity pEntity, int pSlotId, boolean pIsSelected) {
         if (!itemStack.isEnchanted()) {
             itemStack.enchant(Enchantments.SWEEPING_EDGE, 5);
             itemStack.enchant(Enchantments.SHARPNESS, 5);

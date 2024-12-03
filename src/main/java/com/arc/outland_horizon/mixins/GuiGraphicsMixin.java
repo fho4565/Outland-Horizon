@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GuiGraphics.class)
-public abstract class GuiMixin {
+public abstract class GuiGraphicsMixin {
     @Unique
     private static final int BAR_LENGTH = 15;
     @Shadow
@@ -27,17 +27,20 @@ public abstract class GuiMixin {
 
     @Inject(at = @At("HEAD"), method = "renderItemDecorations(Lnet/minecraft/client/gui/Font;Lnet/minecraft/world/item/ItemStack;IILjava/lang/String;)V")
     public void renderItemDecorationsMixin(Font font, ItemStack itemStack, int x, int y, String text, CallbackInfo ci) {
-        if (!itemStack.isEmpty() && itemStack.getItem() instanceof ICooldownItem cooldownItem) {
-            if (cooldownItem.shouldRenderCooldownBar(itemStack)) {
-                this.pose.pushPose();
-                if (cooldownItem.isCooldown(itemStack) || cooldownItem.renderCooldownBarWhenEnds(itemStack)) {
-                    int barWidth = cooldownItem.cooldownBarWidth(itemStack);
-                    int barColor = cooldownItem.cooldownBarColor(itemStack);
-                    this.fill(RenderType.guiOverlay(), x, y, x + 1, y + BAR_LENGTH, -16777216);
-                    this.fill(RenderType.guiOverlay(), x, y + BAR_LENGTH, x + 1, y + BAR_LENGTH - barWidth, barColor | -16777216);
+        if (!itemStack.isEmpty()) {
+            if (itemStack.getItem() instanceof ICooldownItem cooldownItem) {
+                if (cooldownItem.shouldRenderCooldownBar(itemStack)) {
+                    this.pose.pushPose();
+                    if (cooldownItem.isCooldown(itemStack) || cooldownItem.renderCooldownBarWhenEnds(itemStack)) {
+                        int barWidth = cooldownItem.cooldownBarWidth(itemStack);
+                        int barColor = cooldownItem.cooldownBarColor(itemStack);
+                        this.fill(RenderType.guiOverlay(), x, y, x + 1, y + BAR_LENGTH, -16777216);
+                        this.fill(RenderType.guiOverlay(), x, y + BAR_LENGTH, x + 1, y + BAR_LENGTH - barWidth, barColor | -16777216);
+                    }
+                    this.pose.popPose();
                 }
-                this.pose.popPose();
             }
+
         }
     }
 }

@@ -34,6 +34,9 @@ public class ServerAttributeSyncPacket implements Packet {
         OhAttributeProvider.rageRecover = nbt.getDouble("rageRecover");
         OhAttributeProvider.maxRage = nbt.getDouble("maxRage");
         OhAttributeProvider.shieldValue = nbt.getDouble("shieldValue");
+        OhAttributeProvider.sp = nbt.getDouble("sp");
+        OhAttributeProvider.maxSp = nbt.getDouble("maxSp");
+        OhAttributeProvider.spRecover = nbt.getDouble("spRecover");
         ctx.get().enqueueWork(() ->
                 ModCapabilities.getOhAttribute(Objects.requireNonNull(ctx.get().getSender())).deserializeNBT(nbt)
         );

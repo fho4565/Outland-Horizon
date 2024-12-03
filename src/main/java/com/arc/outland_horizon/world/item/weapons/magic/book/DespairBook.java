@@ -10,7 +10,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.item.ItemStack;
@@ -38,7 +37,7 @@ public class DespairBook extends UsableItem implements IManaCostItem, ICooldownI
     }
 
     @Override
-    public void successfullyUsed(Level pLevel, ServerPlayer serverPlayer, InteractionHand pUsedHand) {
+    public void successfullyUsed(Level pLevel, ServerPlayer serverPlayer, ItemStack itemStack) {
         WorldUtils.playSound(serverPlayer.level(), serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), getUseSoundEvent(), SoundSource.PLAYERS);
         serverPlayer.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, Utils.secondsToTicks(25), 2));
     }

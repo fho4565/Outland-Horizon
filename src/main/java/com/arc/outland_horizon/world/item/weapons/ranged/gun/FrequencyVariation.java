@@ -19,7 +19,7 @@ public class FrequencyVariation extends Gun {
 
     @Override
     public float getBulletVelocity() {
-        return 14;
+        return 25;
     }
 
     @Override

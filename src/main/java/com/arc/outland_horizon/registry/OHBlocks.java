@@ -1,7 +1,6 @@
 package com.arc.outland_horizon.registry;
 
 import com.arc.outland_horizon.OutlandHorizon;
-import com.arc.outland_horizon.registry.block.BlockRegistry;
 import com.arc.outland_horizon.world.block.*;
 import com.arc.outland_horizon.world.block.fluids.blood.*;
 import com.arc.outland_horizon.world.block.logs.NightmareLog;
@@ -111,9 +110,9 @@ public class OHBlocks {
     }
 
     public static class Functional {
-        public static RegistryObject<Block> TEXTURES_TEST_BLOCK = BlockRegistry.register("textures_test_block", () -> new TexturesTestBlock(Block.Properties.copy(Blocks.STONE)), true, false);
-        public static RegistryObject<Block> DUNGEON_TORCH = BlockRegistry.BLOCKS.register("dungeon_torch", () -> new TorchBlock(Block.Properties.copy(Blocks.TORCH), ParticleTypes.FLAME));
-        public static RegistryObject<Block> WALL_DUNGEON_TORCH = BlockRegistry.BLOCKS.register("wall_dungeon_torch", () -> new WallTorchBlock(Block.Properties.copy(Blocks.WALL_TORCH), ParticleTypes.FLAME));
+        public static final RegistryObject<Block> TEXTURES_TEST_BLOCK = BlockRegistry.register("textures_test_block", () -> new TexturesTestBlock(Block.Properties.copy(Blocks.STONE)), true, false);
+        public static final RegistryObject<Block> DUNGEON_TORCH = BlockRegistry.BLOCKS.register("dungeon_torch", () -> new TorchBlock(Block.Properties.copy(Blocks.TORCH), ParticleTypes.FLAME));
+        public static final RegistryObject<Block> WALL_DUNGEON_TORCH = BlockRegistry.BLOCKS.register("wall_dungeon_torch", () -> new WallTorchBlock(Block.Properties.copy(Blocks.WALL_TORCH), ParticleTypes.FLAME));
 
         public static void init() {
         }
@@ -122,12 +121,11 @@ public class OHBlocks {
     public static class Natural {
         public static final RegistryObject<Block> NIGHTMARE_DIRT = BlockRegistry.register("nightmare_dirt", NightmareDirt::new);
         public static final RegistryObject<Block> SAPLINGS = BlockRegistry.register("saplings", Saplings::new);
+        public static final RegistryObject<Block> BLOOD_STONE_BLOCK = oreBlock("blood_stone", 6.0f, 9.0f);
         public static RegistryObject<Block> BLUE_GEM_ORE = ore("blue_gem", 3.0f, 3.0f);
         public static RegistryObject<Block> DEEP_BLUE_GEM_ORE = deepOre("blue_gem", 4.5f, 3.0f);
         public static RegistryObject<Block> BLUE_GEM_BLOCK = oreBlock("blue_gem", 5.0f, 6.0f);
-
         public static RegistryObject<Block> BLOOD_STONE_ORE = ore("blood_stone", 5.0f, 8.0f);
-        public static RegistryObject<Block> BLOOD_STONE_BLOCK = oreBlock("blood_stone", 6.0f, 9.0f);
 
         public static void init() {
             PaleAbyss.init();

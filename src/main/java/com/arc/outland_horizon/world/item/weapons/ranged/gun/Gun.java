@@ -8,7 +8,6 @@ import com.arc.outland_horizon.world.item.weapons.IRangedWeapon;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -39,7 +38,12 @@ public abstract class Gun extends UsableItem implements IRangedWeapon {
     }
 
     @Override
-    public void successfullyUsed(Level pLevel, ServerPlayer serverPlayer, InteractionHand pUsedHand) {
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return false;
+    }
+
+    @Override
+    public void successfullyUsed(Level pLevel, ServerPlayer serverPlayer, ItemStack itemStack) {
         fire(serverPlayer);
 
     }

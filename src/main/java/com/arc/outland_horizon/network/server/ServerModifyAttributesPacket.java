@@ -31,7 +31,10 @@ public class ServerModifyAttributesPacket implements Packet {
     public void handle(Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             ServerPlayer p = ctx.get().getSender();
-            OhAttribute cap = ModCapabilities.getOhAttribute(p);
+            OhAttribute cap = null;
+            if (p != null) {
+                cap = ModCapabilities.getOhAttribute(p);
+            }
             switch (this.target) {
                 case 0 -> cap.setMana(this.operation);
                 case 1 -> cap.setManaRecover(this.operation);

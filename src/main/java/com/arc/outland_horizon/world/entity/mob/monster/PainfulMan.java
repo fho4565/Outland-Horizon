@@ -53,12 +53,14 @@ public class PainfulMan extends Monster implements GeoEntity {
         xpReward = 0;
         setNoAi(false);
     }
+
     public static void init() {
         SpawnPlacements.register(EntityRegistry.PAINFUL_MAN.get(),
                 SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 (entityType, world, reason, pos, random) -> (world.getDifficulty() != Difficulty.PEACEFUL && Monster.isDarkEnoughToSpawn(world, pos, random) && Mob.checkMobSpawnRules(entityType, world, reason, pos, random)));
     }
+
     public static AttributeSupplier.Builder createAttributes() {
         AttributeSupplier.Builder builder = Mob.createMobAttributes();
         builder = builder.add(Attributes.MOVEMENT_SPEED, 0.3);
@@ -68,10 +70,16 @@ public class PainfulMan extends Monster implements GeoEntity {
         builder = builder.add(Attributes.FOLLOW_RANGE, 32);
         return builder;
     }
+
+    private static int idleWait() {
+        return Utils.secondsToTicks(ThreadLocalRandom.current().nextInt(6, 10) * 2);
+    }
+
     @Override
     public @NotNull Packet<ClientGamePacketListener> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
+
     @Override
     public void baseTick() {
         Level level = this.level();
@@ -81,6 +89,7 @@ public class PainfulMan extends Monster implements GeoEntity {
         }
         super.baseTick();
     }
+
     @Override
     protected void registerGoals() {
         super.registerGoals();
@@ -105,29 +114,32 @@ public class PainfulMan extends Monster implements GeoEntity {
         this.goalSelector.addGoal(4, new FloatGoal(this));
 
     }
+
     @Override
     public @NotNull MobType getMobType() {
         return MobType.UNDEAD;
     }
+
     @Override
     public double getMyRidingOffset() {
         return -0.35D;
     }
+
     @Override
     public SoundEvent getHurtSound(@NotNull DamageSource ds) {
         return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.hurt"));
     }
+
     @Override
     public SoundEvent getDeathSound() {
         return ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.death"));
     }
+
     @Override
     public void registerControllers(final AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "all", 0, this::allController));
     }
-    private static int idleWait(){
-        return Utils.secondsToTicks(ThreadLocalRandom.current().nextInt(6,10)*2);
-    };
+
     protected <E extends PainfulMan> PlayState allController(final AnimationState<E> event) {
         if (EntityUtils.isAttacking(event.getAnimatable())) {
             return event.setAndContinue(ATTACK_ANIM);
@@ -143,6 +155,7 @@ public class PainfulMan extends Monster implements GeoEntity {
         }
         return PlayState.STOP;
     }
+
     @Override
     public AnimatableInstanceCache getAnimatableInstanceCache() {
         return this.geoCache;

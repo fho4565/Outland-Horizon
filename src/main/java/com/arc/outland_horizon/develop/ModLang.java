@@ -1,8 +1,8 @@
 package com.arc.outland_horizon.develop;
 
-import com.arc.outland_horizon.registry.block.BlockRegistry;
-import com.arc.outland_horizon.registry.item.ItemRegistry;
-import com.arc.outland_horizon.registry.mod_effect.MobEffectRegistry;
+import com.arc.outland_horizon.registry.BlockRegistry;
+import com.arc.outland_horizon.registry.ItemRegistry;
+import com.arc.outland_horizon.registry.MobEffectRegistry;
 import com.arc.outland_horizon.utils.Utils;
 import com.arc.outland_horizon.world.entity.EntityRegistry;
 import net.minecraft.client.Minecraft;
@@ -19,10 +19,10 @@ import java.util.ArrayList;
 import java.util.function.Predicate;
 
 public class ModLang {
+    public static final ArrayList<String> lang = new ArrayList<>();
     private static final String out = """
             "%s" : "%s",
             """;
-    public static ArrayList<String> lang = new ArrayList<>();
     private static int count = 0;
 
     private static void check() {

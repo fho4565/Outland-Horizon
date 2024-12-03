@@ -1,11 +1,13 @@
 package com.arc.outland_horizon.network.server;
 
 import com.arc.outland_horizon.network.Packet;
-import com.arc.outland_horizon.registry.mod_effect.MobEffectRegistry;
+import com.arc.outland_horizon.registry.MobEffectRegistry;
 import com.arc.outland_horizon.utils.CapabilityUtils;
+import com.arc.outland_horizon.world.item.ISkillItem;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkEvent;
 
 import java.util.Objects;
@@ -35,11 +37,25 @@ public class C2SPacket implements Packet {
                     CapabilityUtils.Rage.setRage(p, 0);
                 }
             }
+            case Operation.TRIGGER_SKILL -> {
+                ItemStack itemStack = p.getMainHandItem();
+                if (itemStack.getItem() instanceof ISkillItem skillItem) {
+                    skillItem.triggerSkill(p, itemStack);
+                }
+            }
+            case Operation.SWITCH_SKILL -> {
+                ItemStack itemStack = p.getMainHandItem();
+                if (itemStack.getItem() instanceof ISkillItem skillItem) {
+                    skillItem.switchSkill(itemStack);
+                }
+            }
         }
         ctx.get().setPacketHandled(true);
     }
 
     public static class Operation {
         public static final int TRIGGER_RAGE = 0;
+        public static final int TRIGGER_SKILL = 1;
+        public static final int SWITCH_SKILL = 2;
     }
 }

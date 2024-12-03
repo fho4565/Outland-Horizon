@@ -1,0 +1,108 @@
+{
+  "credit": "Made with Blockbench",
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "outland_horizon:item/weapons/melee/sickle/zenith_crimson_demise"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        0,
+        90,
+        -45
+      ],
+      "translation": [
+        0,
+        8.5,
+        2
+      ],
+      "scale": [
+        2,
+        2,
+        0.65
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        0,
+        -90,
+        45
+      ],
+      "translation": [
+        0,
+        8.5,
+        2
+      ],
+      "scale": [
+        2,
+        2,
+        0.65
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        90,
+        -45
+      ],
+      "translation": [
+        2,
+        8.75,
+        0
+      ],
+      "scale": [
+        1.5,
+        1.5,
+        0.65
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        0,
+        -90,
+        45
+      ],
+      "translation": [
+        2.5,
+        8.75,
+        0
+      ],
+      "scale": [
+        1.5,
+        1.5,
+        0.65
+      ]
+    },
+    "gui": {
+      "rotation": [
+        0,
+        0,
+        -90
+      ]
+    },
+    "head": {
+      "rotation": [
+        0,
+        0,
+        180
+      ],
+      "translation": [
+        0,
+        -18.75,
+        4.75
+      ],
+      "scale": [
+        2,
+        2,
+        1
+      ]
+    },
+    "fixed": {
+      "rotation": [
+        0,
+        180,
+        -90
+      ]
+    }
+  }
+}

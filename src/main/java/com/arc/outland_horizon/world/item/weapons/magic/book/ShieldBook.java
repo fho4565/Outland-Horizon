@@ -10,8 +10,8 @@ import com.arc.outland_horizon.world.sound.SoundEventRegister;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 
@@ -31,7 +31,7 @@ public class ShieldBook extends UsableItem implements ICooldownItem, IManaCostIt
     }
 
     @Override
-    public void successfullyUsed(Level pLevel, ServerPlayer serverPlayer, InteractionHand pUsedHand) {
+    public void successfullyUsed(Level pLevel, ServerPlayer serverPlayer, ItemStack itemStack) {
         WorldUtils.playSound(serverPlayer.level(), serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), getUseSoundEvent(), SoundSource.PLAYERS);
         WorldUtils.getEntitiesByRadio(pLevel, serverPlayer.position(), 8)
                 .forEach(entity -> {

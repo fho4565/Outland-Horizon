@@ -1,15 +1,18 @@
-package com.arc.outland_horizon.setup;
+package com.arc.outland_horizon.events;
 
+import com.arc.outland_horizon.ArmorSuits;
 import com.arc.outland_horizon.ModCommands;
 import com.arc.outland_horizon.OutlandHorizon;
-import com.arc.outland_horizon.registry.item.ItemRegistry;
-import com.arc.outland_horizon.registry.mod_effect.MobEffectRegistry;
+import com.arc.outland_horizon.registry.ItemRegistry;
+import com.arc.outland_horizon.registry.MobEffectRegistry;
 import com.arc.outland_horizon.utils.*;
 import com.arc.outland_horizon.world.capability.ModCapabilities;
 import com.arc.outland_horizon.world.capability.entity.OhAttribute;
 import com.arc.outland_horizon.world.capability.provider.OhAttributeProvider;
 import com.arc.outland_horizon.world.entity.DamageResistance;
 import com.arc.outland_horizon.world.item.ICooldownItem;
+import com.arc.outland_horizon.world.item.ISkillItem;
+import com.arc.outland_horizon.world.item.weapons.tank.buckler.Buckler;
 import com.arc.outland_horizon.world.sound.SoundEventRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
@@ -19,8 +22,10 @@ import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.BasicItemListing;
 import net.minecraftforge.common.util.LazyOptional;
@@ -28,8 +33,10 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.ShieldBlockEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
+import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -52,27 +59,38 @@ public class ForgeCommonEvents {
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         Player player = event.player;
         player.getInventory().items.forEach(itemStack -> {
-            if (itemStack.getItem() instanceof ICooldownItem iCooldownItem) {
+            Item item = itemStack.getItem();
+            if (item instanceof ICooldownItem iCooldownItem) {
                 iCooldownItem.tickCooldown(player, itemStack);
+            }
+            if (item instanceof ISkillItem iSkillItem) {
+                iSkillItem.tickSkill(player, itemStack);
             }
         });
         player.getInventory().armor.forEach(itemStack -> {
-            if (itemStack.getItem() instanceof ICooldownItem iCooldownItem) {
+            Item item = itemStack.getItem();
+            if (item instanceof ICooldownItem iCooldownItem) {
                 iCooldownItem.tickCooldown(player, itemStack);
+            }
+            if (item instanceof ISkillItem iSkillItem) {
+                iSkillItem.tickSkill(player, itemStack);
             }
         });
         player.getInventory().offhand.forEach(itemStack -> {
-            if (itemStack.getItem() instanceof ICooldownItem iCooldownItem) {
+            Item item = itemStack.getItem();
+            if (item instanceof ICooldownItem iCooldownItem) {
                 iCooldownItem.tickCooldown(player, itemStack);
             }
-        });
-        if (event.phase == TickEvent.Phase.END) {
-            if (!player.level().isClientSide) {
-                CapabilityUtils.Mana.recoverMana(player);
-                CapabilityUtils.Rage.recoverRage(player);
-                double remove = Math.max(Math.pow((CapabilityUtils.Shield.getShieldValue(player) / 2.0 + 0.3) / 1000.0, 2), 0.005);
-                CapabilityUtils.Shield.removeShieldValue(player, Math.min(remove, 0.5));
+            if (item instanceof ISkillItem iSkillItem) {
+                iSkillItem.tickSkill(player, itemStack);
             }
+        });
+        ArmorSuits.tick(player);
+        if (!player.level().isClientSide) {
+            CapabilityUtils.Mana.recoverMana(player);
+            CapabilityUtils.Rage.recoverRage(player);
+            double remove = Math.max(Math.pow((CapabilityUtils.Shield.getShieldValue(player) / 2.0 + 0.3) / 1000.0, 2), 0.005);
+            CapabilityUtils.Shield.removeShieldValue(player, Math.min(remove, 0.5));
         }
         if (EntityUtils.isInDimension(player, OutlandHorizon.createModResourceLocation("nightmare"))) {
             player.addEffect(new MobEffectInstance(MobEffectRegistry.NIGHTMARE_POSSESSED.get(), Utils.secondsToTicks(30)));
@@ -87,18 +105,46 @@ public class ForgeCommonEvents {
     }
 
     @SubscribeEvent
+    public static void onPlayerWakeUp(PlayerWakeUpEvent event) {
+        /*Player player = event.getEntity();
+        if (player instanceof ServerPlayer serverPlayer) {
+            if (player.getMainHandItem().is(OHItems.Weapon.aaaa.get())) {
+                EntityUtils.travelToDimension(serverPlayer, serverPlayer.serverLevel(), new Vec3(0, 90, 0));
+                EntityUtils.spreadEntity(ServerLifecycleHooks.getCurrentServer().getLevel(Level.END), new Vec2(0, 0), 64, 96, 100, false, List.of(serverPlayer));
+
+            }
+        }*/
+    }
+
+    @SubscribeEvent
+    public static void onShieldBlock(ShieldBlockEvent event) {
+        LivingEntity entity = event.getEntity();
+        ItemStack useItem = entity.getUseItem();
+        if (useItem.getItem() instanceof Buckler buckler && entity instanceof Player player) {
+            if (!buckler.isCooldown(useItem)) {
+                event.setBlockedDamage(buckler.blockDamage(player, player.getUseItem(), event.getOriginalBlockedDamage()));
+                buckler.startCooldown(player, useItem);
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void onEntityHurt(LivingHurtEvent event) {
         LivingEntity entity = event.getEntity();
+        float damageAmount = event.getAmount();
+        double armor = entity.getAttributeValue(Attributes.ARMOR);
+        if (damageAmount < armor) {
+            damageAmount = (float) Math.min(2.0, damageAmount * 0.1);
+        }
         if (entity instanceof DamageResistance resistanceEntity && event.getSource().is(DamageTypes.MAGIC)) {
             float scale = (float) ((100.0 - resistanceEntity.magicDamageResistance()) / 100.0);
-            event.setAmount(Math.max(event.getAmount() * scale, 0));
+            event.setAmount(Math.max(damageAmount * scale, 0));
         }
         if (entity.hasEffect(MobEffectRegistry.NIGHTMARE_COMES.get())) {
-            event.setAmount(event.getAmount() * 2);
+            event.setAmount(damageAmount * 2);
         }
         if (entity instanceof Player player) {
             double shieldValue = ModCapabilities.getOhAttribute(player).getShieldValue();
-            float damageAmount = event.getAmount();
 
             float shieldAbsorb = damageAmount * 0.9f;
             float playerDamage = damageAmount * 0.1f;

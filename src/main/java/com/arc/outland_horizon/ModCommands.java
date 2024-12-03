@@ -1,10 +1,13 @@
 package com.arc.outland_horizon;
 
 import com.arc.outland_horizon.develop.ModLang;
-import com.arc.outland_horizon.setup.DevelopEvents;
+import com.arc.outland_horizon.events.DevelopEvents;
 import com.arc.outland_horizon.utils.CapabilityUtils;
 import com.arc.outland_horizon.utils.ChatUtils;
+import com.arc.outland_horizon.utils.EntityUtils;
 import com.arc.outland_horizon.utils.Utils;
+import com.arc.outland_horizon.world.item.ICooldownItem;
+import com.arc.outland_horizon.world.item.ISkillItem;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.DoubleArgumentType;
 import net.minecraft.commands.CommandSourceStack;
@@ -12,6 +15,11 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -76,6 +84,36 @@ public class ModCommands {
                 .executes(ctx -> {
                     DevelopEvents.isDebug = !DevelopEvents.isDebug;
                     System.out.println("调试状态：" + DevelopEvents.isDebug);
+                    return 1;
+                })
+        );
+        dispatcher.register(Commands.literal("modItem")
+                .executes(ctx -> {
+                    Player player = ctx.getSource().getPlayer();
+                    if (player != null) {
+                        ItemStack itemStack = player.getMainHandItem();
+                        ChatUtils.singlePlayer(player, Component.literal(">>>DEBUG INFO"));
+
+                        if (itemStack.getItem() instanceof ISkillItem skillItem) {
+                            ChatUtils.singlePlayer(player, Component.literal("current skill name：").append(skillItem.currentSkill(itemStack).name()));
+                            ChatUtils.singlePlayer(player, Component.literal("current skill description：").append(skillItem.currentSkill(itemStack).description()));
+                            ChatUtils.singlePlayer(player, Component.literal("current skill tag：").append(skillItem.currentSkillTag(itemStack).getAsString()));
+                        }
+                        if (itemStack.getItem() instanceof ICooldownItem cooldownItem) {
+                            ChatUtils.singlePlayer(player, Component.literal("current cooldown：").append(String.valueOf(cooldownItem.getCurrentCooldown(itemStack))));
+                            ChatUtils.singlePlayer(player, Component.literal("max cooldown：").append(String.valueOf(cooldownItem.cooldownTime())));
+
+                        }
+
+                    }
+                    return 1;
+                }));
+        dispatcher.register(Commands.literal("debugger")
+                .executes(context -> {
+                    Vec3 position = context.getSource().getEntity().position();
+                    Vec3 spreadPosition = EntityUtils.getRandomSpreadPosition(context.getSource().getLevel(), new Vec2((float) position.x(), (float) position.z()), 100, 300);
+                    EntityUtils.teleportToDimension(context.getSource().getServer().getLevel(Level.NETHER), context.getSource().getEntity(), spreadPosition.x, spreadPosition.y, spreadPosition.z);
+                    EntityUtils.spreadEntity(context.getSource().getServer().getLevel(Level.NETHER), context.getSource().getEntity(), new Vec2((float) position.x(), (float) position.z()), 50, 100, 100);
                     return 1;
                 })
         );

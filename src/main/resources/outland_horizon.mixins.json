@@ -8,7 +8,8 @@
     "BowMixin"
   ],
   "client": [
-    "GuiMixin"
+    "GuiGraphicsMixin",
+    "OptionScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

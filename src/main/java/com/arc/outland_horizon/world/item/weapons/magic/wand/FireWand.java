@@ -6,11 +6,11 @@ import com.arc.outland_horizon.world.entity.projectile.magic.FireWandShot;
 import com.arc.outland_horizon.world.item.weapons.IRangedWeapon;
 import com.arc.outland_horizon.world.item.weapons.magic.MagicWeapon;
 import com.arc.outland_horizon.world.sound.SoundEventRegister;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 
@@ -35,7 +35,7 @@ public class FireWand extends MagicWeapon {
     }
 
     @Override
-    public void successfullyUsed(Level pLevel, ServerPlayer serverPlayer, InteractionHand pUsedHand) {
+    public void whenUse(Level pLevel, Player serverPlayer, ItemStack pUsedHand) {
         WorldUtils.playSound(serverPlayer.level(), serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), getUseSoundEvent(), SoundSource.PLAYERS);
         BasePlayerProjectile wandShot = getProjectile(serverPlayer, this, 60, 3);
         wandShot.setPos(serverPlayer.getX(), serverPlayer.getEyeY() - 0.1, serverPlayer.getZ());

@@ -11,6 +11,8 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
+import javax.annotation.Nonnull;
+
 public class Spade extends ShovelItem {
     public Spade(Tier pTier, Properties pProperties) {
         super(pTier, 1.0f, -3.2f, pProperties);
@@ -57,7 +59,7 @@ public class Spade extends ShovelItem {
     }
 
     @Override
-    public boolean mineBlock(ItemStack pStack, Level pLevel, BlockState pState, BlockPos pos, LivingEntity pEntityLiving) {
+    public boolean mineBlock(@Nonnull ItemStack pStack, @Nonnull Level pLevel, @Nonnull BlockState pState, @Nonnull BlockPos pos, @Nonnull LivingEntity pEntityLiving) {
         if (pEntityLiving instanceof Player player) {
             if (isCorrectToolForDrops(pStack, pState)) {
                 doBreakBlocks(pLevel, pos.getX(), pos.getY(), pos.getZ(), player, pStack);
@@ -67,7 +69,7 @@ public class Spade extends ShovelItem {
     }
 
     @Override
-    public float getDestroySpeed(ItemStack stack, BlockState state) {
+    public float getDestroySpeed(@Nonnull ItemStack stack, BlockState state) {
         return state.is(BlockTags.MINEABLE_WITH_SHOVEL) ? this.speed * 0.9f : 1.0F;
     }
 }

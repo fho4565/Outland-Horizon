@@ -9,6 +9,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
+import javax.annotation.Nonnull;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Mad extends MobEffect {
@@ -22,25 +24,25 @@ public class Mad extends MobEffect {
     }
 
     @Override
-    public void addAttributeModifiers(LivingEntity entity, AttributeMap attributeMap, int amplifier) {
+    public void addAttributeModifiers(@Nonnull LivingEntity entity, @Nonnull AttributeMap attributeMap, int amplifier) {
         super.addAttributeModifiers(entity, attributeMap, amplifier);
         AttributeModifier armor = new AttributeModifier(ARMOR_UUID, OutlandHorizon.MOD_ID + ".mob_effect.mad.armor", -(amplifier + 1) * 2, AttributeModifier.Operation.ADDITION);
         AttributeModifier attackDamage = new AttributeModifier(ATTACKDAMAGE_UUID, OutlandHorizon.MOD_ID + ".mob_effect.mad.attack_damage", (amplifier + 1), AttributeModifier.Operation.ADDITION);
         AttributeModifier attackSpeed = new AttributeModifier(ATTACKSPEED_UUID, OutlandHorizon.MOD_ID + ".mob_effect.mad.attack_damage", (amplifier + 1) * 0.25, AttributeModifier.Operation.MULTIPLY_BASE);
-        attributeMap.getInstance(Attributes.ARMOR).addPermanentModifier(armor);
-        attributeMap.getInstance(Attributes.ATTACK_DAMAGE).addPermanentModifier(attackDamage);
-        attributeMap.getInstance(Attributes.ATTACK_SPEED).addPermanentModifier(attackSpeed);
+        Objects.requireNonNull(attributeMap.getInstance(Attributes.ARMOR)).addPermanentModifier(armor);
+        Objects.requireNonNull(attributeMap.getInstance(Attributes.ATTACK_DAMAGE)).addPermanentModifier(attackDamage);
+        Objects.requireNonNull(attributeMap.getInstance(Attributes.ATTACK_SPEED)).addPermanentModifier(attackSpeed);
     }
 
     @Override
-    public void removeAttributeModifiers(LivingEntity entity, AttributeMap attributeMap, int amplifier) {
+    public void removeAttributeModifiers(@Nonnull LivingEntity entity, @Nonnull AttributeMap attributeMap, int amplifier) {
         super.removeAttributeModifiers(entity, attributeMap, amplifier);
         AttributeModifier armor = new AttributeModifier(ARMOR_UUID, OutlandHorizon.MOD_ID + ".mob_effect.mad.armor", -(amplifier + 1) * 2, AttributeModifier.Operation.ADDITION);
         AttributeModifier attackDamage = new AttributeModifier(ATTACKDAMAGE_UUID, OutlandHorizon.MOD_ID + ".mob_effect.mad.attack_damage", (amplifier + 1), AttributeModifier.Operation.ADDITION);
         AttributeModifier attackSpeed = new AttributeModifier(ATTACKSPEED_UUID, OutlandHorizon.MOD_ID + ".mob_effect.mad.attack_damage", (amplifier + 1) * 0.25, AttributeModifier.Operation.MULTIPLY_BASE);
-        attributeMap.getInstance(Attributes.ARMOR).removeModifier(armor);
-        attributeMap.getInstance(Attributes.ATTACK_DAMAGE).removeModifier(attackDamage);
-        attributeMap.getInstance(Attributes.ATTACK_SPEED).removeModifier(attackSpeed);
+        Objects.requireNonNull(attributeMap.getInstance(Attributes.ARMOR)).removeModifier(armor);
+        Objects.requireNonNull(attributeMap.getInstance(Attributes.ATTACK_DAMAGE)).removeModifier(attackDamage);
+        Objects.requireNonNull(attributeMap.getInstance(Attributes.ATTACK_SPEED)).removeModifier(attackSpeed);
     }
 
     @Override

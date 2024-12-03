@@ -12,18 +12,25 @@ import org.jetbrains.annotations.Nullable;
 public class OhAttributeProvider implements ICapabilityProvider,
         NonNullSupplier<OhAttribute>, ICapabilitySerializable<CompoundTag> {
 
+    public static final Capability<OhAttribute> OH_ATTRIBUTE = CapabilityManager.get(new CapabilityToken<>() {
+    });
+    public static double mana, manaRecover, maxMana, rage, maxRage, rageRecover, shieldValue, sp, maxSp, spRecover;
     private OhAttribute ohAttribute;
-    public static final Capability<OhAttribute> OH_ATTRIBUTE = CapabilityManager.get(new CapabilityToken<>() {});
     public final LazyOptional<OhAttribute> lazyOptional = LazyOptional.of(() -> this.ohAttribute);
-    public static double mana,manaRecover, maxMana,rage, maxRage,rageRecover,shieldValue;
+
     public OhAttributeProvider() {
         this.ohAttribute = new OhAttribute();
     }
+
+    public OhAttributeProvider(OhAttribute ohAttribute) {
+        this.ohAttribute = ohAttribute;
+    }
+
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
-        if(cap == OH_ATTRIBUTE){
+        if (cap == OH_ATTRIBUTE) {
             return lazyOptional.cast();
-        }else{
+        } else {
             return LazyOptional.empty();
         }
     }
@@ -36,10 +43,6 @@ public class OhAttributeProvider implements ICapabilityProvider,
     @Override
     public @NotNull OhAttribute get() {
         return this.ohAttribute;
-    }
-
-    public OhAttributeProvider(OhAttribute ohAttribute) {
-        this.ohAttribute = ohAttribute;
     }
 
     @Override

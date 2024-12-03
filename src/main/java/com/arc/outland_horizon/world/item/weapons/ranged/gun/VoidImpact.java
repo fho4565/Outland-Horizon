@@ -13,7 +13,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 
 public class VoidImpact extends Gun {
     public VoidImpact() {
-        super(3500, 10, Ingredient.of(OHItems.Material.VOID_CRYSTAL.get()), new Properties().rarity(Rarity.EPIC));
+        super(350, 10, Ingredient.of(OHItems.Material.VOID_CRYSTAL.get()), new Properties().rarity(Rarity.EPIC));
     }
 
     @Override
@@ -23,12 +23,12 @@ public class VoidImpact extends Gun {
 
     @Override
     public float getBulletVelocity() {
-        return 12;
+        return 10;
     }
 
     @Override
     public float getBulletInaccuracy() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -44,7 +44,7 @@ public class VoidImpact extends Gun {
 
     @Override
     public int cooldownTime() {
-        return 0;
+        return 2;
     }
 
     @Override

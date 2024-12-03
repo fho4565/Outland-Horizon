@@ -164,4 +164,54 @@ public class CapabilityUtils {
             }
         }
     }
+
+    public static class Sp {
+        public static double getSp(Player player) {
+            return getOhAttribute(player).getSp();
+        }
+
+        public static double getSpRecover(Player player) {
+            return getOhAttribute(player).getSpRecover();
+        }
+
+        public static double getMaxSp(Player player) {
+            return getOhAttribute(player).getMaxSp();
+        }
+
+        public static void recoverSp(Player player) {
+            addSp(player, getSpRecover(player));
+        }
+
+        public static void addSp(Player player, double sp) {
+            OhAttribute attribute = getOhAttribute(player);
+            attribute.setSp(Math.min(attribute.getSp() + sp, getMaxSp(player)));
+            serverSyncAttribute(player);
+        }
+
+        public static boolean removeSp(Player player, double amount) {
+            OhAttribute attribute = getOhAttribute(player);
+            if (amount >= attribute.getSp()) {
+                return false;
+            } else {
+                attribute.setSp(attribute.getSp() - amount);
+                serverSyncAttribute(player);
+                return true;
+            }
+        }
+
+        public static void setSp(Player player, double sp) {
+            OhAttribute attribute = getOhAttribute(player);
+            attribute.setSp(Math.max(sp, 0));
+            serverSyncAttribute(player);
+        }
+
+
+        public static boolean isSpSufficient(Player player, double amount) {
+            return getSp(player) >= amount;
+        }
+
+        public static boolean isSpFull(Player player) {
+            return getSp(player) >= getMaxSp(player);
+        }
+    }
 }

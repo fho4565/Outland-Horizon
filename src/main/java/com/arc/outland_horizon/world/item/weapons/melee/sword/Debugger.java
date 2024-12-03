@@ -26,7 +26,10 @@ public class Debugger extends Item {
             ResourceLocation resourcelocation = target.getLootTable();
             LootTable loottable = server.getLootData().getLootTable(resourcelocation);
             DamageSource lastDamageSource = target.getLastDamageSource();
-            LootParams.Builder lootparams$builder = (new LootParams.Builder((ServerLevel) target.level())).withParameter(LootContextParams.THIS_ENTITY, target).withParameter(LootContextParams.ORIGIN, target.position()).withParameter(LootContextParams.DAMAGE_SOURCE, lastDamageSource).withOptionalParameter(LootContextParams.KILLER_ENTITY, lastDamageSource.getEntity()).withOptionalParameter(LootContextParams.DIRECT_KILLER_ENTITY, lastDamageSource.getDirectEntity());
+            LootParams.Builder lootparams$builder = null;
+            if (lastDamageSource != null) {
+                lootparams$builder = (new LootParams.Builder((ServerLevel) target.level())).withParameter(LootContextParams.THIS_ENTITY, target).withParameter(LootContextParams.ORIGIN, target.position()).withParameter(LootContextParams.DAMAGE_SOURCE, lastDamageSource).withOptionalParameter(LootContextParams.KILLER_ENTITY, lastDamageSource.getEntity()).withOptionalParameter(LootContextParams.DIRECT_KILLER_ENTITY, lastDamageSource.getDirectEntity());
+            }
             LootParams lootparams = lootparams$builder.create(LootContextParamSets.ENTITY);
             loottable.getRandomItems(lootparams, target.getLootTableSeed(), target::spawnAtLocation);
         }
