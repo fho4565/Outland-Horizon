@@ -47,7 +47,7 @@ public class ModTiers {
 
             @Override
             public int getUses() {
-                return (int) (450 * level);
+                return (int) (385 * level);
             }
 
             @Override
@@ -67,7 +67,7 @@ public class ModTiers {
 
             @Override
             public int getEnchantmentValue() {
-                return (int) (7 * level);
+                return (int) (4 * level);
             }
 
             @Override

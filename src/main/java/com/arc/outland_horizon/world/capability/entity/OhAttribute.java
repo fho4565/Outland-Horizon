@@ -23,6 +23,7 @@ public class OhAttribute implements INBTSerializable<CompoundTag> {
         this.maxSp = 3;
     }
 
+
     public double getMana() {
         return this.mana;
     }

@@ -2,7 +2,7 @@ package com.arc.outland_horizon.develop;
 
 import com.arc.outland_horizon.registry.BlockRegistry;
 import com.arc.outland_horizon.registry.ItemRegistry;
-import com.arc.outland_horizon.registry.MobEffectRegistry;
+import com.arc.outland_horizon.registry.OHMobEffects;
 import com.arc.outland_horizon.utils.Utils;
 import com.arc.outland_horizon.world.entity.EntityRegistry;
 import net.minecraft.client.Minecraft;
@@ -29,7 +29,7 @@ public class ModLang {
         pre("item", ItemRegistry.ITEMS, item -> item instanceof BlockItem);
         pre("block", BlockRegistry.BLOCKS, item -> false);
         pre("entity", EntityRegistry.ENTITIES, item -> false);
-        pre("effect", MobEffectRegistry.EFFECTS, item -> false);
+        pre("effect", OHMobEffects.EFFECTS, item -> false);
     }
 
     private static <T> void pre(String pre, DeferredRegister<T> register, Predicate<T> predicate) {

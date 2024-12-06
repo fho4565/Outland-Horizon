@@ -1,5 +1,6 @@
 package com.arc.outland_horizon.events;
 
+import com.arc.outland_horizon.ArmorSuits;
 import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.client.gui.overlay.PlayerOverlay;
 import com.arc.outland_horizon.develop.LangEN_US;
@@ -18,6 +19,7 @@ public class ModCommonEvents {
     @SubscribeEvent
     public static void onCommonSetup(FMLCommonSetupEvent event) {
         event.enqueueWork(NetworkHandler::register);
+        ArmorSuits.init();
     }
 
     @SubscribeEvent

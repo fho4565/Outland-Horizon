@@ -22,17 +22,17 @@ public class ModArmorMaterials {
         return new ArmorMaterial() {
             @Override
             public int getDurabilityForType(ArmorItem.@NotNull Type type) {
-                return (new int[]{13, 18, 25, 11}[type.getSlot().getIndex()] * (int) Math.round(14 * level));
+                return (new int[]{8, 11, 14, 7}[type.getSlot().getIndex()] * (int) Math.round(14 * level));
             }
 
             @Override
             public int getDefenseForType(ArmorItem.@NotNull Type type) {
-                return new int[]{(int) Math.round(1.5f * level), (int) Math.round(3 * level), (int) Math.round(4 * level), (int) Math.round(1.5f * level)}[type.getSlot().getIndex()];
+                return new int[]{(int) Math.round(1.1f * level), (int) Math.round(2.5 * level), (int) Math.round(3 * level), (int) Math.round(level)}[type.getSlot().getIndex()];
             }
 
             @Override
             public int getEnchantmentValue() {
-                return (int) Math.round(9 * level);
+                return (int) Math.round(4 * level);
             }
 
             @Override

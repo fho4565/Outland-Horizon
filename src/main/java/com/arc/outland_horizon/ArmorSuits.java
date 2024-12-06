@@ -1,5 +1,8 @@
 package com.arc.outland_horizon;
 
+import com.arc.outland_horizon.registry.OHItems;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -22,5 +25,15 @@ public class ArmorSuits {
                 }
             }
         }
+    }
+
+    public static void init() {
+        armorSuits.clear();
+        armorSuits.add(new ArmorSuit("blood_stone", OHItems.Armor.BLOOD_STONE_HELMET.get(), OHItems.Armor.BLOOD_STONE_CHESTPLATE.get(), OHItems.Armor.BLOOD_STONE_LEGGINGS.get(), OHItems.Armor.BLOOD_STONE_BOOTS.get()) {
+            @Override
+            public void onArmorSuitTick(Player player) {
+                player.addEffect(new MobEffectInstance(MobEffects.REGENERATION, 20, 3, true, true));
+            }
+        });
     }
 }

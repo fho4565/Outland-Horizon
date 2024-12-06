@@ -11,9 +11,11 @@ import java.util.UUID;
 
 public abstract class ArmorSuit {
     public Item helmet, chestplate, leggings, boots;
+    public String id;
     HashSet<UUID> players = new HashSet<>();
 
-    public ArmorSuit(Item helmet, Item chestplate, Item leggings, Item boots) {
+    public ArmorSuit(String id, Item helmet, Item chestplate, Item leggings, Item boots) {
+        this.id = id;
         this.helmet = helmet;
         this.chestplate = chestplate;
         this.leggings = leggings;
@@ -44,7 +46,7 @@ public abstract class ArmorSuit {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ArmorSuit armorSuit)) return false;
-        return Objects.equals(helmet, armorSuit.helmet) && Objects.equals(chestplate, armorSuit.chestplate) && Objects.equals(leggings, armorSuit.leggings) && Objects.equals(boots, armorSuit.boots);
+        return this.id.equals(armorSuit.id);
     }
 
     @Override

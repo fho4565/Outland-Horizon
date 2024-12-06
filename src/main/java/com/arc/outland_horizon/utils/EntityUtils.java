@@ -3,6 +3,10 @@ package com.arc.outland_horizon.utils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
+import net.minecraft.network.protocol.game.ClientboundLevelEventPacket;
+import net.minecraft.network.protocol.game.ClientboundPlayerAbilitiesPacket;
+import net.minecraft.network.protocol.game.ClientboundUpdateMobEffectPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -12,18 +16,18 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.RelativeMovement;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.util.ITeleporter;
+import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.event.entity.EntityTeleportEvent;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.EnumSet;
-import java.util.function.Function;
 
 public class EntityUtils {
     public static void hurt(Entity source, Entity target, ResourceKey<DamageType> damageType, float damage) {
@@ -38,10 +42,23 @@ public class EntityUtils {
         return entity.level().dimension().location().compareTo(dimensionLocation) == 0;
     }
 
-    public static void travelToDimension(ServerPlayer serverPlayer, ServerLevel serverLevel, Vec3 pos) {
-        float f = Mth.wrapDegrees(serverPlayer.getYRot());
-        float f1 = Mth.wrapDegrees(serverPlayer.getXRot());
-        serverPlayer.teleportTo(serverLevel, pos.x(), pos.y(), pos.z, EnumSet.noneOf(RelativeMovement.class), f, f1);
+    public static void travelToDimension(ServerPlayer serverPlayer, ResourceLocation resourceLocation) {
+        if (!serverPlayer.level().isClientSide()) {
+            ResourceKey<Level> destinationType = ResourceKey.create(Registries.DIMENSION, resourceLocation);
+            if (serverPlayer.level().dimension() == destinationType) {
+                return;
+            }
+            ServerLevel nextLevel = serverPlayer.server.getLevel(destinationType);
+            if (nextLevel != null) {
+                serverPlayer.connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.WIN_GAME, 0));
+                serverPlayer.teleportTo(nextLevel, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), serverPlayer.getYRot(), serverPlayer.getXRot());
+                serverPlayer.connection.send(new ClientboundPlayerAbilitiesPacket(serverPlayer.getAbilities()));
+                for (MobEffectInstance effectInstance : serverPlayer.getActiveEffects())
+                    serverPlayer.connection.send(new ClientboundUpdateMobEffectPacket(serverPlayer.getId(), effectInstance));
+                serverPlayer.connection.send(new ClientboundLevelEventPacket(1032, BlockPos.ZERO, 0, false));
+            }
+        }
+
     }
 
     public static @NotNull ResourceKey<DamageType> getMachineGun(LivingEntity holder, ResourceLocation location) {
@@ -54,17 +71,6 @@ public class EntityUtils {
 
     public static boolean isAttacking(LivingEntity entity) {
         return entity.getAttackAnim(1.0F) > 0.0F;
-    }
-
-    public static void teleportToDimension(ServerLevel serverLevel, Entity entity, double x, double y, double z) {
-        entity.changeDimension(serverLevel, new ITeleporter() {
-            @Override
-            public @NotNull Entity placeEntity(@NotNull Entity entity, @NotNull ServerLevel currentWorld, @NotNull ServerLevel destWorld, float yaw, Function<Boolean, Entity> repositionEntity) {
-                entity = repositionEntity.apply(false);
-                entity.setPos(x, y, z);
-                return entity;
-            }
-        });
     }
 
     public static void spreadEntity(ServerLevel serverlevel, Entity entity, Vec2 center, float spreadDistance, float maxDistance, int maxHeight) {
@@ -110,7 +116,7 @@ public class EntityUtils {
                     }
                 }
             }
-            net.minecraftforge.event.entity.EntityTeleportEvent.SpreadPlayersCommand event = net.minecraftforge.event.ForgeEventFactory.onEntityTeleportSpreadPlayersCommand(entity, (double) Mth.floor(position.x) + 0.5D, position.getSpawnY(serverlevel, maxHeight), (double) Mth.floor(position.z) + 0.5D);
+            EntityTeleportEvent.SpreadPlayersCommand event = ForgeEventFactory.onEntityTeleportSpreadPlayersCommand(entity, (double) Mth.floor(position.x) + 0.5D, position.getSpawnY(serverlevel, maxHeight), (double) Mth.floor(position.z) + 0.5D);
             if (!event.isCanceled()) {
                 entity.teleportToWithTicket(event.getTargetX(), event.getTargetY(), event.getTargetZ());
             }
@@ -224,7 +230,7 @@ public class EntityUtils {
         public boolean isSafe(BlockGetter pLevel, int pY) {
             BlockPos blockpos = BlockPos.containing(this.x, this.getSpawnY(pLevel, pY) - 1, this.z);
             BlockState blockstate = pLevel.getBlockState(blockpos);
-            return blockpos.getY() < pY && !blockstate.liquid() && !blockstate.is(BlockTags.FIRE);
+            return blockpos.getY() < pY && !(blockstate.liquid() || blockstate.getBlock() instanceof LiquidBlock) && !blockstate.is(BlockTags.FIRE);
         }
 
         public void randomize(RandomSource pRandom, double pMinX, double pMinZ, double pMaxX, double pMaxZ) {

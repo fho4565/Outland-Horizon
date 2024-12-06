@@ -1,7 +1,7 @@
 package com.arc.outland_horizon.network.server;
 
 import com.arc.outland_horizon.network.Packet;
-import com.arc.outland_horizon.registry.MobEffectRegistry;
+import com.arc.outland_horizon.registry.OHMobEffects;
 import com.arc.outland_horizon.utils.CapabilityUtils;
 import com.arc.outland_horizon.world.item.ISkillItem;
 import net.minecraft.network.FriendlyByteBuf;
@@ -33,7 +33,7 @@ public class C2SPacket implements Packet {
         switch (this.operation) {
             case Operation.TRIGGER_RAGE -> {
                 if (CapabilityUtils.Rage.isRageFull(p)) {
-                    p.addEffect(new MobEffectInstance(MobEffectRegistry.RAGE.get(), 600));
+                    p.addEffect(new MobEffectInstance(OHMobEffects.RAGE.get(), 600));
                     CapabilityUtils.Rage.setRage(p, 0);
                 }
             }

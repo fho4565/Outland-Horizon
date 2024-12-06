@@ -1,1 +1,0 @@
-{  "type": "minecraft:crafting_shaped",  "pattern": ["ABC"," S "," S "],"key": {"S":{"item":"minecraft:stick"},"C":{"item":"minecraft:diamond_shovel"},"B":{"item":"minecraft:diamond_axe"},"A":{"item":"minecraft:diamond_pickaxe"}  },  "result": {    "item": "outland_horizon:diamond_paxel",    "count": 1  }}

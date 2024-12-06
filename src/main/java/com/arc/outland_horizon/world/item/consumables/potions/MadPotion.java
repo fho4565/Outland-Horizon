@@ -1,6 +1,6 @@
 package com.arc.outland_horizon.world.item.consumables.potions;
 
-import com.arc.outland_horizon.registry.MobEffectRegistry;
+import com.arc.outland_horizon.registry.OHMobEffects;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.item.ItemStack;
@@ -26,7 +26,7 @@ public class MadPotion extends ConsumablePotion {
     @Override
     public ArrayList<MobEffectInstance> getMobEffectInstance() {
         ArrayList<MobEffectInstance> list = super.getMobEffectInstance();
-        list.add(new MobEffectInstance(MobEffectRegistry.MAD.get(), 1200));
+        list.add(new MobEffectInstance(OHMobEffects.MAD.get(), 1200));
         return list;
     }
 }

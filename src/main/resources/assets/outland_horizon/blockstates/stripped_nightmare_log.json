@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "outland_horizon:block/stripped_nightmare_log_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "outland_horizon:block/stripped_nightmare_log"
+    },
+    "axis=z": {
+      "model": "outland_horizon:block/stripped_nightmare_log_horizontal",
+      "x": 90
+    }
+  }
+}

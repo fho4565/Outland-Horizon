@@ -5,7 +5,11 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "outland_horizon.refmap.json",
   "mixins": [
-    "BowMixin"
+    "BowMixin",
+    "CreeperMixin",
+    "FoodDataMixin",
+    "PlayerMixin",
+    "ZombieMixin"
   ],
   "client": [
     "GuiGraphicsMixin",

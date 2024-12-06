@@ -3,7 +3,7 @@ package com.arc.outland_horizon.registry;
 import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.world.block.*;
 import com.arc.outland_horizon.world.block.fluids.blood.*;
-import com.arc.outland_horizon.world.block.logs.NightmareLog;
+import com.arc.outland_horizon.world.block.logs.OHLogBlock;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.Rarity;
@@ -18,6 +18,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+@SuppressWarnings("unused")
 public class OHBlocks {
     private static RegistryObject<Block> deepOre(String id, float destroyTime, float explosionResistance) {
         return BlockRegistry.register("deep_" + id + "_ore", () -> new Block(Block.Properties.of().sound(SoundType.DEEPSLATE).strength(destroyTime, explosionResistance).requiresCorrectToolForDrops()));
@@ -39,38 +40,46 @@ public class OHBlocks {
     }
 
     public static class Building {
-        public static final RegistryObject<Block> NIGHTMARE_LOG = BlockRegistry.register("nightmare_log", NightmareLog::new);
-        public static final RegistryObject<Block> NIGHTMARE_STONE = BlockRegistry.register("nightmare_stone", () ->
-                new Block(BlockBehaviour.Properties.of()
-                        .mapColor(MapColor.STONE)
-                        .instrument(NoteBlockInstrument.BASEDRUM)
-                        .requiresCorrectToolForDrops()
-                        .strength(3.0F, 6.0F)));
-        public static final RegistryObject<Block> FLESH_BLOCK = BlockRegistry.register("flesh_block", () -> new Block(BlockBehaviour.Properties.of()
-                .mapColor(MapColor.COLOR_RED)
-                .sound(new ForgeSoundType(0.5f, 1
-                        , SoundType.MUD::getBreakSound
-                        , SoundType.MUD::getStepSound
-                        , SoundType.MUD::getPlaceSound
-                        , () -> SoundEvent.createVariableRangeEvent(OutlandHorizon.createModResourceLocation("flesh_block_breaking"))
-                        , SoundType.MUD::getFallSound
-                ))
-                .requiresCorrectToolForDrops()
-                .strength(3.5F, 12.0F)));
-        public static final RegistryObject<Block> SCARRED_FLESH_BLOCK = BlockRegistry.register("scarred_flesh_block", () -> new Block(BlockBehaviour.Properties.of()
-                .mapColor(MapColor.COLOR_RED)
-                .sound(new ForgeSoundType(0.5f, 1
-                        , SoundType.MUD::getBreakSound
-                        , SoundType.MUD::getStepSound
-                        , SoundType.MUD::getPlaceSound
-                        , () -> SoundEvent.createVariableRangeEvent(OutlandHorizon.createModResourceLocation("flesh_block_breaking"))
-                        , SoundType.MUD::getFallSound
-                ))
-                .requiresCorrectToolForDrops()
-                .strength(3.2F, 11.0F)));
-
         public static void init() {
             DUNGEON.init();
+            NIGHTMARE.init();
+        }
+
+        public static class NIGHTMARE {
+            public static final RegistryObject<Block> STRIPPED_NIGHTMARE_LOG = BlockRegistry.register("stripped_nightmare_log", () -> new OHLogBlock(Block.Properties.of().instrument(NoteBlockInstrument.BASS).strength(3.0F).sound(SoundType.WOOD).ignitedByLava()));
+            public static final RegistryObject<Block> NIGHTMARE_LOG = BlockRegistry.register("nightmare_log", () -> new OHLogBlock(Block.Properties.of().instrument(NoteBlockInstrument.BASS).strength(3.0F).sound(SoundType.WOOD).ignitedByLava(), STRIPPED_NIGHTMARE_LOG.get()));
+            public static final RegistryObject<Block> NIGHTMARE_PLANKS = BlockRegistry.register("nightmare_planks", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava()));
+            public static final RegistryObject<Block> NIGHTMARE_STONE = BlockRegistry.register("nightmare_stone", () ->
+                    new Block(BlockBehaviour.Properties.of()
+                            .mapColor(MapColor.STONE)
+                            .instrument(NoteBlockInstrument.BASEDRUM)
+                            .requiresCorrectToolForDrops()
+                            .strength(3.0F, 6.0F)));
+            public static final RegistryObject<Block> FLESH_BLOCK = BlockRegistry.register("flesh_block", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .sound(new ForgeSoundType(0.5f, 1
+                            , SoundType.MUD::getBreakSound
+                            , SoundType.MUD::getStepSound
+                            , SoundType.MUD::getPlaceSound
+                            , () -> SoundEvent.createVariableRangeEvent(OutlandHorizon.createModResourceLocation("flesh_block_breaking"))
+                            , SoundType.MUD::getFallSound
+                    ))
+                    .requiresCorrectToolForDrops()
+                    .strength(3.5F, 12.0F)));
+            public static final RegistryObject<Block> SCARRED_FLESH_BLOCK = BlockRegistry.register("scarred_flesh_block", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED)
+                    .sound(new ForgeSoundType(0.5f, 1
+                            , SoundType.MUD::getBreakSound
+                            , SoundType.MUD::getStepSound
+                            , SoundType.MUD::getPlaceSound
+                            , () -> SoundEvent.createVariableRangeEvent(OutlandHorizon.createModResourceLocation("flesh_block_breaking"))
+                            , SoundType.MUD::getFallSound
+                    ))
+                    .requiresCorrectToolForDrops()
+                    .strength(3.2F, 11.0F)));
+
+            public static void init() {
+            }
         }
 
         public static class DUNGEON {
@@ -83,7 +92,7 @@ public class OHBlocks {
             public static final RegistryObject<Block> DUNGEON_BRICK = BlockRegistry.register("dungeon_brick",
                     () -> new Block(PROPERTIES));
             public static final RegistryObject<Block> DUNGEON_BRICK_STAIR = BlockRegistry.register("dungeon_brick_stairs",
-                    () -> new StairBlock(DUNGEON.DUNGEON_BRICK.get().defaultBlockState(), PROPERTIES));
+                    () -> new StairBlock(() -> DUNGEON.DUNGEON_BRICK.get().defaultBlockState(), PROPERTIES));
             public static final RegistryObject<Block> DUNGEON_BRICK_TILE = BlockRegistry.register("dungeon_brick_tile",
                     () -> new Block(PROPERTIES));
             public static final RegistryObject<Block> DUNGEON_BRICK_PILLAR = BlockRegistry.register("dungeon_brick_pillar",

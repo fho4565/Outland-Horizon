@@ -1,1 +1,0 @@
-{  "type": "minecraft:crafting_shaped",  "pattern": ["III","III"," S "],"key": {"S":{"item":"minecraft:stick"},"I":{"item":"minecraft:diamond"}  },  "result": {    "item": "outland_horizon:diamond_hammer",    "count": 1  }}

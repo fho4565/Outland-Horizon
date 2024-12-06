@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column_horizontal",
+  "textures": {
+    "end": "outland_horizon:block/building/stripped_nightmare_log_bottom",
+    "side": "outland_horizon:block/building/stripped_nightmare_log"
+  }
+}

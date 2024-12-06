@@ -4,7 +4,6 @@ import com.arc.outland_horizon.develop.ModLang;
 import com.arc.outland_horizon.events.DevelopEvents;
 import com.arc.outland_horizon.utils.CapabilityUtils;
 import com.arc.outland_horizon.utils.ChatUtils;
-import com.arc.outland_horizon.utils.EntityUtils;
 import com.arc.outland_horizon.utils.Utils;
 import com.arc.outland_horizon.world.item.ICooldownItem;
 import com.arc.outland_horizon.world.item.ISkillItem;
@@ -17,9 +16,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec2;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -110,10 +106,6 @@ public class ModCommands {
                 }));
         dispatcher.register(Commands.literal("debugger")
                 .executes(context -> {
-                    Vec3 position = context.getSource().getEntity().position();
-                    Vec3 spreadPosition = EntityUtils.getRandomSpreadPosition(context.getSource().getLevel(), new Vec2((float) position.x(), (float) position.z()), 100, 300);
-                    EntityUtils.teleportToDimension(context.getSource().getServer().getLevel(Level.NETHER), context.getSource().getEntity(), spreadPosition.x, spreadPosition.y, spreadPosition.z);
-                    EntityUtils.spreadEntity(context.getSource().getServer().getLevel(Level.NETHER), context.getSource().getEntity(), new Vec2((float) position.x(), (float) position.z()), 50, 100, 100);
                     return 1;
                 })
         );

@@ -35,6 +35,7 @@ java {
 }
 
 minecraft {
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
     mappings channel: mapping_channel, version: mapping_version
     copyIdeResources = true
 
@@ -72,7 +73,6 @@ mixin {
     add sourceSets.main, "${mod_id}.refmap.json"
     config "${mod_id}.mixins.json"
 }
-
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 

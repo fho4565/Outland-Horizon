@@ -20,16 +20,17 @@ public class EmptyProjectileRenderer<T extends Entity> extends EntityRenderer<T>
         RandomSource random = entity.level().random;
         for (int i = 0; i < 4; i++) {
             entity.level().addParticle(ParticleTypes.ENCHANTED_HIT,
-                    entity.getX()+(random.nextFloat()-0.5f)*0.1f,
-                    entity.getY()+(random.nextFloat()-0.5f)*0.1f,
-                    entity.getZ()+(random.nextFloat()-0.5f)*0.1f,
+                    entity.getX(),
+                    entity.getY(),
+                    entity.getZ(),
                     0, 0, 0);
         }
         super.render(entity, entityYaw, partialTicks, matrixStack, buffer, packedLight);
     }
+
     @Override
     public @NotNull ResourceLocation getTextureLocation(@NotNull T pEntity) {
-        return new ResourceLocation("","");
+        return new ResourceLocation("", "");
     }
 
 }

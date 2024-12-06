@@ -10,11 +10,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.event.ForgeEventFactory;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
 public abstract class BasePlayerProjectile extends Projectile {
-    public int age;
-    protected float lifespan;
+    public int age = 0;
+    protected float lifespan = 30;
     protected IRangedWeapon weapon;
     float velocity = 6.0f;
     float inaccuracy = 0.0f;
@@ -23,12 +26,10 @@ public abstract class BasePlayerProjectile extends Projectile {
 
     protected BasePlayerProjectile(EntityType<? extends Projectile> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
-        this.age = 0;
     }
 
     public BasePlayerProjectile(EntityType<? extends Projectile> entityType, LivingEntity shooter, IRangedWeapon weapon, float maxAge, float velocity, float inaccuracy) {
         super(entityType, shooter.level());
-        this.age = 0;
         this.lifespan = maxAge;
         this.weapon = weapon;
         this.velocity = velocity;
@@ -42,8 +43,11 @@ public abstract class BasePlayerProjectile extends Projectile {
     }
 
     public BasePlayerProjectile(EntityType<? extends Projectile> entityType, Level world, double x, double y, double z, int velocity) {
-        super(entityType, world);
-        this.age = 0;
+        this(entityType, world);
+        this.velocity = velocity;
+        this.lookX = x;
+        this.lookY = y;
+        this.lookZ = z;
     }
 
     @Override
@@ -53,8 +57,9 @@ public abstract class BasePlayerProjectile extends Projectile {
 
     @Override
     public Entity getOwner() {
-        if (this.cachedOwner != null && this.cachedOwner.isAlive())
+        if (this.cachedOwner != null && this.cachedOwner.isAlive()) {
             return this.cachedOwner;
+        }
 
         this.cachedOwner = super.getOwner();
 
@@ -62,11 +67,16 @@ public abstract class BasePlayerProjectile extends Projectile {
     }
 
     public void tick() {
+        super.tick();
         Entity entity = this.getOwner();
-        if (this.level().isClientSide || (entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition())) {
-            super.tick();
+        Optional<Entity> optionalEntity = Optional.ofNullable(this.getOwner());
+        boolean flag = false;
+        if (optionalEntity.isPresent()) {
+            flag = optionalEntity.get().position().distanceTo(this.position()) <= 130;
+        }
+        if ((entity == null || !entity.isRemoved()) && this.level().hasChunkAt(this.blockPosition()) && flag) {
             HitResult hitresult = ProjectileUtil.getHitResultOnMoveVector(this, this::canHitEntity);
-            if (hitresult.getType() != HitResult.Type.MISS && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, hitresult)) {
+            if (hitresult.getType() != HitResult.Type.MISS && !ForgeEventFactory.onProjectileImpact(this, hitresult)) {
                 this.onHit(hitresult);
             }
             this.checkInsideBlocks();
@@ -77,7 +87,15 @@ public abstract class BasePlayerProjectile extends Projectile {
             ProjectileUtil.rotateTowardsMovement(this, 1.0F);
             this.setPos(d0, d1, d2);
         } else {
-            this.discard();
+            if (!this.level().isClientSide()) {
+                this.discard();
+            }
+        }
+        ++this.age;
+        if (this.age >= this.lifespan) {
+            if (!this.level().isClientSide()) {
+                this.discard();
+            }
         }
     }
 

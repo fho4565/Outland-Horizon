@@ -1,1 +1,0 @@
-{  "type": "minecraft:crafting_shaped",  "pattern": ["III"," S "," S "],"key": {"S":{"item":"minecraft:stick"},"I":{"item":"outland_horizon:blood_stone"}  },  "result": {    "item": "outland_horizon:blood_stone_pickaxe",    "count": 1  }}

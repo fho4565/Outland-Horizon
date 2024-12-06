@@ -1,10 +1,9 @@
 package com.arc.outland_horizon.events;
 
-import com.arc.outland_horizon.ArmorSuits;
-import com.arc.outland_horizon.ModCommands;
-import com.arc.outland_horizon.OutlandHorizon;
+import com.arc.outland_horizon.*;
 import com.arc.outland_horizon.registry.ItemRegistry;
-import com.arc.outland_horizon.registry.MobEffectRegistry;
+import com.arc.outland_horizon.registry.OHItems;
+import com.arc.outland_horizon.registry.OHMobEffects;
 import com.arc.outland_horizon.utils.*;
 import com.arc.outland_horizon.world.capability.ModCapabilities;
 import com.arc.outland_horizon.world.capability.entity.OhAttribute;
@@ -15,24 +14,38 @@ import com.arc.outland_horizon.world.item.ISkillItem;
 import com.arc.outland_horizon.world.item.weapons.tank.buckler.Buckler;
 import com.arc.outland_horizon.world.sound.SoundEventRegister;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.monster.Skeleton;
+import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.phys.Vec2;
 import net.minecraftforge.common.BasicItemListing;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.living.ShieldBlockEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
@@ -42,6 +55,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Mod.EventBusSubscriber(modid = OutlandHorizon.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -93,27 +107,29 @@ public class ForgeCommonEvents {
             CapabilityUtils.Shield.removeShieldValue(player, Math.min(remove, 0.5));
         }
         if (EntityUtils.isInDimension(player, OutlandHorizon.createModResourceLocation("nightmare"))) {
-            player.addEffect(new MobEffectInstance(MobEffectRegistry.NIGHTMARE_POSSESSED.get(), Utils.secondsToTicks(30)));
+            player.addEffect(new MobEffectInstance(OHMobEffects.NIGHTMARE_POSSESSED.get(), Utils.secondsToTicks(30)));
         }
         if (EntityUtils.isInDimension(player, new ResourceLocation("minecraft:overworld"))) {
-            if (player.hasEffect(MobEffectRegistry.NIGHTMARE_POSSESSED.get()) && player instanceof ServerPlayer serverPlayer) {
+            if (player.hasEffect(OHMobEffects.NIGHTMARE_POSSESSED.get()) && player instanceof ServerPlayer serverPlayer) {
                 WorldUtils.playSoundForPlayer(serverPlayer, SoundEventRegister.NIGHTMARE_COMES.get(), SoundSource.PLAYERS);
-                player.getActiveEffects().removeIf(effect -> effect.getEffect().equals(MobEffectRegistry.NIGHTMARE_POSSESSED.get()));
-                player.addEffect(new MobEffectInstance(MobEffectRegistry.NIGHTMARE_COMES.get(), Utils.secondsToTicks(60)));
+                player.getActiveEffects().removeIf(effect -> effect.getEffect().equals(OHMobEffects.NIGHTMARE_POSSESSED.get()));
+                player.addEffect(new MobEffectInstance(OHMobEffects.NIGHTMARE_COMES.get(), Utils.secondsToTicks(60)));
             }
         }
     }
 
     @SubscribeEvent
     public static void onPlayerWakeUp(PlayerWakeUpEvent event) {
-        /*Player player = event.getEntity();
+        Player player = event.getEntity();
         if (player instanceof ServerPlayer serverPlayer) {
-            if (player.getMainHandItem().is(OHItems.Weapon.aaaa.get())) {
-                EntityUtils.travelToDimension(serverPlayer, serverPlayer.serverLevel(), new Vec3(0, 90, 0));
-                EntityUtils.spreadEntity(ServerLifecycleHooks.getCurrentServer().getLevel(Level.END), new Vec2(0, 0), 64, 96, 100, false, List.of(serverPlayer));
-
+            if (player.getMainHandItem().is(OHItems.Utilities.BLOOD_BEAR.get())) {
+                EntityUtils.travelToDimension(serverPlayer, OutlandHorizon.createModResourceLocation("nightmare"));
+                ServerLevel nextLevel = serverPlayer.server.getLevel(ResourceKey.create(Registries.DIMENSION, OutlandHorizon.createModResourceLocation("nightmare")));
+                if (nextLevel != null) {
+                    EntityUtils.spreadEntity(nextLevel, serverPlayer, new Vec2(0, 0), 128, 192, 128);
+                }
             }
-        }*/
+        }
     }
 
     @SubscribeEvent
@@ -130,33 +146,53 @@ public class ForgeCommonEvents {
 
     @SubscribeEvent
     public static void onEntityHurt(LivingHurtEvent event) {
-        LivingEntity entity = event.getEntity();
+        LivingEntity targetEntity = event.getEntity();
+        Entity sourceEntity = event.getSource().getEntity();
         float damageAmount = event.getAmount();
-        double armor = entity.getAttributeValue(Attributes.ARMOR);
-        if (damageAmount < armor) {
-            damageAmount = (float) Math.min(2.0, damageAmount * 0.1);
-        }
-        if (entity instanceof DamageResistance resistanceEntity && event.getSource().is(DamageTypes.MAGIC)) {
-            float scale = (float) ((100.0 - resistanceEntity.magicDamageResistance()) / 100.0);
-            event.setAmount(Math.max(damageAmount * scale, 0));
-        }
-        if (entity.hasEffect(MobEffectRegistry.NIGHTMARE_COMES.get())) {
+        if (targetEntity.hasEffect(OHMobEffects.NIGHTMARE_COMES.get())) {
             event.setAmount(damageAmount * 2);
         }
-        if (entity instanceof Player player) {
-            double shieldValue = ModCapabilities.getOhAttribute(player).getShieldValue();
-
-            float shieldAbsorb = damageAmount * 0.9f;
-            float playerDamage = damageAmount * 0.1f;
-            float remainingDamage = 0.0f;
-            if (shieldValue >= shieldAbsorb) {
-                ModCapabilities.getOhAttribute(player).setShieldValue(shieldValue - shieldAbsorb);
+        if (OHDataManager.modDifficulties.getId() > ModDifficulties.DEATH.getId()) {
+            double armor = targetEntity.getAttributeValue(Attributes.ARMOR);
+            double armorToughness = targetEntity.getAttributeValue(Attributes.ARMOR_TOUGHNESS);
+            if (damageAmount < armor) {
+                damageAmount = (float) Math.max(Math.min(2.0, damageAmount * 0.1) - 2 * (100 + armorToughness) / 200.0, 0);
             } else {
-                ModCapabilities.getOhAttribute(player).setShieldValue(0);
-                remainingDamage = (float) (shieldAbsorb - shieldValue);
+                damageAmount = (float) Math.max(damageAmount - armor * (100 + armorToughness) / 200.0, 0);
             }
-
-            playerDamage += remainingDamage;
+        }
+        if (targetEntity instanceof DamageResistance resistanceEntity && event.getSource().is(DamageTypes.MAGIC)) {
+            float scale = (float) ((100.0 - resistanceEntity.magicDamageResistance()) / 100.0);
+            damageAmount = Math.max(damageAmount * scale, 0);
+        }
+        if (targetEntity instanceof ServerPlayer player) {
+            if (sourceEntity instanceof Skeleton && event.getSource().is(DamageTypes.ARROW)) {
+                if (Utils.chanceToTrigger(
+                        switch (OHDataManager.modDifficulties) {
+                            case DISABLED ->
+                                    player.serverLevel().getServer().getWorldData().getDifficulty() == Difficulty.HARD ? 25 : 0;
+                            case DEATH -> 50;
+                            case TRIBULATION -> 75;
+                            case ETERNAL -> 100;
+                        })) {
+                    player.addEffect(new MobEffectInstance(OHMobEffects.BLEED.get(), 100), player);
+                }
+            }
+            double shieldValue = ModCapabilities.getOhAttribute(player).getShieldValue();
+            float shieldAbsorb = damageAmount *
+                    switch (OHDataManager.modDifficulties) {
+                        case DISABLED -> 0.5f;
+                        case DEATH -> 0.7f;
+                        case TRIBULATION -> 0.85f;
+                        case ETERNAL -> 1;
+                    };
+            float playerDamage = damageAmount - shieldAbsorb;
+            if (shieldValue < shieldAbsorb) {
+                playerDamage += (float) (shieldAbsorb - shieldValue);
+                ModCapabilities.getOhAttribute(player).setShieldValue(0);
+            } else {
+                ModCapabilities.getOhAttribute(player).setShieldValue(shieldValue - shieldAbsorb);
+            }
             event.setAmount(playerDamage);
         }
     }
@@ -164,7 +200,7 @@ public class ForgeCommonEvents {
     @SubscribeEvent
     public static void onPlayerSleep(PlayerSleepInBedEvent event) {
         LivingEntity entity = event.getEntity();
-        if (entity.hasEffect(MobEffectRegistry.NIGHTMARE_COMES.get())) {
+        if (entity.hasEffect(OHMobEffects.NIGHTMARE_COMES.get())) {
             EntityUtils.hurt(entity, DamageTypes.GENERIC, 5);
             event.setResult(Player.BedSleepingProblem.OTHER_PROBLEM);
             if (entity instanceof Player player) {
@@ -191,6 +227,23 @@ public class ForgeCommonEvents {
     }
 
     @SubscribeEvent
+    public static void onLivingTick(LivingEvent.LivingTickEvent event) {
+        LivingEntity entity = event.getEntity();
+        if (OHDataManager.modDifficulties == ModDifficulties.ETERNAL) {
+            if (entity instanceof Zombie zombie) {
+                AttributeInstance attribute = zombie.getAttribute(Attributes.MOVEMENT_SPEED);
+                if (attribute != null) {
+                    float scale = zombie.getHealth() / zombie.getMaxHealth();
+                    UUID uuid = Utils.generateUUIDFromText("outland_horizon.zombie.speed_up");
+                    AttributeModifier attributeModifier = new AttributeModifier(uuid, "outland_horizon.zombie.speed_up", (1 - scale) * 0.5, AttributeModifier.Operation.MULTIPLY_TOTAL);
+                    attribute.removeModifier(uuid);
+                    attribute.addTransientModifier(attributeModifier);
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void onPlayerCloned(PlayerEvent.Clone event) {
         event.getOriginal().reviveCaps();
         LazyOptional<OhAttribute> oldCap = event.getOriginal().getCapability(ModCapabilities.OH_ATTRIBUTE);
@@ -206,4 +259,30 @@ public class ForgeCommonEvents {
         ModCommands.registerModCommands(event.getDispatcher());
     }
 
+    @SubscribeEvent
+    public static void onMobEffectAdded(MobEffectEvent.Added event) {
+        MobEffectInstance effectInstance = event.getEffectInstance();
+        if (event.getEntity() instanceof Player && !effectInstance.getEffect().isBeneficial()) {
+            switch (OHDataManager.modDifficulties) {
+                case DEATH -> effectInstance.duration *= 2;
+                case TRIBULATION -> {
+                    effectInstance.duration *= 2;
+                    effectInstance.amplifier += 1;
+                }
+                case ETERNAL -> {
+                    effectInstance.duration *= 3;
+                    effectInstance.amplifier += 2;
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEntityJoinLevel(EntityJoinLevelEvent event) {
+        Entity entity = event.getEntity();
+        if (entity instanceof Enemy && entity instanceof Mob mob) {
+            ModDifficulties.applyDifficultySettingsForEntity(mob);
+            mob.heal(2147483647);
+        }
+    }
 }

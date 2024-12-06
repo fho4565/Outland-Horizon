@@ -3,8 +3,8 @@ package com.arc.outland_horizon;
 import com.arc.outland_horizon.config.Configs;
 import com.arc.outland_horizon.registry.BlockRegistry;
 import com.arc.outland_horizon.registry.ItemRegistry;
-import com.arc.outland_horizon.registry.MobEffectRegistry;
 import com.arc.outland_horizon.registry.OHBlocks;
+import com.arc.outland_horizon.registry.OHMobEffects;
 import com.arc.outland_horizon.world.entity.EntityRegistry;
 import com.arc.outland_horizon.world.sound.SoundEventRegister;
 import net.minecraft.resources.ResourceLocation;
@@ -28,7 +28,7 @@ public class OutlandHorizon {
         BlockRegistry.register(bus);
         OHBlocks.Fluid.FluidRegistry.FLUIDS.register(bus);
         OHBlocks.Fluid.FluidTypeRegistry.FLUID_TYPES.register(bus);
-        MobEffectRegistry.register(bus);
+        OHMobEffects.register(bus);
         EntityRegistry.EntityRenders.init();
         EntityRegistry.register(bus);
         SoundEventRegister.init();

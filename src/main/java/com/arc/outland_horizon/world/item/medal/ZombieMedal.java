@@ -1,5 +1,7 @@
 package com.arc.outland_horizon.world.item.medal;
 
+import com.arc.outland_horizon.ModDifficulties;
+import com.arc.outland_horizon.OHDataManager;
 import com.arc.outland_horizon.utils.Utils;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -34,7 +36,7 @@ public abstract class ZombieMedal extends AbstractMedal {
         boolean active = 0 <= slotId && slotId <= 8;
         setRenderCooldownBarWhenEnds(itemStack, true);
         if (entity instanceof ServerPlayer player) {
-            boolean on = player.getHealth() < player.getMaxHealth();
+            boolean on = (player.getHealth() < player.getMaxHealth()) && OHDataManager.modDifficulties == ModDifficulties.ETERNAL;
             setShouldTick(itemStack, active);
             setAutoCooldown(itemStack, on && active);
         }
