@@ -19,6 +19,9 @@ import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LiquidBlock;
@@ -28,6 +31,14 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.EntityTeleportEvent;
 import org.jetbrains.annotations.NotNull;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICurioItem;
+import top.theillusivec4.curios.api.type.capability.ICuriosItemHandler;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class EntityUtils {
     public static void hurt(Entity source, Entity target, ResourceKey<DamageType> damageType, float damage) {
@@ -61,7 +72,7 @@ public class EntityUtils {
 
     }
 
-    public static @NotNull ResourceKey<DamageType> getMachineGun(LivingEntity holder, ResourceLocation location) {
+    public static @NotNull ResourceKey<DamageType> getDamageType(LivingEntity holder, ResourceLocation location) {
         return holder.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(ResourceKey.create(Registries.DAMAGE_TYPE, location)).key();
     }
 
@@ -162,6 +173,20 @@ public class EntityUtils {
             }
         }
         return new Vec3((double) Mth.floor(position.x) + 0.5D, position.getSpawnY(serverLevel, maxHeight), (double) Mth.floor(position.z) + 0.5D);
+    }
+
+    public static List<ItemStack> getAllCurios(Player player) {
+        Optional<ICuriosItemHandler> resolved = CuriosApi.getCuriosInventory(player).resolve();
+        if (resolved.isPresent()) {
+            return resolved.get().getCurios().values().stream().map(iCurioStacksHandler -> {
+                ItemStack itemStack = iCurioStacksHandler.getStacks().getStackInSlot(0);
+                if (itemStack.getItem() instanceof ICurioItem) {
+                    return itemStack;
+                }
+                return Items.AIR.getDefaultInstance();
+            }).filter(itemStack -> !itemStack.is(Items.AIR)).collect(Collectors.toCollection(ArrayList::new));
+        }
+        return List.of();
     }
 
     static class Position {

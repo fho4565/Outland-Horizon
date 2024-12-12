@@ -5,7 +5,6 @@ import com.arc.outland_horizon.world.Skill;
 import com.arc.outland_horizon.world.item.ISkillItem;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -15,16 +14,15 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.TieredItem;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.level.Level;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public class ZenithCrimsonDemise extends TieredItem implements ISkillItem {
-    final Skill skill1 = new Skill(Component.literal("a"),
+    final Skill skill1 = new Skill("cylxzs", Component.literal("a"),
             Component.literal("b"),
             0, 200, 100
     ) {
@@ -70,7 +68,7 @@ public class ZenithCrimsonDemise extends TieredItem implements ISkillItem {
 
     @Override
     public boolean hurtEnemy(ItemStack itemStack, LivingEntity target, LivingEntity attacker) {
-        if (isInActive(itemStack)) {
+        if (isCurrentSkillActive(itemStack)) {
             target.addEffect(new MobEffectInstance(MobEffects.WITHER, 20, 30));
         }
         return super.hurtEnemy(itemStack, target, attacker);
@@ -83,19 +81,18 @@ public class ZenithCrimsonDemise extends TieredItem implements ISkillItem {
         builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_ATTACK_DAMAGE_UUID, "Weapon modifier", 13, AttributeModifier.Operation.ADDITION));
         builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(BASE_ATTACK_SPEED_UUID, "Weapon modifier", -2.9, AttributeModifier.Operation.ADDITION));
         defaultModifiers = builder.build();
-        return defaultModifiers;
+        return pSlot == EquipmentSlot.MAINHAND ? defaultModifiers : super.getDefaultAttributeModifiers(pSlot);
     }
 
-    @Override
-    public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-        if (!validateTags(stack)) {
-            initSkills(stack);
-        }
-        return super.initCapabilities(stack, nbt);
-    }
 
     @Override
     public Skill skill1() {
         return skill1;
+    }
+
+    @Override
+    public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {
+        pTooltipComponents.addAll(skillTooltip());
+        super.appendHoverText(pStack, pLevel, pTooltipComponents, pIsAdvanced);
     }
 }

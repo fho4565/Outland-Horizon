@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "outland_horizon:block/coagulated_nightmare_sapling"
+  }
+}

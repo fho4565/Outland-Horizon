@@ -26,8 +26,10 @@ public class ItemRegistry {
     public static final List<RegistryObject<Item>> BLOCK_ITEM_LIST = new ArrayList<>();
     public static final List<RegistryObject<Item>> CONSUMABLES_LIST = new ArrayList<>();
     public static final List<RegistryObject<Item>> TOOL_LIST = new ArrayList<>();
+    public static final List<RegistryObject<Item>> ORNAMENT_LIST = new ArrayList<>();
     public static final List<RegistryObject<Item>> MAGIC_WEAPON_LIST = new ArrayList<>();
     public static final List<RegistryObject<Item>> MELEE_WEAPON_LIST = new ArrayList<>();
+    public static final List<RegistryObject<Item>> TANK_WEAPON_LIST = new ArrayList<>();
     public static final List<RegistryObject<Item>> RANGED_WEAPON_LIST = new ArrayList<>();
     public static final List<RegistryObject<Item>> UTILITIES_LIST = new ArrayList<>();
 
@@ -64,6 +66,11 @@ public class ItemRegistry {
                 .icon(() -> new ItemStack(OHItems.Weapon.Magic.Staff.FIRE_WAND.get()))
                 .displayItems((p, o) -> o.acceptAll(MAGIC_WEAPON_LIST.stream().map(itemRegistryObject -> new ItemStack(itemRegistryObject.get())).collect(Collectors.toList())))
                 .build());
+        TABS.register(OutlandHorizon.MOD_ID + ".weapon.tank", () -> CreativeModeTab.builder()
+                .title(ChatUtils.translatable("item_group." + OutlandHorizon.MOD_ID + ".weapon.tank"))
+                .icon(() -> new ItemStack(OHItems.Weapon.Tank.Shield.Buckler.BLOOD_STONE_BUCKLER.get()))
+                .displayItems((p, o) -> o.acceptAll(TANK_WEAPON_LIST.stream().map(itemRegistryObject -> new ItemStack(itemRegistryObject.get())).collect(Collectors.toList())))
+                .build());
         TABS.register(OutlandHorizon.MOD_ID + ".material", () -> CreativeModeTab.builder()
                 .title(ChatUtils.translatable("item_group." + OutlandHorizon.MOD_ID + ".material"))
                 .icon(() -> new ItemStack(OHItems.Material.NIGHTMARE_ENERGY.get()))
@@ -72,9 +79,7 @@ public class ItemRegistry {
         TABS.register(OutlandHorizon.MOD_ID + ".consumables", () -> CreativeModeTab.builder()
                 .title(ChatUtils.translatable("item_group." + OutlandHorizon.MOD_ID + ".consumables"))
                 .icon(() -> new ItemStack(OHItems.Consumable.MANA_POTION_COMMON.get()))
-                .displayItems((p, o) -> o.acceptAll(CONSUMABLES_LIST.stream().map(itemRegistryObject ->
-                        new ItemStack(itemRegistryObject.get())
-                ).collect(Collectors.toList())))
+                .displayItems((p, o) -> o.acceptAll(CONSUMABLES_LIST.stream().map(itemRegistryObject -> new ItemStack(itemRegistryObject.get())).collect(Collectors.toList())))
                 .build());
         TABS.register(OutlandHorizon.MOD_ID + ".armor", () -> CreativeModeTab.builder()
                 .title(ChatUtils.translatable("item_group." + OutlandHorizon.MOD_ID + ".armor"))
@@ -93,8 +98,13 @@ public class ItemRegistry {
                 .build());
         TABS.register(OutlandHorizon.MOD_ID + ".utilities", () -> CreativeModeTab.builder()
                 .title(ChatUtils.translatable("item_group." + OutlandHorizon.MOD_ID + ".utilities"))
-                .icon(() -> new ItemStack(OHItems.Tool.BLUE_GEM_PAXEL.get()))
+                .icon(() -> new ItemStack(OHItems.Utilities.BEAR.get()))
                 .displayItems((p, o) -> o.acceptAll(UTILITIES_LIST.stream().map(itemRegistryObject -> new ItemStack(itemRegistryObject.get())).collect(Collectors.toList())))
+                .build());
+        TABS.register(OutlandHorizon.MOD_ID + ".ornament", () -> CreativeModeTab.builder()
+                .title(ChatUtils.translatable("item_group." + OutlandHorizon.MOD_ID + ".ornament"))
+                .icon(() -> new ItemStack(OHItems.Ornament.ZOMBIE_MEDAL_COPPER.get()))
+                .displayItems((p, o) -> o.acceptAll(ORNAMENT_LIST.stream().map(itemRegistryObject -> new ItemStack(itemRegistryObject.get())).collect(Collectors.toList())))
                 .build());
         TABS.register(bus);
         ITEMS.register(bus);
@@ -130,6 +140,12 @@ public class ItemRegistry {
         return object;
     }
 
+    static RegistryObject<Item> registerOrnament(String id, Supplier<Item> item) {
+        RegistryObject<Item> object = registerItem(id, item);
+        ORNAMENT_LIST.add(object);
+        return object;
+    }
+
     static RegistryObject<Item> registerWeaponMagic(String id, Supplier<Item> item) {
         RegistryObject<Item> object = registerItem(id, item);
         MAGIC_WEAPON_LIST.add(object);
@@ -139,6 +155,12 @@ public class ItemRegistry {
     static RegistryObject<Item> registerWeaponMelee(String id, Supplier<Item> item) {
         RegistryObject<Item> object = registerItem(id, item);
         MELEE_WEAPON_LIST.add(object);
+        return object;
+    }
+
+    static RegistryObject<Item> registerWeaponTank(String id, Supplier<Item> item) {
+        RegistryObject<Item> object = registerItem(id, item);
+        TANK_WEAPON_LIST.add(object);
         return object;
     }
 

@@ -77,18 +77,22 @@ public class Hammer extends PickaxeItem {
 
     @Override
     public boolean hurtEnemy(@NotNull ItemStack itemStack, LivingEntity pTarget, LivingEntity pAttacker) {
-        WorldUtils.getEntitiesByRadio(pAttacker.level(), pTarget.position(), 5)
-                .forEach(entity -> {
-                    if (entity instanceof LivingEntity livingEntity) {
-                        EntityUtils.hurt(pAttacker, livingEntity, DamageTypes.MOB_ATTACK, this.getAttackDamage() / 2);
-                        double d0 = pAttacker.getX() - pTarget.getX();
-                        double d1;
-                        for (d1 = pAttacker.getZ() - pTarget.getZ(); d0 * d0 + d1 * d1 < 1.0E-4D; d1 = (Math.random() - Math.random()) * 0.01D) {
-                            d0 = (Math.random() - Math.random()) * 0.01D;
-                        }
-                        livingEntity.knockback(1.0F, d0, d1);
-                    }
-                });
+        if (pAttacker instanceof Player player) {
+            if (player.getAttackStrengthScale(1.0f) == 1.0f) {
+                WorldUtils.getEntitiesByRadio(pAttacker.level(), pTarget.position(), 5, entity -> !entity.is(pAttacker))
+                        .forEach(entity -> {
+                            if (entity instanceof LivingEntity livingEntity) {
+                                EntityUtils.hurt(pAttacker, livingEntity, DamageTypes.MOB_ATTACK, this.getAttackDamage() / 2);
+                                double d0 = pAttacker.getX() - pTarget.getX();
+                                double d1;
+                                for (d1 = pAttacker.getZ() - pTarget.getZ(); d0 * d0 + d1 * d1 < 1.0E-4D; d1 = (Math.random() - Math.random()) * 0.01D) {
+                                    d0 = (Math.random() - Math.random()) * 0.01D;
+                                }
+                                livingEntity.knockback(1.0F, d0, d1);
+                            }
+                        });
+            }
+        }
         return super.hurtEnemy(itemStack, pTarget, pAttacker);
     }
 }

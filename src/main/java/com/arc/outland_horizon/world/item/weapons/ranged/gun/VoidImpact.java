@@ -39,12 +39,12 @@ public class VoidImpact extends Gun {
 
     @Override
     public ResourceKey<DamageType> getDamageType(LivingEntity holder) {
-        return EntityUtils.getMachineGun(holder, OutlandHorizon.createModResourceLocation("machine_gun"));
+        return EntityUtils.getDamageType(holder, OutlandHorizon.createModResourceLocation("machine_gun"));
     }
 
     @Override
     public int cooldownTime() {
-        return 2;
+        return 5;
     }
 
     @Override

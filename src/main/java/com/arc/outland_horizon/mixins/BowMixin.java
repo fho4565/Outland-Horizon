@@ -1,17 +1,20 @@
 package com.arc.outland_horizon.mixins;
 
+import com.arc.outland_horizon.utils.EntityUtils;
+import com.arc.outland_horizon.world.item.ornaments.medal.AbstractMedal;
+import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.BowItem;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BowItem.class)
 public class BowMixin {
-    /**
-     * @author fho4565
-     * @reason 修改原版
-     */
-    @Overwrite
-    public static float getPowerForTime(int pCharge) {
-        return 1.0f;
+    @Inject(method = "getPowerForTime", at = @At("RETURN"), cancellable = true)
+    private static void a(int pCharge, CallbackInfoReturnable<Float> cir) {
+        if (EntityUtils.getAllCurios(Minecraft.getInstance().player).stream().anyMatch(itemStack -> itemStack.getItem() instanceof AbstractMedal)) {
+            cir.setReturnValue(Math.min(cir.getReturnValue() * 1.6f, 1.0f));
+        }
     }
 }

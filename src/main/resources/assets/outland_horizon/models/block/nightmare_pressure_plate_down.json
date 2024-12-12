@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/pressure_plate_down",
+  "textures": {
+    "texture":"outland_horizon:block/building/nightmare_planks"
+  }
+}

@@ -8,11 +8,16 @@ import java.util.HashSet;
 
 public class PlayerOverlay implements IGuiOverlay {
     public static final HashSet<HudSection> hudSections = new HashSet<>();
+    private static final PlayerOverlay playerOverlay = new PlayerOverlay();
 
-    public PlayerOverlay() {
+    private PlayerOverlay() {
         hudSections.add(new HealthBar());
         hudSections.add(new ManaBar());
         hudSections.add(new SkillBar());
+    }
+
+    public static PlayerOverlay of() {
+        return playerOverlay;
     }
 
     @Override

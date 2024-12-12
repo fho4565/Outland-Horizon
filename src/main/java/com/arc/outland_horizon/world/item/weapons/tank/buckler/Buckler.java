@@ -2,9 +2,12 @@ package com.arc.outland_horizon.world.item.weapons.tank.buckler;
 
 import com.arc.outland_horizon.world.item.ICooldownItem;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ShieldItem;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.Nullable;
@@ -32,9 +35,25 @@ public class Buckler extends ShieldItem implements ICooldownItem {
     }
 
     @Override
+    public InteractionResultHolder<ItemStack> use(Level pLevel, Player player, InteractionHand pHand) {
+        ItemStack itemstack = player.getItemInHand(pHand);
+        if (!isCooldown(itemstack)) {
+            player.startUsingItem(pHand);
+            return InteractionResultHolder.consume(itemstack);
+        } else {
+            return InteractionResultHolder.fail(itemstack);
+        }
+    }
+
+    @Override
     public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
         stack.getOrCreateTag().putFloat(DAMAGE_BLOCKED, 0.0f);
         return super.initCapabilities(stack, nbt);
+    }
+
+    @Override
+    public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
+        return false;
     }
 
     public float blockDamage(Player player, ItemStack itemStack, float damageAmount) {

@@ -66,7 +66,7 @@ public class CaramelBaka extends Gun implements DeveloperItem {
 
     @Override
     public ResourceKey<DamageType> getDamageType(LivingEntity holder) {
-        return EntityUtils.getMachineGun(holder, OutlandHorizon.createModResourceLocation("machine_gun"));
+        return EntityUtils.getDamageType(holder, OutlandHorizon.createModResourceLocation("machine_gun"));
     }
 
     @Override

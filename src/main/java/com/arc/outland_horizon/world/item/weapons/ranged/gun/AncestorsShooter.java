@@ -6,7 +6,6 @@ import com.arc.outland_horizon.utils.WorldUtils;
 import com.arc.outland_horizon.world.Skill;
 import com.arc.outland_horizon.world.item.ISkillItem;
 import com.arc.outland_horizon.world.sound.SoundEventRegister;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -21,11 +20,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import org.jetbrains.annotations.Nullable;
 
 public class AncestorsShooter extends Gun implements ISkillItem {
-    final Skill skill1 = new Skill(Component.literal("a"),
+    final Skill skill1 = new Skill("zzfsq", Component.literal("a"),
             Component.literal("b"),
             0, 6, Utils.secondsToTicks(60)
     ) {
@@ -67,7 +64,7 @@ public class AncestorsShooter extends Gun implements ISkillItem {
 
     @Override
     public void successfullyUsed(Level pLevel, ServerPlayer serverPlayer, ItemStack itemStack) {
-        if (isInActive(itemStack)) {
+        if (isCurrentSkillActive(itemStack)) {
             reduceDuration(serverPlayer, itemStack);
         }
         super.successfullyUsed(pLevel, serverPlayer, itemStack);
@@ -89,16 +86,8 @@ public class AncestorsShooter extends Gun implements ISkillItem {
 
     @Override
     public void inventoryTick(ItemStack pStack, Level pLevel, Entity pEntity, int pSlotId, boolean pIsSelected) {
-        active = isInActive(pStack);
+        active = isCurrentSkillActive(pStack);
         super.inventoryTick(pStack, pLevel, pEntity, pSlotId, pIsSelected);
-    }
-
-    @Override
-    public @Nullable ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundTag nbt) {
-        if (!validateTags(stack)) {
-            initSkills(stack);
-        }
-        return super.initCapabilities(stack, nbt);
     }
 
     @Override

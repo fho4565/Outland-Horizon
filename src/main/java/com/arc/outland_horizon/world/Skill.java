@@ -6,18 +6,28 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 public class Skill {
+    private String id;
     private Component name;
     private Component description;
     private int requiredSp;
     private int duration;
     private int cooldown;
 
-    public Skill(Component name, Component description, int requiredSp, int duration, int cooldown) {
+    public Skill(String id, Component name, Component description, int requiredSp, int duration, int cooldown) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.requiredSp = requiredSp;
         this.duration = duration;
         this.cooldown = cooldown;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public boolean autoReduceDuration() {

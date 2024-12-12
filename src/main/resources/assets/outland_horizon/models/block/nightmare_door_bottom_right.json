@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom_right",
+  "textures": {
+    "bottom": "outland_horizon:block/building/nightmare_door_bottom",
+    "top": "outland_horizon:block/building/nightmare_door_top"
+  }
+}

@@ -6,7 +6,6 @@ import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,7 +16,6 @@ public class EmptyProjectileRenderer<T extends Entity> extends EntityRenderer<T>
 
     @Override
     public void render(@NotNull T entity, float entityYaw, float partialTicks, @NotNull PoseStack matrixStack, @NotNull MultiBufferSource buffer, int packedLight) {
-        RandomSource random = entity.level().random;
         for (int i = 0; i < 4; i++) {
             entity.level().addParticle(ParticleTypes.ENCHANTED_HIT,
                     entity.getX(),

@@ -9,7 +9,7 @@ import net.minecraft.world.level.material.PushReaction;
 
 public class BloodBlock extends LiquidBlock {
     public BloodBlock() {
-        super(OHBlocks.Fluid.FluidRegistry.BLOOD, BlockBehaviour.Properties.of().mapColor(MapColor.WATER).strength(100f)
+        super(OHBlocks.Fluids.OHFluids.BLOOD, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(100f)
                 .noCollission().noLootTable().liquid().pushReaction(PushReaction.DESTROY).sound(SoundType.EMPTY).replaceable());
     }
 }

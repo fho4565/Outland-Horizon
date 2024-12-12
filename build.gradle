@@ -15,6 +15,10 @@ repositories {
             includeGroup("com.eliotlash.mclib")
         }
     }
+    maven {
+        name = "Illusive Soulworks maven"
+        url = "https://maven.theillusivec4.top/"
+    }
     gradlePluginPortal()
     flatDir {
         dir 'libs'
@@ -79,6 +83,11 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    // Compile against only the API artifact
+    //compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:5.7.0+1.20.1:api"))
+
+    implementation fg.deobf("top.theillusivec4.curios:curios-forge:5.7.0+1.20.1")
+
     implementation fg.deobf("snownee.jade:Jade:1.20.1.11.12.1")
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
     implementation("com.eliotlash.mclib:mclib:20")

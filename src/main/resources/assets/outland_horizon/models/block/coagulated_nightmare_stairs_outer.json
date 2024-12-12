@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "outland_horizon:block/building/coagulated_nightmare_planks",
+    "side": "outland_horizon:block/building/coagulated_nightmare_planks",
+    "top": "outland_horizon:block/building/coagulated_nightmare_planks"
+  }
+}

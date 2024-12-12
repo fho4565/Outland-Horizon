@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_trapdoor_top",
+  "textures": {
+    "texture":"outland_horizon:block/building/coagulated_nightmare_trapdoor"
+  }
+}

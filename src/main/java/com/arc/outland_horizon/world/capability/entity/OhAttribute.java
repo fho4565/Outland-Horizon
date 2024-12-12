@@ -10,6 +10,7 @@ public class OhAttribute implements INBTSerializable<CompoundTag> {
     public double rage, maxRage, rageRecover;
     public double sp, maxSp, spRecover;
     public double shieldValue;
+    public int madTime, madDamageBonus;
 
     public OhAttribute() {
         this.mana = 200.0D;
@@ -20,7 +21,10 @@ public class OhAttribute implements INBTSerializable<CompoundTag> {
         this.rageRecover = 1.0D;
         this.shieldValue = 0.0D;
         this.sp = 0;
+        this.spRecover = 1.0D;
         this.maxSp = 3;
+        this.madTime = 30;
+        this.madDamageBonus = 0;
     }
 
 
@@ -108,6 +112,22 @@ public class OhAttribute implements INBTSerializable<CompoundTag> {
         this.spRecover = spRecover;
     }
 
+    public int getMadTime() {
+        return madTime;
+    }
+
+    public void setMadTime(int madTime) {
+        this.madTime = madTime;
+    }
+
+    public int getMadDamageBonus() {
+        return madDamageBonus;
+    }
+
+    public void setMadDamageBonus(int madDamageBonus) {
+        this.madDamageBonus = madDamageBonus;
+    }
+
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag nbt = new CompoundTag();
@@ -121,6 +141,8 @@ public class OhAttribute implements INBTSerializable<CompoundTag> {
         nbt.putDouble("sp", this.sp);
         nbt.putDouble("maxSp", this.maxSp);
         nbt.putDouble("spRecover", this.spRecover);
+        nbt.putInt("madTime", this.madTime);
+        nbt.putInt("madDamageBonus", this.madDamageBonus);
         return nbt;
     }
 
@@ -136,5 +158,7 @@ public class OhAttribute implements INBTSerializable<CompoundTag> {
         this.sp = nbt.getDouble("sp");
         this.maxSp = nbt.getDouble("maxSp");
         this.spRecover = nbt.getDouble("spRecover");
+        this.madTime = nbt.getInt("madTime");
+        this.madDamageBonus = nbt.getInt("madDamageBonus");
     }
 }

@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "outland_horizon:block/coagulated_nightmare_slab"
+    },
+    "type=double": {
+      "model": "outland_horizon:block/coagulated_nightmare_planks"
+    },
+    "type=top": {
+      "model": "outland_horizon:block/coagulated_nightmare_slab_top"
+    }
+  }
+}

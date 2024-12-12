@@ -8,8 +8,8 @@ import net.minecraft.world.level.material.PushReaction;
 
 public class ArterialBloodBlock extends LiquidBlock {
     public ArterialBloodBlock() {
-        super(OHBlocks.Fluid.FluidRegistry.ArterialBLOOD, Properties.of()
-                .mapColor(MapColor.WATER)
+        super(OHBlocks.Fluids.OHFluids.ArterialBLOOD, Properties.of()
+                .mapColor(MapColor.COLOR_RED)
                 .strength(100f)
                 .noCollission()
                 .noLootTable()

@@ -1,8 +1,23 @@
 {
+  "credit": "Made with Blockbench",
   "parent": "item/generated",
   "textures": {
     "layer0": "outland_horizon:item/weapons/tank/shield/blood_stone_buckler"
   },
+  "overrides": [
+    {
+      "model": "outland_horizon:item/blood_stone_buckler",
+      "predicate": {
+        "outland_horizon:is_blocking": 0.0
+      }
+    },
+    {
+      "model": "outland_horizon:item/blood_stone_buckler_block",
+      "predicate": {
+        "outland_horizon:is_blocking": 1.0
+      }
+    }
+  ],
   "display": {
     "thirdperson_righthand": {
       "rotation": [

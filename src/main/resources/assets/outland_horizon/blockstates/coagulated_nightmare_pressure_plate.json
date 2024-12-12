@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "outland_horizon:block/coagulated_nightmare_pressure_plate"
+    },
+    "powered=true": {
+      "model": "outland_horizon:block/coagulated_nightmare_pressure_plate_down"
+    }
+  }
+}

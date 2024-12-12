@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "outland_horizon:block/building/nightmare_log",
+    "side": "outland_horizon:block/building/nightmare_log"
+  }
+}

@@ -15,11 +15,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.function.Predicate;
 
 public class ModLang {
-    public static final ArrayList<String> lang = new ArrayList<>();
+    public static final HashSet<String> lang = new HashSet<>();
     private static final String out = """
             "%s" : "%s",
             """;

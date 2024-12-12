@@ -37,6 +37,8 @@ public class ServerAttributeSyncPacket implements Packet {
         OhAttributeProvider.sp = nbt.getDouble("sp");
         OhAttributeProvider.maxSp = nbt.getDouble("maxSp");
         OhAttributeProvider.spRecover = nbt.getDouble("spRecover");
+        OhAttributeProvider.madTime = nbt.getInt("madTime");
+        OhAttributeProvider.madDamageBonus = nbt.getInt("madDamageBonus");
         ctx.get().enqueueWork(() ->
                 ModCapabilities.getOhAttribute(Objects.requireNonNull(ctx.get().getSender())).deserializeNBT(nbt)
         );

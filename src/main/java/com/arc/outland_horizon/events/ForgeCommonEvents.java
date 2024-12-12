@@ -15,6 +15,7 @@ import com.arc.outland_horizon.world.item.weapons.tank.buckler.Buckler;
 import com.arc.outland_horizon.world.sound.SoundEventRegister;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -53,13 +54,25 @@ import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.jetbrains.annotations.NotNull;
+import top.theillusivec4.curios.api.CuriosApi;
+import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
+
 @Mod.EventBusSubscriber(modid = OutlandHorizon.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeCommonEvents {
+    public static final UUID ZOMBIE_SPEED_UP = UUID.fromString("132aebd7-ee58-3ffd-989a-b3cfa3099c82");
+    private static final String DATA_INIT = "INIT";
+
+    @SubscribeEvent
+    public static void onFMLCommonSetup(FMLCommonSetupEvent event) {
+        OHItems.initCurio();
+    }
+
     @SubscribeEvent
     public static void onAttachCaps(AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof Player player) {
@@ -72,10 +85,20 @@ public class ForgeCommonEvents {
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         Player player = event.player;
+        CuriosApi.getCuriosInventory(player).resolve().ifPresent(iCuriosItemHandler -> iCuriosItemHandler.getCurios().forEach((s, iCurioStacksHandler) -> {
+            ItemStack itemStack = iCurioStacksHandler.getStacks().getStackInSlot(0);
+            if ((itemStack.getItem() instanceof ICooldownItem iCooldownItem) && itemStack.getItem() instanceof ICurioItem) {
+                if (iCooldownItem.shouldTick(itemStack)) {
+                    iCooldownItem.tickCooldown(player, itemStack);
+                }
+            }
+        }));
         player.getInventory().items.forEach(itemStack -> {
             Item item = itemStack.getItem();
             if (item instanceof ICooldownItem iCooldownItem) {
-                iCooldownItem.tickCooldown(player, itemStack);
+                if (!(item instanceof ICurioItem)) {
+                    iCooldownItem.tickCooldown(player, itemStack);
+                }
             }
             if (item instanceof ISkillItem iSkillItem) {
                 iSkillItem.tickSkill(player, itemStack);
@@ -84,7 +107,9 @@ public class ForgeCommonEvents {
         player.getInventory().armor.forEach(itemStack -> {
             Item item = itemStack.getItem();
             if (item instanceof ICooldownItem iCooldownItem) {
-                iCooldownItem.tickCooldown(player, itemStack);
+                if (!(item instanceof ICurioItem)) {
+                    iCooldownItem.tickCooldown(player, itemStack);
+                }
             }
             if (item instanceof ISkillItem iSkillItem) {
                 iSkillItem.tickSkill(player, itemStack);
@@ -93,7 +118,9 @@ public class ForgeCommonEvents {
         player.getInventory().offhand.forEach(itemStack -> {
             Item item = itemStack.getItem();
             if (item instanceof ICooldownItem iCooldownItem) {
-                iCooldownItem.tickCooldown(player, itemStack);
+                if (!(item instanceof ICurioItem)) {
+                    iCooldownItem.tickCooldown(player, itemStack);
+                }
             }
             if (item instanceof ISkillItem iSkillItem) {
                 iSkillItem.tickSkill(player, itemStack);
@@ -140,6 +167,8 @@ public class ForgeCommonEvents {
             if (!buckler.isCooldown(useItem)) {
                 event.setBlockedDamage(buckler.blockDamage(player, player.getUseItem(), event.getOriginalBlockedDamage()));
                 buckler.startCooldown(player, useItem);
+            } else {
+                event.setCanceled(true);
             }
         }
     }
@@ -234,10 +263,8 @@ public class ForgeCommonEvents {
                 AttributeInstance attribute = zombie.getAttribute(Attributes.MOVEMENT_SPEED);
                 if (attribute != null) {
                     float scale = zombie.getHealth() / zombie.getMaxHealth();
-                    UUID uuid = Utils.generateUUIDFromText("outland_horizon.zombie.speed_up");
-                    AttributeModifier attributeModifier = new AttributeModifier(uuid, "outland_horizon.zombie.speed_up", (1 - scale) * 0.5, AttributeModifier.Operation.MULTIPLY_TOTAL);
-                    attribute.removeModifier(uuid);
-                    attribute.addTransientModifier(attributeModifier);
+                    attribute.removeModifier(ZOMBIE_SPEED_UP);
+                    attribute.addTransientModifier(new AttributeModifier(ZOMBIE_SPEED_UP, "outland_horizon.zombie.speed_up", (1 - scale) * 0.5, AttributeModifier.Operation.MULTIPLY_TOTAL));
                 }
             }
         }
@@ -280,9 +307,19 @@ public class ForgeCommonEvents {
     @SubscribeEvent
     public static void onEntityJoinLevel(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
-        if (entity instanceof Enemy && entity instanceof Mob mob) {
-            ModDifficulties.applyDifficultySettingsForEntity(mob);
-            mob.heal(2147483647);
+        CompoundTag persistentData = entity.getPersistentData();
+        if (!persistentData.contains(OutlandHorizon.MOD_ID)) {
+            CompoundTag tag = new CompoundTag();
+            tag.putBoolean(DATA_INIT, false);
+            persistentData.put(OutlandHorizon.MOD_ID, tag);
+        }
+        CompoundTag tag = entity.getPersistentData().getCompound(OutlandHorizon.MOD_ID);
+        if (!tag.getBoolean(DATA_INIT)) {
+            if (entity instanceof Enemy && entity instanceof Mob mob) {
+                ModDifficulties.applyDifficultySettingsForEntity(mob);
+                mob.heal(Float.MAX_VALUE);
+            }
+            tag.putBoolean(DATA_INIT, true);
         }
     }
 }

@@ -3,6 +3,7 @@ package com.arc.outland_horizon.network.server;
 import com.arc.outland_horizon.network.Packet;
 import com.arc.outland_horizon.registry.OHMobEffects;
 import com.arc.outland_horizon.utils.CapabilityUtils;
+import com.arc.outland_horizon.world.capability.provider.OhAttributeProvider;
 import com.arc.outland_horizon.world.item.ISkillItem;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
@@ -29,22 +30,22 @@ public class C2SPacket implements Packet {
     }
 
     public void handle(Supplier<NetworkEvent.Context> ctx) {
-        ServerPlayer p = Objects.requireNonNull(ctx.get().getSender());
+        ServerPlayer serverPlayer = Objects.requireNonNull(ctx.get().getSender());
         switch (this.operation) {
             case Operation.TRIGGER_RAGE -> {
-                if (CapabilityUtils.Rage.isRageFull(p)) {
-                    p.addEffect(new MobEffectInstance(OHMobEffects.RAGE.get(), 600));
-                    CapabilityUtils.Rage.setRage(p, 0);
+                if (CapabilityUtils.Rage.isRageFull(serverPlayer)) {
+                    serverPlayer.addEffect(new MobEffectInstance(OHMobEffects.RAGE.get(), OhAttributeProvider.madTime, OhAttributeProvider.madDamageBonus));
+                    CapabilityUtils.Rage.setRage(serverPlayer, 0);
                 }
             }
             case Operation.TRIGGER_SKILL -> {
-                ItemStack itemStack = p.getMainHandItem();
+                ItemStack itemStack = serverPlayer.getMainHandItem();
                 if (itemStack.getItem() instanceof ISkillItem skillItem) {
-                    skillItem.triggerSkill(p, itemStack);
+                    skillItem.triggerSkill(serverPlayer, itemStack);
                 }
             }
             case Operation.SWITCH_SKILL -> {
-                ItemStack itemStack = p.getMainHandItem();
+                ItemStack itemStack = serverPlayer.getMainHandItem();
                 if (itemStack.getItem() instanceof ISkillItem skillItem) {
                     skillItem.switchSkill(itemStack);
                 }

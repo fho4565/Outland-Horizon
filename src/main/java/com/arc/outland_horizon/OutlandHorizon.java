@@ -26,8 +26,8 @@ public class OutlandHorizon {
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Configs.COMMON_CONFIG);
         ItemRegistry.register(bus);
         BlockRegistry.register(bus);
-        OHBlocks.Fluid.FluidRegistry.FLUIDS.register(bus);
-        OHBlocks.Fluid.FluidTypeRegistry.FLUID_TYPES.register(bus);
+        OHBlocks.Fluids.OHFluids.FLUIDS.register(bus);
+        OHBlocks.Fluids.OHFluidTypes.FLUID_TYPES.register(bus);
         OHMobEffects.register(bus);
         EntityRegistry.EntityRenders.init();
         EntityRegistry.register(bus);

@@ -5,13 +5,14 @@ import com.arc.outland_horizon.ModTiers;
 import com.arc.outland_horizon.utils.Utils;
 import com.arc.outland_horizon.world.item.consumables.potions.MadPotion;
 import com.arc.outland_horizon.world.item.consumables.potions.ManaPotion;
-import com.arc.outland_horizon.world.item.medal.ZombieMedal;
+import com.arc.outland_horizon.world.item.ornaments.medal.ZombieMedal;
 import com.arc.outland_horizon.world.item.tools.DungeonDestroyer;
 import com.arc.outland_horizon.world.item.tools.ZeroReformer;
 import com.arc.outland_horizon.world.item.tools.multi.Destroyer;
 import com.arc.outland_horizon.world.item.tools.multi.Hammer;
 import com.arc.outland_horizon.world.item.tools.multi.Paxel;
 import com.arc.outland_horizon.world.item.tools.multi.Spade;
+import com.arc.outland_horizon.world.item.utility.DamoclesSword;
 import com.arc.outland_horizon.world.item.weapons.magic.book.ShieldBook;
 import com.arc.outland_horizon.world.item.weapons.magic.wand.FireWand;
 import com.arc.outland_horizon.world.item.weapons.melee.sickle.ZenithCrimsonDemise;
@@ -19,7 +20,6 @@ import com.arc.outland_horizon.world.item.weapons.melee.sword.BlazeSword;
 import com.arc.outland_horizon.world.item.weapons.melee.sword.Debugger;
 import com.arc.outland_horizon.world.item.weapons.melee.sword.Elegy;
 import com.arc.outland_horizon.world.item.weapons.ranged.gun.*;
-import com.arc.outland_horizon.world.item.weapons.tank.buckler.Buckler;
 import net.minecraft.core.Direction;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -28,11 +28,14 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
+import top.theillusivec4.curios.api.CuriosApi;
 
 public class OHItems {
-    public static final RegistryObject<Item> ZOMBIE_MEDAL_COPPER = ItemRegistry.registerTool("zombie_medal_copper", ZombieMedal.Copper::new);
-    public static final RegistryObject<Item> ZOMBIE_MEDAL_SILVER = ItemRegistry.registerTool("zombie_medal_silver", ZombieMedal.Silver::new);
-    public static final RegistryObject<Item> ZOMBIE_MEDAL_GOLD = ItemRegistry.registerTool("zombie_medal_gold", ZombieMedal.Gold::new);
+    public static void initCurio() {
+        CuriosApi.registerCurio(Ornament.ZOMBIE_MEDAL_COPPER.get(), new ZombieMedal.Copper());
+        CuriosApi.registerCurio(Ornament.ZOMBIE_MEDAL_SILVER.get(), new ZombieMedal.Silver());
+        CuriosApi.registerCurio(Ornament.ZOMBIE_MEDAL_GOLD.get(), new ZombieMedal.Gold());
+    }
 
     public static void init() {
         Material.init();
@@ -42,6 +45,7 @@ public class OHItems {
         Armor.init();
         BlockItem.init();
         Utilities.init();
+        Ornament.init();
     }
 
     public static class Consumable {
@@ -63,7 +67,8 @@ public class OHItems {
     }
 
     public static class Tool {
-        public static final RegistryObject<Item> BLOOD_BUCKET = ItemRegistry.registerTool("blood_bucket", () -> new BucketItem(OHBlocks.Fluid.FluidRegistry.BLOOD, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
+        public static final RegistryObject<Item> BLOOD_BUCKET = ItemRegistry.registerTool("blood_bucket", () -> new BucketItem(OHBlocks.Fluids.OHFluids.BLOOD, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
+        public static final RegistryObject<Item> ARTERIAL_BLOOD_BUCKET = ItemRegistry.registerTool("arterial_blood_bucket", () -> new BucketItem(OHBlocks.Fluids.OHFluids.ArterialBLOOD, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
         public static final RegistryObject<Item> ZERO_REFORMER = ItemRegistry.registerTool("zero_reformer", ZeroReformer::new);
         public static final RegistryObject<Item> DUNGEON_DESTROYER = ItemRegistry.registerTool("dungeon_destroyer", DungeonDestroyer::new);
 
@@ -189,6 +194,7 @@ public class OHItems {
     public static class Utilities {
         public static final RegistryObject<Item> BEAR = ItemRegistry.registerUtilities("bear", () -> new Item(new Item.Properties().stacksTo(1)));
         public static final RegistryObject<Item> BLOOD_BEAR = ItemRegistry.registerUtilities("blood_bear", () -> new Item(new Item.Properties().stacksTo(1)));
+        public static final RegistryObject<Item> DAMOCLES_SWORD = ItemRegistry.registerUtilities("damocles_sword", DamoclesSword::new);
 
         private static void init() {
         }
@@ -205,7 +211,7 @@ public class OHItems {
         }
 
         public static class Ranged {
-            public static void init() {
+            private static void init() {
                 Gun.init();
             }
 
@@ -217,14 +223,14 @@ public class OHItems {
                 public static final RegistryObject<Item> VOID_IMPACT = ItemRegistry.registerWeaponRanged("void_impact", VoidImpact::new);
                 public static final RegistryObject<Item> CARAMEL_BAKA = ItemRegistry.registerWeaponRanged("caramel_baka", CaramelBaka::new);
 
-                public static void init() {
+                private static void init() {
                 }
             }
 
         }
 
         public static class Magic {
-            public static void init() {
+            private static void init() {
                 Staff.init();
                 Book.init();
             }
@@ -233,7 +239,7 @@ public class OHItems {
 
                 public static final RegistryObject<Item> FIRE_WAND = ItemRegistry.registerWeaponMagic("fire_wand", FireWand::new);
 
-                public static void init() {
+                private static void init() {
                 }
             }
 
@@ -241,7 +247,7 @@ public class OHItems {
 
                 public static final RegistryObject<Item> APPRENTICE_SHIELD_BOOK = ItemRegistry.registerWeaponMagic("apprentice_shield_book", ShieldBook::new);
 
-                public static void init() {
+                private static void init() {
 
                 }
             }
@@ -249,21 +255,27 @@ public class OHItems {
         }
 
         public static class Tank {
-            public static void init() {
+            private static void init() {
                 Shield.init();
             }
 
             public static class Shield {
-                public static final RegistryObject<Item> blood_stone_buckler = ItemRegistry.registerWeaponMelee("blood_stone_buckler", () -> new Buckler(new Item.Properties(), 40, 0.8f, 100));
+                public static class Buckler {
+                    public static final RegistryObject<Item> BLOOD_STONE_BUCKLER = ItemRegistry.registerWeaponTank("blood_stone_buckler", () -> new com.arc.outland_horizon.world.item.weapons.tank.buckler.Buckler(new Item.Properties(), 40, 0.8f, 100));
 
-                public static void init() {
+                    private static void init() {
+                    }
+                }
+
+                private static void init() {
+                    Buckler.init();
                 }
             }
 
         }
 
         public static class Melee {
-            public static void init() {
+            private static void init() {
                 Sword.init();
             }
 
@@ -274,11 +286,20 @@ public class OHItems {
                 public static final RegistryObject<Item> MATRIX_SWORD = ItemRegistry.registerWeaponMelee("matrix_sword", () -> new SwordItem(ModTiers.MATRIX_INGOT, 9, -2.4f, new Item.Properties()));
                 public static final RegistryObject<Item> ELEGY = ItemRegistry.registerWeaponMelee("elegy", Elegy::new);
 
-                public static void init() {
+                private static void init() {
                 }
             }
         }
 
 
+    }
+
+    public static class Ornament {
+        public static final RegistryObject<Item> ZOMBIE_MEDAL_COPPER = ItemRegistry.registerOrnament("zombie_medal_copper", ZombieMedal.Copper::new);
+        public static final RegistryObject<Item> ZOMBIE_MEDAL_SILVER = ItemRegistry.registerOrnament("zombie_medal_silver", ZombieMedal.Silver::new);
+        public static final RegistryObject<Item> ZOMBIE_MEDAL_GOLD = ItemRegistry.registerOrnament("zombie_medal_gold", ZombieMedal.Gold::new);
+
+        private static void init() {
+        }
     }
 }

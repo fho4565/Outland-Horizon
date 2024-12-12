@@ -15,15 +15,12 @@ public class OhAttributeProvider implements ICapabilityProvider,
     public static final Capability<OhAttribute> OH_ATTRIBUTE = CapabilityManager.get(new CapabilityToken<>() {
     });
     public static double mana, manaRecover, maxMana, rage, maxRage, rageRecover, shieldValue, sp, maxSp, spRecover;
+    public static int madTime, madDamageBonus;
     private OhAttribute ohAttribute;
     public final LazyOptional<OhAttribute> lazyOptional = LazyOptional.of(() -> this.ohAttribute);
 
     public OhAttributeProvider() {
         this.ohAttribute = new OhAttribute();
-    }
-
-    public OhAttributeProvider(OhAttribute ohAttribute) {
-        this.ohAttribute = ohAttribute;
     }
 
     @Override

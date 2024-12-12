@@ -27,16 +27,31 @@ public interface ICooldownItem {
     String RENDER_BAR_TAG = "render_bar";
     String RENDER_BAR_WHEN_ENDS_TAG = "render_bar_when_ends";
 
-    private static void initTag(ItemStack stack) {
-        if (!stack.getOrCreateTag().contains(OutlandHorizon.MOD_ID)) {
-            stack.getOrCreateTag().put(OutlandHorizon.MOD_ID, new CompoundTag());
-        }
-    }
-
     /**
      * 最大冷却时间
      */
     int cooldownTime();
+
+    private void initTag(ItemStack stack) {
+        if (!stack.getOrCreateTag().contains(OutlandHorizon.MOD_ID)) {
+            stack.getOrCreateTag().put(OutlandHorizon.MOD_ID, new CompoundTag());
+        }
+        if (!stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).contains(COOLDOWN_TAG)) {
+            stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).putInt(COOLDOWN_TAG, 0);
+        }
+        if (!stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).contains(TICK_TAG)) {
+            stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).putBoolean(TICK_TAG, true);
+        }
+        if (!stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).contains(RENDER_BAR_WHEN_ENDS_TAG)) {
+            stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).putBoolean(RENDER_BAR_WHEN_ENDS_TAG, false);
+        }
+        if (!stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).contains(AUTO_TAG)) {
+            stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).putBoolean(AUTO_TAG, false);
+        }
+        if (!stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).contains(RENDER_BAR_TAG)) {
+            stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).putBoolean(RENDER_BAR_TAG, true);
+        }
+    }
 
     /**
      * 判断当前物品栈是否处于冷却状态
@@ -49,10 +64,7 @@ public interface ICooldownItem {
      * 获取当前物品栈的冷却时间
      */
     default int getCurrentCooldown(ItemStack stack) {
-        if (stack.getOrCreateTag().contains(OutlandHorizon.MOD_ID)) {
-            return stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).getInt(COOLDOWN_TAG);
-        }
-        return 0;
+        return stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).getInt(COOLDOWN_TAG);
     }
 
     /**
@@ -68,9 +80,7 @@ public interface ICooldownItem {
      * 使当前物品栈停止冷却，不会触发{@link #onCooldownEnd(Player, ItemStack)}
      */
     default void stopCooldown(ItemStack stack) {
-        if (stack.getOrCreateTag().contains(OutlandHorizon.MOD_ID)) {
-            stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).putInt(COOLDOWN_TAG, 0);
-        }
+        stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).putInt(COOLDOWN_TAG, 0);
     }
 
     /**
@@ -78,10 +88,6 @@ public interface ICooldownItem {
      */
     default boolean shouldTick(ItemStack stack) {
         initTag(stack);
-        if (!stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).contains(TICK_TAG)) {
-            stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).putBoolean(TICK_TAG, true);
-            return true;
-        }
         return stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).getBoolean(TICK_TAG);
     }
 
@@ -95,10 +101,6 @@ public interface ICooldownItem {
      */
     default boolean autoCooldown(ItemStack stack) {
         initTag(stack);
-        if (!stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).contains(AUTO_TAG)) {
-            stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).putBoolean(AUTO_TAG, false);
-            return false;
-        }
         return stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).getBoolean(AUTO_TAG);
     }
 
@@ -131,10 +133,6 @@ public interface ICooldownItem {
      */
     default boolean shouldRenderCooldownBar(ItemStack stack) {
         initTag(stack);
-        if (!stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).contains(RENDER_BAR_TAG)) {
-            stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).putBoolean(RENDER_BAR_TAG, true);
-            return true;
-        }
         return stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).getBoolean(RENDER_BAR_TAG);
     }
 
@@ -148,10 +146,6 @@ public interface ICooldownItem {
      */
     default boolean renderCooldownBarWhenEnds(ItemStack stack) {
         initTag(stack);
-        if (!stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).contains(RENDER_BAR_WHEN_ENDS_TAG)) {
-            stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).putBoolean(RENDER_BAR_WHEN_ENDS_TAG, false);
-            return false;
-        }
         return stack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).getBoolean(RENDER_BAR_WHEN_ENDS_TAG);
     }
 

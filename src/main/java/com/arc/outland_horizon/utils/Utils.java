@@ -5,16 +5,10 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.nio.charset.StandardCharsets;
-import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Utils {
     public static final Logger LOGGER = LogManager.getLogger();
-
-    public static UUID generateUUIDFromText(String text) {
-        return UUID.nameUUIDFromBytes(text.getBytes(StandardCharsets.UTF_8));
-    }
 
     public static Boolean isDevelopEnvironment() {
         return !FMLEnvironment.production;

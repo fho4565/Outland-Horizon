@@ -214,4 +214,26 @@ public class CapabilityUtils {
             return getSp(player) >= getMaxSp(player);
         }
     }
+
+    public static class Mad {
+        public static int getMadTime(Player player) {
+            return getOhAttribute(player).getMadTime();
+        }
+
+        public static void setMadTime(Player player, int madTime) {
+            OhAttribute attribute = getOhAttribute(player);
+            attribute.setMadTime(madTime);
+            serverSyncAttribute(player);
+        }
+
+        public static int getMadDamageBonus(Player player) {
+            return getOhAttribute(player).getMadDamageBonus();
+        }
+
+        public static void setMadDamageBonus(Player player, int madDamageBonus) {
+            OhAttribute attribute = getOhAttribute(player);
+            attribute.setMadDamageBonus(madDamageBonus);
+            serverSyncAttribute(player);
+        }
+    }
 }

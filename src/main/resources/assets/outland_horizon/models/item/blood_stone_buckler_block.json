@@ -1,0 +1,46 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "outland_horizon:item/weapons/tank/shield/blood_stone_buckler"
+  },
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [
+        65,
+        0,
+        0
+      ]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [
+        65,
+        0,
+        0
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        0,
+        30
+      ],
+      "translation": [
+        -1.25,
+        2,
+        0
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        0,
+        0,
+        30
+      ],
+      "translation": [
+        -1.25,
+        2,
+        0
+      ]
+    }
+  }
+}

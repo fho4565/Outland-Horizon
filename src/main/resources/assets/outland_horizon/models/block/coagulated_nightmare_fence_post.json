@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/fence_post",
+  "textures": {
+    "texture":"outland_horizon:block/building/coagulated_nightmare_planks"
+  }
+}

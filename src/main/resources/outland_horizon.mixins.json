@@ -9,6 +9,7 @@
     "CreeperMixin",
     "FoodDataMixin",
     "PlayerMixin",
+    "RangedAttributeMixin",
     "ZombieMixin"
   ],
   "client": [

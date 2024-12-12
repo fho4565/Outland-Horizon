@@ -11,11 +11,11 @@ import org.jetbrains.annotations.NotNull;
 
 public abstract class Blood extends ForgeFlowingFluid {
     public static final ForgeFlowingFluid.Properties PROPERTIES
-            = new ForgeFlowingFluid.Properties(OHBlocks.Fluid.FluidTypeRegistry.BLOOD_TYPE,
-            OHBlocks.Fluid.FluidRegistry.BLOOD, OHBlocks.Fluid.FluidRegistry.BLOOD_FLOWING)
+            = new ForgeFlowingFluid.Properties(OHBlocks.Fluids.OHFluidTypes.BLOOD_TYPE,
+            OHBlocks.Fluids.OHFluids.BLOOD, OHBlocks.Fluids.OHFluids.BLOOD_FLOWING)
             .explosionResistance(100f)
             .bucket(OHItems.Tool.BLOOD_BUCKET)
-            .block(() -> (LiquidBlock) OHBlocks.Fluid.BLOOD_BLOCK.get());
+            .block(() -> (LiquidBlock) OHBlocks.Fluids.FluidBlocks.BLOOD_BLOCK.get());
 
     protected Blood() {
         super(PROPERTIES);
@@ -26,6 +26,7 @@ public abstract class Blood extends ForgeFlowingFluid {
             super.createFluidStateDefinition(pBuilder);
             pBuilder.add(LEVEL);
         }
+
         public int getAmount(FluidState pState) {
             return pState.getValue(LEVEL);
         }

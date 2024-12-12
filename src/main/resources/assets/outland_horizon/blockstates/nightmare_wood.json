@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "outland_horizon:block/nightmare_wood",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "outland_horizon:block/nightmare_wood"
+    },
+    "axis=z": {
+      "model": "outland_horizon:block/nightmare_wood",
+      "x": 90
+    }
+  }
+}

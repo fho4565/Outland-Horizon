@@ -2,16 +2,23 @@ package com.arc.outland_horizon.world.item;
 
 import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.utils.CapabilityUtils;
+import com.arc.outland_horizon.utils.ChatUtils;
 import com.arc.outland_horizon.utils.Utils;
 import com.arc.outland_horizon.world.Skill;
+import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public interface ISkillItem {
     String SKILLS_TAG = "skills";
     String DURATION = "duration";
     String COOLDOWN = "cooldown";
+    String TEXT = "text.outland_horizon.gui.weapon.skill.";
 
     Skill skill1();
 
@@ -20,12 +27,18 @@ public interface ISkillItem {
     }
 
     default Skill currentSkill(ItemStack itemStack) {
-        return itemStack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).getInt("skill") == 2 ? skill2() : skill1();
+        if (!validateTags(itemStack)) {
+            initSkills(itemStack);
+        }
+        return itemStack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID).getInt(SKILLS_TAG) == 2 ? skill2() : skill1();
     }
 
     default CompoundTag currentSkillTag(ItemStack itemStack) {
+        if (!validateTags(itemStack)) {
+            initSkills(itemStack);
+        }
         CompoundTag tag = itemStack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID);
-        return tag.getInt("skill") == 1 ? tag.getCompound("skill1") : tag.getCompound("skill2");
+        return tag.getInt(SKILLS_TAG) == 1 ? tag.getCompound("skill1") : tag.getCompound("skill2");
     }
 
     default void cooldownCurrentSkill(ItemStack itemStack) {
@@ -38,24 +51,27 @@ public interface ISkillItem {
         }
         CompoundTag root = itemStack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID);
         CompoundTag skill1Tag = new CompoundTag();
-        skill1Tag.putInt(DURATION, skill1().duration());
-        skill1Tag.putInt(COOLDOWN, skill1().cooldown());
+        skill1Tag.putInt(DURATION, 0);
+        skill1Tag.putInt(COOLDOWN, 0);
         root.put("skill1", skill1Tag);
         if (skill2() != null) {
             CompoundTag skill2Tag = new CompoundTag();
-            skill2Tag.putInt(DURATION, skill2().duration());
-            skill2Tag.putInt(COOLDOWN, skill2().cooldown());
+            skill2Tag.putInt(DURATION, 0);
+            skill2Tag.putInt(COOLDOWN, 0);
             root.put("skill2", skill2Tag);
         }
-        root.putInt("skill", 1);
+        root.putInt(SKILLS_TAG, 1);
     }
 
     default void switchSkill(ItemStack itemStack) {
+        if (!validateTags(itemStack)) {
+            initSkills(itemStack);
+        }
         CompoundTag tag = itemStack.getOrCreateTag().getCompound(OutlandHorizon.MOD_ID);
-        if (skill2() != null && tag.getInt("skill") == 1) {
-            tag.putInt("skill", 2);
+        if (skill2() != null && tag.getInt(SKILLS_TAG) == 1) {
+            tag.putInt(SKILLS_TAG, 2);
         } else {
-            tag.putInt("skill", 1);
+            tag.putInt(SKILLS_TAG, 1);
         }
     }
 
@@ -94,32 +110,30 @@ public interface ISkillItem {
     }
 
     default void tickSkill(Player player, ItemStack itemStack) {
-        if (validateTags(itemStack)) {
-            Skill skill = currentSkill(itemStack);
-            int currentSkillCooldown = getCurrentSkillCooldown(itemStack);
-            int currentSkillDuration = getCurrentSkillDuration(itemStack);
-            if (skill.autoReduceDuration()) {
-                reduceDuration(player, itemStack);
-            }
-            if (currentSkillCooldown > 0) {
-                currentSkillTag(itemStack).putInt(COOLDOWN, --currentSkillCooldown);
-            }
-            if (currentSkillDuration > 0) {
-                skill.onSkillTick(player, itemStack);
-            }
+        Skill skill = currentSkill(itemStack);
+        int currentSkillCooldown = getCurrentSkillCooldown(itemStack);
+        int currentSkillDuration = getCurrentSkillDuration(itemStack);
+        if (skill.autoReduceDuration()) {
+            reduceDuration(player, itemStack);
+        }
+        if (currentSkillCooldown > 0) {
+            currentSkillTag(itemStack).putInt(COOLDOWN, --currentSkillCooldown);
+        }
+        if (currentSkillDuration > 0) {
+            skill.onSkillTick(player, itemStack);
         }
     }
 
-    default boolean isInCooldown(ItemStack itemStack) {
+    default boolean isCurrentSkillCooldown(ItemStack itemStack) {
         return getCurrentSkillCooldown(itemStack) > 0;
     }
 
-    default boolean isInActive(ItemStack itemStack) {
+    default boolean isCurrentSkillActive(ItemStack itemStack) {
         return getCurrentSkillDuration(itemStack) > 0;
     }
 
     default boolean canTriggerSkill(Player player, ItemStack itemStack) {
-        return !isInCooldown(itemStack) && !isInActive(itemStack) && currentSkill(itemStack).canTrigger(player);
+        return !isCurrentSkillCooldown(itemStack) && !isCurrentSkillActive(itemStack) && currentSkill(itemStack).canTrigger(player);
     }
 
     default boolean triggerSkill(Player player, ItemStack itemStack) {
@@ -149,14 +163,14 @@ public interface ISkillItem {
     }
 
     /**
-     * 冷却条的长度，默认以45像素为基准变化
+     * 冷却条的长度，默认以40像素为基准变化
      */
     default int skillCooldownBarWidth(ItemStack stack) {
-        return Utils.getScaledBarWidth(45.0f, (float) getCurrentSkillCooldown(stack) / currentSkill(stack).cooldown());
+        return Utils.getScaledBarWidth(40f, (float) getCurrentSkillCooldown(stack) / currentSkill(stack).cooldown());
     }
 
     default int skillDurationBarWidth(ItemStack stack) {
-        return Utils.getScaledBarWidth(45.0f, (float) getCurrentSkillDuration(stack) / currentSkill(stack).duration());
+        return Utils.getScaledBarWidth(40.0f, (1 - (float) getCurrentSkillDuration(stack) / currentSkill(stack).duration()));
     }
 
     default boolean shouldRenderSkillCooldownBar(ItemStack itemStack) {
@@ -167,4 +181,41 @@ public interface ISkillItem {
         return true;
     }
 
+    default List<Component> skillTooltip() {
+        ArrayList<Component> components = new ArrayList<>();
+        components.add(Component.empty());
+        if (skill2() != null) {
+            components.add(ChatUtils.translatable(TEXT + "label.name", "1").withStyle(ChatFormatting.DARK_GREEN).append(ChatUtils.translatable(TEXT + skill1().getId() + ".name", skill1().name())));
+            components.add(Component.literal("   ").append(ChatUtils.translatable(TEXT + "label.description").withStyle(ChatFormatting.DARK_GREEN).append(ChatUtils.translatable(TEXT + skill1().getId() + ".description", skill1().description()))));
+            components.add(Component.literal("   ").append(ChatUtils.translatable(TEXT + "label.sp_cost", skill1().requiredSp()).withStyle(ChatFormatting.DARK_GREEN)));
+            if (skill1().autoReduceDuration()) {
+                components.add(Component.literal("   ").append(ChatUtils.translatable(TEXT + "label.duration.auto", skill1().duration()).withStyle(ChatFormatting.DARK_GREEN)));
+            } else {
+                components.add(Component.literal("   ").append(ChatUtils.translatable(TEXT + "label.duration.count", skill1().duration()).withStyle(ChatFormatting.DARK_GREEN)));
+            }
+            components.add(Component.literal("   ").append(ChatUtils.translatable(TEXT + "label.cooldown", skill1().cooldown()).withStyle(ChatFormatting.DARK_GREEN)));
+            components.add(Component.empty());
+            components.add(ChatUtils.translatable(TEXT + "label.name", "2").withStyle(ChatFormatting.DARK_GREEN).append(ChatUtils.translatable(TEXT + skill2().getId() + ".name", skill2().name())));
+            components.add(Component.literal("   ").append(ChatUtils.translatable(TEXT + "label.description").withStyle(ChatFormatting.DARK_GREEN).append(ChatUtils.translatable(TEXT + skill2().getId() + ".description", skill2().description()))));
+            components.add(Component.literal("   ").append(ChatUtils.translatable(TEXT + "label.sp_cost", skill2().requiredSp()).withStyle(ChatFormatting.DARK_GREEN)));
+            if (skill2().autoReduceDuration()) {
+                components.add(Component.literal("   ").append(ChatUtils.translatable(TEXT + "label.duration.auto", skill2().duration()).withStyle(ChatFormatting.DARK_GREEN)));
+            } else {
+                components.add(Component.literal("   ").append(ChatUtils.translatable(TEXT + "label.duration.count", skill2().duration()).withStyle(ChatFormatting.DARK_GREEN)));
+            }
+            components.add(Component.literal("   ").append(ChatUtils.translatable(TEXT + "label.cooldown", skill2().cooldown()).withStyle(ChatFormatting.DARK_GREEN)));
+
+        } else {
+            components.add(ChatUtils.translatable(TEXT + "label.name", "").withStyle(ChatFormatting.DARK_GREEN).append(ChatUtils.translatable(TEXT + skill1().getId() + ".name", skill1().name())));
+            components.add(Component.literal("   ").append(ChatUtils.translatable(TEXT + "label.description").withStyle(ChatFormatting.DARK_GREEN).append(ChatUtils.translatable(TEXT + skill1().getId() + ".description", skill1().description()))));
+            components.add(Component.literal("   ").append(ChatUtils.translatable(TEXT + "label.sp_cost", skill1().requiredSp()).withStyle(ChatFormatting.DARK_GREEN)));
+            if (skill1().autoReduceDuration()) {
+                components.add(Component.literal("   ").append(ChatUtils.translatable(TEXT + "label.duration.auto", skill1().duration()).withStyle(ChatFormatting.DARK_GREEN)));
+            } else {
+                components.add(Component.literal("   ").append(ChatUtils.translatable(TEXT + "label.duration.count", skill1().duration()).withStyle(ChatFormatting.DARK_GREEN)));
+            }
+            components.add(Component.literal("   ").append(ChatUtils.translatable(TEXT + "label.cooldown", skill1().cooldown()).withStyle(ChatFormatting.DARK_GREEN)));
+        }
+        return components;
+    }
 }
