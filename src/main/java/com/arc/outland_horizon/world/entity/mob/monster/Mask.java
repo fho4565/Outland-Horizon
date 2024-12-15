@@ -1,6 +1,6 @@
 package com.arc.outland_horizon.world.entity.mob.monster;
 
-import com.arc.outland_horizon.world.entity.EntityRegistry;
+import com.arc.outland_horizon.registry.OHEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -42,8 +42,9 @@ public class Mask extends Monster implements GeoEntity {
     }
 
     public Mask(PlayMessages.SpawnEntity spawnEntity, Level level) {
-        super(EntityRegistry.MASK.get(),level);
+        super(OHEntities.MASK.get(), level);
     }
+
     @Override
     public @NotNull Packet<ClientGamePacketListener> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
@@ -52,8 +53,8 @@ public class Mask extends Monster implements GeoEntity {
     @Override
     public void baseTick() {
         Level level = this.level();
-        BlockPos pos = BlockPos.containing( this.getX(), this.getY(), this.getZ());
-        if(level.getBlockState(pos).getBlock() == Blocks.TORCH) {
+        BlockPos pos = BlockPos.containing(this.getX(), this.getY(), this.getZ());
+        if (level.getBlockState(pos).getBlock() == Blocks.TORCH) {
             level.destroyBlock(pos, false);
         }
         super.baseTick();
@@ -104,7 +105,7 @@ public class Mask extends Monster implements GeoEntity {
     }
 
     public static void init() {
-        SpawnPlacements.register(EntityRegistry.MASK.get(),
+        SpawnPlacements.register(OHEntities.MASK.get(),
                 SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 (entityType, world, reason, pos, random) -> (world.getDifficulty() != Difficulty.PEACEFUL && Monster.isDarkEnoughToSpawn(world, pos, random) && Mob.checkMobSpawnRules(entityType, world, reason, pos, random)));
@@ -119,6 +120,7 @@ public class Mask extends Monster implements GeoEntity {
         builder = builder.add(Attributes.FOLLOW_RANGE, 32);
         return builder;
     }
+
     @Override
     public void registerControllers(final AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, "rotate", 5, this::rotateAnimController));

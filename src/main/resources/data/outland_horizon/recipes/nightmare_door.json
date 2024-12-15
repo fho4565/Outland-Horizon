@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "a": {
+      "item": "outland_horizon:nightmare_planks"
+    }
+  },
+  "pattern": [
+    "aa",
+    "aa",
+    "aa"
+  ],
+  "result": {
+    "count": 3,
+    "item": "outland_horizon:nightmare_door"
+  },
+  "show_notification": true
+}

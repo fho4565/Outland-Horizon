@@ -29,7 +29,10 @@ public class ModCommonEvents {
                 new ModRecipe(event.getGenerator().getPackOutput())
         );
         event.getGenerator().addProvider(true,
-                new ModTag(event.getGenerator().getPackOutput(), Registries.ITEM, event.getLookupProvider(), event.getExistingFileHelper())
+                new ModTag.ItemTag(event.getGenerator().getPackOutput(), Registries.ITEM, event.getLookupProvider(), event.getExistingFileHelper())
+        );
+        event.getGenerator().addProvider(true,
+                new ModTag.BlockTag(event.getGenerator().getPackOutput(), Registries.BLOCK, event.getLookupProvider(), event.getExistingFileHelper())
         );
         event.getGenerator().addProvider(
                 true, new ModLootTable(event.getGenerator().getPackOutput())

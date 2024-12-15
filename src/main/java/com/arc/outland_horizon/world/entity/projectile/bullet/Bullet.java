@@ -1,6 +1,6 @@
 package com.arc.outland_horizon.world.entity.projectile.bullet;
 
-import com.arc.outland_horizon.world.entity.EntityRegistry;
+import com.arc.outland_horizon.registry.OHEntities;
 import com.arc.outland_horizon.world.entity.projectile.BasePlayerProjectile;
 import com.arc.outland_horizon.world.item.weapons.IRangedWeapon;
 import net.minecraft.util.Mth;
@@ -17,15 +17,15 @@ public class Bullet extends BasePlayerProjectile {
     }
 
     public Bullet(Level world) {
-        super(EntityRegistry.IRON_BULLET.get(), world);
+        super(OHEntities.IRON_BULLET.get(), world);
     }
 
     public Bullet(LivingEntity shooter, IRangedWeapon weapon, int maxAge, float velocity) {
-        super(EntityRegistry.IRON_BULLET.get(), shooter, weapon, maxAge, velocity, 0);
+        super(OHEntities.IRON_BULLET.get(), shooter, weapon, maxAge, velocity, 0);
     }
 
     public Bullet(Level world, double x, double y, double z, int velocity) {
-        super(EntityRegistry.IRON_BULLET.get(), world, x, y, z, velocity);
+        super(OHEntities.IRON_BULLET.get(), world, x, y, z, velocity);
     }
 
     public void shootFromRotation(Entity pShooter, float pX, float pY, float pZ, float pVelocity, float pInaccuracy) {

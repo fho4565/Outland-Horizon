@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "a": {
+      "item": "outland_horizon:blood_stone_spade"
+    },
+    "b": {
+      "item": "outland_horizon:blood_stone_hammer"
+    },
+    "l": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "alb",
+    " l ",
+    " l "
+  ],
+  "result": {
+    "item": "outland_horizon:blood_stone_destroyer"
+  },
+  "show_notification": true
+}

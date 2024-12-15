@@ -102,8 +102,12 @@ public class Elegy extends SwordItem {
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
-        if (event.getEntity().getMobType() == MobType.UNDEAD) {
-            event.setAmount(event.getAmount() * 1.75f);
+        if (event.getSource().getEntity() instanceof LivingEntity livingEntity) {
+            if (livingEntity.getMainHandItem().getItem() == OHItems.Weapon.Melee.Sword.ELEGY.get()) {
+                if (event.getEntity().getMobType() == MobType.UNDEAD) {
+                    event.setAmount(event.getAmount() * 1.75f);
+                }
+            }
         }
     }
 

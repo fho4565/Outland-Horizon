@@ -1,10 +1,10 @@
 package com.arc.outland_horizon.develop;
 
 import com.arc.outland_horizon.registry.BlockRegistry;
+import com.arc.outland_horizon.registry.EntityRegistry;
 import com.arc.outland_horizon.registry.ItemRegistry;
 import com.arc.outland_horizon.registry.OHMobEffects;
 import com.arc.outland_horizon.utils.Utils;
-import com.arc.outland_horizon.world.entity.EntityRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;

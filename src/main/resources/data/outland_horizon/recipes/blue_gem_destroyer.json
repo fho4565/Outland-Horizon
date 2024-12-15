@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "a": {
+      "item": "outland_horizon:blue_gem_spade"
+    },
+    "b": {
+      "item": "outland_horizon:blue_gem_hammer"
+    },
+    "l": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "alb",
+    " l ",
+    " l "
+  ],
+  "result": {
+    "item": "outland_horizon:blue_gem_destroyer"
+  },
+  "show_notification": true
+}

@@ -6,6 +6,7 @@ import com.arc.outland_horizon.utils.Utils;
 import com.arc.outland_horizon.world.item.consumables.potions.MadPotion;
 import com.arc.outland_horizon.world.item.consumables.potions.ManaPotion;
 import com.arc.outland_horizon.world.item.ornaments.medal.ZombieMedal;
+import com.arc.outland_horizon.world.item.ornaments.talisman.Bright;
 import com.arc.outland_horizon.world.item.tools.DungeonDestroyer;
 import com.arc.outland_horizon.world.item.tools.ZeroReformer;
 import com.arc.outland_horizon.world.item.tools.multi.Destroyer;
@@ -35,6 +36,7 @@ public class OHItems {
         CuriosApi.registerCurio(Ornament.ZOMBIE_MEDAL_COPPER.get(), new ZombieMedal.Copper());
         CuriosApi.registerCurio(Ornament.ZOMBIE_MEDAL_SILVER.get(), new ZombieMedal.Silver());
         CuriosApi.registerCurio(Ornament.ZOMBIE_MEDAL_GOLD.get(), new ZombieMedal.Gold());
+        CuriosApi.registerCurio(Ornament.BRIGHT_TALISMAN.get(), new Bright());
     }
 
     public static void init() {
@@ -298,6 +300,7 @@ public class OHItems {
         public static final RegistryObject<Item> ZOMBIE_MEDAL_COPPER = ItemRegistry.registerOrnament("zombie_medal_copper", ZombieMedal.Copper::new);
         public static final RegistryObject<Item> ZOMBIE_MEDAL_SILVER = ItemRegistry.registerOrnament("zombie_medal_silver", ZombieMedal.Silver::new);
         public static final RegistryObject<Item> ZOMBIE_MEDAL_GOLD = ItemRegistry.registerOrnament("zombie_medal_gold", ZombieMedal.Gold::new);
+        public static final RegistryObject<Item> BRIGHT_TALISMAN = ItemRegistry.registerOrnament("bright_talisman", Bright::new);
 
         private static void init() {
         }

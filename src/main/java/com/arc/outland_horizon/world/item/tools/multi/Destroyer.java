@@ -84,24 +84,26 @@ public class Destroyer extends DiggerItem {
     }
 
     @Override
-    public boolean hurtEnemy(@NotNull ItemStack itemStack, LivingEntity pTarget, LivingEntity pAttacker) {
-        if (pAttacker instanceof Player player) {
-            if (player.getAttackStrengthScale(1.0f) == 1.0f) {
-                WorldUtils.getEntitiesByRadio(pAttacker.level(), pTarget.position(), 5, entity -> !entity.is(pAttacker))
+    public boolean hurtEnemy(@NotNull ItemStack itemStack, @Nonnull LivingEntity pTarget, @Nonnull LivingEntity attacker) {
+        if (attacker instanceof Player player) {
+            float attackStrengthScale = player.getAttackStrengthScale(1.0f);
+            if (attackStrengthScale == 1.0f) {
+                WorldUtils.getEntitiesByRadio(attacker.level(), pTarget.position(), 5, entity -> !entity.is(attacker))
                         .forEach(entity -> {
-                            if (entity instanceof LivingEntity livingEntity) {
-                                EntityUtils.hurt(pAttacker, livingEntity, DamageTypes.MOB_ATTACK, this.getAttackDamage() / 2);
-                                double d0 = pAttacker.getX() - pTarget.getX();
-                                double d1;
-                                for (d1 = pAttacker.getZ() - pTarget.getZ(); d0 * d0 + d1 * d1 < 1.0E-4D; d1 = (Math.random() - Math.random()) * 0.01D) {
-                                    d0 = (Math.random() - Math.random()) * 0.01D;
+                                    if (entity instanceof LivingEntity livingEntity) {
+                                        EntityUtils.hurt(attacker, livingEntity, DamageTypes.MOB_ATTACK, this.getAttackDamage() * attackStrengthScale * 0.5f);
+                                        double d0 = attacker.getX() - pTarget.getX();
+                                        double d1;
+                                        for (d1 = attacker.getZ() - pTarget.getZ(); d0 * d0 + d1 * d1 < 1.0E-4D; d1 = (Math.random() - Math.random()) * 0.01D) {
+                                            d0 = (Math.random() - Math.random()) * 0.01D;
+                                        }
+                                        livingEntity.knockback(1.0F, d0, d1);
+                                    }
                                 }
-                                livingEntity.knockback(1.0F, d0, d1);
-                            }
-                        });
+                        );
             }
         }
-        return super.hurtEnemy(itemStack, pTarget, pAttacker);
+        return super.hurtEnemy(itemStack, pTarget, attacker);
     }
 
     @Override

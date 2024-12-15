@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "redstone",
+  "ingredients": [
+    {
+      "item": "outland_horizon:coagulated_nightmare_planks"
+    }
+  ],
+  "result": {
+    "item": "outland_horizon:coagulated_nightmare_button"
+  }
+}

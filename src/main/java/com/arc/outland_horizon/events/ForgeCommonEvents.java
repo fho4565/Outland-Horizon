@@ -2,6 +2,7 @@ package com.arc.outland_horizon.events;
 
 import com.arc.outland_horizon.*;
 import com.arc.outland_horizon.registry.ItemRegistry;
+import com.arc.outland_horizon.registry.OHDimensions;
 import com.arc.outland_horizon.registry.OHItems;
 import com.arc.outland_horizon.registry.OHMobEffects;
 import com.arc.outland_horizon.utils.*;
@@ -14,10 +15,11 @@ import com.arc.outland_horizon.world.item.ISkillItem;
 import com.arc.outland_horizon.world.item.weapons.tank.buckler.Buckler;
 import com.arc.outland_horizon.world.sound.SoundEventRegister;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -37,6 +39,7 @@ import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec2;
 import net.minecraftforge.common.BasicItemListing;
 import net.minecraftforge.common.util.LazyOptional;
@@ -44,10 +47,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.living.MobEffectEvent;
-import net.minecraftforge.event.entity.living.ShieldBlockEvent;
+import net.minecraftforge.event.entity.living.*;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
@@ -133,10 +133,10 @@ public class ForgeCommonEvents {
             double remove = Math.max(Math.pow((CapabilityUtils.Shield.getShieldValue(player) / 2.0 + 0.3) / 1000.0, 2), 0.005);
             CapabilityUtils.Shield.removeShieldValue(player, Math.min(remove, 0.5));
         }
-        if (EntityUtils.isInDimension(player, OutlandHorizon.createModResourceLocation("nightmare"))) {
+        if (EntityUtils.isInDimension(player, OHDimensions.NIGHTMARE)) {
             player.addEffect(new MobEffectInstance(OHMobEffects.NIGHTMARE_POSSESSED.get(), Utils.secondsToTicks(30)));
         }
-        if (EntityUtils.isInDimension(player, new ResourceLocation("minecraft:overworld"))) {
+        if (EntityUtils.isInDimension(player, Level.OVERWORLD)) {
             if (player.hasEffect(OHMobEffects.NIGHTMARE_POSSESSED.get()) && player instanceof ServerPlayer serverPlayer) {
                 WorldUtils.playSoundForPlayer(serverPlayer, SoundEventRegister.NIGHTMARE_COMES.get(), SoundSource.PLAYERS);
                 player.getActiveEffects().removeIf(effect -> effect.getEffect().equals(OHMobEffects.NIGHTMARE_POSSESSED.get()));
@@ -149,13 +149,31 @@ public class ForgeCommonEvents {
     public static void onPlayerWakeUp(PlayerWakeUpEvent event) {
         Player player = event.getEntity();
         if (player instanceof ServerPlayer serverPlayer) {
-            if (player.getMainHandItem().is(OHItems.Utilities.BLOOD_BEAR.get())) {
-                EntityUtils.travelToDimension(serverPlayer, OutlandHorizon.createModResourceLocation("nightmare"));
-                ServerLevel nextLevel = serverPlayer.server.getLevel(ResourceKey.create(Registries.DIMENSION, OutlandHorizon.createModResourceLocation("nightmare")));
-                if (nextLevel != null) {
-                    EntityUtils.spreadEntity(nextLevel, serverPlayer, new Vec2(0, 0), 128, 192, 128);
+            if (EntityUtils.isInDimension(player, Level.OVERWORLD)) {
+                if (player.getMainHandItem().is(OHItems.Utilities.BLOOD_BEAR.get())) {
+                    EntityUtils.travelToDimension(serverPlayer, OHDimensions.NIGHTMARE);
+                    ServerLevel nextLevel = serverPlayer.server.getLevel(OHDimensions.NIGHTMARE);
+                    if (nextLevel != null) {
+                        EntityUtils.spreadEntity(nextLevel, serverPlayer, new Vec2(0, 0), 128, 192, 128);
+                    }
+                }
+            } else if (EntityUtils.isInDimension(player, OHDimensions.NIGHTMARE)) {
+                if (player.getMainHandItem().is(OHItems.Utilities.BLOOD_BEAR.get())) {
+                    EntityUtils.travelToDimension(serverPlayer, OHDimensions.DYSTOPIA);
+                    ServerLevel nextLevel = serverPlayer.server.getLevel(OHDimensions.DYSTOPIA);
+                    if (nextLevel != null) {
+                        EntityUtils.spreadEntity(nextLevel, serverPlayer, new Vec2(0, 0), 128, 192, 128);
+                    }
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onTickLevelTick(TickEvent.LevelTickEvent event) {
+        Level level = event.level;
+        if (level.dimension().compareTo(OHDimensions.NIGHTMARE) == 0) {
+            level.setRainLevel(3.0f);
         }
     }
 
@@ -181,13 +199,15 @@ public class ForgeCommonEvents {
         if (targetEntity.hasEffect(OHMobEffects.NIGHTMARE_COMES.get())) {
             event.setAmount(damageAmount * 2);
         }
-        if (OHDataManager.modDifficulties.getId() > ModDifficulties.DEATH.getId()) {
+        int difficultiesId = OHDataManager.modDifficulties.getId();
+        if (difficultiesId > ModDifficulties.DEATH.getId()) {
             double armor = targetEntity.getAttributeValue(Attributes.ARMOR);
             double armorToughness = targetEntity.getAttributeValue(Attributes.ARMOR_TOUGHNESS);
-            if (damageAmount < armor) {
-                damageAmount = (float) Math.max(Math.min(2.0, damageAmount * 0.1) - 2 * (100 + armorToughness) / 200.0, 0);
+            double useArmor = armor / 3 * difficultiesId;
+            if (damageAmount < useArmor) {
+                damageAmount = (float) Math.max(Math.min(2 * difficultiesId, damageAmount * 0.2) - 2 * (100 + armorToughness) / 200.0, 0);
             } else {
-                damageAmount = (float) Math.max(damageAmount - armor * (100 + armorToughness) / 200.0, 0);
+                damageAmount = (float) Math.max(damageAmount - useArmor * (100 + armorToughness) / 200.0, 0);
             }
         }
         if (targetEntity instanceof DamageResistance resistanceEntity && event.getSource().is(DamageTypes.MAGIC)) {
@@ -215,15 +235,20 @@ public class ForgeCommonEvents {
                         case TRIBULATION -> 0.85f;
                         case ETERNAL -> 1;
                     };
-            float playerDamage = damageAmount - shieldAbsorb;
+            damageAmount = damageAmount - shieldAbsorb;
             if (shieldValue < shieldAbsorb) {
-                playerDamage += (float) (shieldAbsorb - shieldValue);
+                damageAmount += (float) (shieldAbsorb - shieldValue);
                 ModCapabilities.getOhAttribute(player).setShieldValue(0);
             } else {
                 ModCapabilities.getOhAttribute(player).setShieldValue(shieldValue - shieldAbsorb);
             }
-            event.setAmount(playerDamage);
+            event.setAmount(damageAmount);
         }
+    }
+
+    @SubscribeEvent
+    public static void onLivingDamage(LivingDamageEvent event) {
+        printDebugInfo(event);
     }
 
     @SubscribeEvent
@@ -307,6 +332,9 @@ public class ForgeCommonEvents {
     @SubscribeEvent
     public static void onEntityJoinLevel(EntityJoinLevelEvent event) {
         Entity entity = event.getEntity();
+        if (entity instanceof Player) {
+            return;
+        }
         CompoundTag persistentData = entity.getPersistentData();
         if (!persistentData.contains(OutlandHorizon.MOD_ID)) {
             CompoundTag tag = new CompoundTag();
@@ -320,6 +348,17 @@ public class ForgeCommonEvents {
                 mob.heal(Float.MAX_VALUE);
             }
             tag.putBoolean(DATA_INIT, true);
+        }
+    }
+
+    private static void printDebugInfo(LivingDamageEvent event) {
+        if (DevelopEvents.isDebug) {
+            LivingEntity entity = event.getEntity();
+            MutableComponent entityName = Component.literal(entity.getDisplayName().getString());
+            MutableComponent entityNameToolTip = Component.literal("UUID：" + entity.getUUID())
+                    .append(Component.literal("坐标：" + entity.position()));
+            entityName.withStyle(Style.EMPTY.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, entityNameToolTip)));
+            ChatUtils.allPlayers(entityName.append("受到了" + event.getAmount() + "点伤害"));
         }
     }
 }

@@ -135,14 +135,16 @@ public class WorldUtils {
     }
 
     public static List<Entity> getEntitiesByRadio(Level level, Vec3 pos, double radius) {
-        return getEntitiesByRadio(level, pos, radius, entity -> true);
-    }
-
-    public static List<Entity> getEntitiesByRadio(Level level, Vec3 pos, double radius, Predicate<Entity> entityPredicate) {
         AABB box = new AABB(pos.x - radius - 1, pos.y - radius - 1, pos.z - radius - 1,
                 pos.x + radius + 1, pos.y + radius + 1, pos.z + radius + 1);
         return level.getEntities(null, box).stream()
-                .filter(entity -> entity.position().distanceTo(pos) <= radius && entityPredicate.test(entity))
+                .filter(entity -> entity.position().distanceTo(pos) <= radius)
+                .toList();
+    }
+
+    public static List<Entity> getEntitiesByRadio(Level level, Vec3 pos, double radius, Predicate<Entity> entityPredicate) {
+        return getEntitiesByRadio(level, pos, radius).stream()
+                .filter(entityPredicate)
                 .toList();
     }
 }

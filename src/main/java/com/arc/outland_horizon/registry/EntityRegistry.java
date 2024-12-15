@@ -1,12 +1,10 @@
-package com.arc.outland_horizon.world.entity;
+package com.arc.outland_horizon.registry;
 
 import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.world.entity.mob.monster.EntityTZT;
 import com.arc.outland_horizon.world.entity.mob.monster.Mask;
 import com.arc.outland_horizon.world.entity.mob.monster.PainfulMan;
 import com.arc.outland_horizon.world.entity.mob.monster.Yee;
-import com.arc.outland_horizon.world.entity.projectile.bullet.Bullet;
-import com.arc.outland_horizon.world.entity.projectile.magic.FireWandShot;
 import com.arc.outland_horizon.world.entity.render.mob.monster.EntityTZTRender;
 import com.arc.outland_horizon.world.entity.render.mob.monster.MaskRender;
 import com.arc.outland_horizon.world.entity.render.mob.monster.PainfulManRender;
@@ -40,45 +38,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class EntityRegistry {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, "outland_horizon");
-    public static final RegistryObject<EntityType<FireWandShot>> FIREWAND_SHOT = Projectiles.registerProjectile("firewandshot", FireWandShot::new);
-    public static final RegistryObject<EntityType<Bullet>> IRON_BULLET = Projectiles.registerProjectile("iron_bullet", Bullet::new);
 
-    public static final RegistryObject<EntityType<Yee>> YEE = register("yee",
-            EntityType.Builder.<Yee>of(Yee::new, MobCategory.MONSTER)
-                    .setShouldReceiveVelocityUpdates(true)
-                    .setTrackingRange(64)
-                    .setUpdateInterval(3)
-                    .setCustomClientFactory(Yee::new)
-                    .sized(0.6f, 1.8f));
-    public static final RegistryObject<EntityType<PainfulMan>> PAINFUL_MAN = register("painful_man",
-            EntityType.Builder.<PainfulMan>of(PainfulMan::new, MobCategory.MONSTER)
-                    .setShouldReceiveVelocityUpdates(true)
-                    .setTrackingRange(64)
-                    .setUpdateInterval(3)
-                    .setCustomClientFactory(PainfulMan::new)
-                    .sized(0.6f, 1.8f));
-    public static final RegistryObject<EntityType<EntityTZT>> MOBA = register("entity_tzt",
-            EntityType.Builder.<EntityTZT>of(EntityTZT::new, MobCategory.MONSTER)
-                    .setShouldReceiveVelocityUpdates(true)
-                    .setTrackingRange(64)
-                    .setUpdateInterval(3)
-                    .setCustomClientFactory(EntityTZT::new)
-                    .sized(0.6f, 1.8f));
-    public static final RegistryObject<EntityType<Mask>> MASK = register("mask",
-            EntityType.Builder.<Mask>of(Mask::new, MobCategory.MONSTER)
-                    .setShouldReceiveVelocityUpdates(true)
-                    .setTrackingRange(64)
-                    .setUpdateInterval(3)
-                    .setCustomClientFactory(Mask::new)
-                    .sized(0.6f, 1.8f));
-    public static void register(IEventBus bus){
+    public static void register(IEventBus bus) {
         ENTITIES.register(bus);
     }
+
     public static class Projectiles {
-        private static <T extends Entity> RegistryObject<EntityType<T>> registerProjectile(String registryName, EntityType.EntityFactory<T> factory) {
+        static <T extends Entity> RegistryObject<EntityType<T>> registerProjectile(String registryName, EntityType.EntityFactory<T> factory) {
             return registerProjectile(registryName, factory, 0.25f, 0.25f);
         }
 
@@ -107,11 +77,12 @@ public class EntityRegistry {
             });
         }
     }
+
     public static class EntityRenders {
         private static List<EntityRendererPackage> RENDERER_PACKAGES = new ObjectArrayList<>();
-        public static final EntityRendererPackage<?> POISON_SHOT = new EntityRendererPackage<>(EntityRegistry.FIREWAND_SHOT)
+        public static final EntityRendererPackage<?> POISON_SHOT = new EntityRendererPackage<>(OHEntities.FIREWAND_SHOT)
                 .provider(FireWandShotRender::new);
-        public static final EntityRendererPackage<?> IRON_BULLET = new EntityRendererPackage<>(EntityRegistry.IRON_BULLET)
+        public static final EntityRendererPackage<?> IRON_BULLET = new EntityRendererPackage<>(OHEntities.IRON_BULLET)
                 .provider(BulletRenderer::new);
 
         public static void init() {
@@ -124,10 +95,10 @@ public class EntityRegistry {
             for (EntityRendererPackage<Entity> rendererPackage : RENDERER_PACKAGES) {
                 event.registerEntityRenderer(rendererPackage.entityType.get(), rendererPackage.build());
             }
-            event.registerEntityRenderer(YEE.get(), YeeRender::new);
-            event.registerEntityRenderer(PAINFUL_MAN.get(), PainfulManRender::new);
-            event.registerEntityRenderer(MOBA.get(), EntityTZTRender::new);
-            event.registerEntityRenderer(MASK.get(), MaskRender::new);
+            event.registerEntityRenderer(OHEntities.YEE.get(), YeeRender::new);
+            event.registerEntityRenderer(OHEntities.PAINFUL_MAN.get(), PainfulManRender::new);
+            event.registerEntityRenderer(OHEntities.TZT.get(), EntityTZTRender::new);
+            event.registerEntityRenderer(OHEntities.MASK.get(), MaskRender::new);
             RENDERER_PACKAGES = null;
 
         }
@@ -144,24 +115,29 @@ public class EntityRegistry {
 
             }
         }
+
         public static class EntityRendererPackage<T extends Entity> {
             protected final RegistryObject<EntityType<T>> entityType;
             protected final HashMap<String, Pair<ModelLayerLocation, Supplier<LayerDefinition>>> layerDefinitions = new HashMap<>();
             protected EntityRendererProvider<T> rendererProvider = null;
             protected float shadowSize = -1;
+
             private EntityRendererPackage(RegistryObject<EntityType<T>> entityType) {
                 this.entityType = entityType;
                 RENDERER_PACKAGES.add(this);
             }
+
             private EntityRendererPackage<T> provider(EntityRendererProvider<T> provider) {
                 this.rendererProvider = provider;
                 return this;
             }
+
             private void registerModelLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
                 for (Pair<ModelLayerLocation, Supplier<LayerDefinition>> layer : this.layerDefinitions.values()) {
                     event.registerLayerDefinition(layer.getFirst(), layer.getSecond());
                 }
             }
+
             protected EntityRendererProvider<T> build() {
                 if (this.rendererProvider == null)
                     throw new IllegalStateException("No registered renderer provider for entity: " + this.entityType.getId());
@@ -174,7 +150,7 @@ public class EntityRegistry {
         }
     }
 
-    private static <T extends Entity> RegistryObject<EntityType<T>> register(String registryname, EntityType.Builder<T> entityTypeBuilder) {
+    static <T extends Entity> RegistryObject<EntityType<T>> register(String registryname, EntityType.Builder<T> entityTypeBuilder) {
         return ENTITIES.register(registryname, () -> entityTypeBuilder.build(registryname));
     }
 
@@ -187,10 +163,10 @@ public class EntityRegistry {
 
     @SubscribeEvent
     public static void registerAttributes(EntityAttributeCreationEvent event) {
-        event.put(YEE.get(), Yee.createAttributes().build());
-        event.put(PAINFUL_MAN.get(), PainfulMan.createAttributes().build());
-        event.put(MASK.get(), Mask.createAttributes().build());
-        event.put(MOBA.get(), EntityTZT.createAttributes().build());
+        event.put(OHEntities.YEE.get(), Yee.createAttributes().build());
+        event.put(OHEntities.PAINFUL_MAN.get(), PainfulMan.createAttributes().build());
+        event.put(OHEntities.MASK.get(), Mask.createAttributes().build());
+        event.put(OHEntities.TZT.get(), EntityTZT.createAttributes().build());
     }
 
 }

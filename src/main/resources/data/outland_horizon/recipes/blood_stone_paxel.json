@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "a": {
+      "item": "outland_horizon:blood_stone_axe"
+    },
+    "b": {
+      "item": "outland_horizon:blood_stone_pickaxe"
+    },
+    "c": {
+      "item": "outland_horizon:blood_stone_shovel"
+    },
+    "l": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "abc",
+    " l ",
+    " l "
+  ],
+  "result": {
+    "item": "outland_horizon:blood_stone_paxel"
+  },
+  "show_notification": true
+}

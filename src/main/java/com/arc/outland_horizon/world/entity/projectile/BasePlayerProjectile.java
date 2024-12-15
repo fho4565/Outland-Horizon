@@ -114,6 +114,7 @@ public abstract class BasePlayerProjectile extends Projectile {
             }
             discard();
         }
+        super.onHit(result);
     }
 
     @Override

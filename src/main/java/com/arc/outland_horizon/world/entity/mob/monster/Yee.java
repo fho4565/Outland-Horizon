@@ -1,6 +1,6 @@
 package com.arc.outland_horizon.world.entity.mob.monster;
 
-import com.arc.outland_horizon.world.entity.EntityRegistry;
+import com.arc.outland_horizon.registry.OHEntities;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.resources.ResourceLocation;
@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class Yee extends Monster {
     public Yee(PlayMessages.SpawnEntity packet, Level world) {
-        this(EntityRegistry.YEE.get(), world);
+        this(OHEntities.YEE.get(), world);
     }
 
     public Yee(EntityType<Yee> type, Level world) {
@@ -51,7 +51,7 @@ public class Yee extends Monster {
         this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
         this.goalSelector.addGoal(3, new RandomStrollGoal(this, 0.8));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
-        }
+    }
 
     @Override
     public @NotNull MobType getMobType() {
@@ -74,7 +74,7 @@ public class Yee extends Monster {
     }
 
     public static void init() {
-        SpawnPlacements.register(EntityRegistry.YEE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+        SpawnPlacements.register(OHEntities.YEE.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 (entityType, world, reason, pos, random) -> (world.getDifficulty() != Difficulty.PEACEFUL && Monster.isDarkEnoughToSpawn(world, pos, random) && Mob.checkMobSpawnRules(entityType, world, reason, pos, random)));
     }
 

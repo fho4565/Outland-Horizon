@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "a": {
+      "item": "outland_horizon:nightmare_planks"
+    },
+    "l": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "ala",
+    "ala"
+  ],
+  "result": {
+    "item": "outland_horizon:nightmare_fence"
+  },
+  "show_notification": true
+}

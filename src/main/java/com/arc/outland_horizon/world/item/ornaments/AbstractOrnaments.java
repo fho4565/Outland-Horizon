@@ -1,4 +1,4 @@
-package com.arc.outland_horizon.world.item.ornaments.medal;
+package com.arc.outland_horizon.world.item.ornaments;
 
 import com.arc.outland_horizon.world.item.ICooldownItem;
 import net.minecraft.network.chat.Component;
@@ -11,8 +11,8 @@ import top.theillusivec4.curios.api.type.capability.ICurioItem;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public abstract class AbstractMedal extends Item implements ICooldownItem, ICurioItem {
-    public AbstractMedal(Properties properties) {
+public abstract class AbstractOrnaments extends Item implements ICooldownItem, ICurioItem {
+    public AbstractOrnaments(Properties properties) {
         super(properties);
     }
 

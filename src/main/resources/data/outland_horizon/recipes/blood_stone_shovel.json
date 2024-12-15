@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "a": {
+      "item": "outland_horizon:blood_stone"
+    },
+    "l": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "a",
+    "l",
+    "l"
+  ],
+  "result": {
+    "item": "outland_horizon:blood_stone_shovel"
+  },
+  "show_notification": true
+}

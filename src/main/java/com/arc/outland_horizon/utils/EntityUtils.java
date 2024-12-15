@@ -49,17 +49,16 @@ public class EntityUtils {
         target.hurt(new DamageSource(target.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE).getHolderOrThrow(damageType)), damage);
     }
 
-    public static boolean isInDimension(Entity entity, ResourceLocation dimensionLocation) {
-        return entity.level().dimension().location().compareTo(dimensionLocation) == 0;
+    public static boolean isInDimension(Entity entity, ResourceKey<Level> resourceLocation) {
+        return entity.level().dimension().compareTo(resourceLocation) == 0;
     }
 
-    public static void travelToDimension(ServerPlayer serverPlayer, ResourceLocation resourceLocation) {
+    public static void travelToDimension(ServerPlayer serverPlayer, ResourceKey<Level> resourceLocation) {
         if (!serverPlayer.level().isClientSide()) {
-            ResourceKey<Level> destinationType = ResourceKey.create(Registries.DIMENSION, resourceLocation);
-            if (serverPlayer.level().dimension() == destinationType) {
+            if (serverPlayer.level().dimension() == resourceLocation) {
                 return;
             }
-            ServerLevel nextLevel = serverPlayer.server.getLevel(destinationType);
+            ServerLevel nextLevel = serverPlayer.server.getLevel(resourceLocation);
             if (nextLevel != null) {
                 serverPlayer.connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.WIN_GAME, 0));
                 serverPlayer.teleportTo(nextLevel, serverPlayer.getX(), serverPlayer.getY(), serverPlayer.getZ(), serverPlayer.getYRot(), serverPlayer.getXRot());

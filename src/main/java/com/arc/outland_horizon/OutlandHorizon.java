@@ -1,11 +1,7 @@
 package com.arc.outland_horizon;
 
 import com.arc.outland_horizon.config.Configs;
-import com.arc.outland_horizon.registry.BlockRegistry;
-import com.arc.outland_horizon.registry.ItemRegistry;
-import com.arc.outland_horizon.registry.OHBlocks;
-import com.arc.outland_horizon.registry.OHMobEffects;
-import com.arc.outland_horizon.world.entity.EntityRegistry;
+import com.arc.outland_horizon.registry.*;
 import com.arc.outland_horizon.world.sound.SoundEventRegister;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.eventbus.api.IEventBus;

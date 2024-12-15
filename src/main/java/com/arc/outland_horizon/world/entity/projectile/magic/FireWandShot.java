@@ -1,6 +1,6 @@
 package com.arc.outland_horizon.world.entity.projectile.magic;
 
-import com.arc.outland_horizon.world.entity.EntityRegistry;
+import com.arc.outland_horizon.registry.OHEntities;
 import com.arc.outland_horizon.world.entity.projectile.BasePlayerProjectile;
 import com.arc.outland_horizon.world.item.weapons.IRangedWeapon;
 import net.minecraft.world.entity.EntityType;
@@ -14,14 +14,14 @@ public class FireWandShot extends BasePlayerProjectile {
     }
 
     public FireWandShot(Level world) {
-        super(EntityRegistry.FIREWAND_SHOT.get(), world);
+        super(OHEntities.FIREWAND_SHOT.get(), world);
     }
 
     public FireWandShot(LivingEntity shooter, IRangedWeapon weapon, float maxAge, float velocity) {
-        super(EntityRegistry.FIREWAND_SHOT.get(), shooter, weapon, maxAge, velocity, 1);
+        super(OHEntities.FIREWAND_SHOT.get(), shooter, weapon, maxAge, velocity, 1);
     }
 
     public FireWandShot(Level world, double x, double y, double z, int velocity) {
-        super(EntityRegistry.FIREWAND_SHOT.get(), world, x, y, z, velocity);
+        super(OHEntities.FIREWAND_SHOT.get(), world, x, y, z, velocity);
     }
 }

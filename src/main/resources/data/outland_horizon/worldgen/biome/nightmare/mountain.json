@@ -1,46 +1,52 @@
 {
-    "temperature": 0.8,
-    "downfall": 0.4,
-    "has_precipitation": true,
-    "effects": {
-        "sky_color": 0,
-        "fog_color": 5373952,
-        "water_color": 3342336,
-        "water_fog_color": 9699328,
-        "grass_color": 9043968,
-        "foliage_color": 4653056,
-        "mood_sound": {
-            "sound": "outland_horizon:nightmare_around",
-            "tick_delay": 300,
-            "offset": 6,
-            "block_search_extent": 8
-        }
-    },
-    "spawners": {
-        "monster": [
-            {
-                "type": "outland_horizon:painful_man",
-                "weight": 20,
-                "minCount": 1,
-                "maxCount": 4
-            }
-        ]
-    },
-    "spawn_costs": {},
-    "carvers": {},
-    "features": [
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [],
-        [
-            "outland_horizon:nightmare/mountain_tree"
-        ],
-        []
+  "temperature": 0.8,
+  "downfall": 1,
+  "has_precipitation": true,
+  "effects": {
+    "sky_color": 0,
+    "fog_color": 5373952,
+    "water_color": 3342336,
+    "water_fog_color": 9699328,
+    "grass_color": 9043968,
+    "foliage_color": 4653056,
+    "mood_sound": {
+      "sound": "outland_horizon:nightmare_around",
+      "tick_delay": 600,
+      "offset": 6,
+      "block_search_extent": 8
+    }
+  },
+  "spawners": {
+    "monster": [
+      {
+        "type": "outland_horizon:painful_man",
+        "weight": 20,
+        "minCount": 2,
+        "maxCount": 4
+      },
+      {
+        "type": "outland_horizon:mask",
+        "weight": 30,
+        "minCount": 1,
+        "maxCount": 3
+      }
     ]
+  },
+  "spawn_costs": {},
+  "carvers": {},
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "outland_horizon:nightmare/mountain_tree"
+    ],
+    []
+  ]
 }

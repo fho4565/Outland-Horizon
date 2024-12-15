@@ -1,58 +1,64 @@
 {
-    "temperature": 0.8,
-    "downfall": 0.4,
-    "has_precipitation": true,
-    "effects": {
-        "sky_color": 9043968,
-        "fog_color": 12237498,
-        "water_color": 3997696,
-        "water_fog_color": 10066329,
-        "grass_color": 16711680,
-        "foliage_color": 7667712,
-        "mood_sound": {
-            "sound": "outland_horizon:nightmare_around",
-            "tick_delay": 300,
-            "offset": 3,
-            "block_search_extent": 8
-        }
-    },
-    "spawners": {
-        "monster": [
-            {
-                "type": "outland_horizon:painful_man",
-                "weight": 20,
-                "minCount": 2,
-                "maxCount": 3
-            }
-        ]
-    },
-    "spawn_costs": {},
-    "carvers": {},
-    "features": [
-        [
-        ],
-        [
-            "outland_horizon:nightmare/blood_lake",
-            "outland_horizon:nightmare/arterial_blood_lake"
-        ],
-        [
-        ],
-        [
-        ],
-        [
-        ],
-        [
-        ],
-        [
-        ],
-        [
-        ],
-        [
-        ],
-        [
-            "outland_horizon:nightmare/plain_tree"
-        ],
-        [
-        ]
+  "temperature": 0.7,
+  "downfall": 1,
+  "has_precipitation": true,
+  "effects": {
+    "sky_color": 9043968,
+    "fog_color": 12237498,
+    "water_color": 3997696,
+    "water_fog_color": 10066329,
+    "grass_color": 16711680,
+    "foliage_color": 7667712,
+    "mood_sound": {
+      "sound": "outland_horizon:nightmare_around",
+      "tick_delay": 600,
+      "offset": 3,
+      "block_search_extent": 8
+    }
+  },
+  "spawners": {
+    "monster": [
+      {
+        "type": "outland_horizon:painful_man",
+        "weight": 20,
+        "minCount": 4,
+        "maxCount": 7
+      },
+      {
+        "type": "outland_horizon:mask",
+        "weight": 30,
+        "minCount": 2,
+        "maxCount": 4
+      }
     ]
+  },
+  "spawn_costs": {},
+  "carvers": {},
+  "features": [
+    [
+    ],
+    [
+      "outland_horizon:nightmare/blood_lake",
+      "outland_horizon:nightmare/arterial_blood_lake"
+    ],
+    [
+    ],
+    [
+    ],
+    [
+    ],
+    [
+    ],
+    [
+    ],
+    [
+    ],
+    [
+    ],
+    [
+      "outland_horizon:nightmare/plain_tree"
+    ],
+    [
+    ]
+  ]
 }

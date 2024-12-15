@@ -1,8 +1,8 @@
 package com.arc.outland_horizon.world.entity.mob.monster;
 
+import com.arc.outland_horizon.registry.OHEntities;
 import com.arc.outland_horizon.utils.EntityUtils;
 import com.arc.outland_horizon.utils.Utils;
-import com.arc.outland_horizon.world.entity.EntityRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -44,7 +44,7 @@ public class PainfulMan extends Monster implements GeoEntity {
     private final AnimatableInstanceCache geoCache = GeckoLibUtil.createInstanceCache(this);
 
     public PainfulMan(PlayMessages.SpawnEntity packet, Level world) {
-        this(EntityRegistry.PAINFUL_MAN.get(), world);
+        this(OHEntities.PAINFUL_MAN.get(), world);
     }
 
     public PainfulMan(EntityType<PainfulMan> type, Level world) {
@@ -55,7 +55,7 @@ public class PainfulMan extends Monster implements GeoEntity {
     }
 
     public static void init() {
-        SpawnPlacements.register(EntityRegistry.PAINFUL_MAN.get(),
+        SpawnPlacements.register(OHEntities.PAINFUL_MAN.get(),
                 SpawnPlacements.Type.ON_GROUND,
                 Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
                 (entityType, world, reason, pos, random) -> (world.getDifficulty() != Difficulty.PEACEFUL && Monster.isDarkEnoughToSpawn(world, pos, random) && Mob.checkMobSpawnRules(entityType, world, reason, pos, random)));

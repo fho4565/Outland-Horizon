@@ -1,6 +1,8 @@
 package com.arc.outland_horizon.utils;
 
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,6 +14,16 @@ public class Utils {
 
     public static Boolean isDevelopEnvironment() {
         return !FMLEnvironment.production;
+    }
+
+    public static String getDescriptionIdName(Item item) {
+        String[] split = item.getDescriptionId().split("\\.");
+        return split[split.length - 1];
+    }
+
+    public static String getDescriptionIdName(Block block) {
+        String[] split = block.getDescriptionId().split("\\.");
+        return split[split.length - 1];
     }
 
     public static int getColorForBar(float scale) {

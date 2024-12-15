@@ -1,11 +1,13 @@
 package com.arc.outland_horizon.develop;
 
+import com.arc.outland_horizon.OutlandHorizon;
+import com.arc.outland_horizon.registry.OHBlockFamily;
+import com.arc.outland_horizon.registry.OHBlocks;
 import com.arc.outland_horizon.registry.OHItems;
+import com.arc.outland_horizon.utils.Utils;
+import net.minecraft.data.BlockFamily;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.NotNull;
@@ -31,6 +33,108 @@ public class ModRecipe extends RecipeProvider {
                 OHItems.Tool.BLOOD_STONE_SPADE.get(),
                 OHItems.Tool.BLOOD_STONE_HAMMER.get(),
                 OHItems.Tool.BLOOD_STONE_DESTROYER.get());
+        tools(writer, OHItems.Material.BLUE_GEM.get(),
+                OHItems.Weapon.Melee.Sword.BLUE_GEM_SWORD.get(),
+                OHItems.Tool.BLUE_GEM_PICKAXE.get(),
+                OHItems.Tool.BLUE_GEM_AXE.get(),
+                OHItems.Tool.BLUE_GEM_SHOVEL.get(),
+                OHItems.Tool.BLUE_GEM_HOE.get(),
+                OHItems.Tool.BLUE_GEM_PAXEL.get(),
+                OHItems.Tool.BLUE_GEM_SPADE.get(),
+                OHItems.Tool.BLUE_GEM_HAMMER.get(),
+                OHItems.Tool.BLUE_GEM_DESTROYER.get());
+        woodThings(writer, OHBlocks.Building.NIGHTMARE.NIGHTMARE_LOG.get().asItem(), OHBlocks.Building.NIGHTMARE.NIGHTMARE_WOOD.get().asItem(), OHBlockFamily.NIGHTMARE_LOG);
+        woodThings(writer, OHBlockFamily.COAGULATED_NIGHTMARE_LOG);
+    }
+
+    private void logSplit(Consumer<FinishedRecipe> writer, Item log, Item wood, Item planks) {
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, planks, 4)
+                .requires(log)
+                .unlockedBy("criteria", hasItems(log))
+                .save(writer, OutlandHorizon.createModResourceLocation(Utils.getDescriptionIdName(log) + "_to_" + Utils.getDescriptionIdName(planks)));
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, planks, 4)
+                .requires(wood)
+                .unlockedBy("criteria", hasItems(wood))
+                .save(writer, OutlandHorizon.createModResourceLocation(Utils.getDescriptionIdName(wood) + "_to_" + Utils.getDescriptionIdName(planks)));
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, wood, 3)
+                .pattern("aa")
+                .pattern("aa").define('a', log)
+                .unlockedBy("criteria", hasItems(log))
+                .save(writer);
+    }
+
+    private void woodThings(Consumer<FinishedRecipe> writer, Item planks, Item pressure_plate, Item trapdoor, Item button, Item stairs, Item slab, Item fence_gate, Item fence, Item door) {
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, button)
+                .requires(planks)
+                .unlockedBy("criteria", hasItems(planks))
+                .save(writer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, stairs, 4)
+                .pattern("  a")
+                .pattern(" aa")
+                .pattern("aaa").define('a', planks)
+                .unlockedBy("criteria", hasItems(planks))
+                .save(writer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, slab, 6)
+                .pattern("aaa").define('a', planks)
+                .unlockedBy("criteria", hasItems(planks))
+                .save(writer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, fence_gate)
+                .pattern("lal")
+                .pattern("lal").define('l', Items.STICK).define('a', planks)
+                .unlockedBy("criteria", hasItems(planks))
+                .save(writer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, fence)
+                .pattern("ala")
+                .pattern("ala").define('l', Items.STICK).define('a', planks)
+                .unlockedBy("criteria", hasItems(planks))
+                .save(writer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, door, 3)
+                .pattern("aa")
+                .pattern("aa")
+                .pattern("aa").define('a', planks)
+                .unlockedBy("criteria", hasItems(planks))
+                .save(writer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, pressure_plate)
+                .pattern("aa").define('a', planks)
+                .unlockedBy("criteria", hasItems(planks))
+                .save(writer);
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, trapdoor, 2)
+                .pattern("aaa")
+                .pattern("aaa")
+                .define('a', planks)
+                .unlockedBy("criteria", hasItems(planks))
+                .save(writer);
+    }
+
+    private void woodThings(Consumer<FinishedRecipe> writer, Item log, Item wood, Item planks, Item pressure_plate, Item trapdoor, Item button, Item stairs, Item slab, Item fence_gate, Item fence, Item door) {
+        logSplit(writer, log, wood, planks);
+        woodThings(writer, planks, pressure_plate, trapdoor, button, stairs, slab, fence_gate, fence, door);
+    }
+
+    private void woodThings(Consumer<FinishedRecipe> writer, BlockFamily blockFamily) {
+        Item planks = blockFamily.getBaseBlock().asItem();
+        Item button = blockFamily.get(BlockFamily.Variant.BUTTON).asItem();
+        Item stairs = blockFamily.get(BlockFamily.Variant.STAIRS).asItem();
+        Item slab = blockFamily.get(BlockFamily.Variant.SLAB).asItem();
+        Item fence_gate = blockFamily.get(BlockFamily.Variant.FENCE_GATE).asItem();
+        Item fence = blockFamily.get(BlockFamily.Variant.FENCE).asItem();
+        Item door = blockFamily.get(BlockFamily.Variant.DOOR).asItem();
+        Item pressure_plate = blockFamily.get(BlockFamily.Variant.PRESSURE_PLATE).asItem();
+        Item trapdoor = blockFamily.get(BlockFamily.Variant.TRAPDOOR).asItem();
+        woodThings(writer, planks, pressure_plate, trapdoor, button, stairs, slab, fence_gate, fence, door);
+    }
+
+    private void woodThings(Consumer<FinishedRecipe> writer, Item log, Item wood, BlockFamily blockFamily) {
+        Item planks = blockFamily.getBaseBlock().asItem();
+        Item button = blockFamily.get(BlockFamily.Variant.BUTTON).asItem();
+        Item stairs = blockFamily.get(BlockFamily.Variant.STAIRS).asItem();
+        Item slab = blockFamily.get(BlockFamily.Variant.SLAB).asItem();
+        Item fence_gate = blockFamily.get(BlockFamily.Variant.FENCE_GATE).asItem();
+        Item fence = blockFamily.get(BlockFamily.Variant.FENCE).asItem();
+        Item door = blockFamily.get(BlockFamily.Variant.DOOR).asItem();
+        Item pressure_plate = blockFamily.get(BlockFamily.Variant.PRESSURE_PLATE).asItem();
+        Item trapdoor = blockFamily.get(BlockFamily.Variant.TRAPDOOR).asItem();
+        woodThings(writer, log, wood, planks, pressure_plate, trapdoor, button, stairs, slab, fence_gate, fence, door);
     }
 
     private void tools(Consumer<FinishedRecipe> writer, Item material, Item sword, Item pickaxe, Item axe, Item shovel, Item hoe, Item paxel, Item spade, Item hammer, Item destroyer) {
@@ -46,7 +150,7 @@ public class ModRecipe extends RecipeProvider {
     }
 
     private void sword(Consumer<FinishedRecipe> writer, Item material, Item output) {
-        ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, output)
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, output)
                 .pattern("a")
                 .pattern("a")
                 .pattern("l")

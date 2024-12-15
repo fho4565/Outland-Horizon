@@ -1,7 +1,7 @@
 package com.arc.outland_horizon.world.entity.mob.monster;
 
+import com.arc.outland_horizon.registry.OHEntities;
 import com.arc.outland_horizon.world.entity.DamageResistance;
-import com.arc.outland_horizon.world.entity.EntityRegistry;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.server.level.ServerBossEvent;
@@ -30,7 +30,7 @@ public class EntityTZT extends Monster implements DamageResistance {
     private final ServerBossEvent bossEvent = (ServerBossEvent) (new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.PURPLE, BossEvent.BossBarOverlay.PROGRESS)).setCreateWorldFog(true).setDarkenScreen(true);
 
     public EntityTZT(PlayMessages.SpawnEntity packet, Level world) {
-        this(EntityRegistry.MOBA.get(), world);
+        this(OHEntities.TZT.get(), world);
     }
 
     public EntityTZT(EntityType<EntityTZT> pEntityType, Level pLevel) {

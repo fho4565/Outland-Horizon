@@ -39,7 +39,7 @@ public abstract class Gun extends UsableItem implements IRangedWeapon {
 
     @Override
     public boolean shouldCauseReequipAnimation(ItemStack oldStack, ItemStack newStack, boolean slotChanged) {
-        return false;
+        return isCooldown(oldStack);
     }
 
     @Override
@@ -51,6 +51,7 @@ public abstract class Gun extends UsableItem implements IRangedWeapon {
     @Override
     public void appendHoverText(@NotNull ItemStack itemStack, @Nullable Level level, @NotNull List<Component> components, @NotNull TooltipFlag isAdvanced) {
         super.appendHoverText(itemStack, level, components, isAdvanced);
+        components.add(Component.empty());
         components.add(rangedDamageTooltip());
         components.add(cooldownTooltip());
         components.add(inaccuracyTooltip());

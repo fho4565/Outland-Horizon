@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "a": {
+      "item": "outland_horizon:coagulated_nightmare_planks"
+    }
+  },
+  "pattern": [
+    "aaa",
+    "aaa"
+  ],
+  "result": {
+    "count": 2,
+    "item": "outland_horizon:coagulated_nightmare_trapdoor"
+  },
+  "show_notification": true
+}
