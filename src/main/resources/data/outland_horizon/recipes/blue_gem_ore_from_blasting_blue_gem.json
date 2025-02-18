@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.1,
+  "ingredient": {
+    "item": "outland_horizon:blue_gem_ore"
+  },
+  "result": "outland_horizon:blue_gem"
+}

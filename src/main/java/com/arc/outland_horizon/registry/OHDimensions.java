@@ -8,4 +8,5 @@ import net.minecraft.world.level.Level;
 public class OHDimensions {
     public static final ResourceKey<Level> NIGHTMARE = ResourceKey.create(Registries.DIMENSION, OutlandHorizon.createModResourceLocation("nightmare"));
     public static final ResourceKey<Level> DYSTOPIA = ResourceKey.create(Registries.DIMENSION, OutlandHorizon.createModResourceLocation("dystopia"));
+    public static final ResourceKey<Level> MATRIX = ResourceKey.create(Registries.DIMENSION, OutlandHorizon.createModResourceLocation("matrix"));
 }

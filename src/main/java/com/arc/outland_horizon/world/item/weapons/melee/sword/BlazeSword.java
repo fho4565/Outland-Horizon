@@ -53,6 +53,7 @@ public class BlazeSword extends SwordItem {
         return super.hurtEnemy(itemStack, target, attacker);
     }
 
+
     @Override
     public void appendHoverText(@NotNull ItemStack pStack, @Nullable Level pLevel, @NotNull List<Component> pTooltipComponents, @NotNull TooltipFlag pIsAdvanced) {
         pTooltipComponents.add(Component.literal("点燃敌人").withStyle(ChatFormatting.RED));

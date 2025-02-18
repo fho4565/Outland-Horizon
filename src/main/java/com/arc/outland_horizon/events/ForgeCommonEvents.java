@@ -1,6 +1,10 @@
 package com.arc.outland_horizon.events;
 
-import com.arc.outland_horizon.*;
+import com.arc.outland_horizon.OutlandHorizon;
+import com.arc.outland_horizon.core.ArmorSuits;
+import com.arc.outland_horizon.core.ModCommands;
+import com.arc.outland_horizon.core.ModDataManager;
+import com.arc.outland_horizon.core.ModDifficulties;
 import com.arc.outland_horizon.registry.ItemRegistry;
 import com.arc.outland_horizon.registry.OHDimensions;
 import com.arc.outland_horizon.registry.OHItems;
@@ -12,6 +16,7 @@ import com.arc.outland_horizon.world.capability.provider.OhAttributeProvider;
 import com.arc.outland_horizon.world.entity.DamageResistance;
 import com.arc.outland_horizon.world.item.ICooldownItem;
 import com.arc.outland_horizon.world.item.ISkillItem;
+import com.arc.outland_horizon.world.item.tools.multi.PaxelItem;
 import com.arc.outland_horizon.world.item.weapons.tank.buckler.Buckler;
 import com.arc.outland_horizon.world.sound.SoundEventRegister;
 import net.minecraft.ChatFormatting;
@@ -32,6 +37,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.monster.Zombie;
@@ -39,6 +45,7 @@ import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.PickaxeItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec2;
 import net.minecraftforge.common.BasicItemListing;
@@ -48,17 +55,23 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.living.*;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
+import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
+import net.minecraftforge.event.level.ExplosionEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -70,6 +83,14 @@ public class ForgeCommonEvents {
 
     @SubscribeEvent
     public static void onFMLCommonSetup(FMLCommonSetupEvent event) {
+        /*System.out.println("Ready to print");
+        FMLLoader.getLoadingModList().getModFiles().forEach(modFileInfo -> {
+            System.out.println(modFileInfo.getFile().getFileName());
+            modFileInfo.getMods().forEach(iModInfo -> System.out.println(iModInfo.getModId()));
+            System.out.println("------");
+        });
+        System.out.println("======");
+        event.getIMCStream().forEach(imcMessage -> System.out.println(imcMessage.toString()));*/
         OHItems.initCurio();
     }
 
@@ -83,8 +104,36 @@ public class ForgeCommonEvents {
     }
 
     @SubscribeEvent
+    public static void onFurnaceFuelBurnTime(FurnaceFuelBurnTimeEvent event) {
+        ItemStack itemStack = event.getItemStack();
+
+    }
+
+    @SubscribeEvent
+    public static void onLevelLoad(LevelEvent.Load event) {
+        ForgeRegistries.BIOMES.getKeys().forEach(System.out::println);
+        if (event.getLevel() instanceof ServerLevel serverLevel) {
+            if (serverLevel.dimension() == OHDimensions.MATRIX) {
+                /*if (!serverLevel.getBlockState(BlockPos.containing(0, 0, 0)).is(Blocks.BEDROCK)) {
+                    serverLevel.setBlock(BlockPos.containing(0, 0, 0), Blocks.BEDROCK.defaultBlockState(), 2);
+                }*/
+            }
+        }
+    }
+
+
+    @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         Player player = event.player;
+        WorldUtils.getEntitiesByRadio(player.level(), player.position(), 6).forEach(entity -> {
+            if (entity instanceof Creeper creeper) {
+                if (player instanceof ServerPlayer serverPlayer) {
+                    if (serverPlayer.gameMode.isSurvival()) {
+                        creeper.ignite();
+                    }
+                }
+            }
+        });
         CuriosApi.getCuriosInventory(player).resolve().ifPresent(iCuriosItemHandler -> iCuriosItemHandler.getCurios().forEach((s, iCurioStacksHandler) -> {
             ItemStack itemStack = iCurioStacksHandler.getStacks().getStackInSlot(0);
             if ((itemStack.getItem() instanceof ICooldownItem iCooldownItem) && itemStack.getItem() instanceof ICurioItem) {
@@ -146,10 +195,27 @@ public class ForgeCommonEvents {
     }
 
     @SubscribeEvent
+    public static void onExplosion(ExplosionEvent event) {
+        Optional.ofNullable(event.getExplosion().getExploder()).ifPresent(entity -> {
+            if (entity instanceof Creeper creeper) {
+                float f = creeper.isPowered() ? 2.0F : 1.0F;
+                int id = ModDataManager.modDifficulties.getId();
+                event.getExplosion().radius = (float) (event.getExplosion().radius * f * (1 + id * 0.25));
+            }
+        });
+    }
+
+    @SubscribeEvent
+    public void onLivingHeal(LivingHealEvent event) {
+    }
+
+    @SubscribeEvent
     public static void onPlayerWakeUp(PlayerWakeUpEvent event) {
         Player player = event.getEntity();
         if (player instanceof ServerPlayer serverPlayer) {
-            if (EntityUtils.isInDimension(player, Level.OVERWORLD)) {
+            if (EntityUtils.isInDimension(player, OHDimensions.DYSTOPIA)) {
+                EntityUtils.hurt(player, DamageTypes.GENERIC, Float.MAX_VALUE);
+            } else if (EntityUtils.isInDimension(player, Level.OVERWORLD)) {
                 if (player.getMainHandItem().is(OHItems.Utilities.BLOOD_BEAR.get())) {
                     EntityUtils.travelToDimension(serverPlayer, OHDimensions.NIGHTMARE);
                     ServerLevel nextLevel = serverPlayer.server.getLevel(OHDimensions.NIGHTMARE);
@@ -199,17 +265,6 @@ public class ForgeCommonEvents {
         if (targetEntity.hasEffect(OHMobEffects.NIGHTMARE_COMES.get())) {
             event.setAmount(damageAmount * 2);
         }
-        int difficultiesId = OHDataManager.modDifficulties.getId();
-        if (difficultiesId > ModDifficulties.DEATH.getId()) {
-            double armor = targetEntity.getAttributeValue(Attributes.ARMOR);
-            double armorToughness = targetEntity.getAttributeValue(Attributes.ARMOR_TOUGHNESS);
-            double useArmor = armor / 3 * difficultiesId;
-            if (damageAmount < useArmor) {
-                damageAmount = (float) Math.max(Math.min(2 * difficultiesId, damageAmount * 0.2) - 2 * (100 + armorToughness) / 200.0, 0);
-            } else {
-                damageAmount = (float) Math.max(damageAmount - useArmor * (100 + armorToughness) / 200.0, 0);
-            }
-        }
         if (targetEntity instanceof DamageResistance resistanceEntity && event.getSource().is(DamageTypes.MAGIC)) {
             float scale = (float) ((100.0 - resistanceEntity.magicDamageResistance()) / 100.0);
             damageAmount = Math.max(damageAmount * scale, 0);
@@ -217,7 +272,7 @@ public class ForgeCommonEvents {
         if (targetEntity instanceof ServerPlayer player) {
             if (sourceEntity instanceof Skeleton && event.getSource().is(DamageTypes.ARROW)) {
                 if (Utils.chanceToTrigger(
-                        switch (OHDataManager.modDifficulties) {
+                        switch (ModDataManager.modDifficulties) {
                             case DISABLED ->
                                     player.serverLevel().getServer().getWorldData().getDifficulty() == Difficulty.HARD ? 25 : 0;
                             case DEATH -> 50;
@@ -229,7 +284,7 @@ public class ForgeCommonEvents {
             }
             double shieldValue = ModCapabilities.getOhAttribute(player).getShieldValue();
             float shieldAbsorb = damageAmount *
-                    switch (OHDataManager.modDifficulties) {
+                    switch (ModDataManager.modDifficulties) {
                         case DISABLED -> 0.5f;
                         case DEATH -> 0.7f;
                         case TRIBULATION -> 0.85f;
@@ -255,7 +310,7 @@ public class ForgeCommonEvents {
     public static void onPlayerSleep(PlayerSleepInBedEvent event) {
         LivingEntity entity = event.getEntity();
         if (entity.hasEffect(OHMobEffects.NIGHTMARE_COMES.get())) {
-            EntityUtils.hurt(entity, DamageTypes.GENERIC, 5);
+            EntityUtils.hurt(entity, DamageTypes.GENERIC, entity.getMaxHealth() * 0.5f);
             event.setResult(Player.BedSleepingProblem.OTHER_PROBLEM);
             if (entity instanceof Player player) {
                 ChatUtils.singlePlayer(player, ChatUtils.translatable("text.outland_horizon.mob_effect.nightmare_comes.sleep").withStyle(ChatFormatting.DARK_RED));
@@ -283,7 +338,7 @@ public class ForgeCommonEvents {
     @SubscribeEvent
     public static void onLivingTick(LivingEvent.LivingTickEvent event) {
         LivingEntity entity = event.getEntity();
-        if (OHDataManager.modDifficulties == ModDifficulties.ETERNAL) {
+        if (ModDataManager.modDifficulties == ModDifficulties.ETERNAL) {
             if (entity instanceof Zombie zombie) {
                 AttributeInstance attribute = zombie.getAttribute(Attributes.MOVEMENT_SPEED);
                 if (attribute != null) {
@@ -315,7 +370,7 @@ public class ForgeCommonEvents {
     public static void onMobEffectAdded(MobEffectEvent.Added event) {
         MobEffectInstance effectInstance = event.getEffectInstance();
         if (event.getEntity() instanceof Player && !effectInstance.getEffect().isBeneficial()) {
-            switch (OHDataManager.modDifficulties) {
+            switch (ModDataManager.modDifficulties) {
                 case DEATH -> effectInstance.duration *= 2;
                 case TRIBULATION -> {
                     effectInstance.duration *= 2;
@@ -361,4 +416,15 @@ public class ForgeCommonEvents {
             ChatUtils.allPlayers(entityName.append("受到了" + event.getAmount() + "点伤害"));
         }
     }
+
+    @SubscribeEvent
+    public static void onItemTooltip(ItemTooltipEvent event) {
+        Item item = event.getItemStack().getItem();
+        if (item instanceof PickaxeItem pickaxeItem) {
+            event.getToolTip().add(Component.translatable("text.outland_horizon.gui.break_power", pickaxeItem.getTier().getLevel()));
+        } else if (item instanceof PaxelItem paxel) {
+            event.getToolTip().add(Component.translatable("text.outland_horizon.gui.break_power", paxel.getTier().getLevel()));
+        }
+    }
+
 }

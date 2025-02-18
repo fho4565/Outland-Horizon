@@ -18,6 +18,8 @@ public interface ISkillItem {
     String SKILLS_TAG = "skills";
     String DURATION = "duration";
     String COOLDOWN = "cooldown";
+    String RENDER_SKILL_COOLDOWN_BAR = "render_skill_cooldown_bar";
+    String RENDER_SKILL_DURATION_BAR = "render_skill_duration_bar";
     String TEXT = "text.outland_horizon.gui.weapon.skill.";
 
     Skill skill1();
@@ -53,11 +55,15 @@ public interface ISkillItem {
         CompoundTag skill1Tag = new CompoundTag();
         skill1Tag.putInt(DURATION, 0);
         skill1Tag.putInt(COOLDOWN, 0);
+        skill1Tag.putBoolean(RENDER_SKILL_DURATION_BAR, true);
+        skill1Tag.putBoolean(RENDER_SKILL_COOLDOWN_BAR, true);
         root.put("skill1", skill1Tag);
         if (skill2() != null) {
             CompoundTag skill2Tag = new CompoundTag();
             skill2Tag.putInt(DURATION, 0);
             skill2Tag.putInt(COOLDOWN, 0);
+            skill2Tag.putBoolean(RENDER_SKILL_DURATION_BAR, true);
+            skill2Tag.putBoolean(RENDER_SKILL_COOLDOWN_BAR, true);
             root.put("skill2", skill2Tag);
         }
         root.putInt(SKILLS_TAG, 1);
@@ -116,8 +122,10 @@ public interface ISkillItem {
         if (skill.autoReduceDuration()) {
             reduceDuration(player, itemStack);
         }
-        if (currentSkillCooldown > 0) {
-            currentSkillTag(itemStack).putInt(COOLDOWN, --currentSkillCooldown);
+        if (skill.autoCoolDown()) {
+            if (currentSkillCooldown > 0) {
+                currentSkillTag(itemStack).putInt(COOLDOWN, --currentSkillCooldown);
+            }
         }
         if (currentSkillDuration > 0) {
             skill.onSkillTick(player, itemStack);
@@ -166,19 +174,27 @@ public interface ISkillItem {
      * 冷却条的长度，默认以40像素为基准变化
      */
     default int skillCooldownBarWidth(ItemStack stack) {
-        return Utils.getScaledBarWidth(40f, (float) getCurrentSkillCooldown(stack) / currentSkill(stack).cooldown());
+        return Utils.getScaledBarWidth(45f, (float) getCurrentSkillCooldown(stack) / currentSkill(stack).cooldown());
     }
 
     default int skillDurationBarWidth(ItemStack stack) {
-        return Utils.getScaledBarWidth(40.0f, (1 - (float) getCurrentSkillDuration(stack) / currentSkill(stack).duration()));
+        return Utils.getScaledBarWidth(45.0f, (1 - (float) getCurrentSkillDuration(stack) / currentSkill(stack).duration()));
     }
 
     default boolean shouldRenderSkillCooldownBar(ItemStack itemStack) {
-        return true;
+        return currentSkillTag(itemStack).getBoolean(RENDER_SKILL_COOLDOWN_BAR);
+    }
+
+    default void setShouldRenderSkillCooldownBar(ItemStack itemStack, boolean value) {
+        currentSkillTag(itemStack).putBoolean(RENDER_SKILL_COOLDOWN_BAR, value);
     }
 
     default boolean shouldRenderSkillDurationBar(ItemStack itemStack) {
-        return true;
+        return currentSkillTag(itemStack).getBoolean(RENDER_SKILL_DURATION_BAR);
+    }
+
+    default void setShouldRenderSkillDurationBar(ItemStack itemStack, boolean value) {
+        currentSkillTag(itemStack).putBoolean(RENDER_SKILL_DURATION_BAR, value);
     }
 
     default List<Component> skillTooltip() {

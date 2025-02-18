@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "d": {
+      "item": "minecraft:nether_wart"
+    },
+    "h": {
+      "item": "minecraft:gunpowder"
+    },
+    "l": {
+      "item": "minecraft:blaze_rod"
+    },
+    "s": {
+      "item": "minecraft:potion"
+    },
+    "y": {
+      "item": "minecraft:glowstone_dust"
+    }
+  },
+  "pattern": [
+    "yhy",
+    "ldl",
+    " s "
+  ],
+  "result": {
+    "item": "outland_horizon:mad_potion"
+  },
+  "show_notification": true
+}

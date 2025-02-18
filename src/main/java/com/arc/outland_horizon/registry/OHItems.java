@@ -1,7 +1,8 @@
 package com.arc.outland_horizon.registry;
 
-import com.arc.outland_horizon.ModArmorMaterials;
-import com.arc.outland_horizon.ModTiers;
+import com.arc.outland_horizon.core.ModArmorMaterials;
+import com.arc.outland_horizon.core.ModTiers;
+import com.arc.outland_horizon.utils.EntityUtils;
 import com.arc.outland_horizon.utils.Utils;
 import com.arc.outland_horizon.world.item.consumables.potions.MadPotion;
 import com.arc.outland_horizon.world.item.consumables.potions.ManaPotion;
@@ -11,7 +12,7 @@ import com.arc.outland_horizon.world.item.tools.DungeonDestroyer;
 import com.arc.outland_horizon.world.item.tools.ZeroReformer;
 import com.arc.outland_horizon.world.item.tools.multi.Destroyer;
 import com.arc.outland_horizon.world.item.tools.multi.Hammer;
-import com.arc.outland_horizon.world.item.tools.multi.Paxel;
+import com.arc.outland_horizon.world.item.tools.multi.PaxelItem;
 import com.arc.outland_horizon.world.item.tools.multi.Spade;
 import com.arc.outland_horizon.world.item.utility.DamoclesSword;
 import com.arc.outland_horizon.world.item.weapons.magic.book.ShieldBook;
@@ -22,14 +23,24 @@ import com.arc.outland_horizon.world.item.weapons.melee.sword.Debugger;
 import com.arc.outland_horizon.world.item.weapons.melee.sword.Elegy;
 import com.arc.outland_horizon.world.item.weapons.ranged.gun.*;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.phys.Vec2;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 import top.theillusivec4.curios.api.CuriosApi;
+
+import javax.annotation.Nonnull;
+
+import static com.arc.outland_horizon.registry.ItemRegistry.registerMaterial;
 
 public class OHItems {
     public static void initCurio() {
@@ -78,7 +89,7 @@ public class OHItems {
         public static final RegistryObject<Item> BLUE_GEM_AXE = ItemRegistry.registerTool("blue_gem_axe", () -> new AxeItem(ModTiers.BLUE_GEM, 6, -3.1f, new Item.Properties()));
         public static final RegistryObject<Item> BLUE_GEM_SHOVEL = ItemRegistry.registerTool("blue_gem_shovel", () -> new ShovelItem(ModTiers.BLUE_GEM, 1.5f, -3.0f, new Item.Properties()));
         public static final RegistryObject<Item> BLUE_GEM_HOE = ItemRegistry.registerTool("blue_gem_hoe", () -> new HoeItem(ModTiers.BLUE_GEM, -2, -1.0f, new Item.Properties()));
-        public static final RegistryObject<Item> BLUE_GEM_PAXEL = ItemRegistry.registerTool("blue_gem_paxel", () -> new Paxel(ModTiers.BLUE_GEM, new Item.Properties()));
+        public static final RegistryObject<Item> BLUE_GEM_PAXEL = ItemRegistry.registerTool("blue_gem_paxel", () -> new PaxelItem(ModTiers.BLUE_GEM, new Item.Properties()));
         public static final RegistryObject<Item> BLUE_GEM_HAMMER = ItemRegistry.registerTool("blue_gem_hammer", () -> new Hammer(ModTiers.BLUE_GEM, new Item.Properties()));
         public static final RegistryObject<Item> BLUE_GEM_SPADE = ItemRegistry.registerTool("blue_gem_spade", () -> new Spade(ModTiers.BLUE_GEM, new Item.Properties()));
         public static final RegistryObject<Item> BLUE_GEM_DESTROYER = ItemRegistry.registerTool("blue_gem_destroyer", () -> new Destroyer(ModTiers.BLUE_GEM, new Item.Properties()));
@@ -87,12 +98,12 @@ public class OHItems {
         public static final RegistryObject<Item> BLOOD_STONE_AXE = ItemRegistry.registerTool("blood_stone_axe", () -> new AxeItem(ModTiers.BLOOD_STONE, 6, -3.1f, new Item.Properties()));
         public static final RegistryObject<Item> BLOOD_STONE_SHOVEL = ItemRegistry.registerTool("blood_stone_shovel", () -> new ShovelItem(ModTiers.BLOOD_STONE, 1.5f, -3.0f, new Item.Properties()));
         public static final RegistryObject<Item> BLOOD_STONE_HOE = ItemRegistry.registerTool("blood_stone_hoe", () -> new HoeItem(ModTiers.BLOOD_STONE, -2, -1.0f, new Item.Properties()));
-        public static final RegistryObject<Item> BLOOD_STONE_PAXEL = ItemRegistry.registerTool("blood_stone_paxel", () -> new Paxel(ModTiers.BLOOD_STONE, new Item.Properties()));
+        public static final RegistryObject<Item> BLOOD_STONE_PAXEL = ItemRegistry.registerTool("blood_stone_paxel", () -> new PaxelItem(ModTiers.BLOOD_STONE, new Item.Properties()));
         public static final RegistryObject<Item> BLOOD_STONE_HAMMER = ItemRegistry.registerTool("blood_stone_hammer", () -> new Hammer(ModTiers.BLOOD_STONE, new Item.Properties()));
         public static final RegistryObject<Item> BLOOD_STONE_SPADE = ItemRegistry.registerTool("blood_stone_spade", () -> new Spade(ModTiers.BLOOD_STONE, new Item.Properties()));
         public static final RegistryObject<Item> BLOOD_STONE_DESTROYER = ItemRegistry.registerTool("blood_stone_destroyer", () -> new Destroyer(ModTiers.BLOOD_STONE, new Item.Properties()));
 
-        public static final RegistryObject<Item> WOODEN_PAXEL = ItemRegistry.registerTool("wooden_paxel", () -> new Paxel(new Tier() {
+        public static final RegistryObject<Item> WOODEN_PAXEL = ItemRegistry.registerTool("wooden_paxel", () -> new PaxelItem(new Tier() {
             @Override
             public int getUses() {
                 return Math.round(Tiers.WOOD.getUses() * 2.5f);
@@ -124,48 +135,60 @@ public class OHItems {
             }
         }, new Item.Properties()));
 
-        public static final RegistryObject<Item> STONE_PAXEL = ItemRegistry.registerTool("stone_paxel", () -> new Paxel(Tiers.STONE, new Item.Properties()));
+        public static final RegistryObject<Item> STONE_PAXEL = ItemRegistry.registerTool("stone_paxel", () -> new PaxelItem(Tiers.STONE, new Item.Properties()));
         public static final RegistryObject<Item> STONE_HAMMER = ItemRegistry.registerTool("stone_hammer", () -> new Hammer(Tiers.STONE, new Item.Properties()));
         public static final RegistryObject<Item> STONE_SPADE = ItemRegistry.registerTool("stone_spade", () -> new Spade(Tiers.STONE, new Item.Properties()));
         public static final RegistryObject<Item> STONE_DESTROYER = ItemRegistry.registerTool("stone_destroyer", () -> new Destroyer(Tiers.STONE, new Item.Properties()));
 
-        public static final RegistryObject<Item> IRON_PAXEL = ItemRegistry.registerTool("iron_paxel", () -> new Paxel(Tiers.IRON, new Item.Properties()));
+        public static final RegistryObject<Item> IRON_PAXEL = ItemRegistry.registerTool("iron_paxel", () -> new PaxelItem(Tiers.IRON, new Item.Properties()));
         public static final RegistryObject<Item> IRON_HAMMER = ItemRegistry.registerTool("iron_hammer", () -> new Hammer(Tiers.IRON, new Item.Properties()));
         public static final RegistryObject<Item> IRON_SPADE = ItemRegistry.registerTool("iron_spade", () -> new Spade(Tiers.IRON, new Item.Properties()));
         public static final RegistryObject<Item> IRON_DESTROYER = ItemRegistry.registerTool("iron_destroyer", () -> new Destroyer(Tiers.IRON, new Item.Properties()));
 
-        public static final RegistryObject<Item> GOLDEN_PAXEL = ItemRegistry.registerTool("golden_paxel", () -> new Paxel(Tiers.GOLD, new Item.Properties()));
+        public static final RegistryObject<Item> GOLDEN_PAXEL = ItemRegistry.registerTool("golden_paxel", () -> new PaxelItem(Tiers.GOLD, new Item.Properties()));
         public static final RegistryObject<Item> GOLDEN_HAMMER = ItemRegistry.registerTool("golden_hammer", () -> new Hammer(Tiers.GOLD, new Item.Properties()));
         public static final RegistryObject<Item> GOLDEN_SPADE = ItemRegistry.registerTool("golden_spade", () -> new Spade(Tiers.GOLD, new Item.Properties()));
         public static final RegistryObject<Item> GOLDEN_DESTROYER = ItemRegistry.registerTool("golden_destroyer", () -> new Destroyer(Tiers.GOLD, new Item.Properties()));
 
-        public static final RegistryObject<Item> DIAMOND_PAXEL = ItemRegistry.registerTool("diamond_paxel", () -> new Paxel(Tiers.DIAMOND, new Item.Properties()));
+        public static final RegistryObject<Item> DIAMOND_PAXEL = ItemRegistry.registerTool("diamond_paxel", () -> new PaxelItem(Tiers.DIAMOND, new Item.Properties()));
         public static final RegistryObject<Item> DIAMOND_HAMMER = ItemRegistry.registerTool("diamond_hammer", () -> new Hammer(Tiers.DIAMOND, new Item.Properties()));
         public static final RegistryObject<Item> DIAMOND_SPADE = ItemRegistry.registerTool("diamond_spade", () -> new Spade(Tiers.DIAMOND, new Item.Properties()));
         public static final RegistryObject<Item> DIAMOND_DESTROYER = ItemRegistry.registerTool("diamond_destroyer", () -> new Destroyer(Tiers.DIAMOND, new Item.Properties()));
 
-        public static final RegistryObject<Item> NETHERITE_PAXEL = ItemRegistry.registerTool("netherite_paxel", () -> new Paxel(Tiers.NETHERITE, new Item.Properties()));
+        public static final RegistryObject<Item> NETHERITE_PAXEL = ItemRegistry.registerTool("netherite_paxel", () -> new PaxelItem(Tiers.NETHERITE, new Item.Properties()));
         public static final RegistryObject<Item> NETHERITE_HAMMER = ItemRegistry.registerTool("netherite_hammer", () -> new Hammer(Tiers.NETHERITE, new Item.Properties()));
         public static final RegistryObject<Item> NETHERITE_SPADE = ItemRegistry.registerTool("netherite_spade", () -> new Spade(Tiers.NETHERITE, new Item.Properties()));
         public static final RegistryObject<Item> NETHERITE_DESTROYER = ItemRegistry.registerTool("netherite_destroyer", () -> new Destroyer(Tiers.NETHERITE, new Item.Properties()));
         public static final RegistryObject<Item> DEBUGGER = ItemRegistry.registerItem("debug_sword", Debugger::new);
 
         private static void init() {
+
         }
     }
 
     public static class Material {
-        public static final RegistryObject<Item> NIGHTMARE_ENERGY = ItemRegistry.registerMaterial("nightmare_energy", () -> new Item(new Item.Properties()));
-        public static final RegistryObject<Item> REINFORCED_IRON_INGOT = ItemRegistry.registerMaterial("reinforced_iron_ingot", () -> new Item(new Item.Properties()));
-        public static final RegistryObject<Item> REINFORCED_GOLD_INGOT = ItemRegistry.registerMaterial("reinforced_gold_ingot", () -> new Item(new Item.Properties()));
-        public static final RegistryObject<Item> MATRIX_INGOT = ItemRegistry.registerMaterial("matrix_ingot", () -> new Item(new Item.Properties()));
-        public static final RegistryObject<Item> BLUE_GEM = ItemRegistry.registerMaterial("blue_gem", () -> new Item(new Item.Properties()));
-        public static final RegistryObject<Item> BLOOD_STONE = ItemRegistry.registerMaterial("blood_stone", () -> new Item(new Item.Properties()));
-        public static final RegistryObject<Item> VOID_CRYSTAL = ItemRegistry.registerMaterial("void_crystal", () -> new Item(new Item.Properties()));
-        public static final RegistryObject<Item> CONDENSED_CRYSTAL = ItemRegistry.registerMaterial("condensed_crystal", () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
+        public static final RegistryObject<Item> NIGHTMARE_ENERGY = registerMaterial("nightmare_energy", () -> new Item(new Item.Properties()));
+        public static final RegistryObject<Item> REINFORCED_IRON_INGOT = registerMaterial("reinforced_iron_ingot", () -> new Item(new Item.Properties()));
+        public static final RegistryObject<Item> REINFORCED_GOLD_INGOT = registerMaterial("reinforced_gold_ingot", () -> new Item(new Item.Properties()));
+        public static final RegistryObject<Item> MATRIX_INGOT = registerMaterial("matrix_ingot", () -> new Item(new Item.Properties()));
+        public static final RegistryObject<Item> BLUE_GEM = registerMaterial("blue_gem", () -> new Item(new Item.Properties()));
+        public static final RegistryObject<Item> RED_GEM = registerMaterial("red_gem", () -> new Item(new Item.Properties()));
+        public static final RegistryObject<Item> YELLOW_GEM = registerMaterial("yellow_gem", () -> new Item(new Item.Properties()));
+        public static final RegistryObject<Item> BLACK_GEM = registerMaterial("black_gem", () -> new Item(new Item.Properties()));
+        public static final RegistryObject<Item> WHITE_GEM = registerMaterial("white_gem", () -> new Item(new Item.Properties()));
+        public static final RegistryObject<Item> PURPLE_GEM = registerMaterial("purple_gem", () -> new Item(new Item.Properties()));
+        public static final RegistryObject<Item> WATER_GEMSTONE = registerMaterial("water_crystal_stone", () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
+        public static final RegistryObject<Item> NETHER_CRYSTAL_STONE = registerMaterial("nether_crystal_stone", () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
+        public static final RegistryObject<Item> SANDSTORM_CRYSTAL_STONE = registerMaterial("sandstorm_crystal_stone", () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
+        public static final RegistryObject<Item> ABYSS_CRYSTAL_STONE = registerMaterial("abyss_crystal_stone", () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
+        public static final RegistryObject<Item> WHITE_ABYSS_CRYSTAL_STONE = registerMaterial("white_abyss_crystal_stone", () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
+        public static final RegistryObject<Item> END_CRYSTAL_STONE = registerMaterial("end_crystal_stone", () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
+        public static final RegistryObject<Item> BLOOD_STONE = registerMaterial("blood_stone", () -> new Item(new Item.Properties()));
+        public static final RegistryObject<Item> VOID_CRYSTAL = registerMaterial("void_crystal", () -> new Item(new Item.Properties()));
+        public static final RegistryObject<Item> CONDENSED_CRYSTAL = registerMaterial("condensed_crystal", () -> new Item(new Item.Properties().rarity(Rarity.UNCOMMON)));
 
 
-        public static final RegistryObject<Item> APOCALYPTIC_CRYSTAL = ItemRegistry.registerMaterial("apocalyptic_crystal", () -> new Item(new Item.Properties()));
+        public static final RegistryObject<Item> APOCALYPTIC_CRYSTAL = registerMaterial("apocalyptic_crystal", () -> new Item(new Item.Properties()));
 
         private static void init() {
         }
@@ -195,7 +218,30 @@ public class OHItems {
 
     public static class Utilities {
         public static final RegistryObject<Item> BEAR = ItemRegistry.registerUtilities("bear", () -> new Item(new Item.Properties().stacksTo(1)));
-        public static final RegistryObject<Item> BLOOD_BEAR = ItemRegistry.registerUtilities("blood_bear", () -> new Item(new Item.Properties().stacksTo(1)));
+        public static final RegistryObject<Item> BLOOD_BEAR = ItemRegistry.registerUtilities("blood_bear", () -> new Item(new Item.Properties().stacksTo(1)) {
+            @Nonnull
+            @Override
+            public InteractionResult useOn(@Nonnull UseOnContext context) {
+                Player player = context.getPlayer();
+                if (player == null) {
+                    return super.useOn(context);
+                }
+                if (player.level().getBlockState(context.getClickedPos()).is(OHBlocks.Functional.TEXTURES_TEST_BLOCK.get())) {
+                    if (EntityUtils.isInDimension(player, OHDimensions.NIGHTMARE)) {
+                        if (context.getItemInHand().is(Utilities.BLOOD_BEAR.get())) {
+                            if (player instanceof ServerPlayer serverPlayer) {
+                                EntityUtils.travelToDimension(serverPlayer, OHDimensions.DYSTOPIA);
+                                ServerLevel nextLevel = serverPlayer.server.getLevel(OHDimensions.DYSTOPIA);
+                                if (nextLevel != null) {
+                                    EntityUtils.spreadEntity(nextLevel, serverPlayer, new Vec2(0, 0), 128, 192, 128);
+                                }
+                            }
+                        }
+                    }
+                }
+                return super.useOn(context);
+            }
+        });
         public static final RegistryObject<Item> DAMOCLES_SWORD = ItemRegistry.registerUtilities("damocles_sword", DamoclesSword::new);
 
         private static void init() {
@@ -285,7 +331,7 @@ public class OHItems {
                 public static final RegistryObject<Item> BLAZE_SWORD = ItemRegistry.registerWeaponMelee("blaze_sword", BlazeSword::new);
                 public static final RegistryObject<Item> BLUE_GEM_SWORD = ItemRegistry.registerWeaponMelee("blue_gem_sword", () -> new SwordItem(ModTiers.BLUE_GEM, 3, -2.4f, new Item.Properties()));
                 public static final RegistryObject<Item> BLOOD_STONE_SWORD = ItemRegistry.registerWeaponMelee("blood_stone_sword", () -> new SwordItem(ModTiers.BLOOD_STONE, 3, -2.4f, new Item.Properties()));
-                public static final RegistryObject<Item> MATRIX_SWORD = ItemRegistry.registerWeaponMelee("matrix_sword", () -> new SwordItem(ModTiers.MATRIX_INGOT, 9, -2.4f, new Item.Properties()));
+                public static final RegistryObject<Item> MATRIX_SWORD = ItemRegistry.registerWeaponMelee("matrix_sword", () -> new SwordItem(ModTiers.MATRIX_INGOT, 3, -2.4f, new Item.Properties().rarity(Rarity.UNCOMMON)));
                 public static final RegistryObject<Item> ELEGY = ItemRegistry.registerWeaponMelee("elegy", Elegy::new);
 
                 private static void init() {

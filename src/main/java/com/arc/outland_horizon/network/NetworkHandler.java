@@ -1,9 +1,7 @@
 package com.arc.outland_horizon.network;
 
 import com.arc.outland_horizon.OutlandHorizon;
-import com.arc.outland_horizon.network.server.C2SPacket;
-import com.arc.outland_horizon.network.server.ServerAttributeSyncPacket;
-import com.arc.outland_horizon.network.server.ServerModifyAttributesPacket;
+import com.arc.outland_horizon.network.packets.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
@@ -27,24 +25,29 @@ public class NetworkHandler {
         );
         INSTANCE.messageBuilder(ServerModifyAttributesPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(ServerModifyAttributesPacket::new)
-                .encoder(ServerModifyAttributesPacket::toBytes)
+                .encoder(ServerModifyAttributesPacket::encode)
                 .consumerMainThread(ServerModifyAttributesPacket::handle)
                 .add();
 
         INSTANCE.messageBuilder(ServerAttributeSyncPacket.class, id++, NetworkDirection.PLAY_TO_CLIENT)
                 .decoder(ServerAttributeSyncPacket::new)
-                .encoder(ServerAttributeSyncPacket::toBytes)
+                .encoder(ServerAttributeSyncPacket::encode)
                 .consumerMainThread(ServerAttributeSyncPacket::handle)
                 .add();
         INSTANCE.messageBuilder(C2SPacket.class, id++)
                 .decoder(C2SPacket::new)
-                .encoder(C2SPacket::toBytes)
+                .encoder(C2SPacket::encode)
                 .consumerMainThread(C2SPacket::handle)
                 .add();
         INSTANCE.messageBuilder(OHChangeDifficultyPacket.class, id++)
                 .decoder(OHChangeDifficultyPacket::new)
-                .encoder(OHChangeDifficultyPacket::toBytes)
+                .encoder(OHChangeDifficultyPacket::encode)
                 .consumerMainThread(OHChangeDifficultyPacket::handle)
+                .add();
+        INSTANCE.messageBuilder(ToastPacket.class, id++)
+                .encoder(ToastPacket::encode)
+                .decoder(ToastPacket::decode)
+                .consumerNetworkThread(ToastPacket::handle)
                 .add();
     }
 

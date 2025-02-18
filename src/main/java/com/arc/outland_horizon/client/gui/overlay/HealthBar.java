@@ -15,7 +15,7 @@ public class HealthBar extends HudSection {
     private final ResourceLocation texture = OutlandHorizon.createModResourceLocation("textures/gui/health_bar.png");
 
     public HealthBar() {
-        super(0, 0);
+        super();
     }
 
     private static float getShieldValueScale(LocalPlayer player) {

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "a": {
+      "item": "outland_horizon:blood_stone"
+    }
+  },
+  "pattern": [
+    "a a",
+    "aaa",
+    "aaa"
+  ],
+  "result": {
+    "item": "outland_horizon:blood_stone_chestplate"
+  },
+  "show_notification": true
+}

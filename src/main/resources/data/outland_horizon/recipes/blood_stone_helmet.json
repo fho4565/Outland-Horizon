@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "a": {
+      "item": "outland_horizon:blood_stone"
+    }
+  },
+  "pattern": [
+    "aaa",
+    "a a"
+  ],
+  "result": {
+    "item": "outland_horizon:blood_stone_helmet"
+  },
+  "show_notification": true
+}

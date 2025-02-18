@@ -3,5 +3,6 @@
   "textures": {
     "bottom": "outland_horizon:block/building/coagulated_nightmare_door_bottom",
     "top": "outland_horizon:block/building/coagulated_nightmare_door_top"
-  }
+  },
+  "render_type": "cutout"
 }

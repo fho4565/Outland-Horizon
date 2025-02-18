@@ -1,17 +1,24 @@
 package com.arc.outland_horizon.develop;
 
 import com.arc.outland_horizon.OutlandHorizon;
-import com.arc.outland_horizon.registry.OHBlockFamily;
-import com.arc.outland_horizon.registry.OHBlocks;
+import com.arc.outland_horizon.core.LogPack;
+import com.arc.outland_horizon.core.MaterialPack;
+import com.arc.outland_horizon.core.ModPacks;
 import com.arc.outland_horizon.registry.OHItems;
+import com.arc.outland_horizon.utils.ItemUtils;
 import com.arc.outland_horizon.utils.Utils;
-import net.minecraft.data.BlockFamily;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.function.Consumer;
 
 import static net.minecraft.advancements.critereon.InventoryChangeTrigger.TriggerInstance.hasItems;
@@ -23,28 +30,109 @@ public class ModRecipe extends RecipeProvider {
 
     @Override
     protected void buildRecipes(@NotNull Consumer<FinishedRecipe> writer) {
-        tools(writer, OHItems.Material.BLOOD_STONE.get(),
-                OHItems.Weapon.Melee.Sword.BLOOD_STONE_SWORD.get(),
-                OHItems.Tool.BLOOD_STONE_PICKAXE.get(),
-                OHItems.Tool.BLOOD_STONE_AXE.get(),
-                OHItems.Tool.BLOOD_STONE_SHOVEL.get(),
-                OHItems.Tool.BLOOD_STONE_HOE.get(),
-                OHItems.Tool.BLOOD_STONE_PAXEL.get(),
-                OHItems.Tool.BLOOD_STONE_SPADE.get(),
-                OHItems.Tool.BLOOD_STONE_HAMMER.get(),
-                OHItems.Tool.BLOOD_STONE_DESTROYER.get());
-        tools(writer, OHItems.Material.BLUE_GEM.get(),
-                OHItems.Weapon.Melee.Sword.BLUE_GEM_SWORD.get(),
-                OHItems.Tool.BLUE_GEM_PICKAXE.get(),
-                OHItems.Tool.BLUE_GEM_AXE.get(),
-                OHItems.Tool.BLUE_GEM_SHOVEL.get(),
-                OHItems.Tool.BLUE_GEM_HOE.get(),
-                OHItems.Tool.BLUE_GEM_PAXEL.get(),
-                OHItems.Tool.BLUE_GEM_SPADE.get(),
-                OHItems.Tool.BLUE_GEM_HAMMER.get(),
-                OHItems.Tool.BLUE_GEM_DESTROYER.get());
-        woodThings(writer, OHBlocks.Building.NIGHTMARE.NIGHTMARE_LOG.get().asItem(), OHBlocks.Building.NIGHTMARE.NIGHTMARE_WOOD.get().asItem(), OHBlockFamily.NIGHTMARE_LOG);
-        woodThings(writer, OHBlockFamily.COAGULATED_NIGHTMARE_LOG);
+        Init.Consumable.initPotions(writer);
+        materialPack(writer, ModPacks.BLOOD_STONE);
+        materialPack(writer, ModPacks.BLUE_GEM);
+        woodThings(writer, ModPacks.NIGHTMARE_LOG);
+        woodThings(writer, ModPacks.COAGULATED_NIGHTMARE_LOG);
+        oreFamily(writer, ModPacks.BLUE_GEM);
+        oreFamily(writer, ModPacks.BLOOD_STONE);
+    }
+
+    private void vanilla(Consumer<FinishedRecipe> writer) {
+        paxel(writer, Items.WOODEN_AXE, Items.WOODEN_PICKAXE, Items.WOODEN_SHOVEL, OHItems.Tool.WOODEN_PAXEL.get());
+
+        paxel(writer, Items.STONE_AXE, Items.STONE_PICKAXE, Items.STONE_SHOVEL, OHItems.Tool.STONE_PAXEL.get());
+        spade(writer, Items.STONE, OHItems.Tool.STONE_SPADE.get());
+        hammer(writer, Items.STONE, OHItems.Tool.STONE_HAMMER.get());
+        destroyer(writer, OHItems.Tool.STONE_SPADE.get(), OHItems.Tool.STONE_HAMMER.get(), OHItems.Tool.STONE_DESTROYER.get());
+
+        paxel(writer, Items.IRON_AXE, Items.IRON_PICKAXE, Items.IRON_SHOVEL, OHItems.Tool.IRON_PAXEL.get());
+        spade(writer, Items.IRON_INGOT, OHItems.Tool.IRON_SPADE.get());
+        hammer(writer, Items.IRON_INGOT, OHItems.Tool.IRON_HAMMER.get());
+        destroyer(writer, OHItems.Tool.IRON_SPADE.get(), OHItems.Tool.IRON_HAMMER.get(), OHItems.Tool.IRON_DESTROYER.get());
+
+        paxel(writer, Items.GOLDEN_AXE, Items.GOLDEN_PICKAXE, Items.GOLDEN_SHOVEL, OHItems.Tool.GOLDEN_PAXEL.get());
+        spade(writer, Items.GOLD_INGOT, OHItems.Tool.GOLDEN_SPADE.get());
+        hammer(writer, Items.GOLD_INGOT, OHItems.Tool.GOLDEN_HAMMER.get());
+        destroyer(writer, OHItems.Tool.GOLDEN_SPADE.get(), OHItems.Tool.GOLDEN_HAMMER.get(), OHItems.Tool.GOLDEN_DESTROYER.get());
+
+        paxel(writer, Items.DIAMOND_AXE, Items.DIAMOND_PICKAXE, Items.DIAMOND_SHOVEL, OHItems.Tool.DIAMOND_PAXEL.get());
+        spade(writer, Items.DIAMOND, OHItems.Tool.DIAMOND_SPADE.get());
+        hammer(writer, Items.DIAMOND, OHItems.Tool.DIAMOND_HAMMER.get());
+        destroyer(writer, OHItems.Tool.DIAMOND_SPADE.get(), OHItems.Tool.DIAMOND_HAMMER.get(), OHItems.Tool.DIAMOND_DESTROYER.get());
+
+        netheriteSmithing(writer, OHItems.Tool.DIAMOND_PAXEL.get(), RecipeCategory.TOOLS, OHItems.Tool.NETHERITE_PAXEL.get());
+        netheriteSmithing(writer, OHItems.Tool.DIAMOND_SPADE.get(), RecipeCategory.TOOLS, OHItems.Tool.NETHERITE_SPADE.get());
+        netheriteSmithing(writer, OHItems.Tool.DIAMOND_HAMMER.get(), RecipeCategory.TOOLS, OHItems.Tool.NETHERITE_HAMMER.get());
+        netheriteSmithing(writer, OHItems.Tool.DIAMOND_DESTROYER.get(), RecipeCategory.TOOLS, OHItems.Tool.NETHERITE_DESTROYER.get());
+    }
+
+    private void oreFamily(Consumer<FinishedRecipe> writer, MaterialPack family) {
+        Item dust = family.get(MaterialPack.ItemVariant.DUST);
+        Item nugget = family.get(MaterialPack.ItemVariant.NUGGET);
+        Item gem = family.get(MaterialPack.ItemVariant.GEM);
+        Item ingot = family.get(MaterialPack.ItemVariant.INGOT);
+        Block ore = family.get(MaterialPack.BlockVariant.ORE);
+        Block deepOre = family.get(MaterialPack.BlockVariant.DEEP_ORE);
+        Block block = family.get(MaterialPack.BlockVariant.BLOCK);
+        float exp = family.exp();
+        int speed = family.time();
+        Item material = nugget != null ? nugget : ingot != null ? ingot : dust != null ? dust : gem;
+        toBlockCreate(writer, block, material);
+        blockToCreate(writer, block, material);
+        if (ore != null) {
+            oreSmeltCreate(writer, ore, material, exp, speed);
+        }
+        if (deepOre != null) {
+            oreSmeltCreate(writer, deepOre, material, exp, speed);
+        }
+
+    }
+
+    private void toBlockCreate(Consumer<FinishedRecipe> writer, Block block, Item item) {
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, block)
+                .requires(item, 9)
+                .unlockedBy("criteria", hasItems(item))
+                .save(writer);
+    }
+
+    private void blockToCreate(Consumer<FinishedRecipe> writer, Block block, Item item) {
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.BUILDING_BLOCKS, item, 9)
+                .requires(block)
+                .unlockedBy("criteria", hasItems(block))
+                .save(writer);
+    }
+
+    private void oreSmeltCreate(Consumer<FinishedRecipe> writer, Block block, Item item, float exp, int speed) {
+        SimpleCookingRecipeBuilder.smelting(
+                        Ingredient.of(block),
+                        RecipeCategory.MISC,
+                        item,
+                        exp,
+                        speed
+                )
+                .unlockedBy("criteria", hasItems(block))
+                .save(writer, OutlandHorizon.createModResourceLocation(getItemName(block) + "_from_smelting_" + getItemName(item)));
+        SimpleCookingRecipeBuilder.blasting(
+                        Ingredient.of(block),
+                        RecipeCategory.MISC,
+                        item,
+                        exp, speed / 2
+                ).unlockedBy("criteria", hasItems(block))
+                .save(writer, OutlandHorizon.createModResourceLocation(getItemName(block) + "_from_blasting_" + getItemName(item)));
+    }
+
+    private void smeltCreate(Consumer<FinishedRecipe> writer, Item input, Item output, float exp, int speed) {
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), RecipeCategory.MISC, output, exp, speed)
+                .unlockedBy("criteria", hasItems(input))
+                .save(writer, OutlandHorizon.createModResourceLocation(getItemName(input) + "_smelting_to_" + getItemName(output)));
+    }
+
+    private void smeltCreate(Consumer<FinishedRecipe> writer, Item input, Item output) {
+        SimpleCookingRecipeBuilder.smelting(Ingredient.of(input), RecipeCategory.MISC, output, 0.1f, 200)
+                .unlockedBy("criteria", hasItems(input))
+                .save(writer, OutlandHorizon.createModResourceLocation(getItemName(input) + "_smelting_to_" + getItemName(output)));
     }
 
     private void logSplit(Consumer<FinishedRecipe> writer, Item log, Item wood, Item planks) {
@@ -63,7 +151,25 @@ public class ModRecipe extends RecipeProvider {
                 .save(writer);
     }
 
-    private void woodThings(Consumer<FinishedRecipe> writer, Item planks, Item pressure_plate, Item trapdoor, Item button, Item stairs, Item slab, Item fence_gate, Item fence, Item door) {
+    private void woodThings(Consumer<FinishedRecipe> writer, LogPack logPack) {
+        Block log = logPack.get(LogPack.Variant.LOG);
+        Block stripped_log = logPack.get(LogPack.Variant.STRIPPED_LOG);
+        Block wood = logPack.get(LogPack.Variant.WOOD);
+        Block stripped_wood = logPack.get(LogPack.Variant.STRIPPED_WOOD);
+        Item planks = logPack.get(LogPack.Variant.PLANKS).asItem();
+        Item pressure_plate = logPack.get(LogPack.Variant.PRESSURE_PLATE).asItem();
+        Item trapdoor = logPack.get(LogPack.Variant.TRAPDOOR).asItem();
+        Item button = logPack.get(LogPack.Variant.BUTTON).asItem();
+        Item stairs = logPack.get(LogPack.Variant.STAIRS).asItem();
+        Item slab = logPack.get(LogPack.Variant.SLAB).asItem();
+        Item fence_gate = logPack.get(LogPack.Variant.FENCE_GATE).asItem();
+        Item fence = logPack.get(LogPack.Variant.FENCE).asItem();
+        Item door = logPack.get(LogPack.Variant.DOOR).asItem();
+        if (log != null) {
+            logSplit(writer, log.asItem(), wood.asItem(), planks);
+            logSplit(writer, stripped_log.asItem(), stripped_wood.asItem(), planks);
+        }
+
         ShapelessRecipeBuilder.shapeless(RecipeCategory.REDSTONE, button)
                 .requires(planks)
                 .unlockedBy("criteria", hasItems(planks))
@@ -106,38 +212,28 @@ public class ModRecipe extends RecipeProvider {
                 .save(writer);
     }
 
-    private void woodThings(Consumer<FinishedRecipe> writer, Item log, Item wood, Item planks, Item pressure_plate, Item trapdoor, Item button, Item stairs, Item slab, Item fence_gate, Item fence, Item door) {
-        logSplit(writer, log, wood, planks);
-        woodThings(writer, planks, pressure_plate, trapdoor, button, stairs, slab, fence_gate, fence, door);
-    }
+    private void materialPack(Consumer<FinishedRecipe> writer, MaterialPack materialPack) {
+        Item nugget = materialPack.get(MaterialPack.ItemVariant.NUGGET);
+        Item ingot = materialPack.get(MaterialPack.ItemVariant.INGOT);
+        Item dust = materialPack.get(MaterialPack.ItemVariant.DUST);
+        Item gem = materialPack.get(MaterialPack.ItemVariant.GEM);
+        Item material = nugget != null ? nugget : ingot != null ? ingot : dust != null ? dust : gem;
 
-    private void woodThings(Consumer<FinishedRecipe> writer, BlockFamily blockFamily) {
-        Item planks = blockFamily.getBaseBlock().asItem();
-        Item button = blockFamily.get(BlockFamily.Variant.BUTTON).asItem();
-        Item stairs = blockFamily.get(BlockFamily.Variant.STAIRS).asItem();
-        Item slab = blockFamily.get(BlockFamily.Variant.SLAB).asItem();
-        Item fence_gate = blockFamily.get(BlockFamily.Variant.FENCE_GATE).asItem();
-        Item fence = blockFamily.get(BlockFamily.Variant.FENCE).asItem();
-        Item door = blockFamily.get(BlockFamily.Variant.DOOR).asItem();
-        Item pressure_plate = blockFamily.get(BlockFamily.Variant.PRESSURE_PLATE).asItem();
-        Item trapdoor = blockFamily.get(BlockFamily.Variant.TRAPDOOR).asItem();
-        woodThings(writer, planks, pressure_plate, trapdoor, button, stairs, slab, fence_gate, fence, door);
-    }
+        Item sword = materialPack.get(MaterialPack.ItemVariant.SWORD);
+        Item pickaxe = materialPack.get(MaterialPack.ItemVariant.PICKAXE);
+        Item axe = materialPack.get(MaterialPack.ItemVariant.AXE);
+        Item shovel = materialPack.get(MaterialPack.ItemVariant.SHOVEL);
+        Item hoe = materialPack.get(MaterialPack.ItemVariant.HOE);
+        Item paxel = materialPack.get(MaterialPack.ItemVariant.PAXEL);
+        Item spade = materialPack.get(MaterialPack.ItemVariant.SPADE);
+        Item hammer = materialPack.get(MaterialPack.ItemVariant.HAMMER);
+        Item destroyer = materialPack.get(MaterialPack.ItemVariant.DESTROYER);
 
-    private void woodThings(Consumer<FinishedRecipe> writer, Item log, Item wood, BlockFamily blockFamily) {
-        Item planks = blockFamily.getBaseBlock().asItem();
-        Item button = blockFamily.get(BlockFamily.Variant.BUTTON).asItem();
-        Item stairs = blockFamily.get(BlockFamily.Variant.STAIRS).asItem();
-        Item slab = blockFamily.get(BlockFamily.Variant.SLAB).asItem();
-        Item fence_gate = blockFamily.get(BlockFamily.Variant.FENCE_GATE).asItem();
-        Item fence = blockFamily.get(BlockFamily.Variant.FENCE).asItem();
-        Item door = blockFamily.get(BlockFamily.Variant.DOOR).asItem();
-        Item pressure_plate = blockFamily.get(BlockFamily.Variant.PRESSURE_PLATE).asItem();
-        Item trapdoor = blockFamily.get(BlockFamily.Variant.TRAPDOOR).asItem();
-        woodThings(writer, log, wood, planks, pressure_plate, trapdoor, button, stairs, slab, fence_gate, fence, door);
-    }
+        Item helmet = materialPack.get(MaterialPack.ItemVariant.HELMET);
+        Item chestplate = materialPack.get(MaterialPack.ItemVariant.CHESTPLATE);
+        Item leggings = materialPack.get(MaterialPack.ItemVariant.LEGGINGS);
+        Item boots = materialPack.get(MaterialPack.ItemVariant.BOOTS);
 
-    private void tools(Consumer<FinishedRecipe> writer, Item material, Item sword, Item pickaxe, Item axe, Item shovel, Item hoe, Item paxel, Item spade, Item hammer, Item destroyer) {
         sword(writer, material, sword);
         pickaxe(writer, material, pickaxe);
         axe(writer, material, axe);
@@ -147,6 +243,36 @@ public class ModRecipe extends RecipeProvider {
         spade(writer, material, spade);
         hammer(writer, material, hammer);
         destroyer(writer, spade, hammer, destroyer);
+        helmet(writer, material, helmet);
+        chestplate(writer, material, chestplate);
+        leggings(writer, material, leggings);
+        boots(writer, material, boots);
+        if (nugget != null) {
+            shapeless(writer, Ingredient.of(new ItemStack(nugget, 9)), new ItemStack(ingot));
+            smeltCreate(writer, sword, nugget);
+            smeltCreate(writer, pickaxe, nugget);
+            smeltCreate(writer, axe, nugget);
+            smeltCreate(writer, shovel, nugget);
+            smeltCreate(writer, hoe, nugget);
+            smeltCreate(writer, paxel, nugget);
+            smeltCreate(writer, spade, nugget);
+            smeltCreate(writer, hammer, nugget);
+            smeltCreate(writer, destroyer, nugget);
+            smeltCreate(writer, helmet, nugget);
+            smeltCreate(writer, chestplate, nugget);
+            smeltCreate(writer, leggings, nugget);
+            smeltCreate(writer, boots, nugget);
+        }
+    }
+
+    private static void shapeless(Consumer<FinishedRecipe> writer, Ingredient input, ItemStack output) {
+        ShapelessRecipeBuilder builder = ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, output.getItem(), output.getCount());
+        for (ItemStack itemStack : input.getItems()) {
+            builder.requires(itemStack.getItem(), itemStack.getCount());
+        }
+        builder.unlockedBy("has_item", hasItems(Arrays.stream(input.getItems())
+                        .map(ItemStack::getItem).toArray(Item[]::new)))
+                .save(writer, OutlandHorizon.createModResourceLocation(Utils.getDescriptionIdName(input.getItems()[0].getItem()) + "_to_" + Utils.getDescriptionIdName(output.getItem())));
     }
 
     private void sword(Consumer<FinishedRecipe> writer, Item material, Item output) {
@@ -249,5 +375,82 @@ public class ModRecipe extends RecipeProvider {
                 .define('l', Items.STICK)
                 .unlockedBy("criteria", hasItems(spade, hammer))
                 .save(writer);
+    }
+
+    private void helmet(Consumer<FinishedRecipe> writer, Item material, Item helmet) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, helmet)
+                .pattern("aaa")
+                .pattern("a a")
+                .define('a', material)
+                .unlockedBy("criteria", hasItems(material))
+                .save(writer);
+    }
+
+    private void chestplate(Consumer<FinishedRecipe> writer, Item material, Item chestplate) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, chestplate)
+                .pattern("a a")
+                .pattern("aaa")
+                .pattern("aaa")
+                .define('a', material)
+                .unlockedBy("criteria", hasItems(material))
+                .save(writer);
+    }
+
+    private void leggings(Consumer<FinishedRecipe> writer, Item material, Item leggings) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, leggings)
+                .pattern("aaa")
+                .pattern("a a")
+                .pattern("a a")
+                .define('a', material)
+                .unlockedBy("criteria", hasItems(material))
+                .save(writer);
+    }
+
+    private void boots(Consumer<FinishedRecipe> writer, Item material, Item boots) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, boots)
+                .pattern("a a")
+                .pattern("a a")
+                .define('a', material)
+                .unlockedBy("criteria", hasItems(material))
+                .save(writer);
+    }
+
+    private static class Init {
+        public static class Material {
+
+            public static void init(Consumer<FinishedRecipe> writer) {
+                ShapedRecipeBuilder.shaped(RecipeCategory.MISC, OHItems.Material.WATER_GEMSTONE.get())
+                        .pattern("aba")
+                        .pattern("bab")
+                        .pattern("aba")
+                        .define('a', OHItems.Material.WATER_GEMSTONE.get())
+                        .define('b', Items.WATER_BUCKET)
+                        .unlockedBy("has_item", hasItems(OHItems.Material.WATER_GEMSTONE.get()))
+                        .save(writer);
+            }
+        }
+
+        public static class Consumable {
+            public static void initPotions(Consumer<FinishedRecipe> writer) {
+                ShapedRecipeBuilder.shaped(RecipeCategory.BREWING, OHItems.Consumable.RAGE_POTION.get())
+                        .pattern("yhy")
+                        .pattern("ldl")
+                        .pattern(" s ")
+                        .define('y', Items.GLOWSTONE_DUST)
+                        .define('h', Items.GUNPOWDER)
+                        .define('l', Items.BLAZE_ROD)
+                        .define('d', Items.NETHER_WART)
+                        .define('s', Ingredient.of(ItemUtils.getPotion(Potions.WATER)))
+                        .unlockedBy("has_item", hasItems(Items.POTION, Items.GLOWSTONE_DUST, Items.GUNPOWDER, Items.BLAZE_ROD, Items.NETHER_WART))
+                        .save(writer);
+                ShapelessRecipeBuilder.shapeless(RecipeCategory.BREWING, OHItems.Consumable.MANA_POTION_COMMON.get())
+                        .requires(ItemTags.FLOWERS)
+                        .requires(Ingredient.of(ItemUtils.getPotion(Potions.WATER)))
+                        .unlockedBy("has_item_tag", has(ItemTags.FLOWERS))
+                        .unlockedBy("has_item", has(Items.POTION))
+                        .save(writer);
+            }
+        }
+
     }
 }

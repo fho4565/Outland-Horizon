@@ -1,0 +1,32 @@
+{
+  "criteria": {
+    "entered_nightmare": {
+      "conditions": {
+        "to": "outland_horizon:nightmare"
+      },
+      "trigger": "minecraft:changed_dimension"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "minecraft:textures/block/natural/nightmare_dirt.png",
+    "description": {
+      "translate": "advancements.end.root.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "outland_horizon:blood_stone_block"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.end.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "entered_nightmare"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

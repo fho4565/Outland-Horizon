@@ -1,6 +1,6 @@
 package com.arc.outland_horizon.world.item.weapons.melee.sword;
 
-import com.arc.outland_horizon.ModRarities;
+import com.arc.outland_horizon.core.ModRarities;
 import com.arc.outland_horizon.registry.OHItems;
 import com.arc.outland_horizon.utils.EntityUtils;
 import com.arc.outland_horizon.utils.Utils;

@@ -1,6 +1,7 @@
 {
   "parent": "minecraft:block/template_trapdoor_top",
   "textures": {
-    "texture":"outland_horizon:block/building/nightmare_trapdoor"
-  }
+    "texture": "outland_horizon:block/building/nightmare_trapdoor"
+  },
+  "render_type": "cutout"
 }

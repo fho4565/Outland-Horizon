@@ -2,7 +2,7 @@ package com.arc.outland_horizon.events;
 
 import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.network.NetworkHandler;
-import com.arc.outland_horizon.network.server.C2SPacket;
+import com.arc.outland_horizon.network.packets.C2SPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.resources.ResourceLocation;

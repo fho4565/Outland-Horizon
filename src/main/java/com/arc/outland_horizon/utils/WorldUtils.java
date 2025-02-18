@@ -1,22 +1,24 @@
 package com.arc.outland_horizon.utils;
 
+import com.arc.outland_horizon.client.CustomToast;
+import com.arc.outland_horizon.network.NetworkHandler;
+import com.arc.outland_horizon.network.packets.ToastPacket;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.network.protocol.game.ClientboundSoundPacket;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.RegistryObject;
@@ -58,15 +60,15 @@ public class WorldUtils {
 
     }
 
+    public static void toast(Player player, CustomToast customToast) {
+        NetworkHandler.sendToPlayer(new ToastPacket(customToast.save()), player);
+    }
+
     public static void summonItem(ServerPlayer player, RegistryObject<Item> item) {
         player.level().addFreshEntity(
                 new ItemEntity(player.level(),
                         player.getX(), player.getY(), player.getZ(),
                         new ItemStack(item.get())));
-    }
-
-    public static String getWorldFolderPath(MinecraftServer server) {
-        return server.getWorldPath(new LevelResource("")).toAbsolutePath().toString().replace("\\.\\", "\\");
     }
 
     public static LinkedHashSet<BlockPos> getBlocksByRadio(Level level, BlockPos center, int radius) {
@@ -147,4 +149,5 @@ public class WorldUtils {
                 .filter(entityPredicate)
                 .toList();
     }
+
 }

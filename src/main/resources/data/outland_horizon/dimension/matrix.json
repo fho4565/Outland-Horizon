@@ -1,0 +1,10 @@
+{
+  "type": "outland_horizon:matrix",
+  "generator": {
+    "type": "outland_horizon:matrix",
+    "biome": "plain",
+    "settings": {
+      "biome": "outland_horizon:matrix"
+    }
+  }
+}

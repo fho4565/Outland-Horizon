@@ -20,6 +20,7 @@ public class OutlandHorizon {
     public OutlandHorizon() {
         bus = FMLJavaModLoadingContext.get().getModEventBus();
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, Configs.COMMON_CONFIG);
+        OHFeatures.FEATURES.register(bus);
         ItemRegistry.register(bus);
         BlockRegistry.register(bus);
         OHBlocks.Fluids.OHFluids.FLUIDS.register(bus);
@@ -29,6 +30,8 @@ public class OutlandHorizon {
         EntityRegistry.register(bus);
         SoundEventRegister.init();
         SoundEventRegister.SOUND.register(bus);
+        ParticleRegistry.PARTICLE_TYPE.register(bus);
+        OHChunkGenerators.CHUNK_GENERATORS.register(bus);
     }
 
     public static ResourceLocation createModResourceLocation(String path) {

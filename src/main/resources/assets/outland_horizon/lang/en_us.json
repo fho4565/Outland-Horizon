@@ -35,6 +35,7 @@
   "block.outland_horizon.zombie_dungeon_brick": "Zombie dungeon brick",
   "block.outland_horizon.wall_dungeon_torch": "Wall dungeon torch",
   "entity.outland_horizon.mask": "Mask",
+  "text.outland_horizon.gui.break_power": "Mining level: %d",
   "text.outland_horizon.advancement.powerful_sniper.title": "A Powerful Sniper",
   "text.outland_horizon.advancement.powerful_sniper.description": "Use a Sniper Rifle to kill any entity from up to 75 meters away",
   "text.outland_horizon.gui.item.developer": "Developer Name: %s",

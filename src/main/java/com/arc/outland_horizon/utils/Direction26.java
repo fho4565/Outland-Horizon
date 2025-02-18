@@ -41,7 +41,8 @@ public enum Direction26 {
         this.dy = dy;
         this.dz = dz;
     }
-    public Vec3i offset(){
+
+    public Vec3i offset() {
         return new Vec3i(dx, dy, dz);
     }
 }

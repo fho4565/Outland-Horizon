@@ -12,6 +12,9 @@ public class Skill {
     private int requiredSp;
     private int duration;
     private int cooldown;
+    private boolean autoCooldown = true;
+    private boolean autoReduceDuration = true;
+
 
     public Skill(String id, Component name, Component description, int requiredSp, int duration, int cooldown) {
         this.id = id;
@@ -30,8 +33,20 @@ public class Skill {
         this.id = id;
     }
 
+    public void setAutoCooldown(boolean autoCooldown) {
+        this.autoCooldown = autoCooldown;
+    }
+
+    public void setAutoReduceDuration(boolean autoReduceDuration) {
+        this.autoReduceDuration = autoReduceDuration;
+    }
+
     public boolean autoReduceDuration() {
-        return true;
+        return autoReduceDuration;
+    }
+
+    public boolean autoCoolDown() {
+        return autoCooldown;
     }
 
     public int cooldown() {

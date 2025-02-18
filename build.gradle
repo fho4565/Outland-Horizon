@@ -19,6 +19,11 @@ repositories {
         name = "Illusive Soulworks maven"
         url = "https://maven.theillusivec4.top/"
     }
+    maven {
+        url "https://cursemaven.com"
+        content { includeGroup "curse.maven" }
+    }
+    mavenCentral()
     gradlePluginPortal()
     flatDir {
         dir 'libs'
@@ -57,6 +62,8 @@ minecraft {
 
         client {
             property 'forge.enabledGameTestNamespaces', mod_id
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
         }
         server {
             property 'forge.enabledGameTestNamespaces', mod_id
@@ -83,12 +90,17 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    // Compile against only the API artifact
-    //compileOnly(fg.deobf("top.theillusivec4.curios:curios-forge:5.7.0+1.20.1:api"))
 
     implementation fg.deobf("top.theillusivec4.curios:curios-forge:5.7.0+1.20.1")
 
+
     implementation fg.deobf("snownee.jade:Jade:1.20.1.11.12.1")
+
+
+    implementation fg.deobf('blank:brick_lib-1.20.1:1.0.0')
+    compileOnly files('libs/brick_lib-1.20.1-1.0.0.jar')
+
+
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
     implementation("com.eliotlash.mclib:mclib:20")
 }

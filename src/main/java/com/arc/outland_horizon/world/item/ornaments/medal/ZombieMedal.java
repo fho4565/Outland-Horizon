@@ -1,7 +1,7 @@
 package com.arc.outland_horizon.world.item.ornaments.medal;
 
-import com.arc.outland_horizon.ModDifficulties;
-import com.arc.outland_horizon.OHDataManager;
+import com.arc.outland_horizon.core.ModDataManager;
+import com.arc.outland_horizon.core.ModDifficulties;
 import com.arc.outland_horizon.utils.ChatUtils;
 import com.arc.outland_horizon.utils.ItemUtils;
 import com.arc.outland_horizon.utils.Utils;
@@ -23,7 +23,6 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 public abstract class ZombieMedal extends AbstractOrnaments {
-
     public ZombieMedal(Properties properties) {
         super(properties);
     }
@@ -114,13 +113,13 @@ public abstract class ZombieMedal extends AbstractOrnaments {
         @Override
         public void curioTick(SlotContext slotContext, ItemStack itemStack) {
             super.curioTick(slotContext, itemStack);
-            setShouldTick(itemStack, OHDataManager.modDifficulties == ModDifficulties.ETERNAL);
+            setShouldTick(itemStack, ModDataManager.modDifficulties == ModDifficulties.ETERNAL);
         }
 
         @Override
         public void appendHoverText(ItemStack pStack, @javax.annotation.Nullable Level pLevel, List<Component> tooltipComponents, TooltipFlag pIsAdvanced) {
             super.appendHoverText(pStack, pLevel, tooltipComponents, pIsAdvanced);
-            if (OHDataManager.modDifficulties != ModDifficulties.ETERNAL) {
+            if (ModDataManager.modDifficulties != ModDifficulties.ETERNAL) {
                 tooltipComponents.add(ChatUtils.translatable("text.outland_horizon.gui.ornaments.medal.gold.warn").withStyle(ChatFormatting.RED));
             }
         }

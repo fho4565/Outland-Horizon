@@ -3,6 +3,9 @@ package com.arc.outland_horizon.utils;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.alchemy.PotionUtils;
 
 import java.util.function.Consumer;
 
@@ -46,5 +49,9 @@ public class ItemUtils {
             return;
         }
         player.getItemInHand(hand).hurtAndBreak(--amount, player, onBreak);
+    }
+
+    public static ItemStack getPotion(Potion potion) {
+        return PotionUtils.setPotion(new ItemStack(Items.POTION), potion);
     }
 }

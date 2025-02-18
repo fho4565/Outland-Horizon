@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "outland_horizon:block/matrix/matrix_reward_block"
+    }
+  }
+}

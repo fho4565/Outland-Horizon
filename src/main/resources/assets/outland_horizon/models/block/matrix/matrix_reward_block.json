@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "outland_horizon:block/functional/matrix_reward_block",
+    "particle": "outland_horizon:block/functional/matrix_reward_block"
+  },
+  "render_type": "solid"
+}

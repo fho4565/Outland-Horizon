@@ -1,13 +1,17 @@
 package com.arc.outland_horizon.develop;
 
+import com.arc.outland_horizon.OutlandHorizon;
 import com.arc.outland_horizon.registry.BlockRegistry;
 import com.arc.outland_horizon.registry.OHBlocks;
 import com.arc.outland_horizon.registry.OHItems;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.loot.LootTableSubProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -15,12 +19,14 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.BiConsumer;
 
 import static com.arc.outland_horizon.registry.OHBlocks.Building.DUNGEON.*;
 import static com.arc.outland_horizon.registry.OHBlocks.Building.NIGHTMARE.*;
@@ -34,12 +40,39 @@ public class ModLootTable extends LootTableProvider {
     public ModLootTable(PackOutput pOutput) {
         super(pOutput, Collections.emptySet(),
                 List.of(
-                        new SubProviderEntry(ModBlockLootTable::new, LootContextParamSets.BLOCK)
+                        new SubProviderEntry(ModBlockLootTable::new, LootContextParamSets.BLOCK),
+                        new SubProviderEntry(RewardLootTable::new, LootContextParamSets.GIFT)
                 )
         );
     }
 
     public static class ModBlockLootTable extends BlockLootSubProvider {
+        public ModBlockLootTable() {
+            super(Collections.emptySet(), FeatureFlags.REGISTRY.allFlags());
+        }
+
+        @Nonnull
+        @Override
+        protected Iterable<Block> getKnownBlocks() {
+            ArrayList<RegistryObject<Block>> entries = new ArrayList<>(BlockRegistry.BLOCKS.getEntries());
+            entries.removeIf(blockRegistryObject -> blockRegistryObject.equals(OHBlocks.Functional.TEXTURES_TEST_BLOCK));
+            return entries
+                    .stream()
+                    .flatMap(RegistryObject::stream)
+                    ::iterator;
+        }
+
+        @Override
+        protected void generate() {
+            Init.init(this);
+        }
+
+        protected LootTable.Builder createMultiItemTable(List<ItemStack> items) {
+            LootPool.Builder builder = new LootPool.Builder().setRolls(ConstantValue.exactly(1));
+            items.forEach(itemStack -> builder.add(LootItem.lootTableItem(itemStack.getItem()).apply(SetItemCountFunction.setCount(ConstantValue.exactly(itemStack.getCount())))));
+            return LootTable.lootTable().withPool(builder);
+        }
+
         private static class Init {
             private static void init(ModBlockLootTable lootTable) {
                 Building.init(lootTable);
@@ -86,7 +119,7 @@ public class ModLootTable extends LootTableProvider {
                 static class Dungeon {
                     static void init(ModBlockLootTable lootTable) {
                         lootTable.dropSelf(DUNGEON_BRICK.get());
-                        lootTable.dropSelf(DUNGEON_BRICK_STAIR.get());
+                        lootTable.dropSelf(DUNGEON_BRICK_STAIRS.get());
                         lootTable.dropSelf(DUNGEON_BRICK_TILE.get());
                         lootTable.dropSelf(DUNGEON_BRICK_PILLAR.get());
                         lootTable.dropSelf(ZOMBIE_DUNGEON_BRICK.get());
@@ -104,6 +137,10 @@ public class ModLootTable extends LootTableProvider {
                 public static void init(ModBlockLootTable lootTable) {
                     PaleAbyss.init(lootTable);
                     Nightmare.init(lootTable);
+                    lootTable.dropSelf(BLUE_GEM_BLOCK.get());
+                    lootTable.add(BLUE_GEM_ORE.get(), lootTable.createOreDrop(BLUE_GEM_ORE.get(), OHItems.Material.BLUE_GEM.get()));
+                    lootTable.add(DEEP_BLUE_GEM_ORE.get(), lootTable.createOreDrop(DEEP_BLUE_GEM_ORE.get(), OHItems.Material.BLUE_GEM.get()));
+                    lootTable.add(BLOOD_STONE_ORE.get(), lootTable.createOreDrop(BLOOD_STONE_ORE.get(), OHItems.Material.BLOOD_STONE.get()));
                 }
 
                 static class Nightmare {
@@ -111,10 +148,6 @@ public class ModLootTable extends LootTableProvider {
                         lootTable.dropSelf(NIGHTMARE_DIRT.get());
                         lootTable.add(SAPLINGS.get(), noDrop());
                         lootTable.dropSelf(BLOOD_STONE_BLOCK.get());
-                        lootTable.dropSelf(BLUE_GEM_BLOCK.get());
-                        lootTable.add(BLUE_GEM_ORE.get(), lootTable.createOreDrop(BLUE_GEM_ORE.get(), OHItems.Material.BLUE_GEM.get()));
-                        lootTable.add(DEEP_BLUE_GEM_ORE.get(), lootTable.createOreDrop(DEEP_BLUE_GEM_ORE.get(), OHItems.Material.BLUE_GEM.get()));
-                        lootTable.add(BLOOD_STONE_ORE.get(), lootTable.createOreDrop(BLOOD_STONE_ORE.get(), OHItems.Material.BLOOD_STONE.get()));
                     }
                 }
 
@@ -134,31 +167,21 @@ public class ModLootTable extends LootTableProvider {
                 }
             }
         }
+    }
 
-        public ModBlockLootTable() {
-            super(Collections.emptySet(), FeatureFlags.REGISTRY.allFlags());
-        }
-
-        @Nonnull
-        @Override
-        protected Iterable<Block> getKnownBlocks() {
-            ArrayList<RegistryObject<Block>> entries = new ArrayList<>(BlockRegistry.BLOCKS.getEntries());
-            entries.removeIf(blockRegistryObject -> blockRegistryObject.equals(OHBlocks.Functional.TEXTURES_TEST_BLOCK));
-            return entries
-                    .stream()
-                    .flatMap(RegistryObject::stream)
-                    ::iterator;
-        }
+    public static class RewardLootTable implements LootTableSubProvider {
 
         @Override
-        protected void generate() {
-            Init.init(this);
-        }
-
-        protected LootTable.Builder createMultiItemTable(List<ItemStack> items) {
-            LootPool.Builder builder = new LootPool.Builder().setRolls(ConstantValue.exactly(1));
-            items.forEach(itemStack -> builder.add(LootItem.lootTableItem(itemStack.getItem()).apply(SetItemCountFunction.setCount(ConstantValue.exactly(itemStack.getCount())))));
-            return LootTable.lootTable().withPool(builder);
+        public void generate(BiConsumer<ResourceLocation, LootTable.Builder> output) {
+            output.accept(OutlandHorizon.createModResourceLocation("reward/matrix_reward"), new LootTable.Builder()
+                    .withPool(LootPool.lootPool()
+                            .setRolls(ConstantValue.exactly(1))
+                            .setBonusRolls(ConstantValue.exactly(1))
+                            .add(LootItem.lootTableItem(Items.DIAMOND).setWeight(1).apply(SetItemCountFunction.setCount(UniformGenerator.between(0, 3), true)))
+                            .add(LootItem.lootTableItem(Items.GOLD_INGOT).setWeight(2).apply(SetItemCountFunction.setCount(UniformGenerator.between(0, 3), true)))
+                            .add(LootItem.lootTableItem(Items.IRON_INGOT).setWeight(3).apply(SetItemCountFunction.setCount(UniformGenerator.between(0, 3), true)))
+                    )
+            );
         }
     }
 

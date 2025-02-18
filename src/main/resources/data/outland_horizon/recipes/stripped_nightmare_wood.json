@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "a": {
+      "item": "outland_horizon:stripped_nightmare_log"
+    }
+  },
+  "pattern": [
+    "aa",
+    "aa"
+  ],
+  "result": {
+    "count": 3,
+    "item": "outland_horizon:stripped_nightmare_wood"
+  },
+  "show_notification": true
+}

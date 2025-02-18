@@ -1,0 +1,73 @@
+package com.arc.outland_horizon.core;
+
+import com.arc.outland_horizon.registry.OHBlocks;
+import com.arc.outland_horizon.registry.OHItems;
+
+public class ModPacks {
+    public static final LogPack NIGHTMARE_LOG = LogPack.Builder.of()
+            .log(OHBlocks.Building.NIGHTMARE.NIGHTMARE_LOG.get())
+            .strippedLog(OHBlocks.Building.NIGHTMARE.STRIPPED_NIGHTMARE_LOG.get())
+            .wood(OHBlocks.Building.NIGHTMARE.NIGHTMARE_WOOD.get())
+            .strippedWood(OHBlocks.Building.NIGHTMARE.STRIPPED_NIGHTMARE_WOOD.get())
+            .planks(OHBlocks.Building.NIGHTMARE.NIGHTMARE_PLANKS.get())
+            .button(OHBlocks.Building.NIGHTMARE.NIGHTMARE_BUTTON.get())
+            .fence(OHBlocks.Building.NIGHTMARE.NIGHTMARE_FENCE.get())
+            .fenceGate(OHBlocks.Building.NIGHTMARE.NIGHTMARE_FENCE_GATE.get())
+            .pressurePlate(OHBlocks.Building.NIGHTMARE.NIGHTMARE_PRESSURE_PLATE.get())
+            .slab(OHBlocks.Building.NIGHTMARE.NIGHTMARE_SLAB.get())
+            .stairs(OHBlocks.Building.NIGHTMARE.NIGHTMARE_STAIRS.get())
+            .door(OHBlocks.Building.NIGHTMARE.NIGHTMARE_DOOR.get())
+            .trapdoor(OHBlocks.Building.NIGHTMARE.NIGHTMARE_TRAPDOOR.get())
+            .build();
+    public static final LogPack COAGULATED_NIGHTMARE_LOG = LogPack.Builder.of()
+            .planks(OHBlocks.Building.NIGHTMARE.COAGULATED_NIGHTMARE_PLANKS.get())
+            .button(OHBlocks.Building.NIGHTMARE.COAGULATED_NIGHTMARE_BUTTON.get())
+            .fence(OHBlocks.Building.NIGHTMARE.COAGULATED_NIGHTMARE_FENCE.get())
+            .fenceGate(OHBlocks.Building.NIGHTMARE.COAGULATED_NIGHTMARE_FENCE_GATE.get())
+            .pressurePlate(OHBlocks.Building.NIGHTMARE.COAGULATED_NIGHTMARE_PRESSURE_PLATE.get())
+            .slab(OHBlocks.Building.NIGHTMARE.COAGULATED_NIGHTMARE_SLAB.get())
+            .stairs(OHBlocks.Building.NIGHTMARE.COAGULATED_NIGHTMARE_STAIRS.get())
+            .door(OHBlocks.Building.NIGHTMARE.COAGULATED_NIGHTMARE_DOOR.get())
+            .trapdoor(OHBlocks.Building.NIGHTMARE.COAGULATED_NIGHTMARE_TRAPDOOR.get())
+            .build();
+
+
+    public static final MaterialPack BLUE_GEM = MaterialPack.Builder.of()
+            .ore(OHBlocks.Natural.BLUE_GEM_ORE.get())
+            .deepOre(OHBlocks.Natural.DEEP_BLUE_GEM_ORE.get())
+            .gem(OHItems.Material.BLUE_GEM.get())
+            .block(OHBlocks.Natural.BLUE_GEM_BLOCK.get())
+            .sword(OHItems.Weapon.Melee.Sword.BLUE_GEM_SWORD.get())
+            .axe(OHItems.Tool.BLUE_GEM_AXE.get())
+            .pickaxe(OHItems.Tool.BLUE_GEM_PICKAXE.get())
+            .shovel(OHItems.Tool.BLUE_GEM_SHOVEL.get())
+            .hoe(OHItems.Tool.BLUE_GEM_HOE.get())
+            .paxel(OHItems.Tool.BLUE_GEM_PAXEL.get())
+            .spade(OHItems.Tool.BLUE_GEM_SPADE.get())
+            .hammer(OHItems.Tool.BLUE_GEM_HAMMER.get())
+            .destroyer(OHItems.Tool.BLUE_GEM_DESTROYER.get())
+            .helmet(OHItems.Armor.BLUE_GEM_HELMET.get())
+            .chestplate(OHItems.Armor.BLUE_GEM_CHESTPLATE.get())
+            .leggings(OHItems.Armor.BLUE_GEM_LEGGINGS.get())
+            .boots(OHItems.Armor.BLUE_GEM_BOOTS.get())
+            .getPack();
+    public static final MaterialPack BLOOD_STONE = MaterialPack.Builder.of()
+            .ore(OHBlocks.Natural.BLOOD_STONE_ORE.get())
+            .ingot(OHItems.Material.BLOOD_STONE.get())
+            .block(OHBlocks.Natural.BLOOD_STONE_BLOCK.get())
+            .sword(OHItems.Weapon.Melee.Sword.BLOOD_STONE_SWORD.get())
+            .axe(OHItems.Tool.BLOOD_STONE_AXE.get())
+            .pickaxe(OHItems.Tool.BLOOD_STONE_PICKAXE.get())
+            .shovel(OHItems.Tool.BLOOD_STONE_SHOVEL.get())
+            .hoe(OHItems.Tool.BLOOD_STONE_HOE.get())
+            .paxel(OHItems.Tool.BLOOD_STONE_PAXEL.get())
+            .spade(OHItems.Tool.BLOOD_STONE_SPADE.get())
+            .hammer(OHItems.Tool.BLOOD_STONE_HAMMER.get())
+            .destroyer(OHItems.Tool.BLOOD_STONE_DESTROYER.get())
+            .helmet(OHItems.Armor.BLOOD_STONE_HELMET.get())
+            .chestplate(OHItems.Armor.BLOOD_STONE_CHESTPLATE.get())
+            .leggings(OHItems.Armor.BLOOD_STONE_LEGGINGS.get())
+            .boots(OHItems.Armor.BLOOD_STONE_BOOTS.get())
+            .smeltExp(0.2f)
+            .getPack();
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "a": {
+      "item": "outland_horizon:blue_gem"
+    }
+  },
+  "pattern": [
+    "aaa",
+    "a a"
+  ],
+  "result": {
+    "item": "outland_horizon:blue_gem_helmet"
+  },
+  "show_notification": true
+}

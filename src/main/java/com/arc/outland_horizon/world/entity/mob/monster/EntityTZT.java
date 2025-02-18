@@ -42,10 +42,10 @@ public class EntityTZT extends Monster implements DamageResistance {
         AttributeSupplier.Builder builder = Mob.createMobAttributes();
         builder = builder.add(Attributes.MOVEMENT_SPEED, 0.5);
         builder = builder.add(Attributes.FLYING_SPEED, 0.5);
-        builder = builder.add(Attributes.MAX_HEALTH, 2500);
-        builder = builder.add(Attributes.ARMOR, 10);
+        builder = builder.add(Attributes.MAX_HEALTH, 550000);
+        builder = builder.add(Attributes.ARMOR, 20);
         builder = builder.add(Attributes.ARMOR_TOUGHNESS, 10);
-        builder = builder.add(Attributes.ATTACK_DAMAGE, 24);
+        builder = builder.add(Attributes.ATTACK_DAMAGE, 135);
         builder = builder.add(Attributes.FOLLOW_RANGE, 64);
         return builder;
     }

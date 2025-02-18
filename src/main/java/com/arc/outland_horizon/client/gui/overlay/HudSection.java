@@ -4,11 +4,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 
 public abstract class HudSection {
-    public int x;
-    public int y;
-    public HudSection(int x, int y){
-        this.x = x;
-        this.y = y;
+    public HudSection() {
     }
+
     public abstract void render(Minecraft minecraft, GuiGraphics guiGraphics);
 }

@@ -1,9 +1,9 @@
 package com.arc.outland_horizon.mixins;
 
-import com.arc.outland_horizon.ModDifficulties;
-import com.arc.outland_horizon.OHDataManager;
+import com.arc.outland_horizon.core.ModDataManager;
+import com.arc.outland_horizon.core.ModDifficulties;
 import com.arc.outland_horizon.network.NetworkHandler;
-import com.arc.outland_horizon.network.OHChangeDifficultyPacket;
+import com.arc.outland_horizon.network.packets.OHChangeDifficultyPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.components.Tooltip;
@@ -44,7 +44,7 @@ public abstract class OptionScreenMixin {
     private CycleButton<ModDifficulties> outland_horizon$btn(int x, int y, int w, int h, Minecraft mc) {
         CycleButton<ModDifficulties> button = CycleButton.builder(ModDifficulties::getDisplayName)
                 .withValues(ModDifficulties.values())
-                .withInitialValue(OHDataManager.modDifficulties)
+                .withInitialValue(ModDataManager.modDifficulties)
                 .create(x, y, w, h, Component.translatable("options.oh_difficulty"), (cycleButton, difficulties) -> {
                     cycleButton.setTooltip(Tooltip.create(cycleButton.getValue().getInfo()));
                     NetworkHandler.sendToServer(new OHChangeDifficultyPacket(outland_horizon$btn.getValue()));

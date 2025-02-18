@@ -2,31 +2,13 @@
   "feature": "outland_horizon:nightmare/plain_tree",
   "placement": [
     {
-      "type": "minecraft:count",
-      "count": {
-        "type": "minecraft:weighted_list",
-        "distribution": [
-          {
-            "weight": 9,
-            "data": 2
-          },
-          {
-            "weight": 1,
-            "data": 9
-          }
-        ]
+      "type": "minecraft:block_predicate_filter",
+      "predicate": {
+        "type": "minecraft:would_survive",
+        "state": {
+          "Name": "outland_horizon:saplings"
+        }
       }
-    },
-    {
-      "type": "minecraft:in_square"
-    },
-    {
-      "type": "minecraft:surface_water_depth_filter",
-      "max_water_depth": 0
-    },
-    {
-      "type": "minecraft:heightmap",
-      "heightmap": "OCEAN_FLOOR"
     }
   ]
 }

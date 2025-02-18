@@ -1,8 +1,8 @@
 package com.arc.outland_horizon.world.item.tools;
 
-import com.arc.outland_horizon.ModRarities;
-import com.arc.outland_horizon.ModTiers;
-import com.arc.outland_horizon.world.item.tools.multi.Paxel;
+import com.arc.outland_horizon.core.ModRarities;
+import com.arc.outland_horizon.core.ModTiers;
+import com.arc.outland_horizon.world.item.tools.multi.PaxelItem;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 
-public class ZeroReformer extends Paxel {
+public class ZeroReformer extends PaxelItem {
     public ZeroReformer() {
         super(ModTiers.VOID_CRYSTAL, new Properties().rarity(ModRarities.VOID).durability(4565));
     }

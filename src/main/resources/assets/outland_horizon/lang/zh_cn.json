@@ -251,6 +251,7 @@
   "options.oh_difficulty.eternal.info": "终于，在无尽的轮回下，你达成了永恒。在这个位格下的敌人，称得上是无穷无尽的威胁",
   "item_group.outland_horizon.ornament": "异界世界线：饰品",
   "item.outland_horizon.damocles_sword": "达摩克利斯之剑",
+  "text.outland_horizon.gui.break_power": "挖掘等级：%d",
   "text.outland_horizon.gui.weapon.skill.cylxzs.name": "收割",
   "text.outland_horizon.gui.weapon.skill.label.name": "技能%s名称：",
   "text.outland_horizon.gui.weapon.skill.label.duration.auto": "%s 持续时间",

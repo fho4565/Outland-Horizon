@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "a": {
+      "item": "outland_horizon:blood_stone"
+    }
+  },
+  "pattern": [
+    "aaa",
+    "a a",
+    "a a"
+  ],
+  "result": {
+    "item": "outland_horizon:blood_stone_leggings"
+  },
+  "show_notification": true
+}

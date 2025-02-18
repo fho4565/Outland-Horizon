@@ -6,7 +6,7 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public interface Packet {
-    void toBytes(FriendlyByteBuf buf);
+    void encode(FriendlyByteBuf buf);
 
     void handle(Supplier<NetworkEvent.Context> ctx);
 }

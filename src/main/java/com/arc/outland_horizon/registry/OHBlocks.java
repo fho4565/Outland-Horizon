@@ -63,7 +63,7 @@ public class OHBlocks {
 
             public static final RegistryObject<Block> STRIPPED_NIGHTMARE_LOG = BlockRegistry.register("stripped_nightmare_log", () -> new OHLogBlock(Block.Properties.of().instrument(NoteBlockInstrument.BASS).strength(3.0F).sound(SoundType.WOOD).ignitedByLava()));
             public static final RegistryObject<Block> NIGHTMARE_LOG = BlockRegistry.register("nightmare_log", () -> new OHLogBlock(Block.Properties.of().instrument(NoteBlockInstrument.BASS).strength(3.0F).sound(SoundType.WOOD).ignitedByLava(), STRIPPED_NIGHTMARE_LOG.get()));
-            public static final RegistryObject<Block> NIGHTMARE_WOOD = BlockRegistry.register("nightmare_wood", () -> new RotatedPillarBlock(net.minecraft.world.level.block.state.BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).instrument(NoteBlockInstrument.BASS).strength(2.0F).sound(SoundType.WOOD).ignitedByLava()));
+            public static final RegistryObject<Block> NIGHTMARE_WOOD = BlockRegistry.register("nightmare_wood", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).instrument(NoteBlockInstrument.BASS).strength(2.0F).sound(SoundType.WOOD).ignitedByLava()));
             public static final RegistryObject<Block> STRIPPED_NIGHTMARE_WOOD = BlockRegistry.register("stripped_nightmare_wood", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).instrument(NoteBlockInstrument.BASS).strength(2.0F).sound(SoundType.WOOD).ignitedByLava()));
 
             public static final RegistryObject<Block> NIGHTMARE_PLANKS = BlockRegistry.register("nightmare_planks", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava()));
@@ -79,7 +79,7 @@ public class OHBlocks {
 
             public static final RegistryObject<Block> COAGULATED_NIGHTMARE_PLANKS = BlockRegistry.register("coagulated_nightmare_planks", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).instrument(NoteBlockInstrument.BASS).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava()));
             public static final RegistryObject<Block> COAGULATED_NIGHTMARE_PRESSURE_PLATE = BlockRegistry.register("coagulated_nightmare_pressure_plate", () -> new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, BlockBehaviour.Properties.of().mapColor(COAGULATED_NIGHTMARE_PLANKS.get().defaultMapColor()).forceSolidOn().instrument(NoteBlockInstrument.BASS).noCollission().strength(0.5F).ignitedByLava().pushReaction(PushReaction.DESTROY), BlockSetType.OAK));
-            public static final RegistryObject<Block> COAGULATED_NIGHTMARE_TRAPDOOR = BlockRegistry.register("coagulated_nightmare_trapdoor", () -> new TrapDoorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).instrument(NoteBlockInstrument.BASS).strength(3.0F).noOcclusion().isValidSpawn((pState, pLevel, pPos, pValue) -> false).ignitedByLava(), BlockSetType.OAK));
+            public static final RegistryObject<Block> COAGULATED_NIGHTMARE_TRAPDOOR = BlockRegistry.register("coagulated_nightmare_trapdoor", () -> new TrapDoorBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).instrument(NoteBlockInstrument.BASS).strength(3.0F).noOcclusion().ignitedByLava(), BlockSetType.OAK));
             public static final RegistryObject<Block> COAGULATED_NIGHTMARE_BUTTON = BlockRegistry.register("coagulated_nightmare_button", () -> woodenButton(BlockSetType.OAK));
             public static final RegistryObject<Block> COAGULATED_NIGHTMARE_STAIRS = BlockRegistry.register("coagulated_nightmare_stairs", () -> new StairBlock(() -> COAGULATED_NIGHTMARE_PLANKS.get().defaultBlockState(), BlockBehaviour.Properties.copy(COAGULATED_NIGHTMARE_PLANKS.get())));
             public static final RegistryObject<Block> COAGULATED_NIGHTMARE_SLAB = BlockRegistry.register("coagulated_nightmare_slab", () -> new SlabBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN).instrument(NoteBlockInstrument.BASS).strength(2.0F, 3.0F).sound(SoundType.WOOD).ignitedByLava()));
@@ -114,7 +114,7 @@ public class OHBlocks {
 
             public static final RegistryObject<Block> DUNGEON_BRICK = BlockRegistry.register("dungeon_brick",
                     () -> new Block(PROPERTIES));
-            public static final RegistryObject<Block> DUNGEON_BRICK_STAIR = BlockRegistry.register("dungeon_brick_stairs",
+            public static final RegistryObject<Block> DUNGEON_BRICK_STAIRS = BlockRegistry.register("dungeon_brick_stairs",
                     () -> new StairBlock(() -> DUNGEON.DUNGEON_BRICK.get().defaultBlockState(), PROPERTIES));
             public static final RegistryObject<Block> DUNGEON_BRICK_TILE = BlockRegistry.register("dungeon_brick_tile",
                     () -> new Block(PROPERTIES));
@@ -145,6 +145,8 @@ public class OHBlocks {
         public static final RegistryObject<Block> TEXTURES_TEST_BLOCK = BlockRegistry.register("textures_test_block", () -> new TexturesTestBlock(Block.Properties.copy(Blocks.STONE)), true, false);
         public static final RegistryObject<Block> DUNGEON_TORCH = BlockRegistry.BLOCKS.register("dungeon_torch", () -> new TorchBlock(Block.Properties.copy(Blocks.TORCH), ParticleTypes.FLAME));
         public static final RegistryObject<Block> WALL_DUNGEON_TORCH = BlockRegistry.BLOCKS.register("wall_dungeon_torch", () -> new WallTorchBlock(Block.Properties.copy(Blocks.WALL_TORCH), ParticleTypes.FLAME));
+
+        public static final RegistryObject<Block> MATRIX_REWARD_BLOCK = BlockRegistry.register("matrix_reward_block", MatrixRewardBlock::new);
 
         public static void init() {
         }

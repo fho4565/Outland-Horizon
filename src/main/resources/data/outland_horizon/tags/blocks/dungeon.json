@@ -1,12 +1,15 @@
 {
-  "replace": "false",
   "values": [
     "outland_horizon:dungeon_brick",
     "outland_horizon:dungeon_brick_tile",
+    "outland_horizon:dungeon_brick_wall",
+    "outland_horizon:dungeon_brick_stairs",
+    "outland_horizon:dungeon_brick_slab",
     "outland_horizon:dungeon_brick_pillar",
+    "outland_horizon:dungeon_brick_side_slab",
     "outland_horizon:zombie_dungeon_brick",
     "outland_horizon:skeleton_dungeon_brick",
-    "outland_horizon:damaged_dungeon_brick",
-    "outland_horizon:worn_dungeon_brick"
+    "outland_horizon:worn_dungeon_brick",
+    "outland_horizon:damaged_dungeon_brick"
   ]
 }

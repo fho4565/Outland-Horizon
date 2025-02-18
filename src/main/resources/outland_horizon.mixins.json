@@ -7,15 +7,15 @@
   "mixins": [
     "BlockBehaviourBlockStateBaseMixin",
     "BowMixin",
-    "CreeperMixin",
+    "CombatRulesMixin",
     "FoodDataMixin",
+    "LivingEntityMixin",
     "PlayerMixin",
     "RangedAttributeMixin",
     "ZombieMixin"
   ],
   "client": [
     "GameRendererMixin",
-    "GuiGraphicsMixin",
     "LevelRendererMixin",
     "LightTextureMixin",
     "OptionScreenMixin"

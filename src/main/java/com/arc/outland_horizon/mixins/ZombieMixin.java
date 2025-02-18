@@ -1,6 +1,6 @@
 package com.arc.outland_horizon.mixins;
 
-import com.arc.outland_horizon.OHDataManager;
+import com.arc.outland_horizon.core.ModDataManager;
 import net.minecraft.world.entity.monster.Zombie;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
@@ -17,7 +17,7 @@ public abstract class ZombieMixin {
      */
     @Overwrite
     protected boolean isSunSensitive() {
-        if (OHDataManager.modDifficulties.getId() > 0) {
+        if (ModDataManager.modDifficulties.getId() > 0) {
             return !this.isBaby();
         }
         return true;

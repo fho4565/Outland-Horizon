@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "outland_horizon:blood_stone"
+    },
+    {
+      "item": "outland_horizon:blood_stone"
+    },
+    {
+      "item": "outland_horizon:blood_stone"
+    },
+    {
+      "item": "outland_horizon:blood_stone"
+    },
+    {
+      "item": "outland_horizon:blood_stone"
+    },
+    {
+      "item": "outland_horizon:blood_stone"
+    },
+    {
+      "item": "outland_horizon:blood_stone"
+    },
+    {
+      "item": "outland_horizon:blood_stone"
+    },
+    {
+      "item": "outland_horizon:blood_stone"
+    }
+  ],
+  "result": {
+    "item": "outland_horizon:blood_stone_block"
+  }
+}
